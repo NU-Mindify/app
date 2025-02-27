@@ -11,7 +11,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { StatusBar, Text, TouchableOpacity } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import StartModal from './src/components/StartModal'
-import AbnormalLevels from './src/pages/Level/AbnormalLevels';
+import Levels from './src/pages/Level/Levels';
 import Game from './src/pages/Game/Game';
 import EditProfile from './src/pages/Profile/EditProfile';
 import { ResetButton, updateStorage } from './src/contexts/useAccount';
@@ -54,7 +54,7 @@ export default function App() {
                   <Stack.Screen name="Edit Profile" component={EditProfile} />
                   <Stack.Screen name="Chatbot" component={Chatbot} />
 
-                  <Stack.Screen name='AbnormalLevels' component={AbnormalLevels} />
+                  <Stack.Screen name='Levels' component={Levels} />
                   <Stack.Screen name='Game' component={Game} />
                 </Stack.Navigator>
                 {modal &&

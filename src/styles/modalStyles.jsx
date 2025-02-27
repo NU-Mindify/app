@@ -41,11 +41,12 @@ export const modalStyles = StyleSheet.create({
     alignItems: "center",
   },
   subtitle: {
-    fontSize: 24,
+    fontSize: 22,
     color: "white",
     fontWeight: 900,
     marginTop: 28,
     textAlign: "center",
+    width:260
   },
   bodyText: {
     color: "white",

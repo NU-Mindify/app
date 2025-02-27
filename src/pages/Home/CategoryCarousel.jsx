@@ -10,15 +10,24 @@ import category5 from '../../assets/categories/5.jpg';
 import StartModal from "../../components/StartModal";
 import ModalContext from '../../contexts/ModalContext';
 import { useNavigation } from '@react-navigation/native';
-
+import { categories } from '../../constants'
+import map2 from '../../assets/maps/2.png'
+import map4 from '../../assets/maps/4.png'
 const data = [
   category1,
-  category2,
-  category3,
-  category4,
-  category5
-];
-const titles = ["Abnormal Psychology", "Developmental Psychology", "Psychological Assessment", "Industrial Psychology", "General Psychology"]
+  map2,
+  map4,
+  map2,
+  category1
+]
+// const data = [
+//   category1,
+//   category2,
+//   category3,
+//   category4,
+//   category5
+// ];
+
 const {width} = Dimensions.get('screen')
 const _imageWidth = width * 0.7;
 const _imageHeight = _imageWidth * 1.76;
@@ -49,10 +58,10 @@ const CategoryCarousel = () => {
               onPress={(index) => {
                 setModal({
                   title: "Start",
-                  subtitle: titles[index],
+                  subtitle: categories[index],
                   body: "Start to take the quiz?",
                   primaryFn: () => {
-                    nav.navigate("AbnormalLevels", {category: index});
+                    nav.navigate("Levels", {categoryIndex: index});
                     setModal(null);
                   },
                   secondaryFn: () => {
@@ -147,7 +156,7 @@ const Photo = ({item, index, scrollX, onPress}) => {
             fontWeight: "bold",
           }}
         >
-          {titles[index]}
+          {categories[index]}
         </Text>
       </View>
     </TouchableOpacity>

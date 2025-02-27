@@ -7,13 +7,15 @@ import levelgray from '../../assets/level/levelgray.png'
 import levelgrayPressed from '../../assets/level/levelgrayPressed.png'
 import levelbluePressed from "../../assets/level/levelbluePressed.png";
 import levelyellowPressed from '../../assets/level/levelyellowPressed.png'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import ModalContext from '../../contexts/ModalContext';
 import { useNavigation } from '@react-navigation/native';
 import Animated, { BounceIn } from 'react-native-reanimated';
 
-const LevelButton = ({bottom, left, level, state, index}) => {
-  const [isPressing, setIsPressing] = useState(false)
+const LevelButton = ({ position, level, state, index, category }) => {
+  const [isPressing, setIsPressing] = useState(true);
+  const { modal, setModal } = useContext(ModalContext);
+  const nav = useNavigation();
 
   const getSource = () => {
     switch (state) {
@@ -28,34 +30,42 @@ const LevelButton = ({bottom, left, level, state, index}) => {
       default:
         break;
     }
-  }
-  const {modal, setModal} = useContext(ModalContext);
-  const nav = useNavigation();
+  };
+  useEffect(() => { // to prefetch pressed image
+    setIsPressing(false);
+  }, []);
   return (
     <Pressable
-      style={{
-        position: "absolute",
-        bottom,
-        left,
-        justifyContent: "center",
-        alignItems: "center",
-        width: 48,
-        height: 60,
-      }}
+      style={[
+        {
+          position: "absolute",
+          justifyContent: "center",
+          alignItems: "center",
+          width: 48,
+          height: 60,
+        },
+        position,
+      ]}
       onPressIn={() => setIsPressing(true)}
       onPressOut={() => setIsPressing(false)}
       onPress={() => {
         if (state === "soon") return;
         setModal({
-          subtitle: `Start Level ${level}?`,
+          subtitle: `Level ${level}`,
           primaryFn: () => {
-            nav.replace("Game", { level, levelIndex: index, category:0 });
+            nav.replace("Game", {
+              level,
+              levelIndex: index,
+              categoryIndex: category,
+            });
             setModal(null);
           },
           secondaryFn: () => {
             setModal(null);
           },
-          body: "Start quiz?",
+          body: `Difficulty: ${
+            level === "?" ? "Hard" : level < 3 ? "Easy" : "Average"
+          }\nStart Quiz?`,
           mode: "LevelSelect",
         });
       }}
@@ -87,6 +97,6 @@ const LevelButton = ({bottom, left, level, state, index}) => {
       </Animated.View>
     </Pressable>
   );
-}
+};
 
 export default LevelButton
