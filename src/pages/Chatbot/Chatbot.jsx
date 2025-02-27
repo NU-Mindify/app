@@ -1,4 +1,4 @@
-import { View, Text, ScrollView } from "react-native";
+import { View, Text, ScrollView, KeyboardAvoidingView, Platform } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import AppBackground from "../../components/AppBackground";
 import styles from "../../styles/styles";
@@ -76,7 +76,8 @@ const Chatbot = () => {
   };
   return (
     <AppBackground style={{ padding: 28 }}>
-      <View
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={{
           backgroundColor: "#F9EBDE",
           flex: 1,
@@ -153,7 +154,7 @@ const Chatbot = () => {
             </Pressable>
           </Input>
         </View>
-      </View>
+      </KeyboardAvoidingView>
     </AppBackground>
   );
 };

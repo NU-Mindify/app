@@ -14,7 +14,7 @@ import StartModal from './src/components/StartModal'
 import Levels from './src/pages/Level/Levels';
 import Game from './src/pages/Game/Game';
 import EditProfile from './src/pages/Profile/EditProfile';
-import { ResetButton, updateStorage } from './src/contexts/useAccount';
+import { updateStorage } from './src/contexts/useAccount';
 import Glossary from './src/pages/Glossary/Glossary';
 
 /**
@@ -46,8 +46,8 @@ export default function App() {
           <AccountContext.Provider value={{ accountData, setAccountData }}>
             <ModalContext.Provider value={{ modal, setModal }}>
               <GestureHandlerRootView>
-                <Text style={{ position: 'absolute', bottom: 4, color: 'white', zIndex: 5, textAlign: 'center', width: '100%', fontSize: 12, opacity:0.4}}>Early Dev Build - 2.26 - Placeholders and Sample Assets are used. </Text>
-                <ResetButton />
+                <Text style={{ position: 'absolute', bottom: 4, color: 'white', zIndex: 5, textAlign: 'center', width: '100%', fontSize: 12, opacity:0.4}}>Early Dev Build - 2.27 - Placeholders and Sample Assets are used. </Text>
+                {/* <ResetButton /> */}
                 <Stack.Navigator screenOptions={{ headerShown: false, statusBarHidden: true, navigationBarHidden: true, }}>
                   <Stack.Screen name='Get Started' component={GetStarted} />
 
