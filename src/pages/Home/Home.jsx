@@ -71,12 +71,12 @@ const Home = () => {
             marginBottom:20
           }}
         >
-          <Pressable style={{}}>
+          <TouchableOpacity style={{}} onPress={() => nav.navigate("Glossary")}>
             <View style={styles.button}>
               <BookMarkedIcon size={32} color={"black"} />
             </View>
             <Text style={homeStyles.buttonText}>Glossary</Text>
-          </Pressable>
+          </TouchableOpacity>
 
           <TouchableOpacity style={{}} onPress={() => nav.navigate("Chatbot")}>
             <View style={[styles.button, { flexDirection: "row" }]}>
