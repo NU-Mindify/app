@@ -7,15 +7,21 @@ import data from "./data.json";
 import RationaleModal from "./RationaleModal";
 import Results from "./Results";
 import AccountContext from "../../contexts/AccountContext";
+import moment from "moment";
+import Review from "./Review";
+import { categoryLevelBackground } from "../../constants";
 
 const Game = (props) => {
-  const { level, levelIndex, category} = props.route.params;
+  const { level, levelIndex, categoryIndex} = props.route.params;
   const {accountData, setAccountData} = useContext(AccountContext)
+
   const [questions, setQuestions] = useState(null);
   const [currentNumber, setCurrentNumber] = useState(0);
   const [currentQuestion, setCurrentQuestion] = useState(null);
   const [rationaleModal, setRationaleModal] = useState(null);
+  const [showReview, setShowReview] = useState(false)
   const [stats, setStats] = useState({
+    startTime: moment(),
     correct: 0,
     wrong: 0,
     answers: [],
@@ -33,7 +39,7 @@ const Game = (props) => {
       newStats.wrong = stats.wrong + 1;
     }
     setStats(newStats);
-
+    console.log(newStats);
     setRationaleModal({
       title: `Question ${currentNumber + 1}`,
       subtitle: `${answer.toUpperCase()}. ${
@@ -42,29 +48,28 @@ const Game = (props) => {
       body: currentQuestion.choices[answer].rationale,
       isCorrect: answer === currentQuestion.answer,
       primaryFn: () => {
-        nextQuestion();
+        nextQuestion(newStats);
         setRationaleModal(null);
       },
     });
     setCurrentQuestion(null);
   };
-  const nextQuestion = () => {
+
+  const nextQuestion = (newStats) => {
     if (currentNumber + 1 === questions.length) {
-      ToastAndroid.show(
-        `Done\nCorrect: ${stats.correct}\nWrong: ${stats.wrong}`,
-        ToastAndroid.SHORT
-      );
-      
-      const newAccountData = accountData
-      console.log(accountData.progress[category] === levelIndex);
-      
-      if (accountData.progress[category] === levelIndex) {
-        newAccountData.progress[category] = accountData.progress[category] + 1;
+      // if game is done
+      const newAccountData = accountData;
+      const statsWithEndTime = { ...newStats, endTime: moment() };
+      setStats(statsWithEndTime);
+
+      setCurrentNumber((current) => current + 1);
+
+      if (accountData.progress[categoryIndex] === levelIndex && newStats.correct > 1) {
+        // if level is not a replay and correct answer is not 0, unlock next level
+        newAccountData.progress[categoryIndex] = accountData.progress[categoryIndex] + 1;
         setAccountData(newAccountData);
         console.log("settedAccount", newAccountData);
       }
-
-      setCurrentNumber((current) => current + 1);
       return;
     }
     setCurrentNumber((current) => current + 1);
@@ -78,7 +83,7 @@ const Game = (props) => {
 
   return (
     <AppBackground
-      source={LevelBackground}
+      source={categoryLevelBackground[categoryIndex]}
       viewStyle={{
         justifyContent: "center",
         backgroundColor: "rgba(0,0,0,0.6)",
@@ -93,9 +98,21 @@ const Game = (props) => {
         />
       )}
       {rationaleModal && <RationaleModal modal={rationaleModal} />}
-      {questions && currentNumber === questions.length && (
-        <Results stats={stats} category={category} />
-      )}
+      {questions &&
+        currentNumber === questions.length &&
+        (!showReview ? (
+          <Results
+            stats={stats}
+            categoryIndex={categoryIndex}
+            onReview={() => setShowReview(true)}
+          />
+        ) : (
+          <Review
+            questions={questions}
+            stats={stats}
+            onExit={() => setShowReview(false)}
+          />
+        ))}
     </AppBackground>
   );
 };

@@ -18,11 +18,18 @@ import bigStarEmpty from "../../assets/results/bigStarEmpty.png";
 import Button from "../../components/Button";
 import AccountContext from "../../contexts/AccountContext";
 import { avatars } from "../../constants";
+import moment from "moment";
 
-const Results = ({ stats, category }) => {
+const Results = ({ stats, categoryIndex, onReview }) => {
   const nav = useNavigation();
-  const {accountData, setAccountData} = useContext(AccountContext)
+
+  const duration = moment(stats.endTime).subtract(stats.startTime).format("s");
+  const score = stats.correct * (20 - duration);
+  const isPass = stats.correct > 1
+
+  const { accountData, setAccountData } = useContext(AccountContext);
   const Avatar = avatars[accountData.avatar];
+
   return (
     <View style={{ alignItems: "center" }}>
       {/* --Completed-- Banner */}
@@ -49,6 +56,7 @@ const Results = ({ stats, category }) => {
             justifyContent: "center",
             alignItems: "center",
             backgroundColor: "#1C4384",
+            borderRadius: 24,
             width: "80%",
             padding: 24,
             paddingHorizontal: 12,
@@ -69,9 +77,13 @@ const Results = ({ stats, category }) => {
               top: "-15%",
             }}
           >
-            <SmallStar style={{ left: 0 }} isActive={true} delay={400} />
-            <BigStar isActive={false} />
-            <SmallStar style={{ right: "0" }} isActive={true} delay={800} />
+            <SmallStar style={{ left: 0 }} isActive={score > 0} delay={400} />
+            <BigStar isActive={score > 30} />
+            <SmallStar
+              style={{ right: "0" }}
+              isActive={score > 15}
+              delay={800}
+            />
           </View>
           {/* Profile */}
           <View
@@ -88,7 +100,14 @@ const Results = ({ stats, category }) => {
           >
             <Avatar />
           </View>
-          <Text style={{ fontSize: 24, fontWeight: 900, color: "white" }}>
+          <Text
+            style={{
+              fontSize: 24,
+              fontWeight: 900,
+              color: "white",
+              paddingBottom: 12,
+            }}
+          >
             {accountData.username}
           </Text>
           <Text
@@ -99,7 +118,15 @@ const Results = ({ stats, category }) => {
               paddingHorizontal: 12,
             }}
           >
-            You've scored {stats.correct * 10} points in _ seconds
+            You've scored
+            <Text
+              style={{ fontWeight: 900, fontSize: 18, color: "yellow" }}
+            >{` ${score > 0 ? "+" : ""}${score} `}</Text>
+            points in
+            <Text style={{ fontWeight: 900, fontSize: 18, color: "white" }}>
+              {` ${duration} `}
+            </Text>
+            seconds
           </Text>
         </View>
         <View
@@ -126,11 +153,11 @@ const Results = ({ stats, category }) => {
         >
           <Button
             onPress={() =>
-              nav.replace("AbnormalLevels", { category: category })
+              nav.replace("Levels", { categoryIndex })
             }
-            text={"Next Level"}
+            text={isPass ? "Next Level" : "Try Again"}
           />
-          <Button onPress={() => nav.goBack()} text={"Review"} />
+          <Button onPress={onReview} text={"Review"} />
         </View>
       </Animated.View>
       {/* <View>

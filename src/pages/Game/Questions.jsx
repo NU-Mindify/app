@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import Animated, { BounceIn, SlideInLeft } from "react-native-reanimated";
+import Animated, { BounceIn, SlideInLeft, ZoomIn, ZoomOut } from "react-native-reanimated";
 import abnormalTitle from "../../assets/questions/abnormalTitle.png";
 import choicesCard from "../../assets/questions/choicesCard.png";
 import questionCard from "../../assets/questions/questionCard.png";
@@ -17,7 +17,7 @@ export default function Questions({ level, data, onAnswer, number }) {
       <Animated.Image
         source={abnormalTitle}
         style={[QuesStyles.levelTitleStyle, { marginHorizontal: "auto" }]}
-        entering={number === 0 ? BounceIn: undefined}
+        entering={number === 0 ? ZoomIn : undefined}
       />
       <Text style={{ marginTop: "-6%" }}>Level: {level}</Text>
       <Text>Progress Bar</Text>
@@ -25,7 +25,8 @@ export default function Questions({ level, data, onAnswer, number }) {
       {/*------------------------------  QUESTION CARD ----------------------------------*/}
       <Animated.View
         style={[QuesStyles.quesCont, { marginBottom: 20 }]}
-        entering={BounceIn}
+        entering={ZoomIn}
+        exiting={ZoomOut}
       >
         <Animated.Image
           source={questionNumber}
@@ -85,7 +86,7 @@ export default function Questions({ level, data, onAnswer, number }) {
           >
             <Animated.View
               style={QuesStyles.animChoicesCardCont}
-              entering={SlideInLeft.delay(1000 + index * 500)}
+              entering={SlideInLeft.delay(200 + (index * 200))}
             >
               <Animated.Image
                 source={choicesCard}

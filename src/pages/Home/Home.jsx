@@ -53,7 +53,7 @@ const Home = () => {
           <Pressable
             style={styles.homeRoundedIcon}
             onPress={() => {
-              setAccountData({ uid: null });
+              setAccountData(null);
               nav.replace("Get Started");
             }}
           >
