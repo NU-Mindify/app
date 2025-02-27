@@ -1,20 +1,24 @@
-import { Text, TouchableOpacity } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import Animated, {
   BounceIn,
   BounceOut,
   FadeIn,
   FadeOut,
+  SlideInDown,
+  SlideOutDown,
+  ZoomIn,
   ZoomOut,
 } from "react-native-reanimated";
-import { useNavigation } from "@react-navigation/native";
 import ModalBg from "../assets/modal/startCard.png";
 import YesButton from "../assets/modal/yesBtn.png";
 import NoButton from "../assets/modal/noBtn.png";
-import classic from '../assets/modal/classic.png'
-import mastery from '../assets/modal/mastery.png'
+import classic from "../assets/modal/classic.png";
+import mastery from "../assets/modal/mastery.png";
 import { useContext } from "react";
 import ModalContext from "../contexts/ModalContext";
 import { modalStyles } from "../styles/modalStyles";
+import React from "react";
+import X from "../assets/generic/x.svg";
 
 export default function Start() {
   const { modal, setModal } = useContext(ModalContext);
@@ -61,27 +65,53 @@ export default function Start() {
           ) : (
             <>
               {/* <Text style={[modalStyles.bodyText, {marginTop:2, fontSize:8}]}>{modal.body}</Text> */}
-            
-            <Animated.View
-              style={[
-                modalStyles.btnContainer,
-                {
-                  flexDirection: "column",
-                  marginTop: 7,
-                  padding: 0,
-                },
-              ]}
-              entering={BounceIn}
-              exiting={BounceOut}
-            >
-              <TouchableOpacity onPress={handlesYes}>
-                <Animated.Image source={classic} />
-              </TouchableOpacity>
 
-              <TouchableOpacity onPress={handlesNo}>
-                <Animated.Image source={mastery} />
-              </TouchableOpacity>
-            </Animated.View>
+              <Animated.View
+                style={[
+                  modalStyles.btnContainer,
+                  {
+                    flexDirection: "column",
+                    marginTop: 7,
+                    padding: 0,
+                  },
+                ]}
+                entering={BounceIn}
+                exiting={BounceOut}
+              >
+                <TouchableOpacity onPress={handlesYes}>
+                  <Animated.Image source={classic} />
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={handlesYes}>
+                  <Animated.Image source={mastery} />
+                </TouchableOpacity>
+              </Animated.View>
+              <View
+                style={{
+                  position: "absolute",
+                  bottom: "-36%",
+                  width: "100%",
+                }}
+              >
+                <Animated.View
+                  entering={ZoomIn}
+                  exiting={ZoomOut}
+                  style={[
+                    {
+                      marginHorizontal: "auto",
+                      borderRadius: 24,
+                      padding: 12,
+                    },
+                  ]}
+                >
+                  <TouchableOpacity
+                    activeOpacity={0.7}
+                    onPress={handlesNo}
+                  >
+                    <X width={50} height={50} />
+                  </TouchableOpacity>
+                </Animated.View>
+              </View>
             </>
           )}
         </Animated.View>

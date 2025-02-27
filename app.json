@@ -20,7 +20,6 @@
         "foregroundImage": "./assets/logo.png",
         "backgroundColor": "#ffffff"
       },
-      "softwareKeyboardLayoutMode": "pan",
       "package": "com.codeverse.numindify"
     },
     "web": {
