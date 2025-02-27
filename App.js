@@ -15,6 +15,7 @@ import Levels from './src/pages/Level/Levels';
 import Game from './src/pages/Game/Game';
 import EditProfile from './src/pages/Profile/EditProfile';
 import { ResetButton, updateStorage } from './src/contexts/useAccount';
+import Glossary from './src/pages/Glossary/Glossary';
 
 /**
  * @typedef {object} Modal
@@ -53,6 +54,7 @@ export default function App() {
                   <Stack.Screen name='Home' component={Home} />
                   <Stack.Screen name="Edit Profile" component={EditProfile} />
                   <Stack.Screen name="Chatbot" component={Chatbot} />
+                  <Stack.Screen name="Glossary" component={Glossary} />
 
                   <Stack.Screen name='Levels' component={Levels} />
                   <Stack.Screen name='Game' component={Game} />
