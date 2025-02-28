@@ -12,7 +12,7 @@ import ModalContext from '../../contexts/ModalContext';
 import { useNavigation } from '@react-navigation/native';
 import Animated, { BounceIn } from 'react-native-reanimated';
 
-const LevelButton = ({ position, level, state, index, category }) => {
+const LevelButton = ({ position, level, state, index, category, mastery }) => {
   const [isPressing, setIsPressing] = useState(true);
   const { modal, setModal } = useContext(ModalContext);
   const nav = useNavigation();
@@ -31,7 +31,8 @@ const LevelButton = ({ position, level, state, index, category }) => {
         break;
     }
   };
-  useEffect(() => { // to prefetch pressed image
+  useEffect(() => {
+    // to prefetch pressed image
     setIsPressing(false);
   }, []);
   return (
@@ -57,6 +58,7 @@ const LevelButton = ({ position, level, state, index, category }) => {
               level,
               levelIndex: index,
               categoryIndex: category,
+              mastery,
             });
             setModal(null);
           },

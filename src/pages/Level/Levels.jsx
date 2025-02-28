@@ -20,7 +20,7 @@ import { categories } from "../../constants";
 import locations from './locations.json'
 
 const Levels = (props) => {
-  const { categoryIndex } = props.route.params;
+  const { categoryIndex, mastery } = props.route.params;
 
   const nav = useNavigation();
   const { accountData } = useContext(AccountContext);
@@ -47,6 +47,7 @@ const Levels = (props) => {
               key={index}
               category={categoryIndex}
               index={index}
+              mastery={mastery}
               state={
                 level === "?" && accountData.progress[categoryIndex] <= index
                   ? "boss"

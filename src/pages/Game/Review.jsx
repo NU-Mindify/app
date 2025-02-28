@@ -6,6 +6,7 @@ import AppBackground from "../../components/AppBackground";
 import styles from "../../styles/styles";
 import { useNavigation } from "@react-navigation/native";
 import Animated, { ZoomIn, ZoomOut } from "react-native-reanimated";
+import X from "../../assets/generic/x.svg";
 
 const Review = ({ questions, stats, onExit }) => {
   const nav = useNavigation();
@@ -16,7 +17,7 @@ const Review = ({ questions, stats, onExit }) => {
           backgroundColor: "#F9EBDE",
           flex: 1,
           borderRadius: 24,
-          padding: 24,
+          padding: 6,
           borderWidth: 8,
           borderColor: "#2E5A9F",
         }}
@@ -38,10 +39,10 @@ const Review = ({ questions, stats, onExit }) => {
             Review
           </Text>
           <TouchableOpacity onPress={onExit}>
-            <XCircle color={"white"} size={32} />
+            <X width={32} height={32} />
           </TouchableOpacity>
         </View>
-        <ScrollView style={{ flex: 1 }}>
+        <ScrollView contentContainerStyle={{padding:12}} style={{ flex: 1 }}>
           {questions.map((data, index) => (
             <QuestionCard
               data={data}
@@ -68,12 +69,13 @@ const QuestionCard = ({ data, index, choice }) => {
       style={[
         {
           backgroundColor: "#FBF0EE",
-          borderColor:(isCorrect ? "green" : 'red'),
-          borderWidth:2,
-          marginBottom:8,
+          borderColor: isCorrect ? "green" : "red",
+          boxShadow: `0px 2px 6px ${isCorrect ? "green" : "red"}`,
+          borderWidth: 2,
+          marginBottom: 8,
           padding: 12,
           borderRadius: 12,
-          maxWidth: 500,
+          maxWidth: 500
         },
       ]}
     >

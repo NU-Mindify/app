@@ -12,7 +12,7 @@ import Review from "./Review";
 import { categoryLevelBackground } from "../../constants";
 
 const Game = (props) => {
-  const { level, levelIndex, categoryIndex} = props.route.params;
+  const { level, levelIndex, categoryIndex, mastery} = props.route.params;
   const {accountData, setAccountData} = useContext(AccountContext)
 
   const [questions, setQuestions] = useState(null);
@@ -105,6 +105,7 @@ const Game = (props) => {
             stats={stats}
             categoryIndex={categoryIndex}
             onReview={() => setShowReview(true)}
+            isMastery={mastery}
           />
         ) : (
           <Review

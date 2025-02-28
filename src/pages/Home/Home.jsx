@@ -1,29 +1,24 @@
 import {
   View,
-  Image,
   Text,
   Pressable,
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import Animated, { FadeIn } from "react-native-reanimated";
 import {
   BookMarkedIcon,
   BrainCircuitIcon,
   LogOut,
   MessageSquareQuoteIcon,
-  Settings,
-  UserCircle,
 } from "lucide-react-native";
 import styles from "../../styles/styles";
 import CategoryCarousel from "./CategoryCarousel";
 import AccountContext from "../../contexts/AccountContext";
-import favicon from "../../assets/favicon.png";
 import MindifiyLogo from "../../assets/Logo.png";
 import AppBackground from "../../components/AppBackground";
 import { useNavigation } from "@react-navigation/native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { avatars } from '../../constants'
 
 const Home = () => {
@@ -42,7 +37,10 @@ const Home = () => {
             padding: 8,
           }}
         >
-          <Pressable style={[styles.homeRoundedIcon, {padding:4}]} onPress={() => nav.navigate("Edit Profile")}>
+          <Pressable
+            style={[styles.homeRoundedIcon, { padding: 4 }]}
+            onPress={() => nav.navigate("View Profile")}
+          >
             <Avatar width={60} height={60} />
           </Pressable>
           <Animated.Image
@@ -53,8 +51,10 @@ const Home = () => {
           <Pressable
             style={styles.homeRoundedIcon}
             onPress={() => {
-              nav.replace("Get Started");
               setAccountData(null);
+              console.log("settedAccountData");
+              nav.replace("Get Started");
+              console.log("replaced");
             }}
           >
             <LogOut size={32} color={"black"} />
@@ -68,7 +68,7 @@ const Home = () => {
           style={{
             flexDirection: "row",
             justifyContent: "space-around",
-            marginBottom:20
+            marginBottom: 20,
           }}
         >
           <TouchableOpacity style={{}} onPress={() => nav.navigate("Glossary")}>
@@ -85,12 +85,12 @@ const Home = () => {
             <Text style={homeStyles.buttonText}>ChatBot</Text>
           </TouchableOpacity>
 
-          <Pressable style={{}}>
+          <TouchableOpacity style={{}} onPress={() => nav.navigate("Mindmap")}>
             <View style={styles.button}>
               <BrainCircuitIcon size={32} color={"black"} />
             </View>
             <Text style={homeStyles.buttonText}>Mind Map</Text>
-          </Pressable>
+          </TouchableOpacity>
         </View>
       </AppBackground>
     </Animated.View>

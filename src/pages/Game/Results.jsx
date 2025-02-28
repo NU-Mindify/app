@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Image } from "react-native";
+import { View, Text } from "react-native";
 import React, { useContext } from "react";
 import Animated, {
   BounceIn,
@@ -10,7 +10,6 @@ import Animated, {
 import styles from "../../styles/styles";
 import Completed from "../../assets/results/completed.png";
 import { useNavigation } from "@react-navigation/native";
-import Orange from "../../assets/avatar/orangeMan.svg";
 import smallStar from "../../assets/results/smallStar.png";
 import smallStarEmpty from "../../assets/results/smallStarEmpty.png";
 import bigStar from "../../assets/results/bigStar.png";
@@ -20,14 +19,23 @@ import AccountContext from "../../contexts/AccountContext";
 import { avatars } from "../../constants";
 import moment from "moment";
 
-const Results = ({ stats, categoryIndex, onReview }) => {
+const Results = ({ stats, categoryIndex, onReview, isMastery }) => {
   const nav = useNavigation();
 
   const duration = moment(stats.endTime).subtract(stats.startTime).format("s");
-  const score = stats.correct * (20 - duration);
-  const isPass = stats.correct > 1
+  const score = stats.correct * (30 - duration);
+  const totalQuestions = stats.correct + stats.wrong;
+  const isPass = stats.correct >= Math.floor(totalQuestions * 0.8);
+  const is1Star = stats.correct > Math.floor(totalQuestions * 0.6);
+  const is2Star = stats.correct > Math.floor(totalQuestions * 0.8);
+  const is3Star = stats.correct > Math.floor(totalQuestions * 0.9);
+  console.log({
+    star1: Math.floor(totalQuestions * 0.6),
+    star2: Math.floor(totalQuestions * 0.8),
+    star3: Math.floor(totalQuestions * 0.9),
+  });
 
-  const { accountData, setAccountData } = useContext(AccountContext);
+  const { accountData } = useContext(AccountContext);
   const Avatar = avatars[accountData.avatar];
 
   return (
@@ -77,13 +85,9 @@ const Results = ({ stats, categoryIndex, onReview }) => {
               top: "-15%",
             }}
           >
-            <SmallStar style={{ left: 0 }} isActive={score > 0} delay={400} />
-            <BigStar isActive={score > 30} />
-            <SmallStar
-              style={{ right: "0" }}
-              isActive={score > 15}
-              delay={800}
-            />
+            <SmallStar style={{ left: 0 }} isActive={is1Star} delay={400} />
+            <BigStar isActive={is3Star} />
+            <SmallStar style={{ right: "0" }} isActive={is2Star} delay={800} />
           </View>
           {/* Profile */}
           <View
@@ -152,12 +156,10 @@ const Results = ({ stats, categoryIndex, onReview }) => {
           style={{ flexDirection: "row", justifyContent: "center", gap: 8 }}
         >
           <Button
-            onPress={() =>
-              nav.replace("Levels", { categoryIndex })
-            }
+            onPress={() => nav.replace("Levels", { categoryIndex })}
             text={isPass ? "Next Level" : "Try Again"}
           />
-          <Button onPress={onReview} text={"Review"} />
+          {!isMastery && <Button onPress={onReview} text={"Review"} />}
         </View>
       </Animated.View>
       {/* <View>
@@ -191,7 +193,7 @@ const ResultsStats = ({ label, stat, color }) => {
   );
 };
 
-const SmallStar = ({style, isActive, delay}) =>{
+const SmallStar = ({ style, isActive, delay }) => {
   return (
     <Animated.Image
       source={isActive ? smallStar : smallStarEmpty}
@@ -206,7 +208,7 @@ const SmallStar = ({style, isActive, delay}) =>{
       entering={isActive ? PinwheelIn.springify().delay(delay) : undefined}
     />
   );
-}
+};
 
 const BigStar = ({ isActive }) => {
   return (

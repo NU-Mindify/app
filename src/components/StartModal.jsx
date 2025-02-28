@@ -82,7 +82,7 @@ export default function Start() {
                   <Animated.Image source={classic} />
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={handlesYes}>
+                <TouchableOpacity onPress={() => modal.masteryFn()}>
                   <Animated.Image source={mastery} />
                 </TouchableOpacity>
               </Animated.View>
