@@ -105,6 +105,7 @@ export const printStorage = async () => {
 }
 
 export const updateStorage = async (data) => {
+  if(!data) return;
   try {
     const accountsStorage = await AsyncStorage.getItem("accounts");
     const jsonAccounts = JSON.parse(accountsStorage);

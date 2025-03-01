@@ -51,10 +51,9 @@ const Home = () => {
           <Pressable
             style={styles.homeRoundedIcon}
             onPress={() => {
-              setAccountData(null);
-              console.log("settedAccountData");
               nav.replace("Get Started");
-              console.log("replaced");
+              setAccountData(null);
+
             }}
           >
             <LogOut size={32} color={"black"} />

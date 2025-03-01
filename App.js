@@ -13,7 +13,7 @@ import StartModal from './src/components/StartModal'
 import Levels from './src/pages/Level/Levels';
 import Game from './src/pages/Game/Game';
 import EditProfile from './src/pages/Profile/EditProfile';
-import { updateStorage, ResetButton } from './src/contexts/useAccount';
+import { updateStorage } from './src/contexts/useAccount';
 import Glossary from './src/pages/Glossary/Glossary';
 import Mindmap from './src/pages/Mindmap/Mindmap';
 import ViewProfile from './src/pages/Profile/ViewProfille';
