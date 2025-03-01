@@ -42,7 +42,7 @@ const CategoryCarousel = () => {
     scrollX.value = e.contentOffset.x / (_imageWidth + _spacing);
   });
 
-  const {modal, setModal} = useContext(ModalContext)
+  const {setModal} = useContext(ModalContext)
 
   return (
     <>
@@ -61,13 +61,17 @@ const CategoryCarousel = () => {
                   subtitle: categories[index],
                   body: "Start to take the quiz?",
                   primaryFn: () => {
-                    nav.navigate("Levels", {categoryIndex: index});
+                    nav.navigate("Levels", { categoryIndex: index });
+                    setModal(null);
+                  },
+                  masteryFn: () => {
+                    nav.navigate("Levels", { categoryIndex: index, mastery:true });
                     setModal(null);
                   },
                   secondaryFn: () => {
-                    setModal(null)
-                  }
-                })
+                    setModal(null);
+                  },
+                });
               }}
             />
           )}
@@ -81,6 +85,7 @@ const CategoryCarousel = () => {
           onScroll={onScroll}
           scrollEventThrottle={1000 / 60}
           showsHorizontalScrollIndicator={false}
+          removeClippedSubviews={false}
         />
       </View>
     </>

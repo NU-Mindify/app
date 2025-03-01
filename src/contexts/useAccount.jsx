@@ -7,7 +7,7 @@ import ModalContext from "./ModalContext";
 
 const useAccount = () => {
   const {setAccountData} = useContext(AccountContext);
-  const {modal, setModal} = useContext(ModalContext)
+  const {setModal} = useContext(ModalContext)
   const nav = useNavigation();
   
   const createAccount = async ({username, email, password}) => {
@@ -53,7 +53,7 @@ const useAccount = () => {
       console.log(newAccountList);
       
     } catch (error) {
-      console.error(error);
+      alert(error)
     }
 
   }
@@ -78,7 +78,8 @@ const useAccount = () => {
         ToastAndroid.show("User does not exist", ToastAndroid.SHORT);
       }
     } catch (error) {
-      
+      console.error(error);
+      alert(error);
     }
   }
   
@@ -98,7 +99,8 @@ export const printStorage = async () => {
     const accountsStorage = await AsyncStorage.getItem("accounts");
     console.log(JSON.parse(accountsStorage))
    }catch(error){
-
+    console.error(error);
+    alert(error);
    }
 }
 
@@ -108,7 +110,7 @@ export const updateStorage = async (data) => {
     const accountsStorage = await AsyncStorage.getItem("accounts");
     const jsonAccounts = JSON.parse(accountsStorage);
     const newAccountList = jsonAccounts.map((account) => {
-      if (data.id === account.id) {
+      if (data && data.id === account.id) {
         return data;
       } else {
         return account;
@@ -118,11 +120,11 @@ export const updateStorage = async (data) => {
     await AsyncStorage.setItem("accounts", JSON.stringify(newAccountList));
   } catch (error) {
     console.error(error);
+    alert(error);
   }
 };
 
 export const ResetButton = () => {
-  const nav = useNavigation();
   const {accountData, setAccountData} = useContext(AccountContext);
   const onClick = () => {
     AsyncStorage.clear();

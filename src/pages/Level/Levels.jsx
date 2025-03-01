@@ -18,16 +18,18 @@ import Animated, { SlideInDown, SlideOutDown } from "react-native-reanimated";
 import AccountContext from "../../contexts/AccountContext";
 import { categories } from "../../constants";
 import locations from './locations.json'
+import classic from '../../assets/modal/classic.png'
+import masteryBtn from '../../assets/modal/mastery.png'
 
 const Levels = (props) => {
-  const { categoryIndex } = props.route.params;
+  const { categoryIndex, mastery } = props.route.params;
 
   const nav = useNavigation();
   const { accountData } = useContext(AccountContext);
 
   return (
     <AppBackground source={categoryLevelBackground[categoryIndex]}>
-      <View style={{ justifyContent: "center" }}>
+      <View style={{ justifyContent: "center", alignItems:'center' }}>
         <LevelTitle style={{ marginHorizontal: "auto" }} />
         <Text
           style={[
@@ -37,6 +39,10 @@ const Levels = (props) => {
         >
           {categories[categoryIndex]}
         </Text>
+        <Image
+          source={mastery ? masteryBtn : classic}
+          style={{ position: "absolute", bottom: -50, margin:'auto' }}
+        />
       </View>
       <View style={{ flex: 1 }}>
         {locations[categoryIndex].locations.map(
@@ -47,6 +53,7 @@ const Levels = (props) => {
               key={index}
               category={categoryIndex}
               index={index}
+              mastery={mastery}
               state={
                 level === "?" && accountData.progress[categoryIndex] <= index
                   ? "boss"

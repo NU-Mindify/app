@@ -5,13 +5,12 @@ import styles from "../../styles/styles";
 import Input from "../../components/Input";
 import {
   MessageSquareTextIcon,
-  SendHorizonal,
-  XCircle,
+  SendHorizonal
 } from "lucide-react-native";
 import { Pressable } from "react-native-gesture-handler";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import AccountContext from "../../contexts/AccountContext";
+import X from "../../assets/generic/x.svg";
 
 const Chatbot = () => {
   const [input, setInput] = useState("");
@@ -69,22 +68,13 @@ const Chatbot = () => {
         setMessages(newMessagesList);
         setInput("");
         setIsFetching(false);
-      });
+      }).catch(error => console.error());
   };
   const formatAIText = (message) => {
     return message.replace(/\*\*(.+?)\*\*/g, "$1").replace(/\*(.+?)/g, "• ");
   };
   return (
     <AppBackground style={{ padding: 28 }}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={{
-          backgroundColor: "#F9EBDE",
-          flex: 1,
-          borderRadius: 24,
-          padding: 24,
-        }}
-      >
         <View
           style={[
             styles.entryBackground,
@@ -102,9 +92,18 @@ const Chatbot = () => {
             Chatbot
           </Text>
           <Pressable onPress={() => nav.goBack()}>
-            <XCircle color={"white"} size={32} />
+            <X width={32} height={32} />
           </Pressable>
         </View>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={{
+          backgroundColor: "#F9EBDE",
+          flex: 1,
+          borderRadius: 24,
+          padding: 24,
+        }}
+      >
         <ScrollView style={{ flex: 1 }}>
           {messages.map((message, index) => (
             <View
@@ -146,7 +145,7 @@ const Chatbot = () => {
               <View
                 style={[
                   styles.button,
-                  isFetching && { backgroundColor: "c4c4c4" },
+                  isFetching && { backgroundColor: "#c4c4c4" },
                 ]}
               >
                 <SendHorizonal color={"black"} />

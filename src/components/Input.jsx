@@ -35,6 +35,8 @@ const Input = ({
         value={value}
         secureTextEntry={secure}
         disabled={disabled}
+        editable={!disabled}
+        selectTextOnFocus={!disabled}
         style={[{ flex: 1 }, inputStyle]}
       ></TextInput>
       {children}
