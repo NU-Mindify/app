@@ -24,7 +24,7 @@ import { avatars } from '../../constants'
 const Home = () => {
   const nav = useNavigation();
   const { accountData, setAccountData } = useContext(AccountContext);
-  const Avatar = avatars[accountData.avatar]
+  const Avatar = avatars[accountData ? accountData.avatar : 0]
 
   return (
     <Animated.View entering={FadeIn.duration(700)} style={{ flex: 1 }}>

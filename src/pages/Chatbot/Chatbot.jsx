@@ -68,7 +68,7 @@ const Chatbot = () => {
         setMessages(newMessagesList);
         setInput("");
         setIsFetching(false);
-      });
+      }).catch(error => console.error());
   };
   const formatAIText = (message) => {
     return message.replace(/\*\*(.+?)\*\*/g, "$1").replace(/\*(.+?)/g, "• ");
@@ -139,14 +139,13 @@ const Chatbot = () => {
             Icon={MessageSquareTextIcon}
             onChangeText={(text) => setInput(text)}
             value={input}
-            editable={isFetching}
-            selectTextOnFocus={isFetching}
+            disabled={isFetching}
           >
             <Pressable onPress={sendMessage} disabled={isFetching}>
               <View
                 style={[
                   styles.button,
-                  isFetching && { backgroundColor: "c4c4c4" },
+                  isFetching && { backgroundColor: "#c4c4c4" },
                 ]}
               >
                 <SendHorizonal color={"black"} />

@@ -22,6 +22,27 @@ const Mindmap = () => {
         style={{ flex: 1, padding: 28, paddingHorizontal: 8 }}
       >
         <View
+          style={[
+            styles.entryBackground,
+            {
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+              marginTop: 0,
+              marginBottom: 12,
+            },
+          ]}
+        >
+          <Text
+            style={[styles.entryBody, { fontSize: 24, fontWeight: "bold" }]}
+          >
+            Mind Map
+          </Text>
+          <TouchableOpacity onPress={() => nav.goBack()}>
+            <X width={32} height={32} />
+          </TouchableOpacity>
+        </View>
+        <View
           style={{
             backgroundColor: "#F9EBDE",
             flex: 1,
@@ -32,32 +53,18 @@ const Mindmap = () => {
           }}
         >
           <View
-            style={[
-              styles.entryBackground,
-              {
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between",
-                marginTop: 0,
-                marginBottom: 12,
-              },
-            ]}
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              borderColor: "black",
+            }}
           >
-            <Text
-              style={[styles.entryBody, { fontSize: 24, fontWeight: "bold" }]}
-            >
-              Review
-            </Text>
-            <TouchableOpacity onPress={() => nav.goBack()}>
-              <X width={32} height={32} />
-            </TouchableOpacity>
-          </View>
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
             <Input
               placeholder={"Type a message"}
               Icon={BrainCircuitIcon}
               onChangeText={(text) => setInput(text)}
               value={input}
+              style={{ borderWidth: 2, borderRadius: 24 }}
             >
               <Pressable
                 onPress={() => {
@@ -74,8 +81,8 @@ const Mindmap = () => {
             <ScrollView horizontal={true}>
               {showTemporaryMap && (
                 <Animated.View entering={SlideInUp}>
-                <Image source={MindmapImage} resizeMode="contain" />
-              </Animated.View>
+                  <Image source={MindmapImage} resizeMode="contain" />
+                </Animated.View>
               )}
             </ScrollView>
           </ScrollView>

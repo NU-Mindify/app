@@ -39,7 +39,7 @@ const EditProfile = () => {
 
     const newData = { ...accountData, avatar: selectedAvatar, username:inputName };
     setAccountData(newData);
-    nav.goBack();
+    nav.replace("Home");
   }
 
   return (
@@ -138,7 +138,7 @@ const EditProfile = () => {
           />
         <Button
           style={{ flex: 0, width: "50%" }}
-          onPress={() => {nav.goBack()}}
+          onPress={() => {nav.replace("View Profile")}}
           text={"Back"}
           />
           </View>

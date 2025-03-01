@@ -23,16 +23,16 @@ const Results = ({ stats, categoryIndex, onReview, isMastery }) => {
   const nav = useNavigation();
 
   const duration = moment(stats.endTime).subtract(stats.startTime).format("s");
-  const score = stats.correct * (30 - duration);
+  const score = stats.correct * (60 - duration);
   const totalQuestions = stats.correct + stats.wrong;
   const isPass = stats.correct >= Math.floor(totalQuestions * 0.8);
-  const is1Star = stats.correct > Math.floor(totalQuestions * 0.6);
-  const is2Star = stats.correct > Math.floor(totalQuestions * 0.8);
-  const is3Star = stats.correct > Math.floor(totalQuestions * 0.9);
+  const is1Star = stats.correct >= Math.floor(totalQuestions * 0.8);
+  const is2Star = stats.correct >= Math.floor(totalQuestions * 0.9);
+  const is3Star = stats.correct >= Math.floor(totalQuestions * 1);
   console.log({
-    star1: Math.floor(totalQuestions * 0.6),
-    star2: Math.floor(totalQuestions * 0.8),
-    star3: Math.floor(totalQuestions * 0.9),
+    star1: Math.floor(totalQuestions * 0.8),
+    star2: Math.floor(totalQuestions * 0.9),
+    star3: Math.floor(totalQuestions * 1),
   });
 
   const { accountData } = useContext(AccountContext);
@@ -156,7 +156,7 @@ const Results = ({ stats, categoryIndex, onReview, isMastery }) => {
           style={{ flexDirection: "row", justifyContent: "center", gap: 8 }}
         >
           <Button
-            onPress={() => nav.replace("Levels", { categoryIndex })}
+            onPress={() => nav.replace("Levels", { categoryIndex, mastery: isMastery })}
             text={isPass ? "Next Level" : "Try Again"}
           />
           {!isMastery && <Button onPress={onReview} text={"Review"} />}

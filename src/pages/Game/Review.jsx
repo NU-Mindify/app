@@ -12,6 +12,26 @@ const Review = ({ questions, stats, onExit }) => {
   const nav = useNavigation();
   return (
     <Animated.View entering={ZoomIn} exiting={ZoomOut} style={{ flex: 1, padding: 28 }}>
+          <View
+            style={[
+              styles.entryBackground,
+              {
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+                marginTop: 0,
+              },
+            ]}
+          >
+            <Text
+              style={[styles.entryBody, { fontSize: 24, fontWeight: "bold" }]}
+            >
+              Review
+            </Text>
+            <TouchableOpacity onPress={onExit}>
+              <X width={32} height={32} />
+            </TouchableOpacity>
+          </View>
       <View
         style={{
           backgroundColor: "#F9EBDE",
@@ -22,26 +42,6 @@ const Review = ({ questions, stats, onExit }) => {
           borderColor: "#2E5A9F",
         }}
       >
-        <View
-          style={[
-            styles.entryBackground,
-            {
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "space-between",
-              marginTop: 0,
-            },
-          ]}
-        >
-          <Text
-            style={[styles.entryBody, { fontSize: 24, fontWeight: "bold" }]}
-          >
-            Review
-          </Text>
-          <TouchableOpacity onPress={onExit}>
-            <X width={32} height={32} />
-          </TouchableOpacity>
-        </View>
         <ScrollView contentContainerStyle={{padding:12}} style={{ flex: 1 }}>
           {questions.map((data, index) => (
             <QuestionCard

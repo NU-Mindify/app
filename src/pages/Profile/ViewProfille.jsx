@@ -4,6 +4,7 @@ import {
   Pressable,
   ToastAndroid,
   TouchableOpacity,
+  Image,
 } from "react-native";
 import React, { useContext, useState } from "react";
 import AppBackground from "../../components/AppBackground";
@@ -16,6 +17,9 @@ import AccountContext from "../../contexts/AccountContext";
 import Input from "../../components/Input";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Edit } from "lucide-react-native";
+import badges from "../../assets/badges/badges.png";
+import Animated, { SlideInUp, SlideOutUp } from "react-native-reanimated";
+import X from "../../assets/generic/x.svg";
 
 const ViewProfile = () => {
   const nav = useNavigation();
@@ -24,36 +28,40 @@ const ViewProfile = () => {
   const Avatar = avatars[selectedAvatar];
   const [inputName, setInputName] = useState(accountData.username);
 
-  const onSave = async () => {
-    try {
-      const accountsStorage = (await AsyncStorage.getItem("accounts")) || "[]";
-      const jsonAccounts = JSON.parse(accountsStorage);
-
-      let usernameDuplicate = false;
-      jsonAccounts.map((account) => {
-        if (accountData.id !== account.id && inputName === account.username) {
-          usernameDuplicate = true;
-        }
-      });
-      if (usernameDuplicate) {
-        ToastAndroid.show("Username already exist.", ToastAndroid.SHORT);
-        return;
-      }
-    } catch (error) {
-      console.error(error);
-    }
-
-    const newData = {
-      ...accountData,
-      avatar: selectedAvatar,
-      username: inputName,
-    };
-    setAccountData(newData);
-    nav.goBack();
-  };
-
   return (
     <AppBackground>
+        <View
+          style={{
+            position: "absolute",
+            top: 0,
+            right:"8%"
+          }}
+        >
+          <Animated.View
+            entering={SlideInUp.delay(200)}
+            exiting={SlideOutUp}
+            style={[
+              {
+                marginHorizontal: "auto",
+                backgroundColor: "#00000044",
+                borderBottomStartRadius: 24,
+                borderBottomEndRadius: 24,
+                padding: 12,
+                paddingBottom: 24,
+                borderWidth: 2,
+              },
+            ]}
+          >
+            <TouchableOpacity
+              activeOpacity={0.7}
+              onPress={() => {
+                nav.replace("Home");
+              }}
+            >
+              <X width={42} height={42} />
+            </TouchableOpacity>
+          </Animated.View>
+        </View>
       <View style={{ flex: 2, justifyContent: "center", alignItems: "center" }}>
         <View
           style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
@@ -102,7 +110,7 @@ const ViewProfile = () => {
             <TouchableOpacity
               style={[styles.button]}
               onPress={() => {
-                nav.navigate("Edit Profile");
+                nav.replace("Edit Profile");
               }}
             >
               <Edit size={24} color={"black"} />
@@ -116,7 +124,7 @@ const ViewProfile = () => {
           borderTopColor: "#FDD116",
           borderTopWidth: 6,
           backgroundColor: "#273574",
-          justifyContent: "center",
+          justifyContent: "flex-end",
           alignItems: "center",
           flex: 3,
         }}
@@ -149,13 +157,8 @@ const ViewProfile = () => {
             />
           ))}
         </View>
-        <Button
-          style={{ flex: 0, width: "50%", marginTop: 12 }}
-          onPress={() => {
-            nav.goBack();
-          }}
-          text={"Back"}
-        />
+        <Text style={[styles.entryTitle, { paddingVertical: 12 }]}>Badges</Text>
+        <Image source={badges} style={{ marginBottom: 24 }}></Image>
       </View>
     </AppBackground>
   );
