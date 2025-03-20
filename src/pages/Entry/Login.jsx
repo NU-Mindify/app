@@ -9,8 +9,8 @@ import { useNavigation } from "@react-navigation/native";
 import useAccount from "../../contexts/useAccount";
 
 const Login = ({ set }) => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("fsalles");
+  const [password, setPassword] = useState("123123123");
 
   const { setAccountData } = useContext(AccountContext);
   const nav = useNavigation();

@@ -1,18 +1,18 @@
-import { View, Text, TouchableOpacity, Image, Pressable } from 'react-native'
-import levelyellow from '../../assets/level/levelyellow.png'
-import levelred from '../../assets/level/levelred.png'
-import levelredPressed from "../../assets/level/levelredPressed.png";
-import levelblue from '../../assets/level/levelblue.png'
-import levelgray from '../../assets/level/levelgray.png'
-import levelgrayPressed from '../../assets/level/levelgrayPressed.png'
-import levelbluePressed from "../../assets/level/levelbluePressed.png";
-import levelyellowPressed from '../../assets/level/levelyellowPressed.png'
-import React, { useContext, useEffect, useState } from 'react'
-import ModalContext from '../../contexts/ModalContext';
 import { useNavigation } from '@react-navigation/native';
+import React, { useContext, useEffect, useState } from 'react';
+import { Pressable, Text } from 'react-native';
 import Animated, { BounceIn } from 'react-native-reanimated';
+import levelblue from '../../assets/level/levelblue.png';
+import levelbluePressed from "../../assets/level/levelbluePressed.png";
+import levelgray from '../../assets/level/levelgray.png';
+import levelgrayPressed from '../../assets/level/levelgrayPressed.png';
+import levelred from '../../assets/level/levelred.png';
+import levelredPressed from "../../assets/level/levelredPressed.png";
+import levelyellow from '../../assets/level/levelyellow.png';
+import levelyellowPressed from '../../assets/level/levelyellowPressed.png';
+import ModalContext from '../../contexts/ModalContext';
 
-const LevelButton = ({ position, level, state, index, category, mastery }) => {
+const LevelButton = ({ position, level, state, index, category, isMastery }) => {
   const [isPressing, setIsPressing] = useState(true);
   const { modal, setModal } = useContext(ModalContext);
   const nav = useNavigation();
@@ -31,6 +31,29 @@ const LevelButton = ({ position, level, state, index, category, mastery }) => {
         break;
     }
   };
+  const showModal = () => {
+        if (state === "soon") return;
+        setModal({
+          subtitle: `Level ${level}`,
+          primaryFn: () => {
+            nav.replace("Game", {
+              level,
+              levelIndex: index,
+              categoryIndex: category,
+              mastery: isMastery,
+            });
+            setModal(null);
+          },
+          secondaryFn: () => {
+            setModal(null);
+          },
+          body: `Difficulty: ${
+            level === "?" ? "Hard" : level < 3 ? "Easy" : "Average"
+          }\nStart Quiz?`,
+          mode: "LevelSelect",
+        });
+      }
+
   useEffect(() => {
     // to prefetch pressed image
     setIsPressing(false);
@@ -49,28 +72,7 @@ const LevelButton = ({ position, level, state, index, category, mastery }) => {
       ]}
       onPressIn={() => setIsPressing(true)}
       onPressOut={() => setIsPressing(false)}
-      onPress={() => {
-        if (state === "soon") return;
-        setModal({
-          subtitle: `Level ${level}`,
-          primaryFn: () => {
-            nav.replace("Game", {
-              level,
-              levelIndex: index,
-              categoryIndex: category,
-              mastery,
-            });
-            setModal(null);
-          },
-          secondaryFn: () => {
-            setModal(null);
-          },
-          body: `Difficulty: ${
-            level === "?" ? "Hard" : level < 3 ? "Easy" : "Average"
-          }\nStart Quiz?`,
-          mode: "LevelSelect",
-        });
-      }}
+      onPress={showModal}
     >
       <Animated.View
         entering={BounceIn.delay(200 * index)}

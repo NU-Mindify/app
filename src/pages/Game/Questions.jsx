@@ -10,8 +10,11 @@ import abnormalTitle from "../../assets/questions/abnormalTitle.png";
 import choicesCard from "../../assets/questions/choicesCard.png";
 import questionCard from "../../assets/questions/questionCard.png";
 import questionNumber from "../../assets/questions/questionNumber.png";
+import { useContext } from "react";
+import GameContext from "../../contexts/GameContext";
 
-export default function Questions({ level, data, onAnswer, number }) {
+export default function Questions({ data, onAnswer, number }) {
+  const { level } = useContext(GameContext);
   return (
     <>
       <Animated.Image

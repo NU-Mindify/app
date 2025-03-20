@@ -18,8 +18,10 @@ import Button from "../../components/Button";
 import AccountContext from "../../contexts/AccountContext";
 import { avatars } from "../../constants";
 import moment from "moment";
+import GameContext from "../../contexts/GameContext";
 
-const Results = ({ stats, categoryIndex, onReview, isMastery }) => {
+const Results = ({ stats, onReview }) => {
+  const {isMastery, categoryIndex} = useContext(GameContext)
   const nav = useNavigation();
 
   const duration = moment(stats.endTime).subtract(stats.startTime).format("s");
@@ -188,7 +190,7 @@ const ResultsStats = ({ label, stat, color }) => {
       }}
     >
       <Text style={{ fontSize: 32, fontWeight: 900, color }}>{stat}</Text>
-      <Text style={{}}>{label}</Text>
+      <Text style={{ fontSize: 12, fontWeight: 500 }}>{label}</Text>
     </View>
   );
 };

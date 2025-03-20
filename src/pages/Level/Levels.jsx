@@ -22,26 +22,34 @@ import classic from '../../assets/modal/classic.png'
 import masteryBtn from '../../assets/modal/mastery.png'
 
 const Levels = (props) => {
-  const { categoryIndex, mastery } = props.route.params;
+  const { categoryIndex, isMastery } = props.route.params;
 
   const nav = useNavigation();
   const { accountData } = useContext(AccountContext);
 
   return (
     <AppBackground source={categoryLevelBackground[categoryIndex]}>
-      <View style={{ justifyContent: "center", alignItems:'center' }}>
+      <View style={{ justifyContent: "center", alignItems: "center" }}>
         <LevelTitle style={{ marginHorizontal: "auto" }} />
         <Text
           style={[
             styles.entryTitle,
-            { position: "absolute", top: 0, width: "100%", marginTop: 32 },
+            {
+              position: "absolute",
+              top: 0,
+              left: "50%",
+              transform: [{ translateX: "-50%" }],
+              textAlign: "center",
+              width: "80%",
+              marginTop: 32,
+            },
           ]}
         >
           {categories[categoryIndex]}
         </Text>
         <Image
-          source={mastery ? masteryBtn : classic}
-          style={{ position: "absolute", bottom: -50, margin:'auto' }}
+          source={isMastery ? masteryBtn : classic}
+          style={{ position: "absolute", bottom: -50, margin: "auto" }}
         />
       </View>
       <View style={{ flex: 1 }}>
@@ -53,7 +61,7 @@ const Levels = (props) => {
               key={index}
               category={categoryIndex}
               index={index}
-              mastery={mastery}
+              isMastery={isMastery}
               state={
                 level === "?" && accountData.progress[categoryIndex] <= index
                   ? "boss"

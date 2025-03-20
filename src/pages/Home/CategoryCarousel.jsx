@@ -28,10 +28,10 @@ const data = [
 //   category5
 // ];
 
-const {width} = Dimensions.get('screen')
+const {width} = Dimensions.get('window')
 const _imageWidth = width * 0.7;
 const _imageHeight = _imageWidth * 1.76;
-const _spacing = 18
+const _spacing = 12
 
 
 const CategoryCarousel = () => {
@@ -46,7 +46,7 @@ const CategoryCarousel = () => {
 
   return (
     <>
-      <View style={{}}>
+      <View style={{flex: 1}}>
         <Animated.FlatList
           data={data}
           horizontal
@@ -65,7 +65,7 @@ const CategoryCarousel = () => {
                     setModal(null);
                   },
                   masteryFn: () => {
-                    nav.navigate("Levels", { categoryIndex: index, mastery:true });
+                    nav.navigate("Levels", { categoryIndex: index, isMastery:true });
                     setModal(null);
                   },
                   secondaryFn: () => {
@@ -81,7 +81,7 @@ const CategoryCarousel = () => {
             gap: _spacing,
             paddingHorizontal: (width - _imageWidth) / 2,
           }}
-          style={{ flexGrow: 0 }}
+          style={{ flex: 1 }}
           onScroll={onScroll}
           scrollEventThrottle={1000 / 60}
           showsHorizontalScrollIndicator={false}
@@ -110,7 +110,7 @@ const Photo = ({item, index, scrollX, onPress}) => {
           rotate: `${interpolate(
             scrollX.value,
             [index - 1, index, index + 1],
-            [10, 0, -10]
+            [20, 0, -20]
           )}deg`,
         },
       ],
@@ -122,34 +122,42 @@ const Photo = ({item, index, scrollX, onPress}) => {
         scale: interpolate(
           scrollX.value,
           [index - 1, index, index + 1],
-          [0.85, 1, 0.85]
+          [0.80, 1, 0.80]
         )
       }
     ]
   }))
   return (
-    <TouchableOpacity onPress={() => onPress(index)} activeOpacity={0.9}>
+    <TouchableOpacity onPress={() => onPress(index)} activeOpacity={0.9} >
       <Animated.View
         style={[
           {
             width: _imageWidth,
             height: _imageHeight,
-            maxHeight: 900,
             overflow: "hidden",
             borderRadius: 16,
+            boxShadow: "0px 2px 12px rgba(0, 0, 0, 0.8)",
           },
           imageContainerStyle,
         ]}
       >
-        <Animated.Image source={item} style={[{ flex: 1 }, imageStyle]} />
+        <Animated.Image
+          resizeMode={"cover"}
+          source={item}
+          style={[{ flex: 1, width: "100%", height: "100%" }, imageStyle]}
+        />
       </Animated.View>
       <View
         style={[
           styles.entryBackground,
           {
             backgroundColor: "#2C519F",
-            marginHorizontal: "auto",
-            width: "70%",
+            width: "80%",
+            position:'absolute',
+            bottom:40,
+            left:'50%',
+            transform: [{translateX:'-50%'}],
+            paddingVertical:8
           },
         ]}
       >

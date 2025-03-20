@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useContext } from "react";
 import AccountContext from "./AccountContext";
-import { Text, ToastAndroid, TouchableOpacity } from "react-native";
+import { Text, ToastAndroid, TouchableOpacity, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import ModalContext from "./ModalContext";
 
@@ -130,30 +130,23 @@ export const ResetButton = () => {
     AsyncStorage.clear();
   };
   return (
-    <>
+    <View style={{ position: "absolute", opacity: 0.2, zIndex: 5, flexDirection:'row', gap:4 }}>
       <TouchableOpacity
         style={{
-          position: "absolute",
           padding: 4,
-          zIndex: 5,
-          opacity: 0.4,
           borderWidth: 2,
           borderColor: "white",
         }}
         onPress={onClick}
       >
-        <Text style={{ color: "white", textAlign: "center", fontSize: 12 }}>
+        <Text style={{ color: "white", textAlign: "center", fontSize: 8 }}>
           Reset Accounts
         </Text>
       </TouchableOpacity>
       {accountData && (
         <TouchableOpacity
           style={{
-            position: "absolute",
-            left: "25%",
             padding: 4,
-            zIndex: 5,
-            opacity: 0.4,
             borderWidth: 2,
             borderColor: "white",
           }}
@@ -161,11 +154,11 @@ export const ResetButton = () => {
             setAccountData({ ...accountData, progress: [0, 0, 0, 0, 0] })
           }
         >
-          <Text style={{ color: "white", textAlign: "center", fontSize: 12 }}>
+          <Text style={{ color: "white", textAlign: "center", fontSize: 8 }}>
             Clear Progress
           </Text>
         </TouchableOpacity>
       )}
-    </>
+    </View>
   );
 };
