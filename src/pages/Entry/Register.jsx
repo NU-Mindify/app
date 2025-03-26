@@ -6,6 +6,9 @@ import Input from '../../components/Input'
 import { LockKeyhole, Mail, UserCircle2 } from 'lucide-react-native'
 import AccountContext from '../../contexts/AccountContext'
 import useAccount from '../../contexts/useAccount'
+import useFirebase from '../../hooks/useFirebase'
+import ModalContext from '../../contexts/ModalContext'
+import { useNavigation } from '@react-navigation/native'
 
 const Register = ({set}) => {
 
@@ -14,7 +17,10 @@ const Register = ({set}) => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const { createAccount } = useAccount();
+  // const { createAccount } = useAccount();
+  const { createAccount } = useFirebase();
+  const { setModal } = useContext(ModalContext);
+  const nav = useNavigation();
   const onSubmit = () => {
     if(username.trim() === ""){
       ToastAndroid.show("Username Field is required.", ToastAndroid.SHORT)
@@ -38,6 +44,21 @@ const Register = ({set}) => {
     
     createAccount({
       username, email, password
+    }, () => {
+      setModal({
+        subtitle: "Registered",
+        body: "Do you want to set up your account?",
+        primaryFn: () => {
+          nav.replace("Home");
+          nav.navigate("Edit Profile");
+          setModal(null);
+        },
+        secondaryFn: () => {
+          nav.replace("Home");
+          setModal(null);
+        },
+        mode: "LevelSelect",
+      });
     })
   }
 

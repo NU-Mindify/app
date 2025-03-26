@@ -1,16 +1,16 @@
-import { View, Text, TouchableOpacity } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState } from 'react';
+import { Text, TouchableOpacity, View } from 'react-native';
 import Animated, { BounceIn, FadeIn, FadeOut } from 'react-native-reanimated';
-import Login from './Login';
-import styles from '../../styles/styles';
-import Register from './Register';
-import AppBackground from "../../components/AppBackground";
 import MindifyLogo from "../../assets/Logo.png";
+import AppBackground from "../../components/AppBackground";
 import { printStorage } from '../../contexts/useAccount';
+import styles from '../../styles/styles';
+import Login from './Login';
+import Register from './Register';
 
 export default function GetStarted() {
   const [state, setState] = useState("get started");
-  
+
   return (
     <Animated.View
       entering={FadeIn.duration(1000)}
@@ -33,6 +33,7 @@ export default function GetStarted() {
     </Animated.View>
   );
 }
+
 
 const GetStartedButton = ({set}) => {
   

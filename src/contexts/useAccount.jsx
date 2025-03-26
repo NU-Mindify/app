@@ -97,7 +97,7 @@ export default useAccount;
 export const printStorage = async () => {
    try {
     const accountsStorage = await AsyncStorage.getItem("accounts");
-    console.log(JSON.parse(accountsStorage))
+    console.log(accountsStorage)
    }catch(error){
     console.error(error);
     alert(error);
