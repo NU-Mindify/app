@@ -23,7 +23,7 @@ import X from "../../assets/generic/x.svg";
 
 const ViewProfile = () => {
   const nav = useNavigation();
-  const { accountData, setAccountData } = useContext(AccountContext);
+  const { accountData } = useContext(AccountContext);
   const [selectedAvatar, setSelectedAvatar] = useState(accountData.avatar);
   const Avatar = avatars[selectedAvatar];
   const [inputName, setInputName] = useState(accountData.username);

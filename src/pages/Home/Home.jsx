@@ -20,6 +20,8 @@ import MindifiyLogo from "../../assets/Logo.png";
 import AppBackground from "../../components/AppBackground";
 import { useNavigation } from "@react-navigation/native";
 import { avatars } from '../../constants'
+import { getAuth, signOut } from "firebase/auth";
+import { SignOut } from "../../hooks/useFirebase";
 
 const Home = () => {
   const nav = useNavigation();
@@ -51,9 +53,9 @@ const Home = () => {
           <Pressable
             style={styles.homeRoundedIcon}
             onPress={() => {
-              nav.replace("Get Started");
+              // nav.replace("Get Started");
               setAccountData(null);
-
+              SignOut()
             }}
           >
             <LogOut size={32} color={"black"} />

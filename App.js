@@ -1,4 +1,4 @@
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AccountContext from './src/contexts/AccountContext';
 import ModalContext from './src/contexts/ModalContext';
@@ -17,6 +17,8 @@ import { ResetButton, updateStorage } from './src/contexts/useAccount';
 import Glossary from './src/pages/Glossary/Glossary';
 import Mindmap from './src/pages/Mindmap/Mindmap';
 import ViewProfile from './src/pages/Profile/ViewProfille';
+import useFirebase from './src/hooks/useFirebase';
+import SplashScreen from './src/pages/Entry/SplashScreen';
 
 /**
  * @typedef {object} Modal
@@ -50,6 +52,7 @@ export default function App() {
                 <Text style={{ position: 'absolute', bottom: 4, color: 'white', zIndex: 5, textAlign: 'center', width: '100%', fontSize: 12, opacity:0.2}}>Early Dev Build - 2.28 - Placeholders and Sample Assets are used. </Text>
                 <ResetButton />
                 <Stack.Navigator screenOptions={{ headerShown: false, statusBarHidden: true, navigationBarHidden: true, }}>
+                  <Stack.Screen name="Splash" component={SplashScreen} />
                   <Stack.Screen name='Get Started' component={GetStarted} />
 
                   <Stack.Screen name='Home' component={Home} />

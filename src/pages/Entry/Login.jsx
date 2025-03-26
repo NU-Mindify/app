@@ -7,27 +7,28 @@ import AccountContext from "../../contexts/AccountContext";
 import styles from "../../styles/styles";
 import { useNavigation } from "@react-navigation/native";
 import useAccount from "../../contexts/useAccount";
+import { loginAuth } from "../../firebase";
 
 const Login = ({ set }) => {
-  const [username, setUsername] = useState("fsalles");
-  const [password, setPassword] = useState("123123123");
+  const [username, setUsername] = useState("fjsalles.04@gmail.com");
+  const [password, setPassword] = useState("123123");
 
-  const { setAccountData } = useContext(AccountContext);
   const nav = useNavigation();
-  const { login } = useAccount();
+  // const { login } = useAccount();
 
   const onSubmit = () => {
     if(username.trim() === ""){
-      ToastAndroid.show("Username Field is required.", ToastAndroid.SHORT);
+      ToastAndroid.show("Email Field is required.", ToastAndroid.SHORT);
       return;
     }
     if(password.trim() === ""){
       ToastAndroid.show("Password Field is required.", ToastAndroid.SHORT);
       return;
     }
-    login({
-      username, password
-    })
+    // login({
+    //   username, password
+    // })
+    loginAuth(username, password)
   }
   return (
     <>
@@ -39,7 +40,7 @@ const Login = ({ set }) => {
         <Text style={styles.entryTitle}>Log In</Text>
         <Text style={styles.entryBody}>Login your account to get started.</Text>
         <Input
-          placeholder="Username"
+          placeholder="Email"
           Icon={UserCircle2}
           onChangeText={(text) => setUsername(text)}
           value={username}
