@@ -158,7 +158,7 @@ const Results = ({ stats, onReview }) => {
           style={{ flexDirection: "row", justifyContent: "center", gap: 8 }}
         >
           <Button
-            onPress={() => nav.replace("Levels", { categoryIndex, mastery: isMastery })}
+            onPress={() => nav.replace("Levels", { categoryIndex, isMastery })}
             text={isPass ? "Next Level" : "Try Again"}
           />
           {!isMastery && <Button onPress={onReview} text={"Review"} />}

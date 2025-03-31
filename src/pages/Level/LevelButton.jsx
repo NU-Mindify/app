@@ -12,7 +12,14 @@ import levelyellow from '../../assets/level/levelyellow.png';
 import levelyellowPressed from '../../assets/level/levelyellowPressed.png';
 import ModalContext from '../../contexts/ModalContext';
 
-const LevelButton = ({ position, level, state, index, category, isMastery }) => {
+const LevelButton = ({
+  position,
+  level,
+  state,
+  index,
+  categoryIndex,
+  isMastery,
+}) => {
   const [isPressing, setIsPressing] = useState(true);
   const { modal, setModal } = useContext(ModalContext);
   const nav = useNavigation();
@@ -32,27 +39,27 @@ const LevelButton = ({ position, level, state, index, category, isMastery }) => 
     }
   };
   const showModal = () => {
-        if (state === "soon") return;
-        setModal({
-          subtitle: `Level ${level}`,
-          primaryFn: () => {
-            nav.replace("Game", {
-              level,
-              levelIndex: index,
-              categoryIndex: category,
-              mastery: isMastery,
-            });
-            setModal(null);
-          },
-          secondaryFn: () => {
-            setModal(null);
-          },
-          body: `Difficulty: ${
-            level === "?" ? "Hard" : level < 3 ? "Easy" : "Average"
-          }\nStart Quiz?`,
-          mode: "LevelSelect",
+    if (state === "soon") return;
+    setModal({
+      subtitle: `Level ${level}`,
+      primaryFn: () => {
+        nav.replace("Game", {
+          level,
+          levelIndex: index,
+          categoryIndex,
+          isMastery,
         });
-      }
+        setModal(null);
+      },
+      secondaryFn: () => {
+        setModal(null);
+      },
+      body: `Difficulty: ${
+        level === "?" ? "Hard" : level < 3 ? "Easy" : "Average"
+      }\nStart Quiz?`,
+      mode: "LevelSelect",
+    });
+  };
 
   useEffect(() => {
     // to prefetch pressed image

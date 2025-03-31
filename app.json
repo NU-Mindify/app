@@ -20,7 +20,7 @@
         "foregroundImage": "./assets/logo.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.codeverse.numindify"
+      "package": "com.mindify.nu"
     },
     "web": {
       "favicon": "./assets/favicon.png"

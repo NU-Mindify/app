@@ -10,16 +10,16 @@ import category5 from '../../assets/categories/5.jpg';
 import StartModal from "../../components/StartModal";
 import ModalContext from '../../contexts/ModalContext';
 import { useNavigation } from '@react-navigation/native';
-import { categories } from '../../constants'
-import map2 from '../../assets/maps/2.png'
-import map4 from '../../assets/maps/4.png'
-const data = [
-  category1,
-  map2,
-  map4,
-  map2,
-  category1
-]
+import { categories, categoriesObj } from '../../constants'
+
+import AccountContext from '../../contexts/AccountContext';
+// const data = [
+//   category1,
+//   map2,
+//   map4,
+//   map2,
+//   category1
+// ]
 // const data = [
 //   category1,
 //   category2,
@@ -41,31 +41,39 @@ const CategoryCarousel = () => {
   const onScroll = useAnimatedScrollHandler((e) => {
     scrollX.value = e.contentOffset.x / (_imageWidth + _spacing);
   });
-
+  const {progressData} = useContext(AccountContext);
   const {setModal} = useContext(ModalContext)
 
   return (
     <>
-      <View style={{flex: 1}}>
+      <View style={{ flex: 1 }}>
         <Animated.FlatList
-          data={data}
+          data={categoriesObj}
           horizontal
-          renderItem={({ item, index }) => (
+          renderItem={({
+            item,
+            index,
+          }) => (
             <Photo
-              item={item}
+              item={item.cover}
               index={index}
               scrollX={scrollX}
               onPress={(index) => {
                 setModal({
                   title: "Start",
-                  subtitle: categories[index],
+                  subtitle: item.name,
                   body: "Start to take the quiz?",
                   primaryFn: () => {
-                    nav.navigate("Levels", { categoryIndex: index });
+                    nav.navigate("Levels", {
+                      categoryIndex: item,
+                    });
                     setModal(null);
                   },
                   masteryFn: () => {
-                    nav.navigate("Levels", { categoryIndex: index, isMastery:true });
+                    nav.navigate("Levels", {
+                      categoryIndex: item,
+                      isMastery: true,
+                    });
                     setModal(null);
                   },
                   secondaryFn: () => {
@@ -169,7 +177,7 @@ const Photo = ({item, index, scrollX, onPress}) => {
             fontWeight: "bold",
           }}
         >
-          {categories[index]}
+          {categoriesObj[index].name}
         </Text>
       </View>
     </TouchableOpacity>

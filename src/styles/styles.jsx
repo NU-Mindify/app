@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: "#FDB813",
-    padding: 12,
+    padding: 8,
     borderRadius: 12,
     flexDirection: 'row',
     alignItems: 'center',
@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     // color:'white',
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: "bold",
     textAlign: "center",
   },

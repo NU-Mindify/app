@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import AppBackground from "../../components/AppBackground";
 import Questions from "./Questions";
 import data from "./data.json";
@@ -9,10 +9,15 @@ import moment from "moment";
 import Review from "./Review";
 import { categoryLevelBackground } from "../../constants";
 import GameContext from "../../contexts/GameContext";
+import axios from "axios";
 
 const Game = (props) => {
-  const { level, levelIndex, categoryIndex, mastery } = props.route.params;
-  const { accountData, setAccountData } = useContext(AccountContext);
+  const { level, levelIndex, categoryIndex, isMastery } = props.route.params;
+  const { accountData, progressData, setProgressData } = useContext(AccountContext);
+  const categoryProgress = useRef(progressData[isMastery ? "mastery" : "classic"].find(
+    (prog) => prog.category === categoryIndex.id
+  ).level)
+  
 
   const [questions, setQuestions] = useState(null);
   const [currentNumber, setCurrentNumber] = useState(0);
@@ -47,16 +52,26 @@ const Game = (props) => {
 
   };
   // -------------------------------------
-  const nextQuestion = () => {
+  const nextQuestion = async () => {
     if (isLevelComplete()) {
-      const newAccountData = accountData;
       setStats(prevstats => ({...prevstats, endTime: moment()}));
       setCurrentNumber((current) => current + 1);
       if (isMovingToNextLevel()) {
-        const newProgressData = accountData.progress
-        newProgressData[categoryIndex] += 1
-        setAccountData({ ...accountData, progress: newProgressData });
-        console.log("settedAccount", newAccountData);
+        try {
+          const json = await axios.post(
+            process.env.EXPO_PUBLIC_URL + "/progressCategory",
+            {
+              category: categoryIndex.id,
+              mode: isMastery ? "mastery" : "classic",
+              user_id: accountData._id,
+            }
+          );
+          setProgressData(json.data);
+          console.log(json.data); 
+        } catch (error) {
+          console.error(error.message);
+          console.error(error.response.data);
+        }
       }
       return;
     }
@@ -85,10 +100,14 @@ const Game = (props) => {
     return currentNumber + 1 === questions.length;
   }
   const isMovingToNextLevel = () => {
-    return accountData.progress[categoryIndex] === levelIndex && stats.correct >= Math.floor((stats.correct + stats.wrong) * 0.8);
+    console.log(categoryProgress, levelIndex);
+    return (
+      categoryProgress.current === levelIndex &&
+      stats.correct >= Math.floor((stats.correct + stats.wrong) * 0.8)
+    );
   }
   const getModalBody = (streakCount, answer) => {
-    if(!mastery){
+    if (!isMastery) {
       return currentQuestion.choices[answer].rationale;
     }
 
@@ -106,9 +125,11 @@ const Game = (props) => {
   }, []);
 
   return (
-    <GameContext.Provider value={{ level, levelIndex, categoryIndex, mastery }}>
+    <GameContext.Provider
+      value={{ level, levelIndex, categoryIndex, isMastery }}
+    >
       <AppBackground
-        source={categoryLevelBackground[categoryIndex]}
+        source={categoryIndex.level_background}
         viewStyle={{
           justifyContent: "center",
           backgroundColor: "rgba(0,0,0,0.6)",
@@ -128,9 +149,7 @@ const Game = (props) => {
           (!showReview ? (
             <Results
               stats={stats}
-              categoryIndex={categoryIndex}
               onReview={() => setShowReview(true)}
-              isMastery={mastery}
             />
           ) : (
             <Review

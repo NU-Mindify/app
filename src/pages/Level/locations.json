@@ -1,5 +1,6 @@
 [
   {
+    "id": "abnormal",
     "level": "Abnormal Psychology",
     "locations": [
       { "level": 1, "position": { "left": "19%", "bottom": "10%" } },
@@ -11,6 +12,7 @@
     ]
   },
   {
+    "id": "developmental",
     "level": "Developmental Psychology",
     "locations": [
       { "level": 1, "position": { "left": "29%", "bottom": "32%" } },
@@ -22,6 +24,7 @@
     ]
   },
   {
+    "id":"psychological",
     "level": "Psychological Assessment",
     "locations": [
       { "level": 1, "position": { "right": "19%", "bottom": "10%" } },
@@ -33,6 +36,7 @@
     ]
   },
   {
+    "id": "industrial",
     "level": "Industrial Psychology",
     "locations": [
       { "level": 1, "position": { "left": "29%", "bottom": "32%" } },
@@ -44,6 +48,7 @@
     ]
   },
   {
+    "id": "general",
     "level": "General Psychology",
     "locations": [
       { "level": 1, "position": { "left": "19%", "bottom": "10%" } },
