@@ -6,13 +6,13 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import AppBackground from "../../components/AppBackground";
 import styles from "../../styles/styles";
 import Button from "../../components/Button";
 import LevelTitle from "../../assets/level/levelTitle.svg";
 import { useNavigation } from "@react-navigation/native";
-import { avatars, categories } from "../../constants";
+import { avatars, categories, categoriesObj, categoryNames } from "../../constants";
 import AccountContext from "../../contexts/AccountContext";
 import Input from "../../components/Input";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -20,48 +20,63 @@ import { Edit } from "lucide-react-native";
 import badges from "../../assets/badges/badges.png";
 import Animated, { SlideInUp, SlideOutUp } from "react-native-reanimated";
 import X from "../../assets/generic/x.svg";
+import axios from "axios";
 
 const ViewProfile = () => {
   const nav = useNavigation();
-  const { accountData } = useContext(AccountContext);
+  const { accountData, progressData, setProgressData } = useContext(AccountContext);
   const [selectedAvatar, setSelectedAvatar] = useState(accountData.avatar);
   const Avatar = avatars[selectedAvatar];
-  const [inputName, setInputName] = useState(accountData.username);
+  
+  useEffect(() => {
+    const c = async () => {
+      try {
+        const { data:progressData } = await axios.get(
+          `${process.env.EXPO_PUBLIC_URL}/getProgress/${accountData._id}`,
+          { timeout: 10000 }
+        );
+        setProgressData(progressData)
+      } catch (error) {
+        console.error("ViewProfileError", error);
+      }
+    }
+    c()
+  }, [])
 
   return (
     <AppBackground>
-        <View
-          style={{
-            position: "absolute",
-            top: 0,
-            right:"8%"
-          }}
+      <View
+        style={{
+          position: "absolute",
+          top: 0,
+          right: "8%",
+        }}
+      >
+        <Animated.View
+          entering={SlideInUp.delay(200)}
+          exiting={SlideOutUp}
+          style={[
+            {
+              marginHorizontal: "auto",
+              backgroundColor: "#00000044",
+              borderBottomStartRadius: 24,
+              borderBottomEndRadius: 24,
+              padding: 12,
+              paddingBottom: 24,
+              borderWidth: 2,
+            },
+          ]}
         >
-          <Animated.View
-            entering={SlideInUp.delay(200)}
-            exiting={SlideOutUp}
-            style={[
-              {
-                marginHorizontal: "auto",
-                backgroundColor: "#00000044",
-                borderBottomStartRadius: 24,
-                borderBottomEndRadius: 24,
-                padding: 12,
-                paddingBottom: 24,
-                borderWidth: 2,
-              },
-            ]}
+          <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={() => {
+              nav.replace("Home");
+            }}
           >
-            <TouchableOpacity
-              activeOpacity={0.7}
-              onPress={() => {
-                nav.replace("Home");
-              }}
-            >
-              <X width={42} height={42} />
-            </TouchableOpacity>
-          </Animated.View>
-        </View>
+            <X width={42} height={42} />
+          </TouchableOpacity>
+        </Animated.View>
+      </View>
       <View style={{ flex: 2, justifyContent: "center", alignItems: "center" }}>
         <View
           style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
@@ -149,10 +164,17 @@ const ViewProfile = () => {
             gap: 4,
           }}
         >
-          {categories.map((category, index) => (
+          {/* {categoriesObj.map(({ code, name }, index) => (
             <CategoryCard
-              name={category}
-              percent={Math.floor((accountData.progress[index] / 5) * 100)}
+              name={name}
+              percent={Math.floor((progressData.classic[code] / 5) * 100)}
+              key={index}
+            />
+          ))} */}
+          {progressData.classic.map(({ category, level }, index) => (
+            <CategoryCard
+              name={categoryNames[category]}
+              percent={Math.floor((level / 5) * 100)}
               key={index}
             />
           ))}

@@ -52,10 +52,10 @@ const Home = () => {
           />
           <Pressable
             style={styles.homeRoundedIcon}
-            onPress={() => {
+            onPress={async () => {
               // nav.replace("Get Started");
+              await SignOut()
               setAccountData(null);
-              SignOut()
             }}
           >
             <LogOut size={32} color={"black"} />

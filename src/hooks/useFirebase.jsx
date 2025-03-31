@@ -1,55 +1,97 @@
 import { useContext } from "react";
 import AccountContext from "../contexts/AccountContext";
 import { getDatabase, onValue, ref, set } from 'firebase/database'
-import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, sendEmailVerification, signInWithEmailAndPassword, signInWithPopup, signInWithRedirect, signOut } from "firebase/auth";
 import { useNavigation } from "@react-navigation/native";
+import { OAuthProvider } from "firebase/auth";
+import axios from "axios";
+import { firebaseAuth } from "../firebase";
 
-const newAccount = (email, username) => {
-  return {
-    username,
+export const loginAuth = async (email, password) => {
+  const userCredential = await signInWithEmailAndPassword(
+    getAuth(),
     email,
-    chat: [],
-    progress: [0, 0, 0, 0, 0],
-    avatar: 0,
+    password
+  );
+  const user = userCredential.user;
+};
+export const createAccount = async (
+  { email, username, password, branch = "NU MOA" },
+  callback = () => {}
+) => {
+  try {
+    const userCredential = await createUserWithEmailAndPassword(
+      getAuth(),
+      email,
+      password
+    );
+    const user = userCredential.user;
+    console.log(user);
+
+    const response = await axios.post(
+      process.env.EXPO_PUBLIC_URL + "/createUser",
+      {
+        branch,
+        username,
+        email,
+        uid: user.uid,
+      }
+    );
+    console.log(response.data);
+
+    callback();
+  } catch (error) {
+    console.error(error);
+    console.error("Creating Account", error.message);
+    console.error("Creating Account", error.response);
   }
 };
-
-const db = getDatabase();
 const useFirebase = () => {
-  const { accountData, setAccountData } = useContext(AccountContext);
+  const { accountData, setAccountData, setProgressData } = useContext(AccountContext);
+  const nav = useNavigation()
+
 
   const getUserData = async (userID) => {
-   const userDataRef = ref(db, `users/${userID}`);
-   onValue(userDataRef, (snapshot) => {
-     const data = snapshot.val();
-     setAccountData(data);
-     console.log(data);
-   });
-  }
-
-  const createAccount = ({email, username, password}, callback = () => {}) => {
-    createUserWithEmailAndPassword(getAuth(), email, password)
-    .then(userCredential => {
-      const user = userCredential.user;
-
-      set(ref(db, "users/" + user.uid), newAccount(email, username))
-      .then(() => {
-        callback();
-      })
-      .catch(err => {
-        console.error(err);
-      })
-
-    })
-    .catch(err => {
-      console.error(err.code + err.message);
-    })
+  try {
+    const { data } = await axios.get(
+      `${process.env.EXPO_PUBLIC_URL}/getUser/${userID}`,
+      { timeout: 10000 }
+    );
+    const { data:progressData } = await axios.get(
+      `${process.env.EXPO_PUBLIC_URL}/getProgress/${data._id}`,
+      { timeout: 10000 }
+    );
+    console.log("mongoUserData", userID, data, progressData);
+    
+    if (!data || !progressData) {
+      throw new Error("Cannot find user data!");
+    }
+    setAccountData( data )
+    setProgressData( progressData )
+    nav.replace("Home");
+  } catch (error) {
+    console.error("getUserData", error.message);
+    console.error(error.response.data);
     
   }
+  }
 
+  const sendVerifyEmail = async () => {
+    try {
+      await getAuth().currentUser.reload();
+      if(getAuth().currentUser.emailVerified){
+        return;
+      }
+      await sendEmailVerification(getAuth().currentUser);
+      alert("Sucessfull! Please check your email to email verification.");
+    } catch (error) {
+      console.error(error);
+      alert(error.code);
+    }
+  };
   console.log("Checks if useFirebase run");
   
-  return { getUserData, createAccount };
+  return { getUserData, sendVerifyEmail };
 }
 export default useFirebase;
 
@@ -60,21 +102,23 @@ export const AuthHandler = () => {
   const nav = useNavigation();
   const {getUserData} = useFirebase()
 
-  onAuthStateChanged(getAuth(), (user) => {
-    console.log(user);
-    if (user) {
-      console.log(user);
-      nav.replace("Home");
-      getUserData(user.uid);
-    } else {
+  onAuthStateChanged(firebaseAuth, (user) => {
+    if (!user) {
       nav.replace("Get Started");
+      return;
     }
+    console.log(user.uid);
+    if (!user.emailVerified){
+      nav.replace("Verify")
+      return;
+    }
+    getUserData(user.uid);
   });
   return
 }
 
-export const SignOut = () => {
-  signOut(getAuth())
+export const SignOut = async () => {
+  await signOut(getAuth())
 }
 
 console.log("Checks if run");

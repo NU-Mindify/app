@@ -9,6 +9,9 @@ import Map1 from "./assets/maps/1.png";
 import Map2 from "./assets/maps/2.png";
 import Map4 from "./assets/maps/4.png";
 
+import category1 from './assets/categories/1.jpg';
+import map2 from './assets/maps/2.png'
+import map4 from './assets/maps/4.png'
 
 const avatars = [
   BlackOrangeGirl,
@@ -27,6 +30,47 @@ const categories = [
   "General Psychology"
 ]
 
+const categoryNames = {
+  abnormal: "Abnormal Psychology",
+  developmental: "Developmental Psychology",
+  psychological:"Psychological Assessment",
+  industrial:"Industrial Psychology",
+  general:"General Psychology"
+}
+
+const categoriesObj = [
+  {
+    id: "abnormal",
+    name: "Abnormal Psychology",
+    level_background: Map1,
+    cover: category1,
+  },
+  {
+    id: "developmental",
+    name: "Developmental Psychology",
+    level_background: Map2,
+    cover: map2,
+  },
+  {
+    id: "psychological",
+    name: "Psychological Assessment",
+    level_background: Map4,
+    cover: map4,
+  },
+  {
+    id: "industrial",
+    name: "Industrial Psychology",
+    level_background: Map2,
+    cover: map2,
+  },
+  {
+    id: "general",
+    name: "General Psychology",
+    level_background: Map1,
+    cover: category1,
+  },
+]
+
 const categoryLevelBackground = [
   Map1,
   Map2,
@@ -35,4 +79,4 @@ const categoryLevelBackground = [
   Map1
 ]
 
-export { avatars, categories, categoryLevelBackground };
+export { avatars, categories, categoryLevelBackground, categoriesObj, categoryNames };

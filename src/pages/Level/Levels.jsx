@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import React, { useContext, useState, useEffect } from "react";
 import AppBackground from "../../components/AppBackground";
-import { categoryLevelBackground } from "../../constants";
+import { categoriesObj, categoryLevelBackground } from "../../constants";
 import styles from "../../styles/styles";
 import { useNavigation } from "@react-navigation/native";
 import LevelButton from "./LevelButton";
@@ -23,12 +23,12 @@ import masteryBtn from '../../assets/modal/mastery.png'
 
 const Levels = (props) => {
   const { categoryIndex, isMastery } = props.route.params;
-
   const nav = useNavigation();
-  const { accountData } = useContext(AccountContext);
-
+  const { accountData, progressData } = useContext(AccountContext);
+  const categoryProgress = progressData[isMastery ? 'mastery' : 'classic'].find(prog => prog.category === categoryIndex.id).level
+  
   return (
-    <AppBackground source={categoryLevelBackground[categoryIndex]}>
+    <AppBackground source={categoryIndex.level_background}>
       <View style={{ justifyContent: "center", alignItems: "center" }}>
         <LevelTitle style={{ marginHorizontal: "auto" }} />
         <Text
@@ -45,7 +45,7 @@ const Levels = (props) => {
             },
           ]}
         >
-          {categories[categoryIndex]}
+          {categoryIndex.name}
         </Text>
         <Image
           source={isMastery ? masteryBtn : classic}
@@ -53,27 +53,27 @@ const Levels = (props) => {
         />
       </View>
       <View style={{ flex: 1 }}>
-        {locations[categoryIndex].locations.map(
-          ({ level, position }, index) => (
+        {locations
+          .find((location) => location.id === categoryIndex.id)
+          .locations.map(({ level, position }, index) => (
             <LevelButton
               level={level}
               position={position}
               key={index}
-              category={categoryIndex}
+              categoryIndex={categoryIndex}
               index={index}
               isMastery={isMastery}
               state={
-                level === "?" && accountData.progress[categoryIndex] <= index
+                level === "?" && categoryProgress <= index
                   ? "boss"
-                  : accountData.progress[categoryIndex] > index
+                  : categoryProgress > index
                   ? "done"
-                  : accountData.progress[categoryIndex] === index
+                  : categoryProgress === index
                   ? "current"
                   : "soon"
               }
             />
-          )
-        )}
+          ))}
         <View
           style={{
             position: "absolute",

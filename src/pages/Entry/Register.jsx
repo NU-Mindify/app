@@ -4,9 +4,7 @@ import Animated, { FlipInXUp, FlipOutXDown } from 'react-native-reanimated'
 import styles from '../../styles/styles'
 import Input from '../../components/Input'
 import { LockKeyhole, Mail, UserCircle2 } from 'lucide-react-native'
-import AccountContext from '../../contexts/AccountContext'
-import useAccount from '../../contexts/useAccount'
-import useFirebase from '../../hooks/useFirebase'
+import useFirebase, { createAccount } from '../../hooks/useFirebase'
 import ModalContext from '../../contexts/ModalContext'
 import { useNavigation } from '@react-navigation/native'
 
@@ -16,9 +14,9 @@ const Register = ({set}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [isFormDisabled, setIsFormDisabled] = useState(false);
 
-  // const { createAccount } = useAccount();
-  const { createAccount } = useFirebase();
+  // const { createAccount } = useFirebase();
   const { setModal } = useContext(ModalContext);
   const nav = useNavigation();
   const onSubmit = () => {
@@ -45,20 +43,20 @@ const Register = ({set}) => {
     createAccount({
       username, email, password
     }, () => {
-      setModal({
-        subtitle: "Registered",
-        body: "Do you want to set up your account?",
-        primaryFn: () => {
-          nav.replace("Home");
-          nav.navigate("Edit Profile");
-          setModal(null);
-        },
-        secondaryFn: () => {
-          nav.replace("Home");
-          setModal(null);
-        },
-        mode: "LevelSelect",
-      });
+      // setModal({
+      //   subtitle: "Registered",
+      //   body: "Do you want to set up your account?",
+      //   primaryFn: () => {
+      //     nav.replace("Home");
+      //     nav.navigate("Edit Profile");
+      //     setModal(null);
+      //   },
+      //   secondaryFn: () => {
+      //     nav.replace("Home");
+      //     setModal(null);
+      //   },
+      //   mode: "LevelSelect",
+      // });
     })
   }
 
@@ -79,6 +77,7 @@ const Register = ({set}) => {
             onChangeText={(text) => setUsername(text)}
             value={username}
             style={{ marginTop: 24 }}
+            disabled={isFormDisabled}
           />
           <Input
             placeholder={"Email"}
