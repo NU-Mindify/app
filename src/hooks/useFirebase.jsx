@@ -8,6 +8,7 @@ import axios from "axios";
 import { firebaseAuth } from "../firebase";
 import { ToastAndroid } from "react-native";
 
+
 export const loginAuth = async (email, password) => {
   const userCredential = await signInWithEmailAndPassword(
     getAuth(),
