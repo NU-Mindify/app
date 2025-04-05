@@ -47,8 +47,8 @@ export default function App() {
           <AccountContext.Provider value={{ accountData, setAccountData, progressData, setProgressData }}>
             <ModalContext.Provider value={{ modal, setModal }}>
               <GestureHandlerRootView>
-                <Text style={{ position: 'absolute', bottom: 4, color: 'white', zIndex: 5, textAlign: 'center', width: '100%', fontSize: 12, opacity:0.2}}>Early Dev Build - 2.28 - Placeholders and Sample Assets are used. </Text>
-                <ResetButton />
+                <Text style={{ position: 'absolute', bottom: 4, color: 'white', zIndex: 5, textAlign: 'center', width: '100%', fontSize: 8, opacity:0.6}}>Early Dev Build - 04.04 - Placeholders and Sample Assets are used. </Text>
+                {/* <ResetButton /> */}
                 <Stack.Navigator screenOptions={{ headerShown: false, statusBarHidden: true, navigationBarHidden: true, }}>
                   <Stack.Screen name="Splash" component={SplashScreen} />
                   <Stack.Screen name='Get Started' component={GetStarted} />

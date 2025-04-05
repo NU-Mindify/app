@@ -6,6 +6,8 @@ import { useNavigation } from "@react-navigation/native";
 import { OAuthProvider } from "firebase/auth";
 import axios from "axios";
 import { firebaseAuth } from "../firebase";
+import { ToastAndroid } from "react-native";
+
 
 export const loginAuth = async (email, password) => {
   const userCredential = await signInWithEmailAndPassword(
@@ -41,9 +43,8 @@ export const createAccount = async (
 
     callback();
   } catch (error) {
-    console.error(error);
     console.error("Creating Account", error.message);
-    console.error("Creating Account", error.response);
+    ToastAndroid.show(error.message, ToastAndroid.LONG)
   }
 };
 const useFirebase = () => {
@@ -72,7 +73,7 @@ const useFirebase = () => {
   } catch (error) {
     console.error("getUserData", error.message);
     console.error(error.response.data);
-    
+    ToastAndroid.show(`Can't get user data: ${error.message}`)
   }
   }
 
