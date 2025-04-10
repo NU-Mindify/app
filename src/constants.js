@@ -22,22 +22,6 @@ const avatars = [
   WhiteOrangeGirl,
 ];
 
-const categories = [
-  "Abnormal Psychology", 
-  "Developmental Psychology", 
-  "Psychological Assessment", 
-  "Industrial Psychology", 
-  "General Psychology"
-]
-
-const categoryNames = {
-  abnormal: "Abnormal Psychology",
-  developmental: "Developmental Psychology",
-  psychological:"Psychological Assessment",
-  industrial:"Industrial Psychology",
-  general:"General Psychology"
-}
-
 const categoriesObj = [
   {
     id: "abnormal",
@@ -71,12 +55,5 @@ const categoriesObj = [
   },
 ]
 
-const categoryLevelBackground = [
-  Map1,
-  Map2,
-  Map4,
-  Map2,
-  Map1
-]
 
-export { avatars, categories, categoryLevelBackground, categoriesObj, categoryNames };
+export { avatars, categoriesObj };

@@ -1,5 +1,5 @@
 import { View, Text, ScrollView, KeyboardAvoidingView, Platform } from "react-native";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import AppBackground from "../../components/AppBackground";
 import styles from "../../styles/styles";
 import Input from "../../components/Input";
@@ -11,90 +11,69 @@ import { Pressable } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
 import AccountContext from "../../contexts/AccountContext";
 import X from "../../assets/generic/x.svg";
+import axios from "axios";
 
 const Chatbot = () => {
+  const { accountData, setAccountData } = useContext(AccountContext);
+  const scrollViewRef = useRef();
+
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([]);
   const [isFetching, setIsFetching] = useState(false);
-  const { accountData, setAccountData } = useContext(AccountContext);
+
   const nav = useNavigation();
 
   const getData = async () => {
-    setMessages(
-      accountData.chat.length !== 0 ? accountData.chat : [
-        {
-          sender: "ai",
-          message:
-            "Hey there, future psychologist! 👋 I'm your friendly Mindibot! here to help you ace your studies. Ready to mindify your reviews?",
-        },
-      ]
-    );
-  };
-  const storeData = async (value) => {
-    setAccountData({...accountData, chat: value})
+    const { data: messages } = await axios.get(`${process.env.EXPO_PUBLIC_URL}/getMessages/${accountData._id}`)
+    setMessages(messages);
   };
   useEffect(() => {
     getData();
   }, []);
-  const sendMessage = () => {
+  const sendMessage = async () => {
     setIsFetching(true);
-    fetch("https://get-psych-backend.vercel.app/api/chat", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        message: input,
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        const aiChat = formatAIText(data.response);
-        const newMessagesList = [
-          ...messages,
-          {
-            sender: "user",
-            message: input,
-            time: `${new Date()}`,
-          },
-          {
-            sender: "ai",
-            message: aiChat,
-            time: `${new Date()}`,
-          },
-        ];
-
-        storeData(newMessagesList);
-        setMessages(newMessagesList);
-        setInput("");
-        setIsFetching(false);
-      }).catch(error => console.error());
+    setMessages((currentMessages) => [
+      ...currentMessages,
+      { content: input, ai_generated: false },
+    ]);
+    try {
+      const { data: ai_response } = await axios.post(`${process.env.EXPO_PUBLIC_URL}/sendMessage`,
+        {
+          user_id: accountData._id,
+          message: input
+        }
+      )
+      
+      setMessages(currentMessages => [...currentMessages, ai_response]);
+      setInput("");
+    } catch (error) {
+      
+    }
+    setIsFetching(false);
   };
   const formatAIText = (message) => {
     return message.replace(/\*\*(.+?)\*\*/g, "$1").replace(/\*(.+?)/g, "• ");
   };
   return (
     <AppBackground style={{ padding: 28 }}>
-        <View
-          style={[
-            styles.entryBackground,
-            {
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "space-between",
-              marginTop: 0,
-            },
-          ]}
-        >
-          <Text
-            style={[styles.entryBody, { fontSize: 24, fontWeight: "bold" }]}
-          >
-            Chatbot
-          </Text>
-          <Pressable onPress={() => nav.goBack()}>
-            <X width={32} height={32} />
-          </Pressable>
-        </View>
+      <View
+        style={[
+          styles.entryBackground,
+          {
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+            marginTop: 0,
+          },
+        ]}
+      >
+        <Text style={[styles.entryBody, { fontSize: 24, fontWeight: "bold" }]}>
+          Chatbot
+        </Text>
+        <Pressable onPress={() => nav.goBack()}>
+          <X width={32} height={32} />
+        </Pressable>
+      </View>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={{
@@ -104,7 +83,11 @@ const Chatbot = () => {
           padding: 24,
         }}
       >
-        <ScrollView style={{ flex: 1 }}>
+        <ScrollView 
+          style={{ flex: 1 }} 
+          ref={scrollViewRef} 
+          onContentSizeChange={() => scrollViewRef.current.scrollToEnd({ animated: true })}
+        >
           {messages.map((message, index) => (
             <View
               key={index}
@@ -115,7 +98,7 @@ const Chatbot = () => {
                   borderRadius: 12,
                   maxWidth: 500,
                 },
-                message.sender === "ai"
+                message.ai_generated
                   ? {
                       backgroundColor: "#2E5A9F",
                     }
@@ -125,10 +108,8 @@ const Chatbot = () => {
                     },
               ]}
             >
-              <Text
-                style={{ color: message.sender === "ai" ? "white" : "black" }}
-              >
-                {message.message}
+              <Text style={{ color: message.ai_generated ? "white" : "black" }}>
+                {formatAIText(message.content)}
               </Text>
             </View>
           ))}

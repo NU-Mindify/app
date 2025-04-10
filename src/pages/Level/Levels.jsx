@@ -8,7 +8,6 @@ import {
 } from "react-native";
 import React, { useContext, useState, useEffect } from "react";
 import AppBackground from "../../components/AppBackground";
-import { categoriesObj, categoryLevelBackground } from "../../constants";
 import styles from "../../styles/styles";
 import { useNavigation } from "@react-navigation/native";
 import LevelButton from "./LevelButton";
@@ -16,7 +15,6 @@ import LevelTitle from "../../assets/level/levelTitle.svg";
 import X from "../../assets/generic/x.svg";
 import Animated, { SlideInDown, SlideOutDown } from "react-native-reanimated";
 import AccountContext from "../../contexts/AccountContext";
-import { categories } from "../../constants";
 import locations from './locations.json'
 import classic from '../../assets/modal/classic.png'
 import masteryBtn from '../../assets/modal/mastery.png'
@@ -25,7 +23,7 @@ const Levels = (props) => {
   const { categoryIndex, isMastery } = props.route.params;
   const nav = useNavigation();
   const { accountData, progressData } = useContext(AccountContext);
-  const categoryProgress = progressData[isMastery ? 'mastery' : 'classic'].find(prog => prog.category === categoryIndex.id).level
+  const categoryProgress = progressData[isMastery ? 'mastery' : 'classic'][categoryIndex.id]
   
   return (
     <AppBackground source={categoryIndex.level_background}>
@@ -64,7 +62,7 @@ const Levels = (props) => {
               index={index}
               isMastery={isMastery}
               state={
-                level === "?" && categoryProgress <= index
+                level === "?" && categoryProgress === index
                   ? "boss"
                   : categoryProgress > index
                   ? "done"

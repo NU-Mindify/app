@@ -24,7 +24,7 @@ const AppBackground = ({ children, style = {}, source, viewStyle = {}}) => {
             margin: "auto",
             zIndex: -1,
             marginTop: 0,
-            opacity: 1,
+            opacity: 0.4,
           }}
           source={blur}
           autoPlay

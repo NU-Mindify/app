@@ -19,7 +19,8 @@ const Register = ({set}) => {
   // const { createAccount } = useFirebase();
   const { setModal } = useContext(ModalContext);
   const nav = useNavigation();
-  const onSubmit = () => {
+  const onSubmit = async () => {
+    setIsFormDisabled(true)
     if(username.trim() === ""){
       ToastAndroid.show("Username Field is required.", ToastAndroid.SHORT)
       return;
@@ -40,74 +41,63 @@ const Register = ({set}) => {
       return;
     }
     
-    createAccount({
-      username, email, password
-    }, () => {
-      // setModal({
-      //   subtitle: "Registered",
-      //   body: "Do you want to set up your account?",
-      //   primaryFn: () => {
-      //     nav.replace("Home");
-      //     nav.navigate("Edit Profile");
-      //     setModal(null);
-      //   },
-      //   secondaryFn: () => {
-      //     nav.replace("Home");
-      //     setModal(null);
-      //   },
-      //   mode: "LevelSelect",
-      // });
-    })
+    await createAccount({ username, email, password })
   }
 
   return (
     <>
-        <Animated.View
-          entering={FlipInXUp}
-          exiting={FlipOutXDown}
-          style={[styles.entryBackground]}
+      <Animated.View
+        entering={FlipInXUp}
+        exiting={FlipOutXDown}
+        style={[styles.entryBackground]}
+      >
+        <Text style={styles.entryTitle}>Register</Text>
+        <Text style={styles.entryBody}>
+          Join NUMindify and start boosting your knowledge today
+        </Text>
+        <Input
+          placeholder={"Username"}
+          Icon={UserCircle2}
+          onChangeText={(text) => setUsername(text)}
+          value={username}
+          style={{ marginTop: 24 }}
+          disabled={isFormDisabled}
+        />
+        <Input
+          placeholder={"Email"}
+          Icon={Mail}
+          onChangeText={(text) => setEmail(text)}
+          value={email}
+          disabled={isFormDisabled}
+        />
+        <Input
+          placeholder={"Password"}
+          secure={true}
+          Icon={LockKeyhole}
+          onChangeText={(text) => setPassword(text)}
+          value={password}
+          disabled={isFormDisabled}
+        />
+        <Input
+          placeholder={"Confirm Password"}
+          secure={true}
+          Icon={LockKeyhole}
+          onChangeText={(text) => setConfirmPassword(text)}
+          value={confirmPassword}
+          disabled={isFormDisabled}
+        />
+        <TouchableOpacity
+          disabled={isFormDisabled}
+          onPress={() => {
+            onSubmit().then(() => setIsFormDisabled(false));
+          }}
+          style={styles.buttonOpacity}
         >
-          <Text style={styles.entryTitle}>Register</Text>
-          <Text style={styles.entryBody}>
-            Join NUMindify and start boosting your knowledge today
-          </Text>
-          <Input
-            placeholder={"Username"}
-            Icon={UserCircle2}
-            onChangeText={(text) => setUsername(text)}
-            value={username}
-            style={{ marginTop: 24 }}
-            disabled={isFormDisabled}
-          />
-          <Input
-            placeholder={"Email"}
-            Icon={Mail}
-            onChangeText={(text) => setEmail(text)}
-            value={email}
-          />
-          <Input
-            placeholder={"Password"}
-            secure={true}
-            Icon={LockKeyhole}
-            onChangeText={(text) => setPassword(text)}
-            value={password}
-          />
-          <Input
-            placeholder={"Confirm Password"}
-            secure={true}
-            Icon={LockKeyhole}
-            onChangeText={(text) => setConfirmPassword(text)}
-            value={confirmPassword}
-          />
-          <TouchableOpacity
-            onPress={onSubmit}
-            style={styles.buttonOpacity}
-          >
-            <Animated.View style={styles.button}>
-              <Text style={styles.buttonText}>Register</Text>
-            </Animated.View>
-          </TouchableOpacity>
-        </Animated.View>
+          <Animated.View style={styles.button}>
+            <Text style={styles.buttonText}>{isFormDisabled ? "..." : "Register"}</Text>
+          </Animated.View>
+        </TouchableOpacity>
+      </Animated.View>
       <Animated.View
         entering={FlipInXUp}
         exiting={FlipOutXDown}

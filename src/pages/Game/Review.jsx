@@ -7,31 +7,54 @@ import styles from "../../styles/styles";
 import { useNavigation } from "@react-navigation/native";
 import Animated, { ZoomIn, ZoomOut } from "react-native-reanimated";
 import X from "../../assets/generic/x.svg";
+import moment from "moment";
 
 const Review = ({ questions, stats, onExit }) => {
   const nav = useNavigation();
   return (
-    <Animated.View entering={ZoomIn} exiting={ZoomOut} style={{ flex: 1, padding: 28 }}>
-          <View
-            style={[
-              styles.entryBackground,
-              {
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between",
-                marginTop: 0,
-              },
-            ]}
-          >
-            <Text
-              style={[styles.entryBody, { fontSize: 24, fontWeight: "bold" }]}
-            >
-              Review
-            </Text>
-            <TouchableOpacity onPress={onExit}>
-              <X width={32} height={32} />
-            </TouchableOpacity>
-          </View>
+    <Animated.View
+      entering={ZoomIn}
+      exiting={ZoomOut}
+      style={{ flex: 1, padding: 28 }}
+    >
+      <View
+        style={[
+          styles.entryBackground,
+          {
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+            marginVertical: 6,
+            paddingVertical: 12,
+          },
+        ]}
+      >
+        <Text style={[styles.entryBody, { fontSize: 24, fontWeight: "bold" }]}>
+          Review
+        </Text>
+        <TouchableOpacity onPress={onExit}>
+          <X width={32} height={32} />
+        </TouchableOpacity>
+      </View>
+      <View
+        style={{
+          backgroundColor: "#F9EBDE",
+          borderRadius: 24,
+          padding: 6,
+          borderWidth: 4,
+          marginVertical: 6,
+          borderColor: "#2E5A9F",
+          flexDirection: "row",
+          justifyContent: "space-around",
+        }}
+      >
+        <Text>
+          Score: {stats.correct}/{stats.correct + stats.wrong}
+        </Text>
+        <Text>
+          Time: {moment(stats.endTime).subtract(stats.startTime).format("s.SS")}s
+        </Text>
+      </View>
       <View
         style={{
           backgroundColor: "#F9EBDE",
@@ -42,7 +65,7 @@ const Review = ({ questions, stats, onExit }) => {
           borderColor: "#2E5A9F",
         }}
       >
-        <ScrollView contentContainerStyle={{padding:12}} style={{ flex: 1 }}>
+        <ScrollView contentContainerStyle={{ padding: 12 }} style={{ flex: 1 }}>
           {questions.map((data, index) => (
             <QuestionCard
               data={data}
@@ -75,7 +98,7 @@ const QuestionCard = ({ data, index, choice }) => {
           marginBottom: 8,
           padding: 12,
           borderRadius: 12,
-          maxWidth: 500
+          maxWidth: 500,
         },
       ]}
     >
@@ -89,13 +112,15 @@ const QuestionCard = ({ data, index, choice }) => {
           borderRadius: 12,
         }}
       >
-        <Text style={reviewStyle.bold}>
-          Your Answer: {choice.toUpperCase()}. {userChoice.text}
-        </Text>
         {!isCorrect && (
-          <Text style={[reviewStyle.text, { marginBottom: 6 }]}>
-            {userChoice.rationale}
-          </Text>
+          <>
+            <Text style={reviewStyle.bold}>
+              Your Answer: {choice.toUpperCase()}. {userChoice.text}
+            </Text>
+            <Text style={[reviewStyle.text, { marginBottom: 6 }]}>
+              {userChoice.rationale}
+            </Text>
+          </>
         )}
         <Text style={reviewStyle.bold}>
           Answer: {correctAnswerLetter.toUpperCase()}. {correctAnswer.text}
