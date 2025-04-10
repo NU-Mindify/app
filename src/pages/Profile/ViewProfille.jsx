@@ -12,7 +12,7 @@ import styles from "../../styles/styles";
 import Button from "../../components/Button";
 import LevelTitle from "../../assets/level/levelTitle.svg";
 import { useNavigation } from "@react-navigation/native";
-import { avatars, categories, categoriesObj, categoryNames } from "../../constants";
+import { avatars, categoriesObj } from "../../constants";
 import AccountContext from "../../contexts/AccountContext";
 import Input from "../../components/Input";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -36,6 +36,8 @@ const ViewProfile = () => {
           { timeout: 10000 }
         );
         setProgressData(progressData)
+        console.log(progressData.classic);
+        
       } catch (error) {
         console.error("ViewProfileError", error);
       }
@@ -164,20 +166,20 @@ const ViewProfile = () => {
             gap: 4,
           }}
         >
-          {/* {categoriesObj.map(({ code, name }, index) => (
+          {categoriesObj.map(({ id, name }, index) => (
             <CategoryCard
               name={name}
-              percent={Math.floor((progressData.classic[code] / 5) * 100)}
+              percent={Math.floor((progressData.classic[id] / 5) * 100)}
               key={index}
             />
-          ))} */}
-          {progressData.classic.map(({ category, level }, index) => (
+          ))}
+          {/* {progressData.classic.map(({ category, level }, index) => (
             <CategoryCard
               name={categoryNames[category]}
               percent={Math.floor((level / 5) * 100)}
               key={index}
             />
-          ))}
+          ))} */}
         </View>
         <Text style={[styles.entryTitle, { paddingVertical: 12 }]}>Badges</Text>
         <Image source={badges} style={{ marginBottom: 24 }}></Image>

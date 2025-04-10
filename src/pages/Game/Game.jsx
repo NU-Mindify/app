@@ -7,7 +7,6 @@ import Results from "./Results";
 import AccountContext from "../../contexts/AccountContext";
 import moment from "moment";
 import Review from "./Review";
-import { categoryLevelBackground } from "../../constants";
 import GameContext from "../../contexts/GameContext";
 import axios from "axios";
 import { Audio } from "expo-av";
@@ -15,9 +14,7 @@ import { Audio } from "expo-av";
 const Game = (props) => {
   const { level, levelIndex, categoryIndex, isMastery } = props.route.params;
   const { accountData, progressData, setProgressData } = useContext(AccountContext);
-  const categoryProgress = useRef(progressData[isMastery ? "mastery" : "classic"].find(
-    (prog) => prog.category === categoryIndex.id
-  ).level)
+  const categoryProgress = useRef(progressData[isMastery ? "mastery" : "classic"][categoryIndex.id])
 
   const [questions, setQuestions] = useState(null);
   const [currentNumber, setCurrentNumber] = useState(0);
@@ -57,8 +54,9 @@ const Game = (props) => {
       stopLoopingAudio();
       setStats(prevstats => ({...prevstats, endTime: moment()}));
       setCurrentNumber((current) => current + 1);
-      if (isMovingToNextLevel()) {
-        playSound(require('../../audio/complete.mp3'))
+
+      if (isMovingToNextLevel() && isScorePassed()) {
+        playSound(require("../../audio/complete.mp3"));
         try {
           const json = await axios.post(
             process.env.EXPO_PUBLIC_URL + "/progressCategory",
@@ -69,13 +67,15 @@ const Game = (props) => {
             }
           );
           setProgressData(json.data);
-          console.log(json.data); 
+          console.log(json.data);
         } catch (error) {
           console.error(error.message);
           console.error(error.response.data);
         }
-      }else{
-        playSound(require('../../audio/lose.mp3'))
+      } else if(isScorePassed()) {
+        playSound(require("../../audio/complete.mp3"));
+      } else{
+        playSound(require("../../audio/lose.mp3"));
       }
       return;
     }
@@ -105,10 +105,10 @@ const Game = (props) => {
   }
   const isMovingToNextLevel = () => {
     console.log(categoryProgress, levelIndex);
-    return (
-      categoryProgress.current === levelIndex &&
-      stats.correct >= Math.floor((stats.correct + stats.wrong) * 0.8)
-    );
+    return categoryProgress.current === levelIndex
+  }
+  const isScorePassed = () => {
+    return stats.correct >= Math.floor((stats.correct + stats.wrong) * 0.8);
   }
   const getModalBody = (streakCount, answer) => {
     if (!isMastery) {

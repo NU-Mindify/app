@@ -62,7 +62,7 @@ const Login = ({ set }) => {
         />
         <TouchableOpacity onPress={onSubmit} style={styles.buttonOpacity} disabled={isFormDisabled}>
           <View style={styles.button}>
-            <Text style={styles.buttonText}>Log In</Text>
+            <Text style={styles.buttonText}>{isFormDisabled ? "..." : "Log In"}</Text>
           </View>
         </TouchableOpacity>
       </Animated.View>

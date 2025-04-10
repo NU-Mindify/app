@@ -8,7 +8,7 @@ import { useNavigation } from "@react-navigation/native";
 import { avatars } from "../../constants";
 import AccountContext from "../../contexts/AccountContext";
 import Input from "../../components/Input";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 
 const EditProfile = () => {
   const nav = useNavigation();
@@ -18,27 +18,16 @@ const EditProfile = () => {
   const [inputName, setInputName] = useState(accountData.username)
 
   const onSave = async () => {
-
     try {
-      const accountsStorage = (await AsyncStorage.getItem("accounts")) || "[]";
-      const jsonAccounts = JSON.parse(accountsStorage);
-      
-      let usernameDuplicate = false;
-      jsonAccounts.map(account => {
-        if (accountData.id !== account.id && inputName === account.username) {
-          usernameDuplicate = true;
-        }
+      const { data: updatedUser } = await axios.post(`${process.env.EXPO_PUBLIC_URL}/updateUser`, {
+        avatar: selectedAvatar,
+        username: inputName,
+        user_id: accountData._id
       })
-      if(usernameDuplicate){
-        ToastAndroid.show("Username already exist.", ToastAndroid.SHORT);
-        return;
-      }
+      setAccountData(updatedUser)
     } catch (error) {
-      console.error(error);
+      console.error("Error Updating User:", error);
     }
-
-    const newData = { ...accountData, avatar: selectedAvatar, username:inputName };
-    setAccountData(newData);
     nav.replace("Home");
   }
 
