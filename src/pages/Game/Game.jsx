@@ -29,13 +29,13 @@ const Game = (props) => {
     answers: [],
   });
 
-  const onAnswerSelect = (answer) => {
+  const onAnswerSelect = (choice) => {
     let newStats = {
-      answers: [...stats.answers, answer],
+      answers: [...stats.answers, choice],
       streak: 0,
     };
 
-    if (answer === currentQuestion.answer) {
+    if (choice.isCorrect) {
       newStats.correct = stats.correct + 1;
       newStats.streak = stats.streak + 1;
     } else {
@@ -44,7 +44,7 @@ const Game = (props) => {
     }
     setStats((prevstats) => ({...prevstats, ...newStats}));
 
-    showRationaleModal(answer);
+    showRationaleModal(choice);
     setCurrentQuestion(null);
 
   };
@@ -83,14 +83,14 @@ const Game = (props) => {
     setCurrentQuestion(questions[currentNumber + 1]);
   };
 
-  const showRationaleModal = (answer) => {
+  const showRationaleModal = (choice) => {
     setRationaleModal({
       title: `Question ${currentNumber + 1}`,
-      subtitle: `${answer.toUpperCase()}. ${
-        currentQuestion.choices[answer].text
+      subtitle: `${choice.letter.toUpperCase()}. ${
+        choice.text
       }`,
-      body: getModalBody(stats.streak, answer),
-      isCorrect: answer === currentQuestion.answer,
+      body: getModalBody(stats.streak, choice),
+      isCorrect: choice.isCorrect,
       primaryFn: () => {
         setRationaleModal(null);
         nextQuestion();
@@ -110,9 +110,9 @@ const Game = (props) => {
   const isScorePassed = () => {
     return stats.correct >= Math.floor((stats.correct + stats.wrong) * 0.8);
   }
-  const getModalBody = (streakCount, answer) => {
+  const getModalBody = (streakCount, choice) => {
     if (!isMastery) {
-      return currentQuestion.choices[answer].rationale;
+      return choice.rationale || `${currentQuestion.choices.find(choice => choice.isCorrect).letter}. ${currentQuestion.rationale}`;
     }
 
     return streakCount > 1
@@ -121,11 +121,22 @@ const Game = (props) => {
       ? "Nice one! Let's go for a streak!"
       : "Let's try the next one.";
   }
-  //
+  // -----------------------------------------
+
+  const getQuestions = async () => {
+    try {
+      const { data } = await axios.get(`${process.env.EXPO_PUBLIC_URL}/getQuestions?category=${'developmental'}&level=${1}`)
+      // const { data } = await axios.get(`${process.env.EXPO_PUBLIC_URL}/getQuestions?category=${categoryIndex.id}&level=${level}`)
+      setQuestions(data);
+      setCurrentQuestion(data[currentNumber]);
+    } catch (error) {
+      console.error("getting questions", error.message);
+    }
+  }
+
   const { playSound, stopLoopingAudio } = Sound();
   useEffect(() => {
-    setQuestions(data);
-    setCurrentQuestion(data[currentNumber]);
+    getQuestions();
     playSound();
 
     return () => {

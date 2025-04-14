@@ -11,11 +11,12 @@ import letterBG from '../../assets/glossary/letterBG.png';
 import AppBackground from '../../components/AppBackground';
 import { useNavigation } from '@react-navigation/native';
 import XButton from "../../assets/generic/x.svg";
-import terms from './terms.json'
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
 
 export default function Glossary() {
   const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
-  
+  // const [terms, setTerms] = useState([])
   const nav = useNavigation()
 
   const scrollViewRef = useRef(null);
@@ -25,23 +26,30 @@ export default function Glossary() {
   const [filteredWords, setFilteredWords] = useState([]);
 
   useEffect(() => {
-    // const newFilteredWords = words
-    //   .map((word, index) => ({ word, meaning: meaning[index] }))
     const newFilteredWords = terms.filter(item => item.word.toLowerCase().includes(wordSearch.toLowerCase()));
     setFilteredWords(newFilteredWords);
   }, [wordSearch]);
 
-
+  
   const handleScrollToLetter = (index) => {
     const targetRef = sectionRefs.current[index]?.current;
-
+    
     if (scrollViewRef.current && targetRef) {
       targetRef.measureLayout(scrollViewRef.current, (x, y) => {
         scrollViewRef.current.scrollTo({ y, animated: true });
       });
     }
   };
+  const fetchTerms = async () => {
+    const response = await axios.get(`${process.env.EXPO_PUBLIC_URL}/getTerms`)
+    console.log("searched");
+    return response.data;
+  }
+  const {isFetching, data: terms} = useQuery({queryKey: ['terms'], queryFn: fetchTerms, initialData: []})
 
+  if (isFetching){
+    return <AppBackground><Text>Loading. . .</Text></AppBackground>
+  }
 
   return (
     <AppBackground >
