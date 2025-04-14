@@ -52,7 +52,7 @@ const Review = ({ questions, stats, onExit }) => {
           Score: {stats.correct}/{stats.correct + stats.wrong}
         </Text>
         <Text>
-          Time: {moment(stats.endTime).subtract(stats.startTime).format("s.SS")}s
+          Time: {Math.floor(moment.duration(stats.endTime.diff(stats.startTime)).asSeconds())}s
         </Text>
       </View>
       <View
@@ -83,10 +83,8 @@ const Review = ({ questions, stats, onExit }) => {
 export default Review;
 
 const QuestionCard = ({ data, index, choice }) => {
-  const correctAnswerLetter = data.answer;
-  const correctAnswer = data.choices[correctAnswerLetter];
-  const userChoice = data.choices[choice]
-  const isCorrect = choice === correctAnswerLetter
+  const correctAnswer = data.choices.find(choice => choice.isCorrect);
+  const isCorrect = choice.isCorrect
   return (
     <View
       style={[
@@ -115,17 +113,20 @@ const QuestionCard = ({ data, index, choice }) => {
         {!isCorrect && (
           <>
             <Text style={reviewStyle.bold}>
-              Your Answer: {choice.toUpperCase()}. {userChoice.text}
+              Your Answer: {"\n"}
+              {choice.letter.toUpperCase()}. {choice.text}
+              {"\n"}
             </Text>
-            <Text style={[reviewStyle.text, { marginBottom: 6 }]}>
-              {userChoice.rationale}
-            </Text>
+            {/* <Text style={[reviewStyle.text, { marginBottom: 6 }]}>
+              {data.rationale}
+            </Text> */}
           </>
         )}
         <Text style={reviewStyle.bold}>
-          Answer: {correctAnswerLetter.toUpperCase()}. {correctAnswer.text}
+          Answer: {"\n"}
+          {correctAnswer.letter.toUpperCase()}. {correctAnswer.text}
         </Text>
-        <Text style={reviewStyle.text}>{correctAnswer.rationale}</Text>
+        <Text style={reviewStyle.text}>{data.rationale}</Text>
       </View>
     </View>
   );

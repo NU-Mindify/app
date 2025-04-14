@@ -79,25 +79,25 @@ export default function Questions({ data, onAnswer, number }) {
 
       {/*------------------------------ MGA CHOICES ----------------------------------*/}
       <View style={QuesStyles.choicesMainCont}>
-        {["a", "b", "c", "d"].map((letter, index) => (
+        {data.choices.map((choice, index) => (
           <TouchableOpacity
             key={index}
             style={QuesStyles.choicesCardCont}
             onPress={() => {
-              onAnswer(letter);
+              onAnswer(choice);
             }}
           >
             <Animated.View
               style={QuesStyles.animChoicesCardCont}
-              entering={SlideInLeft.delay(200 + (index * 200))}
+              entering={SlideInLeft.delay(200 + (index * 100))}
             >
               <Animated.Image
                 source={choicesCard}
                 style={QuesStyles.choicesCardStyle}
               />
               <Text style={QuesStyles.choicesText}>
-                {letter.toUpperCase()}.{" "}
-                {data.choices[letter].text.toUpperCase()}
+                {choice.letter.toUpperCase()}.{" "}
+                {choice.text}
               </Text>
             </Animated.View>
           </TouchableOpacity>
@@ -170,7 +170,9 @@ export const QuesStyles = StyleSheet.create({
   choicesText: {
     color: "white",
     fontWeight: 900,
-    fontSize: 16,
+    fontSize: 14,
+    width:'80%',
+    textAlign:'center'
   },
 
   choicesMainCont: {

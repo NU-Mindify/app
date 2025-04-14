@@ -24,9 +24,9 @@ const Results = ({ stats, onReview }) => {
   const {isMastery, categoryIndex} = useContext(GameContext)
   const nav = useNavigation();
 
-  const duration = moment(stats.endTime).subtract(stats.startTime).format("s");
-  const score = stats.correct * (60 - duration);
+  const duration = Math.floor(moment.duration(stats.endTime.diff(stats.startTime)).asSeconds());
   const totalQuestions = stats.correct + stats.wrong;
+  const score = stats.correct * ((20 * totalQuestions) - duration);
   const isPass = stats.correct >= Math.floor(totalQuestions * 0.8);
   const is1Star = stats.correct >= Math.floor(totalQuestions * 0.8);
   const is2Star = stats.correct >= Math.floor(totalQuestions * 0.9);

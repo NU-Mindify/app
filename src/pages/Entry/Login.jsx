@@ -60,7 +60,15 @@ const Login = ({ set }) => {
           value={password}
           disabled={isFormDisabled}
         />
-        <TouchableOpacity onPress={onSubmit} style={styles.buttonOpacity} disabled={isFormDisabled}>
+        <TouchableOpacity 
+          onPress={onSubmit} 
+          style={
+            isFormDisabled ? 
+            [styles.buttonOpacity, {backgroundColor: 'gray'}] : 
+            styles.buttonOpacity
+          } 
+          disabled={isFormDisabled}
+        >
           <View style={styles.button}>
             <Text style={styles.buttonText}>{isFormDisabled ? "..." : "Log In"}</Text>
           </View>

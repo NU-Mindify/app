@@ -91,7 +91,7 @@ const Register = ({set}) => {
           onPress={() => {
             onSubmit().then(() => setIsFormDisabled(false));
           }}
-          style={styles.buttonOpacity}
+          style={isFormDisabled ? [styles.buttonOpacity, {backgroundColor: 'gray'}] : styles.buttonOpacity}
         >
           <Animated.View style={styles.button}>
             <Text style={styles.buttonText}>{isFormDisabled ? "..." : "Register"}</Text>
