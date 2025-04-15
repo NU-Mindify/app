@@ -1,158 +1,242 @@
 [
   {
-    "id": 1,
-    "type": "choice",
-    "question": "The area of psychology concerned with the study and enhancement of positive feelings, traits, and abilities is:",
-    "choices": {
-      "a": {
-        "text": "Psychoanalysis.",
-        "rationale": "Either the theory or the treatment of abnormal psychological functioning that emphasizes unconscious psychological forces as the cause of psychopathology. (Theories/Models in abnormal psychology)"
+    "_id": "67fb0fea9908107aa7e5dbf0",
+    "question": "A _____ is best described as any unlearned response triggered by a specific form of stimulation.",
+    "choices": [
+      {
+        "letter": "a",
+        "text": "Reflex",
+        "isCorrect": true
       },
-      "b": {
-        "text": "Gestalt.",
-        "rationale": "The humanistic therapy developed by Fritz Perls in which clinicians actively move individuals toward selfrecognition and self-acceptance by using techniques such as role-playing and skillful frustration. (Theories/Models in abnormal psychology)"
+      {
+        "letter": "b",
+        "text": "Thought",
+        "isCorrect": false
       },
-      "c": {
-        "text": "Positive psychology.",
-        "rationale": "The study and enhancement of positive feelings, traits, and abilities. (Theories/Models of abnormal psychology)"
+      {
+        "letter": "c",
+        "text": "Theory of mind",
+        "isCorrect": false
       },
-      "d": {
-        "text": "Humanistic psychology.",
-        "rationale": "Humanistic psychology: The theoretical perspective that human beings are born with a natural inclination to be friendly, cooperative, and constructive and are driven to self-actualize. (Theories/Models in abnormal psychology)"
+      {
+        "letter": "d",
+        "text": "Memory",
+        "isCorrect": false
       }
-    },
-    "answer": "c",
-    "ytlink": null,
-    "image": null
+    ],
+    "rationale": "New born first automatic response to environment are reflexes and has no capacity to think and store memory.",
+    "__v": 0,
+    "category": "developmental",
+    "level": 1
   },
   {
-    "id": 2,
-    "type": "choice",
-    "question": "Which 19th century perspective held the view that abnormal psychological functioning has physical causes?",
-    "choices": {
-      "a": {
-        "text": "Psychogenic.",
-        "rationale": "The perspective that abnormal behaviors are psychological."
+    "_id": "67fb10869908107aa7e5dbf3",
+    "question": "If you were going to check for the Babinski reflex in a newborn, which part of the newborn’s body would you be observing?",
+    "choices": [
+      {
+        "letter": "a",
+        "text": "Eyes",
+        "isCorrect": false
       },
-      "b": {
-        "text": "Somatogenic.",
-        "rationale": "The view that abnormal psychological functioning has physical causes. (History of abnormal psychology)"
+      {
+        "letter": "b",
+        "text": "Arm",
+        "isCorrect": false
       },
-      "c": {
-        "text": "Psychotropic.",
-        "rationale": "Refers to drugs that primarily affect the brain and reduce various symptoms of mental dysfunctioning. "
+      {
+        "letter": "c",
+        "text": "Mouth",
+        "isCorrect": false
       },
-      "d": {
-        "text": "Moral.",
-        "rationale": "In the history of abnormal psychology, moral treatment describes the method adherred by Philippe Pinel and William Tuke, which emphasized moral guidance and humane and respectful treatment of mentally-ill patients."
+      {
+        "letter": "d",
+        "text": "Toes",
+        "isCorrect": true
       }
-    },
-    "answer": "b",
-    "ytlink": null,
-    "image": null
+    ],
+    "rationale": "Only feet/toes are involved in Babinski reflex",
+    "__v": 0,
+    "category": "developmental",
+    "level": 1
   },
   {
-    "id": 1,
-    "type": "choice",
-    "question": "The area of psychology concerned with the study and enhancement of positive feelings, traits, and abilities is:",
-    "choices": {
-      "a": {
-        "text": "Psychoanalysis.",
-        "rationale": "Either the theory or the treatment of abnormal psychological functioning that emphasizes unconscious psychological forces as the cause of psychopathology. (Theories/Models in abnormal psychology)"
+    "_id": "67fb10fd9908107aa7e5dbf5",
+    "question": "Which of these is not an example of a newborn reflex?",
+    "choices": [
+      {
+        "letter": "a",
+        "text": "Thinking",
+        "isCorrect": true
       },
-      "b": {
-        "text": "Gestalt.",
-        "rationale": "The humanistic therapy developed by Fritz Perls in which clinicians actively move individuals toward selfrecognition and self-acceptance by using techniques such as role-playing and skillful frustration. (Theories/Models in abnormal psychology)"
+      {
+        "letter": "b",
+        "text": "Stepping",
+        "isCorrect": false
       },
-      "c": {
-        "text": "Positive psychology.",
-        "rationale": "The study and enhancement of positive feelings, traits, and abilities. (Theories/Models of abnormal psychology)"
+      {
+        "letter": "c",
+        "text": "Rooting",
+        "isCorrect": false
       },
-      "d": {
-        "text": "Humanistic psychology.",
-        "rationale": "Humanistic psychology: The theoretical perspective that human beings are born with a natural inclination to be friendly, cooperative, and constructive and are driven to self-actualize. (Theories/Models in abnormal psychology)"
+      {
+        "letter": "d",
+        "text": "Babinski",
+        "isCorrect": false
       }
-    },
-    "answer": "c",
-    "ytlink": null,
-    "image": null
+    ],
+    "rationale": "Newborn babies have no ability to think but can response through unlearn automatic reflex",
+    "__v": 0,
+    "category": "developmental",
+    "level": 1
   },
   {
-    "id": 2,
-    "type": "choice",
-    "question": "Which 19th century perspective held the view that abnormal psychological functioning has physical causes?",
-    "choices": {
-      "a": {
-        "text": "Psychogenic.",
-        "rationale": "The perspective that abnormal behaviors are psychological."
+    "_id": "67fb11769908107aa7e5dbf7",
+    "question": "Two-month-old Chucky does not exhibit the Moro reflex. What kind of problem is he most likely to exhibit?",
+    "choices": [
+      {
+        "letter": "a",
+        "text": "He will be less able to grasp objects.",
+        "isCorrect": false
       },
-      "b": {
-        "text": "Somatogenic.",
-        "rationale": "The view that abnormal psychological functioning has physical causes. (History of abnormal psychology)"
+      {
+        "letter": "b",
+        "text": "He will be less able to eat.",
+        "isCorrect": false
       },
-      "c": {
-        "text": "Psychotropic.",
-        "rationale": "Refers to drugs that primarily affect the brain and reduce various symptoms of mental dysfunctioning. "
+      {
+        "letter": "c",
+        "text": "He will be less able to cling to his mother.",
+        "isCorrect": true
       },
-      "d": {
-        "text": "Moral.",
-        "rationale": "In the history of abnormal psychology, moral treatment describes the method adherred by Philippe Pinel and William Tuke, which emphasized moral guidance and humane and respectful treatment of mentally-ill patients."
+      {
+        "letter": "d",
+        "text": "His eyes will not be well protected",
+        "isCorrect": false
       }
-    },
-    "answer": "b",
-    "ytlink": null,
-    "image": null
+    ],
+    "rationale": "The newborn is less likely to cling to his mother because Moro means normal reflex for an infant when she/he startled",
+    "__v": 0,
+    "category": "developmental",
+    "level": 1
   },
   {
-    "id": 1,
-    "type": "choice",
-    "question": "The area of psychology concerned with the study and enhancement of positive feelings, traits, and abilities is:",
-    "choices": {
-      "a": {
-        "text": "Psychoanalysis.",
-        "rationale": "Either the theory or the treatment of abnormal psychological functioning that emphasizes unconscious psychological forces as the cause of psychopathology. (Theories/Models in abnormal psychology)"
+    "_id": "67fb11b99908107aa7e5dbf9",
+    "question": "Who is at greatest risk of falling victim to sudden infant death syndrome?",
+    "choices": [
+      {
+        "letter": "a",
+        "text": "Four months old Ana",
+        "isCorrect": true
       },
-      "b": {
-        "text": "Gestalt.",
-        "rationale": "The humanistic therapy developed by Fritz Perls in which clinicians actively move individuals toward selfrecognition and self-acceptance by using techniques such as role-playing and skillful frustration. (Theories/Models in abnormal psychology)"
+      {
+        "letter": "b",
+        "text": "1 year old Jenny",
+        "isCorrect": false
       },
-      "c": {
-        "text": "Positive psychology.",
-        "rationale": "The study and enhancement of positive feelings, traits, and abilities. (Theories/Models of abnormal psychology)"
+      {
+        "letter": "c",
+        "text": "2 years old Carla",
+        "isCorrect": false
       },
-      "d": {
-        "text": "Humanistic psychology.",
-        "rationale": "Humanistic psychology: The theoretical perspective that human beings are born with a natural inclination to be friendly, cooperative, and constructive and are driven to self-actualize. (Theories/Models in abnormal psychology)"
+      {
+        "letter": "d",
+        "text": "5 years old Joshua",
+        "isCorrect": false
       }
-    },
-    "answer": "c",
-    "ytlink": null,
-    "image": null
+    ],
+    "rationale": "Sudden death infant syndrome is most common in babies 1-4 months",
+    "__v": 0,
+    "category": "developmental",
+    "level": 1
   },
   {
-    "id": 2,
-    "type": "choice",
-    "question": "Which 19th century perspective held the view that abnormal psychological functioning has physical causes?",
-    "choices": {
-      "a": {
-        "text": "Psychogenic.",
-        "rationale": "The perspective that abnormal behaviors are psychological."
+    "_id": "67fb120e9908107aa7e5dbfb",
+    "question": "Why are African American babies twice as likely to die from SIDS?- sleeping practices",
+    "choices": [
+      {
+        "letter": "a",
+        "text": "They were more genetically predisposed to the disease",
+        "isCorrect": false
       },
-      "b": {
-        "text": "Somatogenic.",
-        "rationale": "The view that abnormal psychological functioning has physical causes. (History of abnormal psychology)"
+      {
+        "letter": "b",
+        "text": "They are more likely to have blood diseases that predispose them to SIDS.",
+        "isCorrect": false
       },
-      "c": {
-        "text": "Psychotropic.",
-        "rationale": "Refers to drugs that primarily affect the brain and reduce various symptoms of mental dysfunctioning. "
+      {
+        "letter": "c",
+        "text": "They were more likely to be put to bed on their stomachs.",
+        "isCorrect": true
       },
-      "d": {
-        "text": "Moral.",
-        "rationale": "In the history of abnormal psychology, moral treatment describes the method adherred by Philippe Pinel and William Tuke, which emphasized moral guidance and humane and respectful treatment of mentally-ill patients."
+      {
+        "letter": "d",
+        "text": "Their parents were less intelligent than other parents.",
+        "isCorrect": false
       }
-    },
-    "answer": "b",
-    "ytlink": null,
-    "image": null
+    ],
+    "rationale": "African American culture usually share their bed with their parents and newborn babies and use soft bedding",
+    "__v": 0,
+    "category": "developmental",
+    "level": 1
+  },
+  {
+    "_id": "67fb5d4d1d00c0fac5e18572",
+    "category": "developmental",
+    "level": 1,
+    "question": "Maria is a typical, healthy one-year-old who weighs 24 pounds. Which is the best estimate of her birth weight?",
+    "choices": [
+      {
+        "letter": "a",
+        "text": "3 pounds",
+        "isCorrect": false
+      },
+      {
+        "letter": "b",
+        "text": "8 pounds",
+        "isCorrect": true
+      },
+      {
+        "letter": "c",
+        "text": "12 pounds",
+        "isCorrect": false
+      },
+      {
+        "letter": "d",
+        "text": "16 pounds",
+        "isCorrect": false
+      }
+    ],
+    "rationale": "New born healthy babies weigh 5 pounds to 8 pounds",
+    "__v": 0
+  },
+  {
+    "_id": "67fb5dda1d00c0fac5e18574",
+    "category": "developmental",
+    "level": 1,
+    "question": "Which child is most likely to be the tallest?",
+    "choices": [
+      {
+        "letter": "a",
+        "text": "Kristin, who has a tall father and a short mother.",
+        "isCorrect": false
+      },
+      {
+        "letter": "b",
+        "text": "Megan, who has a short father and a tall mother.",
+        "isCorrect": false
+      },
+      {
+        "letter": "c",
+        "text": "Kara, who has a tall mother and a tall father.",
+        "isCorrect": true
+      },
+      {
+        "letter": "d",
+        "text": "It is difficult to determine.",
+        "isCorrect": false
+      }
+    ],
+    "rationale": "Because there is a higher chance to become tall since both parents possess dominant/tall genes",
+    "__v": 0
   }
 ]

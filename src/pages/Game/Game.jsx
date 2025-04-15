@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import AppBackground from "../../components/AppBackground";
 import Questions from "./Questions";
-import data from "./data.json";
+import questionsData from "./data.json";
 import RationaleModal from "./RationaleModal";
 import Results from "./Results";
 import AccountContext from "../../contexts/AccountContext";
@@ -38,14 +38,20 @@ const Game = (props) => {
     if (choice.isCorrect) {
       newStats.correct = stats.correct + 1;
       newStats.streak = stats.streak + 1;
+      playSFX(require('../../audio/correct.mp3'))
     } else {
+      playSFX(require('../../audio/wrong.mp3'))
       newStats.wrong = stats.wrong + 1;
       newStats.streak = 0;
     }
     setStats((prevstats) => ({...prevstats, ...newStats}));
-
-    showRationaleModal(choice);
-    setCurrentQuestion(null);
+    if(isMastery){
+      setCurrentQuestion(null);
+      nextQuestion();
+    }else{
+      showRationaleModal(choice);
+      setCurrentQuestion(null);
+    }
 
   };
   // -------------------------------------
@@ -125,16 +131,28 @@ const Game = (props) => {
 
   const getQuestions = async () => {
     try {
-      const { data } = await axios.get(`${process.env.EXPO_PUBLIC_URL}/getQuestions?category=${'developmental'}&level=${1}`)
-      // const { data } = await axios.get(`${process.env.EXPO_PUBLIC_URL}/getQuestions?category=${categoryIndex.id}&level=${level}`)
-      setQuestions(data);
-      setCurrentQuestion(data[currentNumber]);
+      // const { data } = await axios.get(`${process.env.EXPO_PUBLIC_URL}/getQuestions?category=${'developmental'}&level=${1}`)
+      const { data } = await axios.get(`${process.env.EXPO_PUBLIC_URL}/getQuestions?category=${categoryIndex.id}&level=${level}`)
+      const questions = data.length !== 0 ? data : questionsData
+
+      if(isMastery){
+        let shuffledQuestions = questions
+          .map((value) => ({ value, sort: Math.random() }))
+          .sort((a, b) => a.sort - b.sort)
+          .map(({ value }) => value);
+        setQuestions(shuffledQuestions)
+        setCurrentQuestion(shuffledQuestions[currentNumber]);
+      }else{
+        setQuestions(questions);
+        setCurrentQuestion(questions[currentNumber]);
+      }
+
     } catch (error) {
       console.error("getting questions", error.message);
     }
   }
 
-  const { playSound, stopLoopingAudio } = Sound();
+  const { playSound, playSFX, stopLoopingAudio } = Sound();
   useEffect(() => {
     getQuestions();
     playSound();
@@ -162,6 +180,7 @@ const Game = (props) => {
             data={currentQuestion}
             number={currentNumber}
             onAnswer={onAnswerSelect}
+            length={questions.length}
           />
         )}
         {rationaleModal && <RationaleModal modal={rationaleModal} />}
@@ -188,8 +207,23 @@ export default Game;
 
 
 const Sound = () => {
-  const [sound, setSound] = useState(null); // Keep the sound object in a module scope
+  const [bgSound, setSound] = useState(null); // Keep the sound object in a module scope
+  const [soundFx, setSoundFx] = useState(null);
   
+  const playSFX = async (source) => {
+    if (soundFx) {
+      await soundFx.unloadAsync();
+      setSoundFx(null);
+    }
+    const { sound } = await Audio.Sound.createAsync(
+      source || require("../../audio/guess.mp3"),
+      {
+        isLooping: source ? false : true,
+        shouldPlay: true,
+      }
+    );
+    setSoundFx(sound);
+  }
   const playSound = async (source) => {
     if(sound){
       await sound.unloadAsync();
@@ -207,8 +241,8 @@ const Sound = () => {
   
   const stopLoopingAudio = async () => {
     try {
-      if (sound) {
-      await sound.unloadAsync();
+      if (bgSound) {
+      await bgSound.unloadAsync();
         setSound(null);
       }
     } catch (error) {
@@ -217,13 +251,22 @@ const Sound = () => {
     };
 
   useEffect(() => {
-    return sound
+    return bgSound
       ? () => {
           console.log("Unloading Sound");
-          sound.unloadAsync();
+          bgSound.unloadAsync();
         }
       : undefined;
-  }, [sound]);
+  }, [bgSound]);
 
-  return { playSound, stopLoopingAudio };
+  useEffect(() => {
+    return soundFx
+      ? () => {
+          console.log("Unloading SoundFX");
+          soundFx.unloadAsync();
+        }
+      : undefined;
+  }, [soundFx]);
+
+  return { playSound, playSFX, stopLoopingAudio };
 }
