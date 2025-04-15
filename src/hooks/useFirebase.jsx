@@ -29,7 +29,13 @@ export const createAccount = async (
     );
     const user = userCredential.user;
     console.log(user);
-
+    console.log("toInput", {
+      branch,
+      username,
+      email,
+      uid: user.uid,
+    });
+    
     const response = await axios.post(
       process.env.EXPO_PUBLIC_URL + "/createUser",
       {

@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { GStyle } from './GStyle';
 import Animated, { SlideInDown, SlideOutDown } from 'react-native-reanimated';
-import { Image, ImageBackground, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Image, ImageBackground, ScrollView, Text, TextInput, ToastAndroid, TouchableOpacity, View } from 'react-native';
 import GlossButtons from './GlossButtons';
 import GlossaryBG from '../../assets/glossary/glossBg.png';
 import GlossaryTitle from '../../assets/glossary/glossary.png';
@@ -16,7 +16,7 @@ import axios from 'axios';
 
 export default function Glossary() {
   const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
-  // const [terms, setTerms] = useState([])
+  const [terms, setTerms] = useState([])
   const nav = useNavigation()
 
   const scrollViewRef = useRef(null);
@@ -28,7 +28,7 @@ export default function Glossary() {
   useEffect(() => {
     const newFilteredWords = terms.filter(item => item.word.toLowerCase().includes(wordSearch.toLowerCase()));
     setFilteredWords(newFilteredWords);
-  }, [wordSearch]);
+  }, [wordSearch, terms]);
 
   
   const handleScrollToLetter = (index) => {
@@ -41,15 +41,24 @@ export default function Glossary() {
     }
   };
   const fetchTerms = async () => {
-    const response = await axios.get(`${process.env.EXPO_PUBLIC_URL}/getTerms`)
-    console.log("searched");
-    return response.data;
+    try {
+      const response = await axios.get(`${process.env.EXPO_PUBLIC_URL}/getTerms`)
+      setTerms(response.data)
+      setWordSearch('')
+      console.log(response.data);
+      
+    } catch (error) {
+      ToastAndroid.show(error.message, ToastAndroid.LONG)
+    }
   }
-  const {isFetching, data: terms} = useQuery({queryKey: ['terms'], queryFn: fetchTerms, initialData: []})
+  useEffect(() => {
+    fetchTerms();
+  }, [])
+  // const {isFetching, data: terms} = useQuery({queryKey: ['terms'], queryFn: fetchTerms, initialData: []})
 
-  if (isFetching){
-    return <AppBackground><Text>Loading. . .</Text></AppBackground>
-  }
+  // if (isFetching){
+  //   return <AppBackground><Text>Loading. . .</Text></AppBackground>
+  // }
 
   return (
     <AppBackground >

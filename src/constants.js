@@ -24,16 +24,16 @@ const avatars = [
 
 const categoriesObj = [
   {
-    id: "abnormal",
-    name: "Abnormal Psychology",
-    level_background: Map1,
-    cover: category1,
-  },
-  {
     id: "developmental",
     name: "Developmental Psychology",
     level_background: Map2,
     cover: map2,
+  },
+  {
+    id: "abnormal",
+    name: "Abnormal Psychology",
+    level_background: Map1,
+    cover: category1,
   },
   {
     id: "psychological",

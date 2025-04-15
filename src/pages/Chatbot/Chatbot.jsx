@@ -26,6 +26,8 @@ const Chatbot = () => {
   const getData = async () => {
     const { data: messages } = await axios.get(`${process.env.EXPO_PUBLIC_URL}/getMessages/${accountData._id}`)
     setMessages(messages);
+    console.log(messages);
+    
   };
   useEffect(() => {
     getData();

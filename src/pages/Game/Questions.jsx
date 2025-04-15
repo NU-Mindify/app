@@ -13,7 +13,7 @@ import questionNumber from "../../assets/questions/questionNumber.png";
 import { useContext } from "react";
 import GameContext from "../../contexts/GameContext";
 
-export default function Questions({ data, onAnswer, number }) {
+export default function Questions({ data, onAnswer, number, length }) {
   const { level } = useContext(GameContext);
   return (
     <>
@@ -52,7 +52,7 @@ export default function Questions({ data, onAnswer, number }) {
             position: "absolute",
           }}
         >
-          QUESTION {number + 1}
+          QUESTION {number + 1} / {length}
         </Text>
         <Animated.Image
           source={questionCard}
@@ -68,7 +68,7 @@ export default function Questions({ data, onAnswer, number }) {
                 textAlign: "center",
                 width: "100%",
                 flexWrap: "wrap",
-                fontSize: 24
+                fontSize: 24,
               }}
             >
               {data.question}
@@ -89,15 +89,14 @@ export default function Questions({ data, onAnswer, number }) {
           >
             <Animated.View
               style={QuesStyles.animChoicesCardCont}
-              entering={SlideInLeft.delay(200 + (index * 100))}
+              entering={SlideInLeft.delay(200 + index * 100)}
             >
               <Animated.Image
                 source={choicesCard}
                 style={QuesStyles.choicesCardStyle}
               />
               <Text style={QuesStyles.choicesText}>
-                {choice.letter.toUpperCase()}.{" "}
-                {choice.text}
+                {choice.letter.toUpperCase()}. {choice.text}
               </Text>
             </Animated.View>
           </TouchableOpacity>
