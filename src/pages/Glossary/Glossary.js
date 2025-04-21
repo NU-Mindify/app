@@ -10,7 +10,7 @@ import magnifying from '../../assets/glossary/magnifying.png';
 import letterBG from '../../assets/glossary/letterBG.png';
 import AppBackground from '../../components/AppBackground';
 import { useNavigation } from '@react-navigation/native';
-import XButton from "../../assets/generic/x.svg";
+import XButton from "../../assets/generic/X-White.svg";
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
@@ -62,8 +62,21 @@ export default function Glossary() {
 
   return (
     <AppBackground >
-      <Animated.View style={GStyle.header}>
+      <Animated.View style={[GStyle.header, {justifyContent:'center', alignItems:'center', flexDirection:'row', position:'relative'}]}>
         <Image source={GlossaryTitle} style={GStyle.headerImage} />
+        <TouchableOpacity
+          activeOpacity={0.7}
+          onPress={() => {
+            nav.goBack();
+          }}
+          style={{
+            position:'absolute',
+            right:30,
+            top:'26%'
+          }}
+        >
+          <XButton width={30} height={30} />
+        </TouchableOpacity>
       </Animated.View>
 
 
@@ -129,30 +142,6 @@ export default function Glossary() {
           width: "100%",
         }}
       >
-        <Animated.View
-          entering={SlideInDown.delay(200)}
-          exiting={SlideOutDown}
-          style={[
-            {
-              marginHorizontal: "auto",
-              backgroundColor: "#00000044",
-              borderTopStartRadius: 24,
-              borderTopEndRadius: 24,
-              padding: 12,
-              paddingBottom: 12,
-              borderWidth: 2,
-            },
-          ]}
-        >
-          <TouchableOpacity
-            activeOpacity={0.7}
-            onPress={() => {
-              nav.goBack();
-            }}
-          >
-            <XButton width={42} height={42} />
-          </TouchableOpacity>
-        </Animated.View>
       </View>
     </AppBackground>
   );

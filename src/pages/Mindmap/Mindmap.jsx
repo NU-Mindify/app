@@ -2,7 +2,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import React, { useState } from "react";
 import { Pressable, ScrollView } from "react-native-gesture-handler";
 import { BrainCircuitIcon, Search } from "lucide-react-native";
-import X from "../../assets/generic/x.svg";
+import X from "../../assets/generic/X-White.svg";
 import AppBackground from "../../components/AppBackground";
 import styles from "../../styles/styles";
 import { useNavigation } from "@react-navigation/native";

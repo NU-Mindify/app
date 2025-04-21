@@ -6,7 +6,7 @@ import AppBackground from "../../components/AppBackground";
 import styles from "../../styles/styles";
 import { useNavigation } from "@react-navigation/native";
 import Animated, { ZoomIn, ZoomOut } from "react-native-reanimated";
-import X from "../../assets/generic/x.svg";
+import X from "../../assets/generic/X-White.svg";
 import moment from "moment";
 
 const Review = ({ questions, stats, onExit }) => {

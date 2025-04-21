@@ -19,7 +19,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Edit } from "lucide-react-native";
 import badges from "../../assets/badges/badges.png";
 import Animated, { SlideInUp, SlideOutUp } from "react-native-reanimated";
-import X from "../../assets/generic/x.svg";
+import X from "../../assets/generic/X-White.svg";
 import axios from "axios";
 
 const ViewProfile = () => {
@@ -153,7 +153,12 @@ const ViewProfile = () => {
           <Text
             style={[
               styles.entryTitle,
-              { position: "absolute", textAlign: "center", width: "100%" },
+              {
+                position: "absolute",
+                textAlign: "center",
+                width: "100%",
+                fontFamily: "LilitaOne_400Regular",
+              },
             ]}
           >
             Progress
