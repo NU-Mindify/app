@@ -7,6 +7,7 @@ import Results from "./Results";
 import AccountContext from "../../contexts/AccountContext";
 import moment from "moment";
 import Review from "./Review";
+import Leaderboard from "./Leaderboard";
 import GameContext from "../../contexts/GameContext";
 import axios from "axios";
 import { Audio } from "expo-av";
@@ -20,7 +21,7 @@ const Game = (props) => {
   const [currentNumber, setCurrentNumber] = useState(0);
   const [currentQuestion, setCurrentQuestion] = useState(null);
   const [rationaleModal, setRationaleModal] = useState(null);
-  const [showReview, setShowReview] = useState(false);
+  const [postGameScreen, setPostGameScreen] = useState("Results");
   const [stats, setStats] = useState({
     startTime: moment(),
     correct: 0,
@@ -186,17 +187,22 @@ const Game = (props) => {
         {rationaleModal && <RationaleModal modal={rationaleModal} />}
         {questions &&
           currentNumber === questions.length &&
-          (!showReview ? (
+          (postGameScreen === "Results" ? (
             <Results
               stats={stats}
-              onReview={() => setShowReview(true)}
+              onReview={() => setPostGameScreen("Review")}
+              onLeaderboard={() => setPostGameScreen("Leaderboard")}
             />
-          ) : (
+          ) : postGameScreen === "Review" ? (
             <Review
               questions={questions}
               stats={stats}
-              onExit={() => setShowReview(false)}
+              onExit={() => setPostGameScreen("Results")}
             />
+          ) : (
+            postGameScreen === "Leaderboard" && (
+              <Leaderboard onExit={() => setPostGameScreen("Results")} />
+            )
           ))}
       </AppBackground>
     </GameContext.Provider>
