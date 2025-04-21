@@ -1,4 +1,4 @@
-import { Text, TouchableOpacity, View } from "react-native";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 import Animated, {
   BounceIn,
   BounceOut,
@@ -43,7 +43,7 @@ export default function Start() {
           entering={BounceIn.duration(500)}
           exiting={ZoomOut.duration(300)}
         >
-          <Animated.Image source={ModalBg} style={modalStyles.imageStyle} />
+          <Image source={ModalBg} style={modalStyles.imageStyle} />
           {modal.mode === "LevelSelect" ? (
             <>
               <Text style={modalStyles.subtitle}>{modal.subtitle}</Text>
@@ -65,25 +65,20 @@ export default function Start() {
           ) : (
             <>
               {/* <Text style={[modalStyles.bodyText, {marginTop:2, fontSize:8}]}>{modal.body}</Text> */}
-              <Animated.View
-                entering={ZoomIn}
-                exiting={ZoomOut}
+              <View
                 style={[
                   {
-                    marginHorizontal: "auto",
-                    borderRadius: 24,
-                    padding: 12,
                     zIndex: 4,
                     position: "absolute",
-                    top: -15,
-                    right: -20,
+                    top:-36,
+                    right: -10
                   },
                 ]}
               >
                 <TouchableOpacity activeOpacity={0.7} onPress={handlesNo}>
                   <X width={30} height={30} />
                 </TouchableOpacity>
-              </Animated.View>
+              </View>
               <Text style={[modalStyles.subtitle, {paddingHorizontal:12}]}>{modal.subtitle}</Text>
               <Animated.View
                 style={[

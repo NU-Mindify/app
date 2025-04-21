@@ -11,6 +11,8 @@ import Leaderboard from "./Leaderboard";
 import GameContext from "../../contexts/GameContext";
 import axios from "axios";
 import { Audio } from "expo-av";
+import { API_URL } from "../../constants";
+import { ToastAndroid } from "react-native";
 
 const Game = (props) => {
   const { level, levelIndex, categoryIndex, isMastery } = props.route.params;
@@ -21,7 +23,7 @@ const Game = (props) => {
   const [currentNumber, setCurrentNumber] = useState(0);
   const [currentQuestion, setCurrentQuestion] = useState(null);
   const [rationaleModal, setRationaleModal] = useState(null);
-  const [postGameScreen, setPostGameScreen] = useState("Results");
+  const [postGameScreen, setPostGameScreen] = useState("");
   const [stats, setStats] = useState({
     startTime: moment(),
     correct: 0,
@@ -32,6 +34,7 @@ const Game = (props) => {
 
   const onAnswerSelect = (choice) => {
     let newStats = {
+      ...stats,
       answers: [...stats.answers, choice],
       streak: 0,
     };
@@ -48,40 +51,68 @@ const Game = (props) => {
     setStats((prevstats) => ({...prevstats, ...newStats}));
     if(isMastery){
       setCurrentQuestion(null);
-      nextQuestion();
+      nextQuestion(newStats);
     }else{
-      showRationaleModal(choice);
+      showRationaleModal(choice, newStats);
       setCurrentQuestion(null);
     }
 
   };
   // -------------------------------------
-  const nextQuestion = async () => {
+  const nextQuestion = async (newStats) => {
+    console.log(newStats);
     if (isLevelComplete()) {
       stopLoopingAudio();
-      setStats(prevstats => ({...prevstats, endTime: moment()}));
+      setStats((prevstats) => ({ ...prevstats, endTime: moment() }));
+
+      try {
+        const { data } = await axios.post(API_URL + `/addAttempt`, {
+          attempt: {
+            user_id: accountData._id,
+            level,
+            category: categoryIndex.id,
+            time_completion: moment
+              .duration(moment().diff(stats.startTime))
+              .asSeconds(),
+            correct: newStats.correct,
+            wrong: newStats.wrong,
+            total_items: questions.length,
+            branch: accountData.branch,
+            mode: isMastery ? "mastery" : "classic",
+          },
+          progressUserLevel: isMovingToNextLevel() && isScorePassed(),
+        });
+        if (isMovingToNextLevel() && isScorePassed()) {
+          setProgressData(data.progress_data);
+        }
+        setPostGameScreen("Results");
+      } catch (error) {
+        ToastAndroid.show("Failed to add record: " + error, ToastAndroid.LONG);
+        console.error("attempt Error", error.message);
+      }
+
       setCurrentNumber((current) => current + 1);
 
       if (isMovingToNextLevel() && isScorePassed()) {
         playSound(require("../../audio/complete.mp3"));
         try {
-          const json = await axios.post(
-            process.env.EXPO_PUBLIC_URL + "/progressCategory",
-            {
-              category: categoryIndex.id,
-              mode: isMastery ? "mastery" : "classic",
-              user_id: accountData._id,
-            }
-          );
-          setProgressData(json.data);
-          console.log(json.data);
+          // const json = await axios.post(
+          //   API_URL + "/progressCategory",
+          //   {
+          //     category: categoryIndex.id,
+          //     mode: isMastery ? "mastery" : "classic",
+          //     user_id: accountData._id,
+          //   }
+          // );
+          // setProgressData(json.data);
+          // console.log(json.data);
         } catch (error) {
           console.error(error.message);
           console.error(error.response.data);
         }
-      } else if(isScorePassed()) {
+      } else if (isScorePassed()) {
         playSound(require("../../audio/complete.mp3"));
-      } else{
+      } else {
         playSound(require("../../audio/lose.mp3"));
       }
       return;
@@ -90,17 +121,15 @@ const Game = (props) => {
     setCurrentQuestion(questions[currentNumber + 1]);
   };
 
-  const showRationaleModal = (choice) => {
+  const showRationaleModal = (choice, newStats) => {
     setRationaleModal({
       title: `Question ${currentNumber + 1}`,
-      subtitle: `${choice.letter.toUpperCase()}. ${
-        choice.text
-      }`,
+      subtitle: `${choice.letter.toUpperCase()}. ${choice.text}`,
       body: getModalBody(stats.streak, choice),
       isCorrect: choice.isCorrect,
       primaryFn: () => {
         setRationaleModal(null);
-        nextQuestion();
+        nextQuestion(newStats);
       },
     });
   };

@@ -5,6 +5,7 @@ import {
   TouchableHighlight,
   TouchableOpacity,
   Image,
+  StatusBar,
 } from "react-native";
 import React, { useContext, useState, useEffect } from "react";
 import AppBackground from "../../components/AppBackground";
@@ -18,6 +19,8 @@ import AccountContext from "../../contexts/AccountContext";
 import locations from './locations.json'
 import classic from '../../assets/modal/classic.png'
 import masteryBtn from '../../assets/modal/mastery.png'
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { ArrowLeftCircle } from "lucide-react-native";
 
 const Levels = (props) => {
   const { categoryIndex, isMastery } = props.route.params;
@@ -25,36 +28,49 @@ const Levels = (props) => {
   const { accountData, progressData } = useContext(AccountContext);
   const categoryProgress = progressData[isMastery ? 'mastery' : 'classic'][categoryIndex.id]
   
+  const insets = useSafeAreaInsets();
+  const notchHeight = insets.top;
   return (
     <AppBackground source={categoryIndex.level_background}>
       <View
         style={{
           justifyContent: "center",
           alignItems: "center",
+          position: "absolute",
+          width: "100%",
+          paddingTop: notchHeight + 14,
           backgroundColor: `${categoryIndex.primary_color}CC`,
           paddingHorizontal: 24,
           paddingVertical: 12,
+          flexDirection: "row",
         }}
       >
         <TouchableOpacity
-          style={{ position: "absolute", left: 16 }}
+          style={{
+            position: "absolute",
+            left: 16,
+            top: notchHeight + 6
+          }}
           onPress={() => {
             nav.goBack();
           }}
         >
-          <Text style={[styles.entryTitle, { color: "white", fontSize: 32 }]}>
-            {"<"}
-          </Text>
+            <ArrowLeftCircle size={32} color={"white"} />
         </TouchableOpacity>
-        <Text style={[styles.entryTitle, { color: "white" }]}>
+        <Text style={[styles.entryTitle, { color: "white", fontSize: 24 }]}>
           {categoryIndex.name.toUpperCase()}
         </Text>
+        <Image
+          source={isMastery ? masteryBtn : classic}
+          style={{
+            margin: "auto",
+            height: 40,
+            position: "absolute",
+            bottom: -45,
+          }}
+          resizeMode="contain"
+        />
       </View>
-      <Image
-        source={isMastery ? masteryBtn : classic}
-        style={{ margin: "auto", height: 50 }}
-        resizeMode="contain"
-      />
       <View style={{ flex: 1 }}>
         {locations
           .find((location) => location.id === categoryIndex.id)
@@ -83,8 +99,7 @@ const Levels = (props) => {
             bottom: 0,
             width: "100%",
           }}
-        >
-        </View>
+        ></View>
       </View>
     </AppBackground>
   );

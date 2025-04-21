@@ -2,7 +2,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import React, { useEffect, useState } from 'react';
-import { StatusBar, Text } from 'react-native';
+import { Platform, StatusBar, Text } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import StartModal from './src/components/StartModal';
 import AccountContext from './src/contexts/AccountContext';
@@ -65,7 +65,7 @@ export default function App() {
 
   return (
     <>
-      <StatusBar hidden={true} />
+      {Platform.OS !== "ios" && <StatusBar hidden={true} />}
       <NavigationContainer>
         <QueryClientProvider client={queryClient}>
           <AccountContext.Provider value={{ accountData, setAccountData, progressData, setProgressData }}>

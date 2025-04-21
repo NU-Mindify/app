@@ -60,5 +60,6 @@ const categoriesObj = [
   },
 ]
 
+const API_URL = process.env.EXPO_PUBLIC_URL;
 
-export { avatars, categoriesObj };
+export { API_URL, avatars, categoriesObj };
