@@ -171,7 +171,7 @@ const Photo = ({item, index, scrollX, onPress}) => {
           style={{
             textAlign: "center",
             color: "white",
-            fontSize: 18,
+            fontSize: 24,
             fontFamily:'LilitaOne-Regular'
           }}
         >
