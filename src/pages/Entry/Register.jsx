@@ -49,7 +49,7 @@ const Register = ({set}) => {
       <Animated.View
         entering={FlipInXUp}
         exiting={FlipOutXDown}
-        style={[styles.entryBackground]}
+        style={[styles.entryBackground, {marginVertical: 0, marginBottom: 8}]}
       >
         <Text style={styles.entryTitle}>Register</Text>
         <Text style={styles.entryBody}>
@@ -86,15 +86,28 @@ const Register = ({set}) => {
           value={confirmPassword}
           disabled={isFormDisabled}
         />
+        <TouchableOpacity onPress={() => nav.navigate("Terms and Conditions")}>
+          <Text style={{ color: "white", fontSize: 12 }}>
+            By clicking register, you agree to the{" "}
+            <Text style={textHighlight}>Data Privacy Consent</Text> and the{" "}
+            <Text style={textHighlight}>Terms and Conditions</Text>
+          </Text>
+        </TouchableOpacity>
         <TouchableOpacity
           disabled={isFormDisabled}
           onPress={() => {
             onSubmit().then(() => setIsFormDisabled(false));
           }}
-          style={isFormDisabled ? [styles.buttonOpacity, {backgroundColor: 'gray'}] : styles.buttonOpacity}
+          style={
+            isFormDisabled
+              ? [styles.buttonOpacity, { backgroundColor: "gray" }]
+              : styles.buttonOpacity
+          }
         >
           <Animated.View style={styles.button}>
-            <Text style={styles.buttonText}>{isFormDisabled ? "..." : "Register"}</Text>
+            <Text style={styles.buttonText}>
+              {isFormDisabled ? "..." : "Register"}
+            </Text>
           </Animated.View>
         </TouchableOpacity>
       </Animated.View>
@@ -121,3 +134,8 @@ const Register = ({set}) => {
 }
 
 export default Register
+
+const textHighlight = {
+  color: "#FDB813",
+  fontWeight: 'bold'
+};

@@ -1,16 +1,10 @@
-import { View, Text, Dimensions, TouchableOpacity } from 'react-native'
+import { View, Text, Dimensions, TouchableOpacity, Platform } from 'react-native'
 import React, { useContext, useState } from 'react'
 import Animated, { interpolate, useAnimatedScrollHandler, useAnimatedStyle, useSharedValue } from 'react-native-reanimated';
 import styles from '../../styles/styles';
-import category1 from '../../assets/categories/1.jpg';
-import category2 from '../../assets/categories/2.jpg';
-import category3 from '../../assets/categories/3.jpg';
-import category4 from '../../assets/categories/4.jpg';
-import category5 from '../../assets/categories/5.jpg';
-import StartModal from "../../components/StartModal";
 import ModalContext from '../../contexts/ModalContext';
 import { useNavigation } from '@react-navigation/native';
-import { categories, categoriesObj } from '../../constants'
+import { categoriesObj } from '../../constants'
 
 import AccountContext from '../../contexts/AccountContext';
 // const data = [
@@ -111,13 +105,15 @@ const Photo = ({item, index, scrollX, onPress}) => {
           scale: interpolate(
             scrollX.value,
             [index - 1, index, index + 1],
-            [1.5, 1, 1.5]
+            Platform.OS === "ios" ? [1, 1, 1] : [1.5, 1, 1.5]
           ),
         },
         {
           rotate: `${interpolate(
             scrollX.value,
             [index - 1, index, index + 1],
+            Platform.OS === 'ios' ? 
+            [0, 0, 0] :
             [20, 0, -20]
           )}deg`,
         },
@@ -130,6 +126,8 @@ const Photo = ({item, index, scrollX, onPress}) => {
         scale: interpolate(
           scrollX.value,
           [index - 1, index, index + 1],
+          Platform.OS === 'ios' ? 
+          [1, 1, 1] :
           [0.80, 1, 0.80]
         )
       }
@@ -174,7 +172,7 @@ const Photo = ({item, index, scrollX, onPress}) => {
             textAlign: "center",
             color: "white",
             fontSize: 18,
-            fontWeight: "bold",
+            fontFamily:'LilitaOne-Regular'
           }}
         >
           {categoriesObj[index].name}

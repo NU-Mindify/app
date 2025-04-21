@@ -1,7 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StatusBar, Text } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import StartModal from './src/components/StartModal';
@@ -20,6 +20,12 @@ import Mindmap from './src/pages/Mindmap/Mindmap';
 import EditProfile from './src/pages/Profile/EditProfile';
 import ViewProfile from './src/pages/Profile/ViewProfille';
 import Verify from './src/pages/Entry/Verify';
+import TermsAndConditions from './src/pages/Entry/TermsAndConditions';
+import * as ExpoSplashScreen from 'expo-splash-screen';
+import LilitaFont from './src/assets/fonts/LilitaOne-Regular.ttf'
+import { useFonts } from 'expo-font';
+
+ExpoSplashScreen.preventAutoHideAsync();
 
 /**
  * @typedef {object} Modal
@@ -30,15 +36,33 @@ import Verify from './src/pages/Entry/Verify';
  * @property {(() => void)} secondaryFn
  * 
  */
-export default function App() {
+export default function App() { 
+  const [fontLoaded, fontError] = useFonts({
+    'LilitaOne-Regular': LilitaFont,
+  });
   const Stack = createNativeStackNavigator();
   const queryClient = new QueryClient()
   const [accountData, setAccountData] = useState(null)
   const [progressData, setProgressData] = useState(null)
   /**
    * @type {[Modal, React.Dispatch<React.SetStateAction<Modal>>]}
-   */
-  const [modal, setModal] = useState(null)
+  */
+ const [modal, setModal] = useState(null)
+
+
+
+ useEffect(() => {
+  console.log(fontLoaded, fontError);
+  
+   if (fontLoaded || fontError) {
+     ExpoSplashScreen.hideAsync();
+   }
+ }, [fontLoaded, fontError]);
+
+ if (!fontLoaded || fontError) {
+   return null;
+ }
+
   return (
     <>
       <StatusBar hidden={true} />
@@ -47,12 +71,13 @@ export default function App() {
           <AccountContext.Provider value={{ accountData, setAccountData, progressData, setProgressData }}>
             <ModalContext.Provider value={{ modal, setModal }}>
               <GestureHandlerRootView>
-                <Text style={{ position: 'absolute', bottom: 4, color: 'white', zIndex: 5, textAlign: 'center', width: '100%', fontSize: 8, opacity:0.6}}>Early Dev Build - 04.16 - Placeholders and Sample Assets are used. </Text>
+                <Text style={{ position: 'absolute', bottom: 4, color: 'white', zIndex: 5, textAlign: 'center', width: '100%', fontSize: 8, opacity:0.6}}>Early Dev Build - 04.21 - Placeholders and Sample Assets are used. </Text>
                 {/* <ResetButton /> */}
                 <Stack.Navigator screenOptions={{ headerShown: false, statusBarHidden: true, navigationBarHidden: true, }}>
                   <Stack.Screen name="Splash" component={SplashScreen} />
                   <Stack.Screen name='Get Started' component={GetStarted} />
                   <Stack.Screen name='Verify' component={Verify} />
+                  <Stack.Screen name='Terms and Conditions' component={TermsAndConditions} />
 
                   <Stack.Screen name='Home' component={Home} />
                   <Stack.Screen name="View Profile" component={ViewProfile} />

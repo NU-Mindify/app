@@ -8,9 +8,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#FDB813",
     padding: 8,
     borderRadius: 12,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center'
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
   },
   buttonText: {
     // color:'white',
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#2C519F",
     padding: 24,
     marginVertical: 24,
-    marginHorizontal: 'auto',
+    marginHorizontal: "auto",
     borderRadius: 24,
     boxShadow: "0px 2px 12px #EDE09480",
     borderWidth: 8,
@@ -35,9 +35,10 @@ const styles = StyleSheet.create({
   },
   entryTitle: {
     color: "white",
-    fontWeight: "900",
-    fontSize: 24,
+    fontSize: 20,
+    paddingHorizontal:12,
     textAlign: "center",
+    fontFamily: "LilitaOne-Regular",
   },
   entryBody: {
     color: "white",
@@ -45,13 +46,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 
-  homeRoundedIcon:{
+  homeRoundedIcon: {
     borderRadius: 99,
     backgroundColor: "white",
     padding: 12,
     borderColor: "black",
     borderWidth: 4,
-  }
+  },
 });
 
 export default styles;

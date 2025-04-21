@@ -18,7 +18,7 @@ import { useContext } from "react";
 import ModalContext from "../contexts/ModalContext";
 import { modalStyles } from "../styles/modalStyles";
 import React from "react";
-import X from "../assets/generic/x.svg";
+import X from "../assets/generic/X-White.svg";
 
 export default function Start() {
   const { modal, setModal } = useContext(ModalContext);
@@ -44,9 +44,9 @@ export default function Start() {
           exiting={ZoomOut.duration(300)}
         >
           <Animated.Image source={ModalBg} style={modalStyles.imageStyle} />
-          <Text style={modalStyles.subtitle}>{modal.subtitle}</Text>
           {modal.mode === "LevelSelect" ? (
             <>
+              <Text style={modalStyles.subtitle}>{modal.subtitle}</Text>
               <Text style={modalStyles.bodyText}>{modal.body}</Text>
               <Animated.View
                 style={modalStyles.btnContainer}
@@ -65,13 +65,32 @@ export default function Start() {
           ) : (
             <>
               {/* <Text style={[modalStyles.bodyText, {marginTop:2, fontSize:8}]}>{modal.body}</Text> */}
-
+              <Animated.View
+                entering={ZoomIn}
+                exiting={ZoomOut}
+                style={[
+                  {
+                    marginHorizontal: "auto",
+                    borderRadius: 24,
+                    padding: 12,
+                    zIndex: 4,
+                    position: "absolute",
+                    top: -15,
+                    right: -20,
+                  },
+                ]}
+              >
+                <TouchableOpacity activeOpacity={0.7} onPress={handlesNo}>
+                  <X width={30} height={30} />
+                </TouchableOpacity>
+              </Animated.View>
+              <Text style={[modalStyles.subtitle, {paddingHorizontal:12}]}>{modal.subtitle}</Text>
               <Animated.View
                 style={[
                   modalStyles.btnContainer,
                   {
                     flexDirection: "column",
-                    marginTop: 7,
+                    marginTop: 2,
                     padding: 0,
                   },
                 ]}
@@ -91,26 +110,7 @@ export default function Start() {
                   bottom: "-36%",
                   width: "100%",
                 }}
-              >
-                <Animated.View
-                  entering={ZoomIn}
-                  exiting={ZoomOut}
-                  style={[
-                    {
-                      marginHorizontal: "auto",
-                      borderRadius: 24,
-                      padding: 12,
-                    },
-                  ]}
-                >
-                  <TouchableOpacity
-                    activeOpacity={0.7}
-                    onPress={handlesNo}
-                  >
-                    <X width={50} height={50} />
-                  </TouchableOpacity>
-                </Animated.View>
-              </View>
+              ></View>
             </>
           )}
         </Animated.View>

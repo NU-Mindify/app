@@ -10,7 +10,7 @@ import {
 import { Pressable } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
 import AccountContext from "../../contexts/AccountContext";
-import X from "../../assets/generic/x.svg";
+import X from "../../assets/generic/X-White.svg";
 import axios from "axios";
 
 const Chatbot = () => {

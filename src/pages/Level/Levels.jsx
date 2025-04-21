@@ -12,7 +12,7 @@ import styles from "../../styles/styles";
 import { useNavigation } from "@react-navigation/native";
 import LevelButton from "./LevelButton";
 import LevelTitle from "../../assets/level/levelTitle.svg";
-import X from "../../assets/generic/x.svg";
+import X from "../../assets/generic/X-White.svg";
 import Animated, { SlideInDown, SlideOutDown } from "react-native-reanimated";
 import AccountContext from "../../contexts/AccountContext";
 import locations from './locations.json'
@@ -27,29 +27,34 @@ const Levels = (props) => {
   
   return (
     <AppBackground source={categoryIndex.level_background}>
-      <View style={{ justifyContent: "center", alignItems: "center" }}>
-        <LevelTitle style={{ marginHorizontal: "auto" }} />
-        <Text
-          style={[
-            styles.entryTitle,
-            {
-              position: "absolute",
-              top: 0,
-              left: "50%",
-              transform: [{ translateX: "-50%" }],
-              textAlign: "center",
-              width: "80%",
-              marginTop: 32,
-            },
-          ]}
+      <View
+        style={{
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: `${categoryIndex.primary_color}CC`,
+          paddingHorizontal: 24,
+          paddingVertical: 12,
+        }}
+      >
+        <TouchableOpacity
+          style={{ position: "absolute", left: 16 }}
+          onPress={() => {
+            nav.goBack();
+          }}
         >
-          {categoryIndex.name}
+          <Text style={[styles.entryTitle, { color: "white", fontSize: 32 }]}>
+            {"<"}
+          </Text>
+        </TouchableOpacity>
+        <Text style={[styles.entryTitle, { color: "white" }]}>
+          {categoryIndex.name.toUpperCase()}
         </Text>
-        <Image
-          source={isMastery ? masteryBtn : classic}
-          style={{ position: "absolute", bottom: -50, margin: "auto" }}
-        />
       </View>
+      <Image
+        source={isMastery ? masteryBtn : classic}
+        style={{ margin: "auto", height: 50 }}
+        resizeMode="contain"
+      />
       <View style={{ flex: 1 }}>
         {locations
           .find((location) => location.id === categoryIndex.id)
@@ -79,30 +84,6 @@ const Levels = (props) => {
             width: "100%",
           }}
         >
-          <Animated.View
-            entering={SlideInDown.delay(200)}
-            exiting={SlideOutDown}
-            style={[
-              {
-                marginHorizontal: "auto",
-                backgroundColor: "#00000044",
-                borderTopStartRadius: 24,
-                borderTopEndRadius: 24,
-                padding: 12,
-                paddingBottom: 24,
-                borderWidth: 2,
-              },
-            ]}
-          >
-            <TouchableOpacity
-              activeOpacity={0.7}
-              onPress={() => {
-                nav.goBack();
-              }}
-            >
-              <X width={42} height={42} />
-            </TouchableOpacity>
-          </Animated.View>
         </View>
       </View>
     </AppBackground>
