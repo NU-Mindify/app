@@ -20,7 +20,7 @@ import { avatars } from "../../constants";
 import moment from "moment";
 import GameContext from "../../contexts/GameContext";
 
-const Results = ({ stats, onReview }) => {
+const Results = ({ stats, onReview, onLeaderboard }) => {
   const {isMastery, categoryIndex} = useContext(GameContext)
   const nav = useNavigation();
 
@@ -162,6 +162,7 @@ const Results = ({ stats, onReview }) => {
             text={isPass ? "Next Level" : "Try Again"}
           />
           {!isMastery && <Button onPress={onReview} text={"Review"} />}
+          <Button onPress={onLeaderboard} text={"Leaderboard"} />
         </View>
       </Animated.View>
       {/* <View>
