@@ -13,10 +13,12 @@ import axios from "axios";
 import { Audio } from "expo-av";
 import { API_URL } from "../../constants";
 import { ToastAndroid } from "react-native";
+import ModalContext from "../../contexts/ModalContext";
 
 const Game = (props) => {
   const { level, levelIndex, categoryIndex, isMastery } = props.route.params;
   const { accountData, progressData, setProgressData } = useContext(AccountContext);
+  const { setModal } = useContext(ModalContext)
   const categoryProgress = useRef(progressData[isMastery ? "mastery" : "classic"][categoryIndex.id])
 
   const [questions, setQuestions] = useState(null);
@@ -64,52 +66,14 @@ const Game = (props) => {
     if (isLevelComplete()) {
       stopLoopingAudio();
       setStats((prevstats) => ({ ...prevstats, endTime: moment() }));
+      newStats.endTime = moment()
 
-      try {
-        const { data } = await axios.post(API_URL + `/addAttempt`, {
-          attempt: {
-            user_id: accountData._id,
-            level,
-            category: categoryIndex.id,
-            time_completion: moment
-              .duration(moment().diff(stats.startTime))
-              .asSeconds(),
-            correct: newStats.correct,
-            wrong: newStats.wrong,
-            total_items: questions.length,
-            branch: accountData.branch,
-            mode: isMastery ? "mastery" : "classic",
-          },
-          progressUserLevel: isMovingToNextLevel() && isScorePassed(),
-        });
-        if (isMovingToNextLevel() && isScorePassed()) {
-          setProgressData(data.progress_data);
-        }
-        setPostGameScreen("Results");
-      } catch (error) {
-        ToastAndroid.show("Failed to add record: " + error, ToastAndroid.LONG);
-        console.error("attempt Error", error.message);
-      }
+      addAttemptToServer(newStats)
 
       setCurrentNumber((current) => current + 1);
 
       if (isMovingToNextLevel() && isScorePassed()) {
         playSound(require("../../audio/complete.mp3"));
-        try {
-          // const json = await axios.post(
-          //   API_URL + "/progressCategory",
-          //   {
-          //     category: categoryIndex.id,
-          //     mode: isMastery ? "mastery" : "classic",
-          //     user_id: accountData._id,
-          //   }
-          // );
-          // setProgressData(json.data);
-          // console.log(json.data);
-        } catch (error) {
-          console.error(error.message);
-          console.error(error.response.data);
-        }
       } else if (isScorePassed()) {
         playSound(require("../../audio/complete.mp3"));
       } else {
@@ -119,6 +83,44 @@ const Game = (props) => {
     }
     setCurrentNumber((current) => current + 1);
     setCurrentQuestion(questions[currentNumber + 1]);
+  };
+
+  const addAttemptToServer = async (newStats) => {
+    try {
+      const { data } = await axios.post(API_URL + `/addAttempt`, {
+        attempt: {
+          user_id: accountData._id,
+          level,
+          category: categoryIndex.id,
+          time_completion: moment
+            .duration(newStats.endTime.diff(stats.startTime))
+            .asSeconds(),
+          correct: newStats.correct,
+          wrong: newStats.wrong,
+          total_items: questions.length,
+          branch: accountData.branch,
+          mode: isMastery ? "mastery" : "classic",
+        },
+        progressUserLevel: isMovingToNextLevel() && isScorePassed(),
+      });
+      if (isMovingToNextLevel() && isScorePassed()) {
+        setProgressData(data.progress_data);
+      }
+      setPostGameScreen("Results");
+    } catch (error) {
+      ToastAndroid.show("Failed to add record: " + error, ToastAndroid.LONG);
+      console.error("attempt Error", error.message);
+      setRationaleModal({
+        type: "Error",
+        title: "Server Error",
+        subtitle: "Failed to record this attempt.",
+        body: "Please Try Again",
+        primaryFn: () => {
+          setRationaleModal(null);
+          addAttemptToServer(newStats);
+        },
+      });
+    }
   };
 
   const showRationaleModal = (choice, newStats) => {
@@ -230,7 +232,12 @@ const Game = (props) => {
             />
           ) : (
             postGameScreen === "Leaderboard" && (
-              <Leaderboard onExit={() => setPostGameScreen("Results")} />
+              <Leaderboard 
+                onExit={() => setPostGameScreen("Results")} 
+                level={level} 
+                categoryIndex={categoryIndex} 
+                isMastery={isMastery} 
+              />
             )
           ))}
       </AppBackground>

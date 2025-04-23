@@ -38,7 +38,7 @@ export default function RationaleModal ({modal}) {
           fontSize:24,
           color:'white'
         }]}>
-          {modal.title.toUpperCase()}
+          {modal.title}
         </Text>
         {/* <Animated.Image source={answerBody} style={modalStyles.imageStyle} /> */}
         <View
@@ -61,23 +61,25 @@ export default function RationaleModal ({modal}) {
               borderWidth: 8,
             }}
           >
+            {modal.hasOwnProperty("isCorrect") && 
             <Text
-              style={[
-                modalStyles.subtitle,
-                {
-                  color: modal.isCorrect ? "green" : "red",
-                  backgroundColor: "#F9EBDE",
-                  borderColor: "#1C4384",
-                  borderWidth: 4,
-                  width: 220,
-                  padding: 20,
-                  borderRadius: 8,
-                },
-              ]}
+            style={[
+              modalStyles.subtitle,
+              {
+                color: modal.isCorrect ? "green" : "red",
+                backgroundColor: "#F9EBDE",
+                borderColor: "#1C4384",
+                borderWidth: 4,
+                width: 220,
+                padding: 20,
+                borderRadius: 8,
+              },
+            ]}
             >
               {modal.isCorrect ? "CORRECT" : "WRONG"}
             </Text>
-            <Text style={[modalStyles.subtitle, { marginTop: 12 }]}>
+            }
+            <Text style={[modalStyles.subtitle, { marginTop: 24 }]}>
               {modal.subtitle}
             </Text>
             <Text style={modalStyles.bodyText}>{modal.body}</Text>

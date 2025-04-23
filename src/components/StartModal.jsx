@@ -19,6 +19,7 @@ import ModalContext from "../contexts/ModalContext";
 import { modalStyles } from "../styles/modalStyles";
 import React from "react";
 import X from "../assets/generic/X-White.svg";
+import Button from "./Button";
 
 export default function Start() {
   const { modal, setModal } = useContext(ModalContext);
@@ -49,7 +50,7 @@ export default function Start() {
               <Text style={modalStyles.subtitle}>{modal.subtitle}</Text>
               <Text style={modalStyles.bodyText}>{modal.body}</Text>
               <Animated.View
-                style={modalStyles.btnContainer}
+                style={[modalStyles.btnContainer, {marginTop:4}]}
                 entering={BounceIn}
                 exiting={BounceOut}
               >
@@ -61,6 +62,7 @@ export default function Start() {
                   <Animated.Image source={NoButton} />
                 </TouchableOpacity>
               </Animated.View>
+              <Button text={"Leaderboard"} onPress={modal.onLeaderboard} style={{marginVertical: 6}}/>
             </>
           ) : (
             <>

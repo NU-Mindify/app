@@ -19,6 +19,7 @@ const LevelButton = ({
   index,
   categoryIndex,
   isMastery,
+  setLeaderboardLevel
 }) => {
   const [isPressing, setIsPressing] = useState(true);
   const { modal, setModal } = useContext(ModalContext);
@@ -58,6 +59,10 @@ const LevelButton = ({
         level === "?" ? "Hard" : level < 3 ? "Easy" : "Average"
       }\nStart Quiz?`,
       mode: "LevelSelect",
+      onLeaderboard: () => {
+        setLeaderboardLevel(level)
+        setModal(null);
+      }
     });
   };
 

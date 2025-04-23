@@ -21,6 +21,7 @@ import classic from '../../assets/modal/classic.png'
 import masteryBtn from '../../assets/modal/mastery.png'
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { ArrowLeftCircle } from "lucide-react-native";
+import Leaderboard from "../Game/Leaderboard";
 
 const Levels = (props) => {
   const { categoryIndex, isMastery } = props.route.params;
@@ -30,6 +31,24 @@ const Levels = (props) => {
   
   const insets = useSafeAreaInsets();
   const notchHeight = insets.top;
+
+  const [leaderboardLevel, setLeaderboardLevel] = useState(null)
+
+  if (leaderboardLevel) {
+    return (
+      <AppBackground source={categoryIndex.level_background}>
+        <Leaderboard
+          onExit={() => {
+            setLeaderboardLevel(null)
+          }}
+          level={leaderboardLevel}
+          categoryIndex={categoryIndex}
+          isMastery={isMastery}
+        />
+      </AppBackground>
+    );
+  }
+
   return (
     <AppBackground source={categoryIndex.level_background}>
       <View
@@ -76,6 +95,7 @@ const Levels = (props) => {
           .find((location) => location.id === categoryIndex.id)
           .locations.map(({ level, position }, index) => (
             <LevelButton
+              setLeaderboardLevel={(level) => setLeaderboardLevel(level)}
               level={level}
               position={position}
               key={index}

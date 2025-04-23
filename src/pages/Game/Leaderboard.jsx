@@ -6,12 +6,10 @@ import moment from "moment";
 import styles from "../../styles/styles";
 import X from "../../assets/generic/X-White.svg";
 import Animated, { ZoomIn, ZoomOut } from "react-native-reanimated";
-import GameContext from "../../contexts/GameContext";
 import axios from "axios";
 import { API_URL, avatars } from "../../constants";
 
-const Leaderboard = ({ onExit }) => {
-  const { level, categoryIndex, isMastery } = useContext(GameContext);
+const Leaderboard = ({ onExit, level, categoryIndex, isMastery }) => {
   const [list, setList] = useState([]);
 
   const getList = async () => {

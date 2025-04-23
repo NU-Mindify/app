@@ -67,7 +67,7 @@ export default function App() {
     <>
       {Platform.OS !== "ios" && <StatusBar hidden={true} />}
       <NavigationContainer>
-        <QueryClientProvider client={queryClient}>
+        {/* <QueryClientProvider client={queryClient}> */}
           <AccountContext.Provider value={{ accountData, setAccountData, progressData, setProgressData }}>
             <ModalContext.Provider value={{ modal, setModal }}>
               <GestureHandlerRootView>
@@ -95,7 +95,7 @@ export default function App() {
               </GestureHandlerRootView>
             </ModalContext.Provider>
           </AccountContext.Provider>
-        </QueryClientProvider>
+        {/* </QueryClientProvider> */}
       </NavigationContainer>
     </>
   );
