@@ -11,7 +11,6 @@ import letterBG from '../../assets/glossary/letterBG.png';
 import AppBackground from '../../components/AppBackground';
 import { useNavigation } from '@react-navigation/native';
 import XButton from "../../assets/generic/X-White.svg";
-import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
 export default function Glossary() {
@@ -54,12 +53,6 @@ export default function Glossary() {
   useEffect(() => {
     fetchTerms();
   }, [])
-  // const {isFetching, data: terms} = useQuery({queryKey: ['terms'], queryFn: fetchTerms, initialData: []})
-
-  // if (isFetching){
-  //   return <AppBackground><Text>Loading. . .</Text></AppBackground>
-  // }
-
   return (
     <AppBackground >
       <Animated.View style={[GStyle.header, {justifyContent:'center', alignItems:'center', flexDirection:'row', position:'relative'}]}>

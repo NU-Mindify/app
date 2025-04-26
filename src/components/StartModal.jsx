@@ -18,7 +18,7 @@ import { useContext } from "react";
 import ModalContext from "../contexts/ModalContext";
 import { modalStyles } from "../styles/modalStyles";
 import React from "react";
-import X from "../assets/generic/X-White.svg";
+import X from "../assets/generic/x.svg";
 import Button from "./Button";
 
 export default function Start() {
@@ -72,13 +72,13 @@ export default function Start() {
                   {
                     zIndex: 4,
                     position: "absolute",
-                    top:-36,
-                    right: -10
+                    top:-40,
+                    right: -20
                   },
                 ]}
               >
                 <TouchableOpacity activeOpacity={0.7} onPress={handlesNo}>
-                  <X width={30} height={30} />
+                  <X width={36} height={36} />
                 </TouchableOpacity>
               </View>
               <Text style={[modalStyles.subtitle, {paddingHorizontal:12}]}>{modal.subtitle}</Text>

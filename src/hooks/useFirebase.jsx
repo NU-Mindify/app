@@ -18,7 +18,7 @@ export const loginAuth = async (email, password) => {
   const user = userCredential.user;
 };
 export const createAccount = async (
-  { email, username, password, branch = "NU MOA" },
+  { email, username, password, branch = "moa" },
   callback = () => {}
 ) => {
   try {

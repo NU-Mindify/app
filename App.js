@@ -1,6 +1,5 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import React, { useEffect, useState } from 'react';
 import { Platform, StatusBar, Text } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -41,7 +40,6 @@ export default function App() {
     'LilitaOne-Regular': LilitaFont,
   });
   const Stack = createNativeStackNavigator();
-  const queryClient = new QueryClient()
   const [accountData, setAccountData] = useState(null)
   const [progressData, setProgressData] = useState(null)
   /**
@@ -67,7 +65,6 @@ export default function App() {
     <>
       {Platform.OS !== "ios" && <StatusBar hidden={true} />}
       <NavigationContainer>
-        {/* <QueryClientProvider client={queryClient}> */}
           <AccountContext.Provider value={{ accountData, setAccountData, progressData, setProgressData }}>
             <ModalContext.Provider value={{ modal, setModal }}>
               <GestureHandlerRootView>
@@ -95,7 +92,6 @@ export default function App() {
               </GestureHandlerRootView>
             </ModalContext.Provider>
           </AccountContext.Provider>
-        {/* </QueryClientProvider> */}
       </NavigationContainer>
     </>
   );
