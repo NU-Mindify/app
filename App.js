@@ -70,7 +70,7 @@ export default function App() {
               <GestureHandlerRootView>
                 <Text style={{ position: 'absolute', bottom: 4, color: 'white', zIndex: 5, textAlign: 'center', width: '100%', fontSize: 8, opacity:0.6}}>Early Dev Build - 04.21 - Placeholders and Sample Assets are used. </Text>
                 {/* <ResetButton /> */}
-                <Stack.Navigator screenOptions={{ headerShown: false, statusBarHidden: true, navigationBarHidden: true, }}>
+              <Stack.Navigator screenOptions={{ headerShown: false, statusBarHidden: Platform.OS !== "ios", navigationBarHidden: true, }}>
                   <Stack.Screen name="Splash" component={SplashScreen} />
                   <Stack.Screen name='Get Started' component={GetStarted} />
                   <Stack.Screen name='Verify' component={Verify} />

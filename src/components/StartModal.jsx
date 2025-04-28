@@ -1,12 +1,15 @@
-import { Image, Text, TouchableOpacity, View } from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Animated, {
   BounceIn,
   BounceOut,
   FadeIn,
   FadeOut,
+  FlipInXDown,
   SlideInDown,
+  SlideInUp,
   SlideOutDown,
   ZoomIn,
+  ZoomInEasyDown,
   ZoomOut,
 } from "react-native-reanimated";
 import ModalBg from "../assets/modal/startCard.png";
@@ -32,7 +35,6 @@ export default function Start() {
   }
 
   return (
-    // {/* <View style={[Styles.mainCont, { paddingTop: Constants.statusBarHeight }]}> */}
     <>
       <Animated.View
         style={modalStyles.modalBackground}
@@ -40,17 +42,17 @@ export default function Start() {
         exiting={FadeOut}
       >
         <Animated.View
-          style={modalStyles.card}
+          style={[modalStyles.card, { width: "100%" }]}
           entering={BounceIn.duration(500)}
           exiting={ZoomOut.duration(300)}
         >
-          <Image source={ModalBg} style={modalStyles.imageStyle} />
           {modal.mode === "LevelSelect" ? (
             <>
+              <Image source={ModalBg} style={modalStyles.imageStyle} />
               <Text style={modalStyles.subtitle}>{modal.subtitle}</Text>
               <Text style={modalStyles.bodyText}>{modal.body}</Text>
               <Animated.View
-                style={[modalStyles.btnContainer, {marginTop:4}]}
+                style={[modalStyles.btnContainer, { marginTop: 4 }]}
                 entering={BounceIn}
                 exiting={BounceOut}
               >
@@ -62,52 +64,82 @@ export default function Start() {
                   <Animated.Image source={NoButton} />
                 </TouchableOpacity>
               </Animated.View>
-              <Button text={"Leaderboard"} onPress={modal.onLeaderboard} style={{marginVertical: 6}}/>
+              <Button
+                text={"Leaderboard"}
+                onPress={modal.onLeaderboard}
+                style={{ marginVertical: 6 }}
+              />
             </>
           ) : (
             <>
-              {/* <Text style={[modalStyles.bodyText, {marginTop:2, fontSize:8}]}>{modal.body}</Text> */}
-              <View
-                style={[
-                  {
-                    zIndex: 4,
-                    position: "absolute",
-                    top:-40,
-                    right: -20
-                  },
-                ]}
-              >
-                <TouchableOpacity activeOpacity={0.7} onPress={handlesNo}>
-                  <X width={36} height={36} />
-                </TouchableOpacity>
-              </View>
-              <Text style={[modalStyles.subtitle, {paddingHorizontal:12}]}>{modal.subtitle}</Text>
               <Animated.View
+                entering={FlipInXDown.delay(400)}
                 style={[
-                  modalStyles.btnContainer,
+                  style.outer,
                   {
-                    flexDirection: "column",
-                    marginTop: 2,
-                    padding: 0,
+                    borderBottomStartRadius: 0,
+                    borderBottomEndRadius: 0,
+                    padding: 8,
+                    width: "50%",
+                    backgroundColor: "#35408E",
+                    borderBottomWidth: 0
                   },
                 ]}
-                entering={BounceIn}
-                exiting={BounceOut}
               >
-                <TouchableOpacity onPress={handlesYes}>
-                  <Animated.Image source={classic} />
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => modal.masteryFn()}>
-                  <Animated.Image source={mastery} />
-                </TouchableOpacity>
+                <Text
+                  style={[
+                    {
+                      fontFamily: "LilitaOne-Regular",
+                      color: "white",
+                      fontSize: 32,
+                      textAlign: "center",
+                    },
+                  ]}
+                >
+                  Select Mode
+                </Text>
               </Animated.View>
-              <View
-                style={{
-                  position: "absolute",
-                  bottom: "-36%",
-                  width: "100%",
-                }}
-              ></View>
+
+              <View style={[style.outer]}>
+                <View style={[style.inner]}>
+                  {/* X Button */}
+                  <View
+                    style={[
+                      {
+                        zIndex: 4,
+                        position: "absolute",
+                        top: -26,
+                        right: -26,
+                      },
+                    ]}
+                  >
+                    <TouchableOpacity activeOpacity={0.7} onPress={handlesNo}>
+                      <X width={42} height={42} />
+                    </TouchableOpacity>
+                  </View>
+
+                  <Text style={[modalStyles.subtitle]}>{modal.subtitle.toUpperCase()}</Text>
+                  <Animated.View
+                    style={[
+                      modalStyles.btnContainer,
+                      {
+                        flexDirection: "column",
+                        marginTop: 2,
+                        padding: 0,
+                      },
+                    ]}
+                    entering={BounceIn}
+                    exiting={BounceOut}
+                  >
+                    <TouchableOpacity onPress={handlesYes}>
+                      <Animated.Image source={classic} />
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => modal.masteryFn()}>
+                      <Animated.Image source={mastery} />
+                    </TouchableOpacity>
+                  </Animated.View>
+                </View>
+              </View>
             </>
           )}
         </Animated.View>
@@ -115,3 +147,22 @@ export default function Start() {
     </>
   );
 }
+
+const style = StyleSheet.create({
+  outer: {
+    borderRadius: 24,
+    borderColor: "#FDD116",
+    borderWidth: 8,
+    backgroundColor: "#FDD116",
+  },
+  inner: {
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#35408E",
+    padding: 10,
+    paddingTop: 0,
+    borderRadius: 24,
+    borderColor: "#2D3A72",
+    borderWidth: 8,
+  },
+});

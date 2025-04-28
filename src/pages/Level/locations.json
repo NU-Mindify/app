@@ -3,12 +3,28 @@
     "id": "abnormal",
     "level": "Abnormal Psychology",
     "locations": [
-      { "level": 1, "position": { "left": "19%", "bottom": "10%" } },
-      { "level": 2, "position": { "left": "22%", "bottom": "24%" } },
-      { "level": 3, "position": { "left": "20%", "bottom": "39%" } },
-      { "level": 4, "position": { "left": "27%", "bottom": "53%" } },
-      { "level": 5, "position": { "left": "45%", "bottom": "65%" } },
-      { "level": "?", "position": { "left": "59%", "bottom": "80%" } }
+      { "level": 1, "position": { "left": "64%", "bottom": "9%" }, "items": 8 },
+      { "level": 2, "position": { "left": "38%", "bottom": "17%" }, "items": 7 },
+      { "level": 3, "position": { "left": "22%", "bottom": "29%" }, "items": 7 },
+      { "level": 4, "position": { "left": "25%", "bottom": "40%" }, "items": 8 },
+      { "level": 5, "position": { "left": "43%", "bottom": "50%" }, "items": 7 },
+      { "level": 6, "position": { "left": "14%", "bottom": "59%" }, "items": 20 },
+      { "level": 7, "position": { "left": "47%", "bottom": "67%" }, "items": 20 },
+      {
+        "level": 8,
+        "position": { "left": "67%", "bottom": "77%" },
+        "items": 20
+      },
+      {
+        "level": 9,
+        "position": { "left": "30%", "bottom": "82%" },
+        "items": 20
+      },
+      {
+        "level": 10,
+        "position": { "left": "13%", "bottom": "90%" },
+        "items": 20
+      }
     ]
   },
   {
@@ -27,12 +43,20 @@
     "id":"psychological",
     "level": "Psychological Assessment",
     "locations": [
-      { "level": 1, "position": { "right": "19%", "bottom": "10%" } },
-      { "level": 2, "position": { "right": "23%", "bottom": "27%" } },
-      { "level": 3, "position": { "right": "27%", "bottom": "42%" } },
-      { "level": 4, "position": { "left": "47%", "bottom": "58%" } },
-      { "level": 5, "position": { "left": "34%", "bottom": "72%" } },
-      { "level": "?", "position": { "left": "16%", "bottom": "83%" } }
+      { "level": 1, "position": { "right": "19%", "bottom": "10%" }, "items": 8 },
+      {
+        "level": 2,
+        "position": { "right": "23%", "bottom": "27%" },
+        "items": 7
+      },
+      {
+        "level": 3,
+        "position": { "right": "27%", "bottom": "42%" },
+        "items": 8
+      },
+      { "level": 4, "position": { "left": "47%", "bottom": "58%" }, "items": 7 },
+      { "level": 5, "position": { "left": "34%", "bottom": "72%" }, "items": 20 },
+      { "level": "?", "position": { "left": "16%", "bottom": "83%" }, "items": 20 }
     ]
   },
   {

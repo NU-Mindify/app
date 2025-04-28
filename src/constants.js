@@ -5,6 +5,7 @@ import RedGirl from "./assets/avatar/redGirl.svg";
 import WhiteMan from "./assets/avatar/whiteMan.svg";
 import WhiteOrangeGirl from "./assets/avatar/whiteOrangeGirl.svg";
 
+import abnormalMap from "./assets/maps/abnormalLong.png";
 import Map1 from "./assets/maps/1.png";
 import Map2 from "./assets/maps/2.png";
 import Map4 from "./assets/maps/4.png";
@@ -33,7 +34,7 @@ const categoriesObj = [
   {
     id: "abnormal",
     name: "Abnormal Psychology",
-    level_background: Map1,
+    level_background: abnormalMap,
     cover: category1,
     primary_color: "#3B3F2A"
   },

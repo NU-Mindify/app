@@ -163,8 +163,12 @@ const Game = (props) => {
 
   const getQuestions = async () => {
     try {
+      let URL = `${process.env.EXPO_PUBLIC_URL}/getQuestions?category=${categoryIndex.id}&level=${level}`;
+      if(categoryIndex.id === "abnormal"){
+        URL = `${process.env.EXPO_PUBLIC_URL}/getQuestions?category=${categoryIndex.id}&start=${items[level].start}&end=${items[level].end}`;
+      }
       // const { data } = await axios.get(`${process.env.EXPO_PUBLIC_URL}/getQuestions?category=${'developmental'}&level=${1}`)
-      const { data } = await axios.get(`${process.env.EXPO_PUBLIC_URL}/getQuestions?category=${categoryIndex.id}&level=${level}`)
+      const { data } = await axios.get(URL)
       const questions = data.length !== 0 ? data : questionsData
 
       if(isMastery){
@@ -247,6 +251,48 @@ const Game = (props) => {
 
 export default Game;
 
+const items = {
+  1: {
+    start: 1,
+    end: 8
+  },
+  2: {
+    start: 9,
+    end: 15
+  },
+  3:{
+    start: 16,
+    end: 23,
+  },
+  4:{
+    start: 24,
+    end: 30,
+  },
+  5:{
+    start: 31,
+    end: 50,
+  },
+  6:{
+    start: 51,
+    end: 70
+  },
+  7:{
+    start: 71,
+    end: 78
+  },
+  8:{
+    start: 79,
+    end: 85
+  },
+  9:{
+    start: 86,
+    end: 93,
+  },
+  10:{
+    start: 94,
+    end:100
+  }
+}
 
 const Sound = () => {
   const [bgSound, setSound] = useState(null); // Keep the sound object in a module scope

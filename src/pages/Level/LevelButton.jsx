@@ -77,8 +77,6 @@ const LevelButton = ({
           position: "absolute",
           justifyContent: "center",
           alignItems: "center",
-          width: 48,
-          height: 60,
         },
         position,
       ]}
@@ -105,7 +103,8 @@ const LevelButton = ({
             color: "white",
             fontWeight: 900,
             fontSize: 32,
-            transform: [{ translateY: -40 }],
+            position:'absolute',
+            bottom: -14
           }}
         >
           {level}

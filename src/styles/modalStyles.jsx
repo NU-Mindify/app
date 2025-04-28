@@ -42,12 +42,13 @@ export const modalStyles = StyleSheet.create({
     alignItems: "center",
   },
   subtitle: {
-    fontSize: 22,
+    fontSize: 32,
     color: "white",
-    fontWeight: 900,
-    marginTop: 28,
+    padding:16,
+    paddingBottom:8,
     textAlign: "center",
     width: 260,
+    fontFamily: "LilitaOne-Regular",
   },
   bodyText: {
     color: "white",
