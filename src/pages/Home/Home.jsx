@@ -54,7 +54,7 @@ const Home = () => {
             style={styles.homeRoundedIcon}
             onPress={async () => {
               // nav.replace("Get Started");
-              await SignOut()
+              await SignOut();
               setAccountData(null);
             }}
           >
@@ -69,28 +69,29 @@ const Home = () => {
           style={{
             flexDirection: "row",
             justifyContent: "space-around",
-            marginBottom: 20,
+            alignItems: "center",
+            marginBottom: 30,
           }}
         >
           <TouchableOpacity style={{}} onPress={() => nav.navigate("Glossary")}>
-            <View style={styles.button}>
+            <View style={homeStyles.button}>
               <BookMarkedIcon size={32} color={"black"} />
             </View>
             <Text style={homeStyles.buttonText}>Glossary</Text>
           </TouchableOpacity>
 
           <TouchableOpacity style={{}} onPress={() => nav.navigate("Chatbot")}>
-            <View style={[styles.button, { flexDirection: "row" }]}>
+            <View style={[homeStyles.button]}>
               <MessageSquareQuoteIcon size={32} color={"black"} />
             </View>
             <Text style={homeStyles.buttonText}>ChatBot</Text>
           </TouchableOpacity>
 
           <TouchableOpacity style={{}} onPress={() => nav.navigate("Mindmap")}>
-            <View style={styles.button}>
+            <View style={[homeStyles.button]}>
               <BrainCircuitIcon size={32} color={"black"} />
             </View>
-            <Text style={homeStyles.buttonText}>Mind Map</Text>
+            <Text style={[homeStyles.buttonText]}>Mind Map</Text>
           </TouchableOpacity>
         </View>
       </AppBackground>
@@ -101,6 +102,11 @@ const Home = () => {
 export default Home;
 
 const homeStyles = StyleSheet.create({
+  button: {
+    ... styles.button, 
+    width: 80,
+    margin: 'auto'
+  },
   buttonText: {
     ...styles.buttonText,
     color: "white",

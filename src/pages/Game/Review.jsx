@@ -114,19 +114,22 @@ const QuestionCard = ({ data, index, choice }) => {
           <>
             <Text style={reviewStyle.bold}>
               Your Answer: {"\n"}
-              {choice.letter.toUpperCase()}. {choice.text}
-              {"\n"}
+              {choice.letter.toUpperCase()}. {choice.text}{"\n"}
             </Text>
-            {/* <Text style={[reviewStyle.text, { marginBottom: 6 }]}>
-              {data.rationale}
-            </Text> */}
+            {choice.rationale && (
+              <Text style={[reviewStyle.text, { marginBottom: 6 }]}>
+                {choice.rationale}
+              </Text>
+            )}
           </>
         )}
         <Text style={reviewStyle.bold}>
           Answer: {"\n"}
           {correctAnswer.letter.toUpperCase()}. {correctAnswer.text}
         </Text>
-        <Text style={reviewStyle.text}>{data.rationale}</Text>
+        <Text style={reviewStyle.text}>
+          {correctAnswer.rationale || data.rationale}
+        </Text>
       </View>
     </View>
   );
