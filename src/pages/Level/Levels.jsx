@@ -6,8 +6,11 @@ import {
   TouchableOpacity,
   Image,
   StatusBar,
+  ImageBackground,
+  Dimensions,
+  ScrollView,
 } from "react-native";
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useRef } from "react";
 import AppBackground from "../../components/AppBackground";
 import styles from "../../styles/styles";
 import { useNavigation } from "@react-navigation/native";
@@ -19,90 +22,153 @@ import AccountContext from "../../contexts/AccountContext";
 import locations from './locations.json'
 import classic from '../../assets/modal/classic.png'
 import masteryBtn from '../../assets/modal/mastery.png'
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { ArrowLeftCircle } from "lucide-react-native";
+import Leaderboard from "../Game/Leaderboard";
 
 const Levels = (props) => {
   const { categoryIndex, isMastery } = props.route.params;
-  const nav = useNavigation();
   const { accountData, progressData } = useContext(AccountContext);
   const categoryProgress = progressData[isMastery ? 'mastery' : 'classic'][categoryIndex.id]
   
-  const insets = useSafeAreaInsets();
-  const notchHeight = insets.top;
+  const scrollViewRef = useRef();
+  useEffect(() => {
+    scrollViewRef.current?.scrollToEnd({ animated: false });
+  }, []);
+
+  const [leaderboardLevel, setLeaderboardLevel] = useState(null)
+
+  // if (leaderboardLevel) {
+  //   return (
+  //     <AppBackground source={categoryIndex.level_background}>
+  //       <Leaderboard
+  //         onExit={() => {
+  //           setLeaderboardLevel(null)
+  //         }}
+  //         level={leaderboardLevel}
+  //         categoryIndex={categoryIndex}
+  //         isMastery={isMastery}
+  //       />
+  //     </AppBackground>
+  //   );
+  // }
+
   return (
-    <AppBackground source={categoryIndex.level_background}>
-      <View
+    <>
+      {leaderboardLevel && (
+        <View style={{ position: "absolute", top: 0, left: 0, width: '100%', height:'100%', backgroundColor: 'rgba(0,0,0,0.5)', zIndex:5 }}>
+          <Leaderboard
+            onExit={() => {
+              setLeaderboardLevel(null);
+            }}
+            level={leaderboardLevel}
+            categoryIndex={categoryIndex}
+            isMastery={isMastery}
+          />
+        </View>
+      )}
+      <ScrollView
+        stickyHeaderIndices={[0]}
+        ref={scrollViewRef}
+        inverted={true}
         style={{
-          justifyContent: "center",
-          alignItems: "center",
-          position: "absolute",
-          width: "100%",
-          paddingTop: notchHeight + 14,
-          backgroundColor: `${categoryIndex.primary_color}CC`,
-          paddingHorizontal: 24,
-          paddingVertical: 12,
-          flexDirection: "row",
+          height: Dimensions.get("screen").height,
+          backgroundColor: `${categoryIndex.primary_color}`,
         }}
+        overScrollMode="never"
+        scrollToOverflowEnabled={false}
+        decelerationRate="fast"
+        bounces={false}
       >
-        <TouchableOpacity
-          style={{
-            position: "absolute",
-            left: 16,
-            top: notchHeight + 6
-          }}
-          onPress={() => {
-            nav.goBack();
-          }}
+        <CategoryBar categoryIndex={categoryIndex} isMastery={isMastery} />
+        <ImageBackground
+          source={categoryIndex.level_background}
+          style={[{ height: 1500, width: "100%" }]}
+          resizeMode="cover"
+          resizeMethod="scale"
         >
-            <ArrowLeftCircle size={32} color={"white"} />
-        </TouchableOpacity>
-        <Text style={[styles.entryTitle, { color: "white", fontSize: 24 }]}>
-          {categoryIndex.name.toUpperCase()}
-        </Text>
-        <Image
-          source={isMastery ? masteryBtn : classic}
-          style={{
-            margin: "auto",
-            height: 40,
-            position: "absolute",
-            bottom: -45,
-          }}
-          resizeMode="contain"
-        />
-      </View>
-      <View style={{ flex: 1 }}>
-        {locations
-          .find((location) => location.id === categoryIndex.id)
-          .locations.map(({ level, position }, index) => (
-            <LevelButton
-              level={level}
-              position={position}
-              key={index}
-              categoryIndex={categoryIndex}
-              index={index}
-              isMastery={isMastery}
-              state={
-                level === "?" && categoryProgress === index
-                  ? "boss"
-                  : categoryProgress > index
-                  ? "done"
-                  : categoryProgress === index
-                  ? "current"
-                  : "soon"
-              }
-            />
-          ))}
-        <View
-          style={{
-            position: "absolute",
-            bottom: 0,
-            width: "100%",
-          }}
-        ></View>
-      </View>
-    </AppBackground>
+          <View style={{ flex: 1 }}>
+            {locations
+              .find((location) => location.id === categoryIndex.id)
+              .locations.map((details, index) => (
+                <LevelButton
+                  setLeaderboardLevel={(level) => setLeaderboardLevel(level)}
+                  details={details}
+                  key={index}
+                  categoryIndex={categoryIndex}
+                  index={index}
+                  isMastery={isMastery}
+                  state={
+                    details.level === "?" && categoryProgress === index
+                      ? "boss"
+                      : categoryProgress > index
+                      ? "done"
+                      : categoryProgress === index
+                      ? "current"
+                      : "soon"
+                  }
+                />
+              ))}
+            <View
+              style={{
+                position: "absolute",
+                bottom: 0,
+                width: "100%",
+              }}
+            ></View>
+          </View>
+        </ImageBackground>
+      </ScrollView>
+    </>
   );
 };
 
 export default Levels;
+
+const CategoryBar = ({categoryIndex, isMastery}) => {
+  const nav = useNavigation();
+  const insets = useSafeAreaInsets();
+  const notchHeight = insets.top;
+  return (
+    <View
+      style={{
+        justifyContent: "center",
+        alignItems: "center",
+        width: "100%",
+        zIndex:5,
+        paddingTop: notchHeight + 14,
+        backgroundColor: `${categoryIndex.primary_color}CC`,
+        paddingHorizontal: 24,
+        paddingVertical: 12,
+        flexDirection: "row",
+        flex: 0
+      }}
+    >
+      <TouchableOpacity
+        style={{
+          position: "absolute",
+          left: 16,
+          top: notchHeight + 6,
+        }}
+        onPress={() => {
+          nav.goBack();
+        }}
+      >
+        <ArrowLeftCircle size={32} color={"white"} />
+      </TouchableOpacity>
+      <Text style={[styles.entryTitle, { color: "white", fontSize: 24 }]}>
+        {categoryIndex.name.toUpperCase()}
+      </Text>
+      <Image
+        source={isMastery ? masteryBtn : classic}
+        style={{
+          margin: "auto",
+          height: 40,
+          position: "absolute",
+          bottom: -45,
+        }}
+        resizeMode="contain"
+      />
+    </View>
+  );
+}

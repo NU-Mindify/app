@@ -5,6 +5,8 @@ import RedGirl from "./assets/avatar/redGirl.svg";
 import WhiteMan from "./assets/avatar/whiteMan.svg";
 import WhiteOrangeGirl from "./assets/avatar/whiteOrangeGirl.svg";
 
+import abnormalMap from "./assets/maps/abnormalLong.png";
+import developmentalMap from "./assets/maps/developmental.png";
 import Map1 from "./assets/maps/1.png";
 import Map2 from "./assets/maps/2.png";
 import Map4 from "./assets/maps/4.png";
@@ -24,18 +26,20 @@ const avatars = [
 
 const categoriesObj = [
   {
-    id: "developmental",
-    name: "Developmental Psychology",
-    level_background: Map2,
-    cover: map2,
-    primary_color: "#99E143"
-  },
-  {
     id: "abnormal",
     name: "Abnormal Psychology",
-    level_background: Map1,
+    level_background: abnormalMap,
     cover: category1,
-    primary_color: "#3B3F2A"
+    primary_color: "#3B3F2A",
+    secondary_color: "#248552"
+  },
+  {
+    id: "developmental",
+    name: "Developmental Psychology",
+    level_background: developmentalMap,
+    cover: map2,
+    primary_color: "#7F9F30",
+    secondary_color: "#A9CA59"
   },
   {
     id: "psychological",

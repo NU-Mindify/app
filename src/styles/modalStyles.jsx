@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 
 export const modalStyles = StyleSheet.create({
   modalBackground: {
@@ -7,9 +7,10 @@ export const modalStyles = StyleSheet.create({
     alignItems: "center",
     position: "absolute",
     top: "50%",
-    width: "100%",
-    height: "100%",
+    width: Dimensions.get("screen").width,
+    height: Dimensions.get("screen").height,
     backgroundColor: "rgba(0,0,0,0.5)",
+    zIndex: 10,
     transform: [
       {
         translateY: "-50%",
@@ -41,18 +42,19 @@ export const modalStyles = StyleSheet.create({
     alignItems: "center",
   },
   subtitle: {
-    fontSize: 22,
+    fontSize: 32,
     color: "white",
-    fontWeight: 900,
-    marginTop: 28,
+    padding:16,
+    paddingBottom:8,
     textAlign: "center",
-    width:260
+    width: 260,
+    fontFamily: "LilitaOne-Regular",
   },
   bodyText: {
     color: "white",
     marginTop: 12,
     width: 250,
-    textAlign:'center',
+    textAlign: "center",
     fontSize: 18,
   },
 });

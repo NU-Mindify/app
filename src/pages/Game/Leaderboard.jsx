@@ -6,15 +6,17 @@ import moment from "moment";
 import styles from "../../styles/styles";
 import X from "../../assets/generic/X-White.svg";
 import Animated, { ZoomIn, ZoomOut } from "react-native-reanimated";
-import GameContext from "../../contexts/GameContext";
 import axios from "axios";
 import { API_URL, avatars } from "../../constants";
+import LottieView from "lottie-react-native";
+import loading from "../../anim/loading_circle.json";
 
-const Leaderboard = ({ onExit }) => {
-  const { level, categoryIndex, isMastery } = useContext(GameContext);
+const Leaderboard = ({ onExit, level, categoryIndex, isMastery, current }) => {
   const [list, setList] = useState([]);
+  const [isLoading, setLoading] = useState(true)
 
   const getList = async () => {
+    setLoading(true)
     try {
       const { data } = await axios.get(
         API_URL +
@@ -22,6 +24,7 @@ const Leaderboard = ({ onExit }) => {
             isMastery ? "mastery" : "classic"
           }`
       );
+      setLoading(false)
       setList(data);
       console.log(data);
     } catch (error) {
@@ -90,9 +93,32 @@ const Leaderboard = ({ onExit }) => {
           borderColor: "#2E5A9F",
         }}
       >
+          {isLoading && (
+            <LottieView
+              style={{
+                width: "100%",
+                height: "20%",
+                marginTop: 20,
+                padding: 0,
+                transform: [{ scale: 1.6 }],
+              }}
+              speed={2}
+              resizeMode="center"
+              source={loading}
+              autoPlay
+              loop
+            />
+          )}
+          {!isLoading && list.length === 0 &&
+          <Text style={{fontSize: 24, textAlign:'center', marginTop: 24}}>No data to display yet.</Text>}
         <ScrollView contentContainerStyle={{ padding: 12 }} style={{ flex: 1 }}>
           {list.map((user, index) => (
-            <UserCard data={user} key={user._id} index={index} />
+            <UserCard
+              data={user}
+              key={user._id}
+              index={index}
+              current={current}
+            />
           ))}
         </ScrollView>
       </View>
@@ -109,14 +135,14 @@ const tabStyle = {
 
 export default Leaderboard;
 
-const UserCard = ({ data, index }) => {
+const UserCard = ({ data, index, current }) => {
   const Avatar = avatars[data.user_id.avatar];
   return (
     <>
       <View
         style={[
           {
-            backgroundColor: "#FBF0EE",
+            backgroundColor: data._id === current ? "#fdffcc" : "#FBF0EE",
             borderColor: "white",
             boxShadow: `0px 2px 6px black`,
             borderWidth: 2,

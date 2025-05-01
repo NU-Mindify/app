@@ -6,6 +6,7 @@ import MindifyLogo from "../../assets/Logo.png";
 import { AuthHandler } from '../../hooks/useFirebase';
 import LottieView from 'lottie-react-native';
 import plane from '../../anim/plane.json'
+import loading from '../../anim/loading.json'
 
 const SplashScreen = () => {
   AuthHandler()
@@ -25,7 +26,7 @@ const SplashScreen = () => {
           margin: "auto",
           marginTop: 0,
         }}
-        source={plane}
+        source={loading}
         autoPlay
         loop
       />

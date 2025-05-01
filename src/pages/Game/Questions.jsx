@@ -17,14 +17,19 @@ export default function Questions({ data, onAnswer, number, length }) {
   const { level } = useContext(GameContext);
   return (
     <>
-      <Animated.Image
-        source={abnormalTitle}
-        style={[QuesStyles.levelTitleStyle, { marginHorizontal: "auto" }]}
-        entering={number === 0 ? ZoomIn : undefined}
-      />
-      <Text style={{ marginTop: "-6%" }}>Level: {level}</Text>
-      <Text>Progress Bar</Text>
-
+      {/* <Text>Progress Bar</Text>
+      <View style={{ backgroundColor: "white", flex: 1, width: "80%" }}>
+        <Text>
+          QUESTION {number + 1} / {length}
+        </Text>
+        <Text>{data.question}</Text>
+        <Text>______________________________</Text>
+        {data.choices.map((choice, index) => (
+          <View style={{ borderColor: "#E48238" }}>
+            <Text></Text>
+          </View>
+        ))}
+      </View> */}
       {/*------------------------------  QUESTION CARD ----------------------------------*/}
       <Animated.View
         style={[QuesStyles.quesCont, { marginBottom: 20 }]}

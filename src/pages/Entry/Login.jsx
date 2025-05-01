@@ -7,6 +7,7 @@ import AccountContext from "../../contexts/AccountContext";
 import styles from "../../styles/styles";
 import { useNavigation } from "@react-navigation/native";
 import useFirebase, { loginAuth } from "../../hooks/useFirebase";
+import LoadingOverlay from "../../components/LoadingOverlay";
 
 const Login = ({ set }) => {
   const [username, setUsername] = useState("fjsalles.04@gmail.com");
@@ -38,13 +39,14 @@ const Login = ({ set }) => {
   }
   return (
     <>
+      {isFormDisabled && <LoadingOverlay text={"Signing In..."} />}
       <Animated.View
         entering={FlipInXUp}
         exiting={FlipOutXDown}
         style={styles.entryBackground}
       >
-        <Text style={styles.entryTitle}>Log In</Text>
-        <Text style={styles.entryBody}>Login your account to get started.</Text>
+        <Text style={styles.entryTitle}>Sign In</Text>
+        <Text style={styles.entryBody}>Sign in to your account to get started.</Text>
         <Input
           placeholder="Email"
           Icon={UserCircle2}
@@ -60,17 +62,19 @@ const Login = ({ set }) => {
           value={password}
           disabled={isFormDisabled}
         />
-        <TouchableOpacity 
-          onPress={onSubmit} 
+        <TouchableOpacity
+          onPress={onSubmit}
           style={
-            isFormDisabled ? 
-            [styles.buttonOpacity, {backgroundColor: 'gray'}] : 
-            styles.buttonOpacity
-          } 
+            isFormDisabled
+              ? [styles.buttonOpacity, { backgroundColor: "gray" }]
+              : styles.buttonOpacity
+          }
           disabled={isFormDisabled}
         >
           <View style={styles.button}>
-            <Text style={styles.buttonText}>{isFormDisabled ? "..." : "Log In"}</Text>
+            <Text style={styles.buttonText}>
+              Sign In
+            </Text>
           </View>
         </TouchableOpacity>
       </Animated.View>
@@ -89,7 +93,7 @@ const Login = ({ set }) => {
             set("register");
           }}
         >
-          Register
+          Sign Up
         </Text>
       </Animated.View>
     </>
