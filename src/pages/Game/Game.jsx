@@ -12,8 +12,9 @@ import GameContext from "../../contexts/GameContext";
 import axios from "axios";
 import { Audio } from "expo-av";
 import { API_URL } from "../../constants";
-import { ToastAndroid } from "react-native";
+import { Text, ToastAndroid } from "react-native";
 import ModalContext from "../../contexts/ModalContext";
+import Animated from "react-native-reanimated";
 
 const Game = (props) => {
   const { level, levelIndex, categoryIndex, isMastery } = props.route.params;
@@ -26,6 +27,7 @@ const Game = (props) => {
   const [currentQuestion, setCurrentQuestion] = useState(null);
   const [rationaleModal, setRationaleModal] = useState(null);
   const [postGameScreen, setPostGameScreen] = useState("");
+  const [currentAttemptID, setCurrentAttemptID] = useState(null)
   const [stats, setStats] = useState({
     startTime: moment(),
     correct: 0,
@@ -106,6 +108,7 @@ const Game = (props) => {
       if (isMovingToNextLevel() && isScorePassed()) {
         setProgressData(data.progress_data);
       }
+      setCurrentAttemptID(data.attempt._id)
       setPostGameScreen("Results");
     } catch (error) {
       ToastAndroid.show("Failed to add record: " + error, ToastAndroid.LONG);
@@ -211,13 +214,20 @@ const Game = (props) => {
         }}
       >
         {currentQuestion && (
-          <Questions
-            level={level}
-            data={currentQuestion}
-            number={currentNumber}
-            onAnswer={onAnswerSelect}
-            length={questions.length}
-          />
+          <>
+            <Animated.View
+              style={{ width:'85%', margin:'auto', borderRadius: 24, backgroundColor: "white" }}
+            >
+              <Text style={{fontSize: 20, fontFamily: 'LilitaOne-Regular', textAlign:'center', padding:12, color: categoryIndex.primary_color}}>{categoryIndex.name.toUpperCase()}</Text>
+            </Animated.View>
+            <Questions
+              level={level}
+              data={currentQuestion}
+              number={currentNumber}
+              onAnswer={onAnswerSelect}
+              length={questions.length}
+            />
+          </>
         )}
         {rationaleModal && <RationaleModal modal={rationaleModal} />}
         {questions &&
@@ -236,11 +246,12 @@ const Game = (props) => {
             />
           ) : (
             postGameScreen === "Leaderboard" && (
-              <Leaderboard 
-                onExit={() => setPostGameScreen("Results")} 
-                level={level} 
-                categoryIndex={categoryIndex} 
-                isMastery={isMastery} 
+              <Leaderboard
+                onExit={() => setPostGameScreen("Results")}
+                level={level}
+                categoryIndex={categoryIndex}
+                isMastery={isMastery}
+                current={currentAttemptID}
               />
             )
           ))}

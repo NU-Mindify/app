@@ -38,28 +38,43 @@ const Levels = (props) => {
 
   const [leaderboardLevel, setLeaderboardLevel] = useState(null)
 
-  if (leaderboardLevel) {
-    return (
-      <AppBackground source={categoryIndex.level_background}>
-        <Leaderboard
-          onExit={() => {
-            setLeaderboardLevel(null)
-          }}
-          level={leaderboardLevel}
-          categoryIndex={categoryIndex}
-          isMastery={isMastery}
-        />
-      </AppBackground>
-    );
-  }
+  // if (leaderboardLevel) {
+  //   return (
+  //     <AppBackground source={categoryIndex.level_background}>
+  //       <Leaderboard
+  //         onExit={() => {
+  //           setLeaderboardLevel(null)
+  //         }}
+  //         level={leaderboardLevel}
+  //         categoryIndex={categoryIndex}
+  //         isMastery={isMastery}
+  //       />
+  //     </AppBackground>
+  //   );
+  // }
 
   return (
     <>
+      {leaderboardLevel && (
+        <View style={{ position: "absolute", top: 0, left: 0, width: '100%', height:'100%', backgroundColor: 'rgba(0,0,0,0.5)', zIndex:5 }}>
+          <Leaderboard
+            onExit={() => {
+              setLeaderboardLevel(null);
+            }}
+            level={leaderboardLevel}
+            categoryIndex={categoryIndex}
+            isMastery={isMastery}
+          />
+        </View>
+      )}
       <ScrollView
         stickyHeaderIndices={[0]}
         ref={scrollViewRef}
         inverted={true}
-        style={{ height: Dimensions.get("screen").height, backgroundColor:`${categoryIndex.primary_color}` }}
+        style={{
+          height: Dimensions.get("screen").height,
+          backgroundColor: `${categoryIndex.primary_color}`,
+        }}
         overScrollMode="never"
         scrollToOverflowEnabled={false}
         decelerationRate="fast"
@@ -75,17 +90,16 @@ const Levels = (props) => {
           <View style={{ flex: 1 }}>
             {locations
               .find((location) => location.id === categoryIndex.id)
-              .locations.map(({ level, position }, index) => (
+              .locations.map((details, index) => (
                 <LevelButton
                   setLeaderboardLevel={(level) => setLeaderboardLevel(level)}
-                  level={level}
-                  position={position}
+                  details={details}
                   key={index}
                   categoryIndex={categoryIndex}
                   index={index}
                   isMastery={isMastery}
                   state={
-                    level === "?" && categoryProgress === index
+                    details.level === "?" && categoryProgress === index
                       ? "boss"
                       : categoryProgress > index
                       ? "done"
