@@ -13,8 +13,7 @@ import levelyellowPressed from '../../assets/level/levelyellowPressed.png';
 import ModalContext from '../../contexts/ModalContext';
 
 const LevelButton = ({
-  position,
-  level,
+  details: {level, position, items, time},
   state,
   index,
   categoryIndex,
@@ -55,13 +54,19 @@ const LevelButton = ({
       secondaryFn: () => {
         setModal(null);
       },
-      body: `Difficulty: ${
+      body: `Difficulty: \t\t\t\t\t${
         level === "?" ? "Hard" : level < 3 ? "Easy" : "Average"
-      }\nStart Quiz?`,
+      }
+      \nQuestions: \t\t\t\t\t ${items} items
+      \nTime per item:\t\t\t\t\t ${time} seconds`,
       mode: "LevelSelect",
       onLeaderboard: () => {
-        setLeaderboardLevel(level)
+        setLeaderboardLevel(level);
         setModal(null);
+      },
+      colors: {
+        primary_color: categoryIndex.primary_color,
+        secondary_color: categoryIndex.secondary_color
       }
     });
   };

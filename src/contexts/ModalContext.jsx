@@ -5,6 +5,7 @@ import { createContext } from 'react'
    * @property {string} title
    * @property {string} subtitle
    * @property {string} body
+   * @property {string} text_color
    * @property {(() => void)} primaryFn
    * @property {(() => void)} secondaryFn
    * 

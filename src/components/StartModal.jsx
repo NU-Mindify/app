@@ -48,98 +48,43 @@ export default function Start() {
         >
           {modal.mode === "LevelSelect" ? (
             <>
-              <Image source={ModalBg} style={modalStyles.imageStyle} />
-              <Text style={modalStyles.subtitle}>{modal.subtitle}</Text>
-              <Text style={modalStyles.bodyText}>{modal.body}</Text>
-              <Animated.View
-                style={[modalStyles.btnContainer, { marginTop: 4 }]}
-                entering={BounceIn}
-                exiting={BounceOut}
-              >
-                <TouchableOpacity onPress={handlesYes}>
-                  <Animated.Image source={YesButton} />
-                </TouchableOpacity>
+              <Title title={"START"} colors={modal.colors} />
+              <Body close={modal.secondaryFn} colors={modal.colors}>
+                <Text style={[modalStyles.subtitle, {color: modal.colors.primary_color}]}>{modal.subtitle}</Text>
+                <Text style={[modalStyles.bodyText, modal.colors && {color:'black'}]}>{modal.body}</Text>
+                <View
+                  style={[modalStyles.btnContainer]}
+                >
 
-                <TouchableOpacity onPress={handlesNo}>
-                  <Animated.Image source={NoButton} />
-                </TouchableOpacity>
-              </Animated.View>
-              <Button
-                text={"Leaderboard"}
-                onPress={modal.onLeaderboard}
-                style={{ marginVertical: 6 }}
-              />
+                  <Button text={"Start"} onPress={modal.primaryFn} style={{width:'50%'}} />
+                </View>
+              </Body>
+              {/* <View style={[style.outer, {marginTop:12}]}>
+                <View style={style.inner}> */}
+                  <Button
+                    text={"View Leaderboard"}
+                    onPress={modal.onLeaderboard}
+                    style={{ marginVertical: 16 }}
+                    textStyle={{fontSize: 18}}
+                  />
+                {/* </View>
+              </View> */}
             </>
           ) : (
             <>
-              <Animated.View
-                entering={FlipInXDown.delay(400)}
-                style={[
-                  style.outer,
-                  {
-                    borderBottomStartRadius: 0,
-                    borderBottomEndRadius: 0,
-                    padding: 8,
-                    width: "50%",
-                    backgroundColor: "#35408E",
-                    borderBottomWidth: 0
-                  },
-                ]}
-              >
-                <Text
-                  style={[
-                    {
-                      fontFamily: "LilitaOne-Regular",
-                      color: "white",
-                      fontSize: 32,
-                      textAlign: "center",
-                    },
-                  ]}
-                >
-                  Select Mode
+              <Title title={"Select Mode"} />
+              <Body close={modal.secondaryFn}>
+                <Text style={[modalStyles.subtitle]}>
+                  {modal.subtitle.toUpperCase()}
                 </Text>
-              </Animated.View>
 
-              <View style={[style.outer]}>
-                <View style={[style.inner]}>
-                  {/* X Button */}
-                  <View
-                    style={[
-                      {
-                        zIndex: 4,
-                        position: "absolute",
-                        top: -26,
-                        right: -26,
-                      },
-                    ]}
-                  >
-                    <TouchableOpacity activeOpacity={0.7} onPress={handlesNo}>
-                      <X width={42} height={42} />
-                    </TouchableOpacity>
-                  </View>
-
-                  <Text style={[modalStyles.subtitle]}>{modal.subtitle.toUpperCase()}</Text>
-                  <Animated.View
-                    style={[
-                      modalStyles.btnContainer,
-                      {
-                        flexDirection: "column",
-                        marginTop: 2,
-                        padding: 0,
-                      },
-                    ]}
-                    entering={BounceIn}
-                    exiting={BounceOut}
-                  >
-                    <TouchableOpacity onPress={handlesYes}>
-                      <Animated.Image source={classic} />
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => modal.masteryFn()}>
-                      <Animated.Image source={mastery} />
-                    </TouchableOpacity>
-                  </Animated.View>
-                </View>
-              </View>
+                <TouchableOpacity onPress={handlesYes}>
+                  <Image source={classic} />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => modal.masteryFn()}>
+                  <Image source={mastery} />
+                </TouchableOpacity>
+              </Body>
             </>
           )}
         </Animated.View>
@@ -147,7 +92,67 @@ export default function Start() {
     </>
   );
 }
-
+const Title = ({ title, colors }) => {
+  return (
+    <Animated.View
+      entering={FlipInXDown.delay(200)}
+      style={[
+        style.outer,
+        style.title,
+        colors && {
+          borderColor: colors.secondary_color,
+          backgroundColor: 'white',
+        },
+      ]}
+    >
+      <Text
+        style={[
+          {
+            fontFamily: "LilitaOne-Regular",
+            color: "white",
+            fontSize: 32,
+            textAlign: "center",
+          },
+          colors && {
+            color: colors.primary_color
+          }
+        ]}
+      >
+        {title}
+      </Text>
+    </Animated.View>
+  );
+}
+const Body = ({ children, close=()=>{}, colors }) => {
+  console.log(colors);
+  
+  return (
+    <View
+      style={[style.outer, colors && { borderColor: colors.secondary_color, backgroundColor: colors.secondary_color }]}
+    >
+      <View
+        style={[style.inner, colors && { borderColor: colors.primary_color, backgroundColor: 'white' }]}
+      >
+        {/* X Button */}
+        <View
+          style={[
+            {
+              zIndex: 4,
+              position: "absolute",
+              top: -26,
+              right: -26,
+            },
+          ]}
+        >
+          <TouchableOpacity activeOpacity={0.7} onPress={close}>
+            <X width={42} height={42} />
+          </TouchableOpacity>
+        </View>
+        {children}
+      </View>
+    </View>
+  );
+};
 const style = StyleSheet.create({
   outer: {
     borderRadius: 24,
@@ -164,5 +169,13 @@ const style = StyleSheet.create({
     borderRadius: 24,
     borderColor: "#2D3A72",
     borderWidth: 8,
+  },
+  title: {
+    borderBottomStartRadius: 0,
+    borderBottomEndRadius: 0,
+    padding: 8,
+    paddingHorizontal: 32,
+    backgroundColor: "#35408E",
+    borderBottomWidth: 0,
   },
 });
