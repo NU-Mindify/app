@@ -24,6 +24,7 @@ import React from "react";
 import X from "../assets/generic/x.svg";
 import Button from "./Button";
 
+
 export default function Start() {
   const { modal, setModal } = useContext(ModalContext);
   function handlesYes() {
@@ -55,7 +56,6 @@ export default function Start() {
                 <View
                   style={[modalStyles.btnContainer]}
                 >
-
                   <Button text={"Start"} onPress={modal.primaryFn} style={{width:'50%'}} />
                 </View>
               </Body>
