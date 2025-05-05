@@ -108,7 +108,10 @@ const Game = (props) => {
       if (isMovingToNextLevel() && isScorePassed()) {
         setProgressData(data.progress_data);
       }
-      setCurrentAttemptID(data.attempt._id)
+      console.log(data);
+      if(data.attempt){
+        setCurrentAttemptID(data.attempt._id)
+      }
       setPostGameScreen("Results");
     } catch (error) {
       ToastAndroid.show("Failed to add record: " + error, ToastAndroid.LONG);

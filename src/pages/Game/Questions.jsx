@@ -17,21 +17,76 @@ export default function Questions({ data, onAnswer, number, length }) {
   const { level } = useContext(GameContext);
   return (
     <>
-      {/* <Text>Progress Bar</Text>
-      <View style={{ backgroundColor: "white", flex: 1, width: "80%" }}>
-        <Text>
+      <Text>Progress Bar</Text>
+      <Animated.ScrollView
+        entering={BounceIn}
+        style={{
+          flex: 1,
+          marginBottom: 24,
+          borderRadius: 18,
+          width: "90%",
+          margin: "auto",
+        }}
+        contentContainerStyle={{
+          backgroundColor: "white",
+          padding: 18,
+          justifyContent: "flex-start",
+          borderRadius: 18,
+          margin: 'auto'
+        }}
+      >
+        <Text
+          style={{
+            fontSize: 24,
+            fontFamily: "LilitaOne-Regular",
+            textAlign: "center",
+          }}
+        >
           QUESTION {number + 1} / {length}
         </Text>
-        <Text>{data.question}</Text>
-        <Text>______________________________</Text>
-        {data.choices.map((choice, index) => (
-          <View style={{ borderColor: "#E48238" }}>
-            <Text></Text>
-          </View>
-        ))}
-      </View> */}
+        <View style={{ padding: 12 }}>
+          <Text style={{ fontSize:16, textAlign: "center", fontFamily: "Poppins-Medium" }}>
+            {data.question}
+          </Text>
+        </View>
+
+        <View style={{ gap: 8 }}>
+          {data.choices.map((choice, index) => (
+            <TouchableOpacity
+              style={{}}
+              key={index}
+              onPress={() => onAnswer(choice)}
+            >
+              <Animated.View
+                entering={SlideInLeft.delay(200 + index * 100)}
+                style={{
+                  borderColor: "#248552",
+                  backgroundColor: "#248552",
+                  borderWidth: 4,
+                  borderRadius: 8,
+                }}
+              >
+                <Text
+                  style={{
+                    textAlign: "center",
+                    backgroundColor: "#FBF0CB",
+                    borderColor: "#3B3F2A",
+                    borderWidth: 4,
+                    padding: 12,
+                    borderRadius: 8,
+                    fontFamily: "Poppins-Medium",
+                  }}
+                >
+                  {choice.letter.toUpperCase()}. {choice.text}
+                </Text>
+              </Animated.View>
+            </TouchableOpacity>
+          ))}
+        </View>
+      </Animated.ScrollView>
+      <View style={{ flex: 0, justifyContent: "flex-end" }} />
       {/*------------------------------  QUESTION CARD ----------------------------------*/}
-      <Animated.View
+      {/* <Animated.View
         style={[QuesStyles.quesCont, { marginBottom: 20 }]}
         entering={ZoomIn}
         exiting={ZoomOut}
@@ -80,10 +135,10 @@ export default function Questions({ data, onAnswer, number, length }) {
             </Text>
           </ScrollView>
         </Animated.View>
-      </Animated.View>
+      </Animated.View> */}
 
       {/*------------------------------ MGA CHOICES ----------------------------------*/}
-      <View style={QuesStyles.choicesMainCont}>
+      {/* <View style={QuesStyles.choicesMainCont}>
         {data.choices.map((choice, index) => (
           <TouchableOpacity
             key={index}
@@ -106,7 +161,7 @@ export default function Questions({ data, onAnswer, number, length }) {
             </Animated.View>
           </TouchableOpacity>
         ))}
-      </View>
+      </View> */}
     </>
   );
 }

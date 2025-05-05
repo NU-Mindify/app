@@ -34,24 +34,9 @@ const Levels = (props) => {
   const scrollViewRef = useRef();
   useEffect(() => {
     scrollViewRef.current?.scrollToEnd({ animated: false });
-  }, []);
+  }, [scrollViewRef]);
 
   const [leaderboardLevel, setLeaderboardLevel] = useState(null)
-
-  // if (leaderboardLevel) {
-  //   return (
-  //     <AppBackground source={categoryIndex.level_background}>
-  //       <Leaderboard
-  //         onExit={() => {
-  //           setLeaderboardLevel(null)
-  //         }}
-  //         level={leaderboardLevel}
-  //         categoryIndex={categoryIndex}
-  //         isMastery={isMastery}
-  //       />
-  //     </AppBackground>
-  //   );
-  // }
 
   return (
     <>
@@ -70,7 +55,6 @@ const Levels = (props) => {
       <ScrollView
         stickyHeaderIndices={[0]}
         ref={scrollViewRef}
-        inverted={true}
         style={{
           height: Dimensions.get("screen").height,
           backgroundColor: `${categoryIndex.primary_color}`,
@@ -78,7 +62,6 @@ const Levels = (props) => {
         overScrollMode="never"
         scrollToOverflowEnabled={false}
         decelerationRate="fast"
-        bounces={false}
       >
         <CategoryBar categoryIndex={categoryIndex} isMastery={isMastery} />
         <ImageBackground

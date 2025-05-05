@@ -9,7 +9,9 @@ const Input = ({
   secure = false,
   disabled = false,
   style = {},
-  inputStyle = {}
+  inputStyle = {},
+  textContentType = "none",
+  keyboardType = "default"
 }) => {
   return (
     <View
@@ -38,6 +40,8 @@ const Input = ({
         editable={!disabled}
         selectTextOnFocus={!disabled}
         style={[{ flex: 1 }, inputStyle]}
+        keyboardType={keyboardType}
+        textContentType={textContentType}
       ></TextInput>
       {children}
     </View>

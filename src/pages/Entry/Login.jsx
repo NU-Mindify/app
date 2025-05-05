@@ -46,13 +46,17 @@ const Login = ({ set }) => {
         style={styles.entryBackground}
       >
         <Text style={styles.entryTitle}>Sign In</Text>
-        <Text style={styles.entryBody}>Sign in to your account to get started.</Text>
+        <Text style={styles.entryBody}>
+          Sign in to your account to get started.
+        </Text>
         <Input
           placeholder="Email"
           Icon={UserCircle2}
           onChangeText={(text) => setUsername(text)}
           value={username}
           disabled={isFormDisabled}
+          textContentType="emailAddress"
+          keyboardType="email-address"
         />
         <Input
           placeholder={"Password"}
@@ -61,6 +65,7 @@ const Login = ({ set }) => {
           onChangeText={(text) => setPassword(text)}
           value={password}
           disabled={isFormDisabled}
+          textContentType="password"
         />
         <TouchableOpacity
           onPress={onSubmit}
@@ -72,9 +77,7 @@ const Login = ({ set }) => {
           disabled={isFormDisabled}
         >
           <View style={styles.button}>
-            <Text style={styles.buttonText}>
-              Sign In
-            </Text>
+            <Text style={styles.buttonText}>Sign In</Text>
           </View>
         </TouchableOpacity>
       </Animated.View>
