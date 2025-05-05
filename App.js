@@ -22,6 +22,8 @@ import Verify from './src/pages/Entry/Verify';
 import TermsAndConditions from './src/pages/Entry/TermsAndConditions';
 import * as ExpoSplashScreen from 'expo-splash-screen';
 import LilitaFont from './src/assets/fonts/LilitaOne-Regular.ttf'
+import PoppinsFont from './src/assets/fonts/Poppins-Regular.ttf'
+import PoppinsMediumFont from './src/assets/fonts/Poppins-Medium.ttf'
 import { useFonts } from 'expo-font';
 
 ExpoSplashScreen.preventAutoHideAsync();
@@ -38,6 +40,8 @@ ExpoSplashScreen.preventAutoHideAsync();
 export default function App() { 
   const [fontLoaded, fontError] = useFonts({
     'LilitaOne-Regular': LilitaFont,
+    'Poppins-Regular': PoppinsFont,
+    'Poppins-Medium': PoppinsMediumFont,
   });
   const Stack = createNativeStackNavigator();
   const [accountData, setAccountData] = useState(null)
