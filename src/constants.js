@@ -64,6 +64,23 @@ const categoriesObj = [
   },
 ]
 
+const gameColors = {
+  developmental: {
+    background: ["#D0E796", "#7F9F30"],
+    answerBorder: {
+      inner: "#E48238",
+      outer: "#A15A24"
+    }
+  },
+  abnormal: {
+    background: ["#7A825B", "#1E2921"],
+    answerBorder: {
+      inner: "#3B3F2A",
+      outer: "#248552"
+    }
+  }
+}
+
 const API_URL = process.env.EXPO_PUBLIC_URL;
 
-export { API_URL, avatars, categoriesObj };
+export { API_URL, avatars, categoriesObj, gameColors };
