@@ -6,6 +6,8 @@ import answerBanner from '../../assets/rationale/answerBanner.png'
 import answerBody from '../../assets/rationale/answerBody.png'
 import answerContinue from '../../assets/rationale/answerContinue.png'
 import ModalContext from '../../contexts/ModalContext'
+import { Body, Title } from '../../components/StartModal'
+import Button from '../../components/Button'
 
 export default function RationaleModal ({modal}) {
   
@@ -20,80 +22,39 @@ export default function RationaleModal ({modal}) {
         entering={BounceIn.duration(500)}
         exiting={ZoomOut.duration(300)}
       >
-        <Animated.Image
-          source={answerBanner}
-          style={[
-            modalStyles.imageStyle,
-            {
-              top: -50,
-              zIndex: 2,
-            },
-          ]}
-        />
-        <Text style={[modalStyles.imageStyle,{
-          top:-20,
-          zIndex:2,
-          textAlign:'center',
-          fontWeight: 900,
-          fontSize:24,
-          color:'white'
-        }]}>
-          {modal.title}
-        </Text>
-        {/* <Animated.Image source={answerBody} style={modalStyles.imageStyle} /> */}
-        <View
-          style={{
-            borderRadius: 24,
-            borderColor: "#2D3A72",
-            borderWidth: 8,
-            backgroundColor: "#2D3A72",
-          }}
-        >
-          <View
-            style={{
-              justifyContent: "center",
-              alignItems: "center",
-              backgroundColor: "#35408E",
-              padding: 24,
-              paddingTop:0,
-              borderRadius: 24,
-              borderColor: "#FDD116",
-              borderWidth: 8,
-            }}
-          >
-            {modal.hasOwnProperty("isCorrect") && 
+        <Title title={modal.title} colors={modal.colors} />
+        <Body colors={modal.colors} closeButton={false}>
+          {modal.hasOwnProperty("isCorrect") && (
             <Text
-            style={[
-              modalStyles.subtitle,
-              {
-                color: modal.isCorrect ? "green" : "red",
-                backgroundColor: "#F9EBDE",
-                borderColor: "#1C4384",
-                borderWidth: 4,
-                width: 220,
-                padding: 20,
-                borderRadius: 8,
-              },
-            ]}
+              style={[
+                modalStyles.subtitle,
+                {
+                  color: modal.isCorrect ? "green" : "red",
+                  borderColor: modal.colors.primary_color,
+                  borderWidth: 4,
+                  borderRadius: 8,
+                  margin:12,
+                  padding: 16,
+                },
+              ]}
             >
               {modal.isCorrect ? "CORRECT" : "WRONG"}
             </Text>
-            }
-            <Text style={[modalStyles.subtitle, { marginTop: 24 }]}>
-              {modal.subtitle}
-            </Text>
-            <Text style={modalStyles.bodyText}>{modal.body}</Text>
-            <Animated.View
-              style={modalStyles.btnContainer}
-              entering={BounceIn}
-              exiting={BounceOut}
-            >
-              <TouchableOpacity onPress={() => modal.primaryFn()}>
-                <Image source={answerContinue} />
-              </TouchableOpacity>
-            </Animated.View>
+          )}
+          <Text
+            style={[modalStyles.subtitle, { color: "black", fontSize:24, paddingBottom:0 }]}
+          >
+            {modal.subtitle}
+          </Text>
+          <Text style={[modalStyles.bodyText, { color: "black" }]}>
+            {modal.body}
+          </Text>
+          <View
+            style={modalStyles.btnContainer}
+          >
+            <Button text={"CONTINUE"} onPress={() => modal.primaryFn()} style={{width:'70%'}} />
           </View>
-        </View>
+        </Body>
       </Animated.View>
     </Animated.View>
   );
