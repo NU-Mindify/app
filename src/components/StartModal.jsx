@@ -50,7 +50,7 @@ export default function Start() {
           {modal.mode === "LevelSelect" ? (
             <>
               <Title title={"START"} colors={modal.colors} />
-              <Body close={modal.secondaryFn} colors={modal.colors}>
+              <Body onClose={modal.secondaryFn} colors={modal.colors}>
                 <Text style={[modalStyles.subtitle, {color: modal.colors.primary_color}]}>{modal.subtitle}</Text>
                 <Text style={[modalStyles.bodyText, modal.colors && {color:'black'}]}>{modal.body}</Text>
                 <View
@@ -73,7 +73,7 @@ export default function Start() {
           ) : (
             <>
               <Title title={"Select Mode"} />
-              <Body close={modal.secondaryFn}>
+              <Body onClose={modal.secondaryFn}>
                 <Text style={[modalStyles.subtitle]}>
                   {modal.subtitle.toUpperCase()}
                 </Text>
@@ -123,7 +123,7 @@ export const Title = ({ title, colors }) => {
     </Animated.View>
   );
 }
-export const Body = ({ children, close=()=>{}, colors, contentStyle }) => {
+export const Body = ({ children, closeButton=true, onClose, colors, contentStyle }) => {
   console.log(colors);
   
   return (
@@ -147,6 +147,7 @@ export const Body = ({ children, close=()=>{}, colors, contentStyle }) => {
         ]}
       >
         {/* X Button */}
+        {closeButton && (
           <View
             style={[
               {
@@ -157,10 +158,11 @@ export const Body = ({ children, close=()=>{}, colors, contentStyle }) => {
               },
             ]}
           >
-            <TouchableOpacity activeOpacity={0.7} onPress={close}>
+            <TouchableOpacity activeOpacity={0.7} onPress={onClose}>
               <X width={42} height={42} />
             </TouchableOpacity>
           </View>
+        )}
         {children}
       </View>
     </View>

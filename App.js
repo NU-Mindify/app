@@ -25,6 +25,7 @@ import LilitaFont from './src/assets/fonts/LilitaOne-Regular.ttf'
 import PoppinsFont from './src/assets/fonts/Poppins-Regular.ttf'
 import PoppinsMediumFont from './src/assets/fonts/Poppins-Medium.ttf'
 import { useFonts } from 'expo-font';
+import BuildInfo from './src/components/BuildInfo';
 
 ExpoSplashScreen.preventAutoHideAsync();
 
@@ -72,7 +73,7 @@ export default function App() {
           <AccountContext.Provider value={{ accountData, setAccountData, progressData, setProgressData }}>
             <ModalContext.Provider value={{ modal, setModal }}>
               <GestureHandlerRootView>
-                <Text style={{ position: 'absolute', bottom: 4, color: 'white', zIndex: 5, textAlign: 'center', width: '100%', fontSize: 8, opacity:0.6}}>Early Dev Build - 05.02 - Placeholders and Sample Assets are used. </Text>
+                <BuildInfo />
 
                 {/* <ResetButton /> */}
               <Stack.Navigator screenOptions={{ headerShown: false, statusBarHidden: Platform.OS !== "ios", navigationBarHidden: true, }}>

@@ -11,7 +11,7 @@ import Leaderboard from "./Leaderboard";
 import GameContext from "../../contexts/GameContext";
 import axios from "axios";
 import { Audio } from "expo-av";
-import { API_URL } from "../../constants";
+import { API_URL, gameColors } from "../../constants";
 import { Text, ToastAndroid } from "react-native";
 import ModalContext from "../../contexts/ModalContext";
 import Animated from "react-native-reanimated";
@@ -125,6 +125,10 @@ const Game = (props) => {
           setRationaleModal(null);
           addAttemptToServer(newStats);
         },
+        colors: {
+          primary_color: categoryIndex.primary_color,
+          secondary_color: categoryIndex.secondary_color
+        }
       });
     }
   };
@@ -138,6 +142,10 @@ const Game = (props) => {
       primaryFn: () => {
         setRationaleModal(null);
         nextQuestion(newStats);
+      },
+      colors: {
+        primary_color: categoryIndex.primary_color,
+        secondary_color: categoryIndex.secondary_color,
       },
     });
   };
@@ -210,18 +218,33 @@ const Game = (props) => {
       value={{ level, levelIndex, categoryIndex, isMastery }}
     >
       <AppBackground
-        source={categoryIndex.level_background}
         viewStyle={{
           justifyContent: "center",
           backgroundColor: "rgba(0,0,0,0.6)",
         }}
+        gradientColors={gameColors[categoryIndex.id].background}
       >
         {currentQuestion && (
           <>
             <Animated.View
-              style={{ width:'85%', margin:'auto', borderRadius: 24, backgroundColor: "white" }}
+              style={{
+                width: "85%",
+                margin: "auto",
+                borderRadius: 24,
+                backgroundColor: "white",
+              }}
             >
-              <Text style={{fontSize: 20, fontFamily: 'LilitaOne-Regular', textAlign:'center', padding:12, color: categoryIndex.primary_color}}>{categoryIndex.name.toUpperCase()}</Text>
+              <Text
+                style={{
+                  fontSize: 20,
+                  fontFamily: "LilitaOne-Regular",
+                  textAlign: "center",
+                  padding: 12,
+                  color: categoryIndex.primary_color,
+                }}
+              >
+                {categoryIndex.name.toUpperCase()}
+              </Text>
             </Animated.View>
             <Questions
               level={level}
