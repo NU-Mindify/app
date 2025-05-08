@@ -23,7 +23,7 @@ export default function GetStarted() {
             entering={BounceIn}
             source={MindifyLogo}
             resizeMode="contain"
-            style={{ width: 400, height: 200 }}
+            style={{ width: 280, height: 200 }}
           />
           {state === "login" && <Login set={setState} />}
           {state === "get started" && <GetStartedButton set={setState} />}
