@@ -92,7 +92,7 @@ export default function Start() {
     </>
   );
 }
-const Title = ({ title, colors }) => {
+export const Title = ({ title, colors }) => {
   return (
     <Animated.View
       entering={FlipInXDown.delay(200)}
@@ -123,31 +123,44 @@ const Title = ({ title, colors }) => {
     </Animated.View>
   );
 }
-const Body = ({ children, close=()=>{}, colors }) => {
+export const Body = ({ children, close=()=>{}, colors, contentStyle }) => {
   console.log(colors);
   
   return (
     <View
-      style={[style.outer, colors && { borderColor: colors.secondary_color, backgroundColor: colors.secondary_color }]}
+      style={[
+        style.outer,
+        colors && {
+          borderColor: colors.secondary_color,
+          backgroundColor: colors.secondary_color,
+        },
+      ]}
     >
       <View
-        style={[style.inner, colors && { borderColor: colors.primary_color, backgroundColor: 'white' }]}
+        style={[
+          style.inner,
+          contentStyle,
+          colors && {
+            borderColor: colors.primary_color,
+            backgroundColor: "white",
+          },
+        ]}
       >
         {/* X Button */}
-        <View
-          style={[
-            {
-              zIndex: 4,
-              position: "absolute",
-              top: -26,
-              right: -26,
-            },
-          ]}
-        >
-          <TouchableOpacity activeOpacity={0.7} onPress={close}>
-            <X width={42} height={42} />
-          </TouchableOpacity>
-        </View>
+          <View
+            style={[
+              {
+                zIndex: 4,
+                position: "absolute",
+                top: -26,
+                right: -26,
+              },
+            ]}
+          >
+            <TouchableOpacity activeOpacity={0.7} onPress={close}>
+              <X width={42} height={42} />
+            </TouchableOpacity>
+          </View>
         {children}
       </View>
     </View>
