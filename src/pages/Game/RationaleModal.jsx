@@ -46,9 +46,11 @@ export default function RationaleModal ({modal}) {
           >
             {modal.subtitle}
           </Text>
-          <Text style={[modalStyles.bodyText, { color: "black" }]}>
-            {modal.body}
-          </Text>
+          {modal.body && 
+            <Text style={[modalStyles.bodyText, { color: "black" }]}>
+              {modal.body}
+            </Text>
+          }
           <View
             style={modalStyles.btnContainer}
           >

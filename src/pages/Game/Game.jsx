@@ -137,7 +137,13 @@ const Game = (props) => {
   const showRationaleModal = (choice, newStats) => {
     setRationaleModal({
       title: `Question ${currentNumber + 1}`,
-      subtitle: `${choice.letter.toUpperCase()}. ${choice.text}`,
+      subtitle: choice.letter
+        ? `${choice.letter.toUpperCase()}. ${choice.text}`
+        : `Answer:\n ${
+            currentQuestion.choices.find((choice) => choice.isCorrect).letter.toUpperCase()
+          }. ${
+            currentQuestion.choices.find((choice) => choice.isCorrect).text
+          }`,
       body: getModalBody(stats.streak, choice),
       isCorrect: choice.isCorrect,
       primaryFn: () => {
@@ -165,7 +171,11 @@ const Game = (props) => {
   }
   const getModalBody = (streakCount, choice) => {
     if (!isMastery) {
-      return choice.rationale || `${currentQuestion.choices.find(choice => choice.isCorrect).letter}. ${currentQuestion.rationale}`;
+      return (
+        choice.rationale ||
+        currentQuestion.rationale ||
+        currentQuestion.choices.find((choice) => choice.isCorrect).rationale
+      );
     }
 
     return streakCount > 1
@@ -248,7 +258,7 @@ const Game = (props) => {
               </Text>
             </Animated.View>
             <Text style={{ color: "#8CFFC2", fontSize:32, textAlign:'center', marginVertical:24, fontFamily:'LilitaOne-Regular'}}>LEVEL: EASY</Text>
-            <Timer />
+            <Timer onZero={() => onAnswerSelect({isCorrect: false})} duration={5} />
             <Questions
               level={level}
               data={currentQuestion}
