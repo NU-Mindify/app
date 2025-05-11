@@ -67,6 +67,7 @@ const categoriesObj = [
 const gameColors = {
   developmental: {
     background: ["#D0E796", "#7F9F30"],
+    timer: ["#AFD02A", "#A1CA3D", "#AFD02A"],
     answerBorder: {
       inner: "#E48238",
       outer: "#A15A24"
@@ -74,6 +75,7 @@ const gameColors = {
   },
   abnormal: {
     background: ["#7A825B", "#1E2921"],
+    timer: ["#8AFFC1", "#6ECC9A", "#539974"],
     answerBorder: {
       inner: "#3B3F2A",
       outer: "#248552"
