@@ -15,6 +15,7 @@ import { API_URL, gameColors } from "../../constants";
 import { Text, ToastAndroid } from "react-native";
 import ModalContext from "../../contexts/ModalContext";
 import Animated from "react-native-reanimated";
+import Timer from "./Timer";
 
 const Game = (props) => {
   const { level, levelIndex, categoryIndex, isMastery } = props.route.params;
@@ -246,6 +247,8 @@ const Game = (props) => {
                 {categoryIndex.name.toUpperCase()}
               </Text>
             </Animated.View>
+            <Text style={{ color: "#8CFFC2", fontSize:32, textAlign:'center', marginVertical:24, fontFamily:'LilitaOne-Regular'}}>LEVEL: EASY</Text>
+            <Timer />
             <Questions
               level={level}
               data={currentQuestion}
