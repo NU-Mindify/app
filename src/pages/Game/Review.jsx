@@ -112,10 +112,16 @@ const QuestionCard = ({ data, index, choice }) => {
       >
         {!isCorrect && (
           <>
+          {choice.letter ? (
             <Text style={reviewStyle.bold}>
               Your Answer: {"\n"}
               {choice.letter.toUpperCase()}. {choice.text}{"\n"}
             </Text>
+          ): (
+            <Text style={reviewStyle.bold}>
+              Your Answer: None
+            </Text>
+          )}
             {choice.rationale && (
               <Text style={[reviewStyle.text, { marginBottom: 6 }]}>
                 {choice.rationale}

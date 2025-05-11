@@ -1,8 +1,10 @@
 import { View, Text } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { LinearGradient } from 'expo-linear-gradient';
+import GameContext from '../../contexts/GameContext';
 
 const Timer = ({onZero, duration = 20}) => {
+  const {isMastery} = useContext(GameContext)
   const [seconds, setSeconds] = useState(duration);
   const [percentage, setPercentage] = useState(100)
 
@@ -18,6 +20,9 @@ const Timer = ({onZero, duration = 20}) => {
       return () => clearInterval(interval); // Cleanup function to clear the interval
     }else{
       onZero();
+      if(isMastery){
+        setSeconds(duration)
+      }
     }
   }, [seconds]);
   return (
