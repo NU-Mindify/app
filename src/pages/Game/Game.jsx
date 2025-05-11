@@ -226,7 +226,7 @@ const Game = (props) => {
   
   return (
     <GameContext.Provider
-      value={{ level, levelIndex, categoryIndex, isMastery }}
+      value={{ level, levelIndex, categoryIndex, isMastery, gameColor: gameColors[categoryIndex.id] }}
     >
       <AppBackground
         viewStyle={{
@@ -258,7 +258,7 @@ const Game = (props) => {
               </Text>
             </Animated.View>
             <Text style={{ color: "#8CFFC2", fontSize:32, textAlign:'center', marginVertical:24, fontFamily:'LilitaOne-Regular'}}>LEVEL: EASY</Text>
-            <Timer onZero={() => onAnswerSelect({isCorrect: false})} duration={5} />
+            <Timer onZero={() => onAnswerSelect({isCorrect: false})} duration={20} currentNumber={currentNumber} />
             <Questions
               level={level}
               data={currentQuestion}
