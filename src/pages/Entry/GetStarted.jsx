@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Keyboard, Text, TouchableOpacity, View } from 'react-native';
 import Animated, { BounceIn, FadeIn, FadeOut } from 'react-native-reanimated';
 import MindifyLogo from "../../assets/Logo.png";
 import AppBackground from "../../components/AppBackground";
@@ -10,6 +10,31 @@ import Register from './Register';
 
 export default function GetStarted() {
   const [state, setState] = useState("get started");
+  const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
+
+  useEffect(() => {
+    const showSubscription = Keyboard.addListener(
+      "keyboardDidShow",
+      handleKeyboardShow
+    );
+    const hideSubscription = Keyboard.addListener(
+      "keyboardDidHide",
+      handleKeyboardHide
+    );
+
+    return () => {
+      showSubscription.remove();
+      hideSubscription.remove();
+    };
+  }, []);
+
+  const handleKeyboardShow = (event) => {
+    setIsKeyboardVisible(true);
+  };
+
+  const handleKeyboardHide = (event) => {
+    setIsKeyboardVisible(false);
+  };
 
   return (
     <Animated.View
@@ -19,12 +44,15 @@ export default function GetStarted() {
     >
       <AppBackground>
         <View style={{ alignItems: "center",  padding: 24, paddingTop:12, height: '100%' }}>
-          <Animated.Image
+          {!isKeyboardVisible && 
+            <Animated.Image
             entering={BounceIn}
+            exiting={FadeOut}
             source={MindifyLogo}
             resizeMode="contain"
             style={{ width: 280, height: 200 }}
-          />
+            />
+          }
           {state === "login" && <Login set={setState} />}
           {state === "get started" && <GetStartedButton set={setState} />}
           {state === "register" && <Register set={setState} />}
