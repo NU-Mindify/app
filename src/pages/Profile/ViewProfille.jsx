@@ -1,26 +1,20 @@
-import {
-  View,
-  Text,
-  Pressable,
-  ToastAndroid,
-  TouchableOpacity,
-  Image,
-} from "react-native";
-import React, { useContext, useEffect, useState } from "react";
-import AppBackground from "../../components/AppBackground";
-import styles from "../../styles/styles";
-import Button from "../../components/Button";
-import LevelTitle from "../../assets/level/levelTitle.svg";
 import { useNavigation } from "@react-navigation/native";
-import { avatars, categoriesObj } from "../../constants";
-import AccountContext from "../../contexts/AccountContext";
-import Input from "../../components/Input";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Edit } from "lucide-react-native";
-import badges from "../../assets/badges/badges.png";
-import Animated, { SlideInUp, SlideOutUp } from "react-native-reanimated";
-import X from "../../assets/generic/X-White.svg";
 import axios from "axios";
+import { ArrowLeftCircle, Edit } from "lucide-react-native";
+import { useContext, useEffect, useState } from "react";
+import {
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
+} from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
+import Animated, { SlideInLeft } from "react-native-reanimated";
+import AppBackground from "../../components/AppBackground";
+import { avatars, branches, categoriesObj } from "../../constants";
+import AccountContext from "../../contexts/AccountContext";
+import styles from "../../styles/styles";
 
 const ViewProfile = () => {
   const nav = useNavigation();
@@ -46,148 +40,139 @@ const ViewProfile = () => {
   }, [])
 
   return (
-    <AppBackground>
+    <AppBackground
+      gradientColors={["#3B61B7", "#35408E"]}
+      style={{ paddingHorizontal: 12 }}
+    >
+      {/* Header */}
       <View
         style={{
-          position: "absolute",
-          top: 0,
-          right: "8%",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+          padding: 14,
         }}
       >
-        <Animated.View
-          entering={SlideInUp.delay(200)}
-          exiting={SlideOutUp}
+        <TouchableOpacity
+          activeOpacity={0.7}
+          onPress={() => {
+            nav.replace("Home");
+          }}
+        >
+          <ArrowLeftCircle width={42} height={42} color={"white"} />
+        </TouchableOpacity>
+        <Text
           style={[
+            styles.entryTitle,
             {
-              marginHorizontal: "auto",
-              backgroundColor: "#00000044",
-              borderBottomStartRadius: 24,
-              borderBottomEndRadius: 24,
-              padding: 12,
-              paddingBottom: 24,
-              borderWidth: 2,
+              fontSize: 32,
             },
           ]}
         >
-          <TouchableOpacity
-            activeOpacity={0.7}
-            onPress={() => {
-              nav.replace("Home");
-            }}
-          >
-            <X width={42} height={42} />
-          </TouchableOpacity>
-        </Animated.View>
-      </View>
-      <View style={{ flex: 2, justifyContent: "center", alignItems: "center" }}>
-        <View
-          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+          PROFILE
+        </Text>
+        <TouchableOpacity
+          onPress={() => {
+            nav.replace("Edit Profile");
+          }}
         >
-          <View
-            style={{
-              backgroundColor: "white",
-              borderRadius: 99,
-              justifyContent: "center",
-              alignItems: "center",
-              borderWidth: 8,
-              borderColor: "#FFD41C",
-              width: 160,
-              height: 160,
-            }}
+          <Edit size={32} color={"white"} />
+        </TouchableOpacity>
+      </View>
+      {/* Profile */}
+      <View
+        style={{
+          flexDirection: "row",
+          backgroundColor: "#35408E",
+          padding: 8,
+          gap: 8,
+          justifyContent: "center",
+          borderRadius: 8,
+        }}
+      >
+        <View
+          style={{
+            backgroundColor: "white",
+            borderRadius: 24,
+            justifyContent: "center",
+            alignItems: "center",
+            borderWidth: 8,
+            borderColor: "#FFD41C",
+            boxShadow: "0px 2px 12px black",
+            margin: 12,
+            width: 120,
+            height: 120,
+          }}
+        >
+          <Avatar width={80} height={80} />
+        </View>
+        <View
+          style={{
+            flex: 1,
+            justifyContent: "space-around",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: 6,
+          }}
+        >
+          <Text style={[styles.entryTitle, { fontSize: 16 }]}>
+            - {branches.find((branch) => branch.id === accountData.branch).name} -
+          </Text>
+          <Text
+            style={[styles.entryTitle, { textAlign: "center", fontSize: 32 }]}
           >
-            <Avatar width={120} height={120} />
-          </View>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "center",
-              marginTop: 20,
-              alignItems: "center",
-              gap: 4,
-            }}
-          >
-            <Text
-              style={{
-                backgroundColor: "#2C519F",
-                borderRadius: 24,
-                boxShadow: "0px 2px 12px #EDE09480",
-                borderWidth: 8,
-                borderColor: "#FFD41C",
-                width: 250,
-                textAlign: "center",
-                padding: 12,
-                color: "white",
-                fontWeight: 900,
-                fontSize: 24,
-              }}
-              inputStyle={styles.entryTitle}
-            >
-              {accountData.username}
-            </Text>
-            <TouchableOpacity
-              style={[styles.button]}
-              onPress={() => {
-                nav.replace("Edit Profile");
-              }}
-            >
-              <Edit size={24} color={"black"} />
-            </TouchableOpacity>
-          </View>
+            {accountData.first_name} {accountData.last_name}
+          </Text>
+          <Text style={[styles.entryTitle, { textAlign: "center" }]}>
+            {accountData.student_id}
+          </Text>
         </View>
       </View>
       {/* Split */}
       <View
         style={{
-          borderTopColor: "#FDD116",
-          borderTopWidth: 6,
-          backgroundColor: "#273574",
-          justifyContent: "flex-end",
-          alignItems: "center",
-          flex: 3,
+          paddingHorizontal: 16,
         }}
       >
-        <View
-          style={{ justifyContent: "center", position: "absolute", top: -40 }}
+        <Text
+          style={[
+            styles.entryTitle,
+            { fontSize: 28, textAlign: "left", paddingVertical: 12 },
+          ]}
         >
-          <LevelTitle style={{ marginHorizontal: "auto" }} />
-          <Text
-            style={[
-              styles.entryTitle,
-              {
-                position: "absolute",
-                textAlign: "center",
-                width: "100%",
-                fontFamily: "LilitaOne_400Regular",
-              },
-            ]}
-          >
-            Progress
-          </Text>
-        </View>
+          Progress:
+        </Text>
         <View
           style={{
             justifyContent: "center",
             alignItems: "center",
+            backgroundColor: "#E9E9E9",
+            padding: 12,
+            borderRadius: 12,
             gap: 4,
           }}
         >
           {categoriesObj.map(({ id, name }, index) => (
             <CategoryCard
               name={name}
-              percent={Math.floor((progressData.classic[id] / 5) * 100)}
+              percent={Math.floor((progressData.classic[id] / 10) * 100)}
               key={index}
             />
           ))}
-          {/* {progressData.classic.map(({ category, level }, index) => (
-            <CategoryCard
-              name={categoryNames[category]}
-              percent={Math.floor((level / 5) * 100)}
-              key={index}
-            />
-          ))} */}
         </View>
-        <Text style={[styles.entryTitle, { paddingVertical: 12 }]}>Badges</Text>
-        <Image source={badges} style={{ marginBottom: 24 }}></Image>
+        <Text
+          style={[
+            styles.entryTitle,
+            { paddingVertical: 12, textAlign: "left", fontSize: 28 },
+          ]}
+        >
+          Badges Earned:
+        </Text>
+        <ScrollView horizontal={true} contentContainerStyle={{ gap: 8 }}>
+          {badges.map((src) => (
+            <Badge src={src} />
+          ))}
+        </ScrollView>
       </View>
     </AppBackground>
   );
@@ -195,56 +180,80 @@ const ViewProfile = () => {
 
 export default ViewProfile;
 
+const badges = [
+  require("../../assets/badges/ap1.png"),
+  require("../../assets/badges/ap2.png"),
+  require("../../assets/badges/ap3.png"),
+  require("../../assets/badges/ap4.png"),
+  require("../../assets/badges/ap5.png"),
+  require("../../assets/badges/ap6.png"),
+];
+
+const Badge = ({ src }) => {
+  return (
+    <View>
+      <Image
+        source={src}
+        style={{ width: 60, height: 60 }}
+        resizeMode="contain"
+      />
+    </View>
+  );
+};
+
 const CategoryCard = ({ name, percent }) => {
   return (
     <View
       style={{
-        backgroundColor: "white",
         justifyContent: "center",
-        alignItems: "center",
-        borderColor: "black",
-        width: 300,
+        width: 280,
         padding: 8,
         borderRadius: 12,
-        borderWidth: 4,
       }}
     >
-      <Text>{name}</Text>
+      <Text
+        style={{
+          fontFamily: "LilitaOne-Regular",
+          fontSize: 18,
+          color: "#35408E",
+        }}
+      >
+        {name.toUpperCase()} - {percent}%
+      </Text>
       <View
         style={{
           flexDirection: "row",
           backgroundColor: "#273574",
+          borderWidth:1,
           width: "100%",
           borderRadius: 12,
+          overflow: 'hidden'
         }}
       >
-        <View
+        <Animated.View
+          entering={SlideInLeft.duration(500)}
           style={{
             width: `${percent}%`,
-            height: 20,
-            backgroundColor: "green",
+            height: 10,
+            backgroundColor: getColorByPercentage(percent),
             borderRadius: 12,
           }}
-        >
-          <Text
-            style={{ color: "white", fontWeight: 800, textAlign: "center" }}
-          >
-            {percent}%
-          </Text>
-        </View>
-        {percent < 10 && (
-          <Text
-            style={{
-              color: "white",
-              fontWeight: 800,
-              textAlign: "center",
-              paddingHorizontal: 8,
-            }}
-          >
-            {percent}%
-          </Text>
-        )}
+        ></Animated.View>
       </View>
     </View>
   );
 };
+
+const getColorByPercentage = percentage => {
+  return percentage <= 30 ? "#FFEB3B" :
+  percentage <= 50 ? "#FFC107" :
+  percentage <= 70 ? "#FF9800" :
+  percentage <= 85 ? "#FF5722" :
+  percentage <= 100 ? "#F44336" : "black"
+}
+
+const profileStyles = StyleSheet.create({
+  title: {
+
+  }
+})
