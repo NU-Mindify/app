@@ -12,6 +12,7 @@ import AppBackground from '../../components/AppBackground';
 import { useNavigation } from '@react-navigation/native';
 import XButton from "../../assets/generic/X-White.svg";
 import axios from 'axios';
+import { API_URL } from '../../constants';
 
 export default function Glossary() {
   const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
@@ -41,10 +42,9 @@ export default function Glossary() {
   };
   const fetchTerms = async () => {
     try {
-      const response = await axios.get(`${process.env.EXPO_PUBLIC_URL}/getTerms`)
+      const response = await axios.get(API_URL+`/getTerms`)
       setTerms(response.data)
       setWordSearch('')
-      console.log(response.data);
       
     } catch (error) {
       ToastAndroid.show(error.message, ToastAndroid.LONG)

@@ -1,19 +1,33 @@
-import { ImageBackground } from "react-native";
-import React from "react";
+import { ImageBackground, StyleSheet } from "react-native";
 import MindifyBackground from "../assets/bg.png";
 import { SafeAreaView } from "react-native-safe-area-context";
 import LottieView from "lottie-react-native";
 import blur from "../anim/data.json";
 import { LinearGradient } from "expo-linear-gradient";
+import { useNavigationState } from "@react-navigation/native";
+import { navbarRoutes } from "../constants";
 
+const AppBackground = ({
+  children,
+  style = {},
+  source,
+  viewStyle = {},
+  gradientColors = [],
+}) => {
 
-const AppBackground = ({ children, style = {}, source, viewStyle = {}, gradientColors = []}) => {
-  if(gradientColors.length > 0){
+  const routeName = useNavigationState((state) => {
+    if (!state) {
+      return "None";
+    }
+    return state.routes[state.index]?.name;
+  });
+
+  const getPaddingBottom = () => navbarRoutes.includes(routeName) ? 48 : 0
+
+  if (gradientColors.length > 0) {
     return (
-      <LinearGradient colors={gradientColors} style={[{flex: 1}, style]}>
-        <SafeAreaView
-          style={[{ flex: 1, width: "100%" }, viewStyle]}
-        >
+      <LinearGradient colors={gradientColors} style={[{ flex: 1 }, style]}>
+        <SafeAreaView style={[{ flex: 1, width: "100%", paddingBottom: getPaddingBottom() }, viewStyle]}>
           {children}
         </SafeAreaView>
       </LinearGradient>
@@ -26,7 +40,12 @@ const AppBackground = ({ children, style = {}, source, viewStyle = {}, gradientC
       resizeMode="cover"
       resizeMethod="scale"
     >
-      <SafeAreaView style={[{ flex: 1, width: "100%" }, viewStyle]}>
+      <SafeAreaView
+        style={[
+          { flex: 1, width: "100%", paddingBottom: getPaddingBottom() },
+          viewStyle,
+        ]}
+      >
         <LottieView
           style={{
             display: source ? "none" : "flex",

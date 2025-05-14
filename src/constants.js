@@ -24,6 +24,8 @@ const avatars = [
   WhiteOrangeGirl,
 ];
 
+const navbarRoutes = ["Home", "Chatbot", "Glossary", "Mindmap", "Levels"]
+
 const categoriesObj = [
   {
     id: "abnormal",
@@ -85,4 +87,4 @@ const gameColors = {
 
 const API_URL = process.env.EXPO_PUBLIC_URL;
 
-export { API_URL, avatars, categoriesObj, gameColors };
+export { API_URL, avatars, categoriesObj, gameColors, navbarRoutes };

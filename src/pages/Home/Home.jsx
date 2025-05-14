@@ -71,6 +71,7 @@ const Home = () => {
             justifyContent: "space-around",
             alignItems: "center",
             marginBottom: 30,
+            display:'none'
           }}
         >
           <TouchableOpacity style={{}} onPress={() => nav.navigate("Glossary")}>
