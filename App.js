@@ -26,6 +26,7 @@ import PoppinsFont from './src/assets/fonts/Poppins-Regular.ttf'
 import PoppinsMediumFont from './src/assets/fonts/Poppins-Medium.ttf'
 import { useFonts } from 'expo-font';
 import BuildInfo from './src/components/BuildInfo';
+import BottomNavigation from './src/components/BottomNavigation';
 
 ExpoSplashScreen.preventAutoHideAsync();
 
@@ -92,6 +93,7 @@ export default function App() {
                   <Stack.Screen name='Levels' component={Levels} />
                   <Stack.Screen name='Game' component={Game} />
                 </Stack.Navigator>
+                <BottomNavigation />
                 {modal &&
                   <StartModal />
                 }
