@@ -14,8 +14,11 @@ const Input = ({
   textContentType = "none",
   keyboardType = "default",
   returnKeyType = "default",
-  currentFocus,
+  currentFocus = false,
   onSubmitEditing = () => {},
+  multiline= false,
+  numberOfLines=1,
+  rows=1
 }) => {
     const input = useRef(null);
     useEffect(() => {
@@ -53,6 +56,10 @@ const Input = ({
         textContentType={textContentType}
         returnKeyType={returnKeyType}
         onSubmitEditing={onSubmitEditing}
+        multiline={multiline}
+        numberOfLines={numberOfLines}
+        rows={rows}
+        textAlignVertical='top'
         ref={input}
       ></TextInput>
       {children}
