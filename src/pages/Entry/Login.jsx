@@ -14,7 +14,7 @@ const Login = ({ set }) => {
   const [password, setPassword] = useState("123123");
   const [isFormDisabled, setIsFormDisabled] = useState(false);
   
-
+  const [currentField, setCurrentField] = useState(null)
   const nav = useNavigation();
 
   const onSubmit = () => {
@@ -57,6 +57,9 @@ const Login = ({ set }) => {
           disabled={isFormDisabled}
           textContentType="emailAddress"
           keyboardType="email-address"
+          returnKeyType="next"
+          currentFocus={currentField === 0}
+          onSubmitEditing={() => setCurrentField(1)}
         />
         <Input
           placeholder={"Password"}
@@ -66,6 +69,8 @@ const Login = ({ set }) => {
           value={password}
           disabled={isFormDisabled}
           textContentType="password"
+          returnKeyType="done"
+          currentFocus={currentField === 1}
         />
         <TouchableOpacity
           onPress={onSubmit}
