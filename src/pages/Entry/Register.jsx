@@ -1,5 +1,5 @@
 import { Text, ToastAndroid, TouchableOpacity, View } from 'react-native'
-import React, { use, useContext, useEffect, useState } from 'react'
+import React, { use, useContext, useEffect, useRef, useState } from 'react'
 import Animated, { FlipInXUp, FlipOutXDown } from 'react-native-reanimated'
 import styles from '../../styles/styles'
 import Input from '../../components/Input'
@@ -15,6 +15,8 @@ import LoadingOverlay from '../../components/LoadingOverlay'
 import TermsAndConditions from './TermsAndConditions'
 
 const Register = ({set}) => {
+  const { setModal } = useContext(ModalContext);
+  const nav = useNavigation();
 
   const [form, setForm] = useState({
     username: "",
@@ -22,48 +24,27 @@ const Register = ({set}) => {
     password: "",
     confirmPassword: "",
   })
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [isFormDisabled, setIsFormDisabled] = useState(false);
   const [isFormSatisfied, setIsFormSatisfied] = useState(false)
   const [isTermsChecked, setIsTermsChecked] = useState(false)
   const [isTermsOpen, setIsTermsOpen] = useState(false)
 
-  // const { createAccount } = useFirebase();
-  const { setModal } = useContext(ModalContext);
-  const nav = useNavigation();
+  const [currentField, setCurrentField] = useState(null)
+
   const onSubmit = async () => {
     setIsFormDisabled(true)
-    
     if(!validate()){
       return;
     }
-    
     await createAccount({ username: form.username, email: form.email, password: form.password })
   }
   const validate = () => {
-    if (form.username.trim() === "") {
-      // ToastAndroid.show("Username Field is required.", ToastAndroid.SHORT);
-      return false;
-    }
-
-    if (form.email.trim() === "") {
-      // ToastAndroid.show("Email Field is required.", ToastAndroid.SHORT);
-      return false;
-    }
-
-    if (form.password.trim() === "") {
-      // ToastAndroid.show("Password Field is required.", ToastAndroid.SHORT);
-      return false;
-    }
-
-    if (form.password.trim() !== form.confirmPassword.trim()) {
-      // ToastAndroid.show("Passwords does not match", ToastAndroid.SHORT);
-      return false;
-    }
-    return true;
+    return (
+      form.username.trim() !== "" && 
+      form.email.trim() !== "" &&
+      form.password.trim() !== "" &&
+      form.password.trim() === form.confirmPassword.trim()
+    )
   }
   useEffect(() => {
     setIsFormSatisfied(validate())
@@ -94,6 +75,9 @@ const Register = ({set}) => {
           value={form.username}
           style={{ marginTop: 24 }}
           disabled={isFormDisabled}
+          returnKeyType="next"
+          currentFocus={currentField === 0}
+          onSubmitEditing={() => setCurrentField(1)}
         />
         <Input
           placeholder={"Email"}
@@ -101,6 +85,9 @@ const Register = ({set}) => {
           onChangeText={(text) => setForm({ ...form, email: text })}
           value={form.email}
           disabled={isFormDisabled}
+          returnKeyType="next"
+          onSubmitEditing={() => setCurrentField(2)}
+          currentFocus={currentField === 1}
         />
         <Input
           placeholder={"Password"}
@@ -109,6 +96,9 @@ const Register = ({set}) => {
           onChangeText={(text) => setForm({ ...form, password: text })}
           value={form.password}
           disabled={isFormDisabled}
+          currentFocus={currentField === 2}
+          returnKeyType="next"
+          onSubmitEditing={() => setCurrentField(3)}
         />
         <Input
           placeholder={"Confirm Password"}
@@ -117,6 +107,8 @@ const Register = ({set}) => {
           onChangeText={(text) => setForm({ ...form, confirmPassword: text })}
           value={form.confirmPassword}
           disabled={isFormDisabled}
+          currentFocus={currentField === 3}
+          returnKeyType="done"
         />
         <View
           style={{

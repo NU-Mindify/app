@@ -56,7 +56,11 @@ const ViewProfile = () => {
         <TouchableOpacity
           activeOpacity={0.7}
           onPress={() => {
-            nav.replace("Home");
+            if (nav.canGoBack()) {
+              nav.goBack();
+            } else {
+              nav.replace("Home");
+            }
           }}
         >
           <ArrowLeftCircle width={42} height={42} color={"white"} />
@@ -79,101 +83,105 @@ const ViewProfile = () => {
           <Edit size={32} color={"white"} />
         </TouchableOpacity>
       </View>
-      {/* Profile */}
-      <View
-        style={{
-          flexDirection: "row",
-          backgroundColor: "#35408E",
-          padding: 8,
-          gap: 8,
-          justifyContent: "center",
-          borderRadius: 8,
-        }}
-      >
+      <ScrollView contentContainerStyle={{paddingBottom:24}}>
+        {/* Profile */}
         <View
           style={{
-            backgroundColor: "white",
-            borderRadius: 24,
+            flexDirection: "row",
+            backgroundColor: "#35408E",
+            padding: 8,
+            gap: 8,
             justifyContent: "center",
-            alignItems: "center",
-            borderWidth: 8,
-            borderColor: "#FFD41C",
-            boxShadow: "0px 2px 12px black",
-            margin: 12,
-            width: 120,
-            height: 120,
+            borderRadius: 8,
           }}
         >
-          <Avatar width={80} height={80} />
-        </View>
-        <View
-          style={{
-            flex: 1,
-            justifyContent: "space-around",
-            flexDirection: "column",
-            alignItems: "center",
-            gap: 6,
-          }}
-        >
-          <Text style={[styles.entryTitle, { fontSize: 16 }]}>
-            - {branches.find((branch) => branch.id === accountData.branch).name} -
-          </Text>
-          <Text
-            style={[styles.entryTitle, { textAlign: "center", fontSize: 32 }]}
+          <View
+            style={{
+              backgroundColor: "white",
+              borderRadius: 24,
+              justifyContent: "center",
+              alignItems: "center",
+              borderWidth: 8,
+              borderColor: "#FFD41C",
+              boxShadow: "0px 2px 12px black",
+              margin: 12,
+              width: 120,
+              height: 120,
+            }}
           >
-            {accountData.first_name} {accountData.last_name}
-          </Text>
-          <Text style={[styles.entryTitle, { textAlign: "center" }]}>
-            {accountData.student_id}
-          </Text>
+            <Avatar width={80} height={80} />
+          </View>
+          <View
+            style={{
+              flex: 1,
+              justifyContent: "space-around",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: 6,
+            }}
+          >
+            <Text style={[styles.entryTitle, { fontSize: 16 }]}>
+              -{" "}
+              {branches.find((branch) => branch.id === accountData.branch).name}{" "}
+              -
+            </Text>
+            <Text
+              style={[styles.entryTitle, { textAlign: "center", fontSize: 32 }]}
+            >
+              {accountData.first_name} {accountData.last_name}
+            </Text>
+            <Text style={[styles.entryTitle, { textAlign: "center" }]}>
+              {accountData.student_id}
+            </Text>
+          </View>
         </View>
-      </View>
-      {/* Split */}
-      <View
-        style={{
-          paddingHorizontal: 16,
-        }}
-      >
-        <Text
-          style={[
-            styles.entryTitle,
-            { fontSize: 28, textAlign: "left", paddingVertical: 12 },
-          ]}
-        >
-          Progress:
-        </Text>
+        {/* Split */}
         <View
           style={{
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: "#E9E9E9",
-            padding: 12,
-            borderRadius: 12,
-            gap: 4,
+            paddingHorizontal: 16,
           }}
         >
-          {categoriesObj.map(({ id, name }, index) => (
-            <CategoryCard
-              name={name}
-              percent={Math.floor((progressData.classic[id] / 10) * 100)}
-              key={index}
-            />
-          ))}
+          <Text
+            style={[
+              styles.entryTitle,
+              { fontSize: 28, textAlign: "left", paddingVertical: 12 },
+            ]}
+          >
+            Progress:
+          </Text>
+          <View
+            style={{
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: "#E9E9E9",
+              padding: 12,
+              borderRadius: 12,
+              gap: 4,
+            }}
+          >
+            {categoriesObj.map(({ id, name }, index) => (
+              <CategoryCard
+                name={name}
+                percent={Math.floor((progressData.classic[id] / 10) * 100)}
+                key={index}
+              />
+            ))}
+          </View>
+          <Text
+            style={[
+              styles.entryTitle,
+              { paddingVertical: 12, textAlign: "left", fontSize: 28 },
+            ]}
+          >
+            Badges Earned:
+          </Text>
+          <ScrollView horizontal={true} contentContainerStyle={{ gap: 8 }}>
+            {badges.map((src) => (
+              <Badge src={src} key={src} />
+            ))}
+          </ScrollView>
         </View>
-        <Text
-          style={[
-            styles.entryTitle,
-            { paddingVertical: 12, textAlign: "left", fontSize: 28 },
-          ]}
-        >
-          Badges Earned:
-        </Text>
-        <ScrollView horizontal={true} contentContainerStyle={{ gap: 8 }}>
-          {badges.map((src) => (
-            <Badge src={src} />
-          ))}
-        </ScrollView>
-      </View>
+      </ScrollView>
     </AppBackground>
   );
 };

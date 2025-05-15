@@ -1,8 +1,9 @@
 import { View, TextInput } from 'react-native'
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 
 const Input = ({
-  children, placeholder,
+  children,
+  placeholder,
   Icon,
   onChangeText,
   value,
@@ -11,8 +12,16 @@ const Input = ({
   style = {},
   inputStyle = {},
   textContentType = "none",
-  keyboardType = "default"
+  keyboardType = "default",
+  returnKeyType = "default",
+  currentFocus,
+  onSubmitEditing = () => {},
 }) => {
+    const input = useRef(null);
+    useEffect(() => {
+      currentFocus && input.current?.focus();
+    }, [currentFocus])
+
   return (
     <View
       style={[
@@ -42,6 +51,9 @@ const Input = ({
         style={[{ flex: 1 }, inputStyle]}
         keyboardType={keyboardType}
         textContentType={textContentType}
+        returnKeyType={returnKeyType}
+        onSubmitEditing={onSubmitEditing}
+        ref={input}
       ></TextInput>
       {children}
     </View>
