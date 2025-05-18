@@ -9,6 +9,7 @@ import { avatars } from "../../constants";
 import AccountContext from "../../contexts/AccountContext";
 import Input from "../../components/Input";
 import axios from "axios";
+import { ScrollView } from "react-native-gesture-handler";
 
 const EditProfile = () => {
   const nav = useNavigation();
@@ -56,20 +57,20 @@ const EditProfile = () => {
           </View>
           <Input
             text={"Name"}
-            style={
-              {
-                backgroundColor: "#2C519F",
-                borderRadius: 24,
-                boxShadow: "0px 2px 12px #EDE09480",
-                borderWidth: 8,
-                borderColor: "#FFD41C",
-                width: "70%",
-                marginTop: 20,
-              }
-            }
+            style={{
+              backgroundColor: "#2C519F",
+              borderRadius: 24,
+              boxShadow: "0px 2px 12px #EDE09480",
+              borderWidth: 8,
+              borderColor: "#FFD41C",
+              width: "70%",
+              marginTop: 20,
+            }}
             inputStyle={styles.entryTitle}
             value={inputName}
-            onChangeText={(text) => {setInputName(text)}}
+            onChangeText={(text) => {
+              setInputName(text);
+            }}
           />
         </View>
       </View>
@@ -85,20 +86,20 @@ const EditProfile = () => {
         }}
       >
         <View
-          style={{ justifyContent: "center", position: "absolute", top: -40 }}
+          style={{ justifyContent: "center" }}
         >
-          <LevelTitle style={{ marginHorizontal: "auto" }} />
           <Text
             style={[
               styles.entryTitle,
-              { position: "absolute", textAlign: "center", width: "100%" },
+              { textAlign: "center", width: "100%" },
             ]}
           >
             AVATAR
           </Text>
         </View>
-        <View
-          style={{
+        <ScrollView
+          style={{ flex: 1 }}
+          contentContainerStyle={{
             justifyContent: "center",
             alignItems: "center",
             flexDirection: "row",
@@ -117,20 +118,21 @@ const EditProfile = () => {
               />
             );
           })}
+        </ScrollView>
+        <View style={{ flexDirection: "row", gap: 4, paddingHorizontal: 24, marginVertical: 24, marginTop: 12 }}>
+          <Button
+            style={{ flex: 0, width: "50%" }}
+            onPress={onSave}
+            text={"Save"}
+          />
+          <Button
+            style={{ flex: 0, width: "50%" }}
+            onPress={() => {
+              nav.replace("View Profile");
+            }}
+            text={"Back"}
+          />
         </View>
-        <View style={{flexDirection: 'row', gap:4, paddingHorizontal:24}}>
-
-        <Button
-          style={{ flex: 0, width: "50%" }}
-          onPress={onSave}
-          text={"Save"}
-          />
-        <Button
-          style={{ flex: 0, width: "50%" }}
-          onPress={() => {nav.replace("View Profile")}}
-          text={"Back"}
-          />
-          </View>
       </View>
     </AppBackground>
   );
@@ -150,10 +152,10 @@ const AvatarCard = ({ SVG, selected, onPress }) => {
         borderWidth: 8,
         borderColor: selected ? "#fff41c" : "#FFD41C",
         width: 100,
-        height: 120,
+        height: 100,
       }}
     >
-      <SVG />
+      <SVG width={60} height={60} />
     </Pressable>
   );
 };
