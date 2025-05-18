@@ -48,9 +48,34 @@ export const createAccount = async (
     console.log(response.data);
 
     callback();
-  } catch (error) {
-    console.error("Creating Account", error.message);
-    ToastAndroid.show(error.message, ToastAndroid.LONG)
+  } catch (err) {
+    console.error("Creating Account", err.message);
+    const errorCode = err.code;
+    const errorMessage = err.message;
+    let customErrorMessage = "";
+    console.log(errorCode);
+    
+    switch (errorCode) {
+      case "auth/email-already-in-use":
+        customErrorMessage = "This email address is already in use.";
+        break;
+      case "auth/invalid-email":
+        customErrorMessage = "Please enter a valid email address.";
+        break;
+      case "auth/weak-password":
+        customErrorMessage =
+          "The password is too weak. Please choose a stronger password.";
+        break;
+      case "auth/network-request-failed":
+        customErrorMessage =
+          "There was a network error. Please check your internet connection and try again.";
+        break;
+      default:
+        customErrorMessage =
+          "An unexpected error occurred. Please try again later.";
+        console.error("Firebase Auth Error:", err);
+    }
+    ToastAndroid.show(customErrorMessage, ToastAndroid.LONG);
   }
 };
 const useFirebase = () => {

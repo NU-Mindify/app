@@ -1,21 +1,19 @@
 import { View, Text, ScrollView, KeyboardAvoidingView, Platform, ToastAndroid } from "react-native";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import AppBackground from "../../components/AppBackground";
 import styles from "../../styles/styles";
 import Input from "../../components/Input";
 import {
   ArrowLeftCircle,
-  MessageCircleX,
-  MessageSquareTextIcon,
   SendHorizonal,
   Trash2
 } from "lucide-react-native";
-import { Pressable, TouchableOpacity } from "react-native-gesture-handler";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
 import AccountContext from "../../contexts/AccountContext";
-import X from "../../assets/generic/X-White.svg";
 import axios from "axios";
 import { API_URL } from "../../constants";
+import Animated, { FadeInDown } from "react-native-reanimated";
 
 const Chatbot = () => {
   const { accountData, setAccountData } = useContext(AccountContext);
@@ -28,9 +26,10 @@ const Chatbot = () => {
   const nav = useNavigation();
 
   const getData = async () => {
+    setIsFetching(true);
     const { data: messages } = await axios.get(API_URL+`/getMessages/${accountData._id}`)
     setMessages(messages);
-    console.log(messages);
+    setIsFetching(false);
   };
   const deleteAll = async () => {
     try {
@@ -48,6 +47,7 @@ const Chatbot = () => {
     getData();
   }, []);
   const sendMessage = async () => {
+    if(input.trim() === "") return;
     setIsFetching(true);
     const inputToSend = input;
     setInput("")
@@ -65,6 +65,11 @@ const Chatbot = () => {
       
       setMessages(currentMessages => [...currentMessages, ai_response]);
     } catch (error) {
+      setMessages((currentMessages) => {
+        currentMessages.pop();
+        const newList = currentMessages
+        return newList
+      });
       setInput(inputToSend);
     }
     setIsFetching(false);
@@ -123,7 +128,8 @@ const Chatbot = () => {
             scrollViewRef.current.scrollToEnd({ animated: true })
           }
         >
-          {messages.length === 0 && (
+          {}
+          {messages.length === 0 && !isFetching && (
             <View style={{ position: "relative", top: 200, width: "100%" }}>
               <Text
                 style={{
@@ -151,8 +157,13 @@ const Chatbot = () => {
           {messages.map((message, index) => (
             <Message message={message} key={index} index={index} />
           ))}
+          {messages.length !== 0 && isFetching && (
+            <Message message={{ ai_generated: true, content: "..." }} />
+          )}
         </ScrollView>
-        <View style={{ flexDirection: "row", alignItems: "center", marginTop: 8 }}>
+        <View
+          style={{ flexDirection: "row", alignItems: "center", marginTop: 8 }}
+        >
           <Input
             placeholder={"Ask Mindibot..."}
             onChangeText={(text) => setInput(text)}
@@ -183,7 +194,8 @@ const formatAIText = (message) => {
 
 const Message = ({message}) => {
 return (
-  <View
+  <Animated.View
+    entering={FadeInDown}
     style={[
       {
         marginBottom: 12,
@@ -212,6 +224,6 @@ return (
     >
       {formatAIText(message.content)}
     </Text>
-  </View>
+  </Animated.View>
 );
 }
