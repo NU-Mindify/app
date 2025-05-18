@@ -5,6 +5,30 @@ import RedGirl from "./assets/avatar/redGirl.svg";
 import WhiteMan from "./assets/avatar/whiteMan.svg";
 import WhiteOrangeGirl from "./assets/avatar/whiteOrangeGirl.svg";
 
+import b1 from './assets/avatar/b1.svg'
+import b2 from './assets/avatar/b2.svg'
+import b3 from './assets/avatar/b3.svg'
+import b4 from './assets/avatar/b4.svg'
+import b5 from './assets/avatar/b5.svg'
+import b6 from './assets/avatar/b6.svg'
+import b7 from './assets/avatar/b7.svg'
+import b8 from './assets/avatar/b8.svg'
+import b9 from './assets/avatar/b9.svg'
+import b10 from './assets/avatar/b10.svg'
+
+import g1 from './assets/avatar/g1.svg'
+import g2 from './assets/avatar/g2.svg'
+import g3 from './assets/avatar/g3.svg'
+import g4 from './assets/avatar/g4.svg'
+import g5 from './assets/avatar/g5.svg'
+import g6 from './assets/avatar/g6.svg'
+import g7 from './assets/avatar/g7.svg'
+import g8 from './assets/avatar/g8.svg'
+import g9 from './assets/avatar/g9.svg'
+import g10 from './assets/avatar/g10.svg'
+
+import bulldog from './assets/avatar/bulldog.svg'
+
 import abnormalMap from "./assets/maps/abnormalLong.png";
 import developmentalMap from "./assets/maps/developmental.png";
 import Map1 from "./assets/maps/1.png";
@@ -16,12 +40,17 @@ import map2 from './assets/maps/2.png'
 import map4 from './assets/maps/4.png'
 
 const avatars = [
-  BlackOrangeGirl,
-  BlueMan,
-  OrangeMan,
-  RedGirl,
-  WhiteMan,
-  WhiteOrangeGirl,
+  bulldog,
+  b1, g1,
+  b2, g2,
+  b3, g3,
+  b4, g4,
+  b5, g5,
+  b6, g6,
+  b7, g7,
+  b8, g8, 
+  b9, g9, 
+  b10, g10
 ];
 
 const navbarRoutes = ["Home", "Chatbot", "Glossary", "Mindmap", "Levels"]

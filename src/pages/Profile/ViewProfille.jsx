@@ -4,6 +4,7 @@ import { ArrowLeftCircle, Edit } from "lucide-react-native";
 import { useContext, useEffect, useState } from "react";
 import {
   Image,
+  ImageBackground,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -95,22 +96,21 @@ const ViewProfile = () => {
             borderRadius: 8,
           }}
         >
-          <View
+          <ImageBackground
+            source={require("../../assets/avatar/avatar_bg.png")}
+            resizeMode="contain"
             style={{
-              backgroundColor: "white",
               borderRadius: 24,
               justifyContent: "center",
               alignItems: "center",
-              borderWidth: 8,
               borderColor: "#FFD41C",
               boxShadow: "0px 2px 12px black",
               margin: 12,
-              width: 120,
-              height: 120,
+              padding: 24
             }}
           >
             <Avatar width={80} height={80} />
-          </View>
+          </ImageBackground>
           <View
             style={{
               flex: 1,

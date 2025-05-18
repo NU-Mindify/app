@@ -33,17 +33,16 @@ const Home = () => {
       <AppBackground>
         <View
           style={{
-            justifyContent: "space-between",
+            justifyContent: "space-around",
             alignItems: "center",
             flexDirection: "row",
-            padding: 8,
           }}
         >
           <Pressable
-            style={[styles.homeRoundedIcon, { padding: 4 }]}
+            style={[styles.homeRoundedIcon, { padding: 10 }]}
             onPress={() => nav.navigate("View Profile")}
           >
-            <Avatar width={60} height={60} />
+            <Avatar width={48} height={48} />
           </Pressable>
           <Animated.Image
             source={MindifiyLogo}

@@ -165,7 +165,7 @@ const UserCard = ({ data, index, current }) => {
           }}
         >
           <Text>{index + 1}.</Text>
-          <Avatar />
+          <Avatar width={50} height={60} />
           <Text style={{ fontSize: 20, marginStart: 12 }}>
             {data.user_id.username}
           </Text>
