@@ -32,8 +32,28 @@ const Login = ({ set }) => {
 
     loginAuth(username, password)
     .catch(err => {
-      console.log(err);
-      ToastAndroid.show(`${err.message}`, ToastAndroid.SHORT);
+      const errorCode = err.code;
+      const errorMessage = err.message;
+      let customErrorMessage = "";
+      console.log(errorCode);
+      
+
+      switch (errorCode) {
+        case "auth/invalid-email":
+          customErrorMessage = "Please enter a valid email address.";
+          break;
+        case "auth/invalid-credential":
+          customErrorMessage = "Wrong email or password. Please try again.";
+          break;
+        case "auth/network-request-failed":
+          customErrorMessage = "There was a network error. Please check your internet connection and try again.";
+          break;
+        default:
+          customErrorMessage = "An unexpected error occurred. Please try again later.";
+          console.error("Firebase Auth Error:", err);
+      }
+      
+      ToastAndroid.show(customErrorMessage, ToastAndroid.SHORT);
       setIsFormDisabled(false)
     })
   }
