@@ -19,6 +19,7 @@ import AccountContext from "../../contexts/AccountContext";
 import { avatars } from "../../constants";
 import moment from "moment";
 import GameContext from "../../contexts/GameContext";
+import LottieView from "lottie-react-native";
 
 const Results = ({ stats, onReview, onLeaderboard }) => {
   const {isMastery, categoryIndex} = useContext(GameContext)
@@ -45,10 +46,24 @@ const Results = ({ stats, onReview, onLeaderboard }) => {
       {/* --Completed-- Banner */}
       <Animated.Image
         source={Completed}
-        style={{ position: "absolute", top: -40, width: "100%", zIndex: 2 }}
+        style={{ position: "absolute", top: -40, width: "100%", zIndex: 2, pointerEvents: 'none' }}
         entering={FlipInEasyX}
         exiting={FlipOutEasyX}
         resizeMode={"contain"}
+      />
+      <LottieView
+        style={{
+          position: "absolute",
+          margin: "auto",
+          width: 720,
+          height: "100%",
+          top: 0,
+          zIndex: 2,
+          pointerEvents: 'none'
+        }}
+        source={require("../../anim/confetti.json")}
+        autoPlay
+        loop={false}
       />
 
       {/* Results */}
@@ -104,7 +119,7 @@ const Results = ({ stats, onReview, onLeaderboard }) => {
               height: 120,
             }}
           >
-            <Avatar />
+            <Avatar width={90} height={90} />
           </View>
           <Text
             style={{
@@ -160,9 +175,14 @@ const Results = ({ stats, onReview, onLeaderboard }) => {
           <Button
             onPress={() => nav.replace("Levels", { categoryIndex, isMastery })}
             text={isPass ? "Next Level" : "Try Again"}
+            style={{ zIndex: 5 }}
           />
           {!isMastery && <Button onPress={onReview} text={"Review"} />}
-          <Button onPress={onLeaderboard} text={"Leaderboard"} />
+          <Button
+            onPress={onLeaderboard}
+            text={"Leaderboard"}
+            style={{ zIndex: 10 }}
+          />
         </View>
       </Animated.View>
       {/* <View>
