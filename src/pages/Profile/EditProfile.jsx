@@ -1,15 +1,14 @@
-import { View, Text, Pressable, ToastAndroid } from "react-native";
-import React, { useContext, useState } from "react";
-import AppBackground from "../../components/AppBackground";
-import styles from "../../styles/styles";
-import Button from "../../components/Button";
-import LevelTitle from "../../assets/level/levelTitle.svg";
 import { useNavigation } from "@react-navigation/native";
+import axios from "axios";
+import { useContext, useState } from "react";
+import { Pressable, Text, View } from "react-native";
+import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
+import AppBackground from "../../components/AppBackground";
+import Button from "../../components/Button";
+import Input from "../../components/Input";
 import { avatars } from "../../constants";
 import AccountContext from "../../contexts/AccountContext";
-import Input from "../../components/Input";
-import axios from "axios";
-import { ScrollView } from "react-native-gesture-handler";
+import styles from "../../styles/styles";
 
 const EditProfile = () => {
   const nav = useNavigation();
@@ -17,6 +16,7 @@ const EditProfile = () => {
   const [selectedAvatar, setSelectedAvatar] = useState(accountData.avatar);
   const Avatar = avatars[selectedAvatar];
   const [inputName, setInputName] = useState(accountData.username)
+  const [selectedTab, setSelectedTab] = useState("Avatar")
 
   const onSave = async () => {
     try {
@@ -34,7 +34,7 @@ const EditProfile = () => {
 
   return (
     <AppBackground>
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <View style={{ flex: 2, justifyContent: "center", alignItems: "center" }}>
         <View style={[styles.entryBackground, { padding: 8, width: "80%" }]}>
           <Text style={styles.entryTitle}>Edit Profile</Text>
         </View>
@@ -82,21 +82,10 @@ const EditProfile = () => {
           backgroundColor: "#273574",
           justifyContent: "center",
           alignItems: "center",
-          flex: 1,
+          flex: 3,
         }}
       >
-        <View
-          style={{ justifyContent: "center" }}
-        >
-          <Text
-            style={[
-              styles.entryTitle,
-              { textAlign: "center", width: "100%" },
-            ]}
-          >
-            AVATAR
-          </Text>
-        </View>
+        <Tabs tabs={["Avatar", "Clothes"]} state={[selectedTab, setSelectedTab]} style={{flex: 0}} />
         <ScrollView
           style={{ flex: 1 }}
           contentContainerStyle={{
@@ -119,7 +108,15 @@ const EditProfile = () => {
             );
           })}
         </ScrollView>
-        <View style={{ flexDirection: "row", gap: 4, paddingHorizontal: 24, marginVertical: 24, marginTop: 12 }}>
+        <View
+          style={{
+            flexDirection: "row",
+            gap: 4,
+            paddingHorizontal: 24,
+            marginVertical: 24,
+            marginTop: 12,
+          }}
+        >
           <Button
             style={{ flex: 0, width: "50%" }}
             onPress={onSave}
@@ -158,4 +155,48 @@ const AvatarCard = ({ SVG, selected, onPress }) => {
       <SVG width={60} height={60} />
     </Pressable>
   );
+};
+
+
+const Tabs = ({state, tabs, style}) => {
+  const [mode, setMode] = state
+  return (
+    <View
+      style={[{
+        backgroundColor: "#F9EBDE",
+        borderRadius: 24,
+        padding: 6,
+        borderWidth: 4,
+        marginVertical: 6,
+        marginHorizontal: 24,
+        borderColor: "#2E5A9F",
+        flexDirection: "row",
+        justifyContent: "space-around",
+        alignItems: 'center',
+        flex: 1,
+        height: 60,
+      }, style]}
+    >
+      {tabs.map(tab => (
+        <TouchableOpacity
+          key={tab}
+          style={[
+            tabStyle.tab,
+            mode === tab ? tabStyle.tabActive : {},
+          ]}
+          onPress={() => setMode(tab)}
+        >
+          <Text style={mode === tab ? tabStyle.textActive : tabStyle.text}>
+            {tab}
+          </Text>
+        </TouchableOpacity>
+      ))}
+    </View>
+  )
+}
+const tabStyle = {
+  tab: { flex: 1, borderRadius: 12, padding: 12 },
+  tabActive: { backgroundColor: "#2E5A9F" },
+  text: { textAlign: "center", color: "#2E5A9F", fontWeight: "bold", },
+  textActive: { color: "white", fontWeight: "bold", textAlign: "center" },
 };
