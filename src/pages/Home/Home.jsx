@@ -22,6 +22,7 @@ import { useNavigation } from "@react-navigation/native";
 import { avatars } from '../../constants'
 import { getAuth, signOut } from "firebase/auth";
 import { SignOut } from "../../hooks/useFirebase";
+import ChooseBanner from '../../assets/categories/ChooseBanner.svg';
 
 const Home = () => {
   const nav = useNavigation();
@@ -60,39 +61,9 @@ const Home = () => {
             <LogOut size={32} color={"black"} />
           </Pressable>
         </View>
+        <ChooseBanner height={120} style={{marginBottom:16}} />
         <View style={{ flex: 1 }}>
           <CategoryCarousel />
-        </View>
-
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-around",
-            alignItems: "center",
-            marginBottom: 30,
-            display:'none'
-          }}
-        >
-          <TouchableOpacity style={{}} onPress={() => nav.navigate("Glossary")}>
-            <View style={homeStyles.button}>
-              <BookMarkedIcon size={32} color={"black"} />
-            </View>
-            <Text style={homeStyles.buttonText}>Glossary</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={{}} onPress={() => nav.navigate("Chatbot")}>
-            <View style={[homeStyles.button]}>
-              <MessageSquareQuoteIcon size={32} color={"black"} />
-            </View>
-            <Text style={homeStyles.buttonText}>ChatBot</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={{}} onPress={() => nav.navigate("Mindmap")}>
-            <View style={[homeStyles.button]}>
-              <BrainCircuitIcon size={32} color={"black"} />
-            </View>
-            <Text style={[homeStyles.buttonText]}>Mind Map</Text>
-          </TouchableOpacity>
         </View>
       </AppBackground>
     </Animated.View>
