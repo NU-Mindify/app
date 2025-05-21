@@ -15,21 +15,60 @@ import styles from "../../styles/styles";
 import Leaderboard from "../Game/Leaderboard";
 import LevelButton from "./LevelButton";
 import locations from "./locations.json";
+import ModalContext from "../../contexts/ModalContext";
 
 const Levels = (props) => {
   const { categoryIndex, isMastery } = props.route.params;
   const { accountData, progressData } = useContext(AccountContext);
+  const { setModal } = useContext(ModalContext)
   const categoryProgress =
-    progressData[isMastery ? "mastery" : "classic"][categoryIndex.id];
+    progressData["classic"][categoryIndex.id];
 
+  const [leaderboardLevel, setLeaderboardLevel] = useState(null);
   const [mode, setMode] = useState("competition");
+  const nav = useNavigation()
+
+  useEffect(()=> {
+    console.log("is mastery", isMastery);
+    
+    if(isMastery){
+      openMasteryModal()
+    }
+  }, [])
+  
+  const openMasteryModal = () => {
+    setModal({
+      subtitle: `Mastery`,
+      primaryFn: () => {
+        nav.replace("Game", {
+          categoryIndex,
+          mode: "mastery",
+          isMastery
+        });
+        setModal(null);
+      },
+      secondaryFn: () => {
+        nav.goBack();
+        setModal(null);
+      },
+      body: `Would you like to start mastery?`,
+      mode: "LevelSelect",
+      onLeaderboard: () => {
+        setLeaderboardLevel("none")
+        setModal(null);
+      },
+      colors: {
+        primary_color: categoryIndex.primary_color,
+        secondary_color: categoryIndex.secondary_color,
+      },
+    });
+  }
 
   const scrollViewRef = useRef();
   useEffect(() => {
     scrollViewRef.current?.scrollToEnd({ animated: false });
   }, [scrollViewRef]);
 
-  const [leaderboardLevel, setLeaderboardLevel] = useState(null);
 
   return (
     <>
@@ -48,10 +87,13 @@ const Levels = (props) => {
           <Leaderboard
             onExit={() => {
               setLeaderboardLevel(null);
+              if(isMastery) {
+                openMasteryModal()
+              }
             }}
             level={leaderboardLevel}
             categoryIndex={categoryIndex}
-            isMastery={isMastery}
+            mode={isMastery ? "mastery" : mode}
           />
         </View>
       )}
@@ -68,7 +110,6 @@ const Levels = (props) => {
       >
         <CategoryBar
           categoryIndex={categoryIndex}
-          isMastery={isMastery}
           modeState={[mode, setMode]}
         />
         <ImageBackground
@@ -87,7 +128,8 @@ const Levels = (props) => {
                   key={index}
                   categoryIndex={categoryIndex}
                   index={index}
-                  isMastery={mode === "competition"}
+                  isMastery={isMastery}
+                  mode={isMastery ? "mastery" : mode}
                   state={
                     details.level === "?" && categoryProgress === index
                       ? "boss"

@@ -175,11 +175,11 @@ const ViewProfile = () => {
           >
             Badges Earned:
           </Text>
-          <ScrollView horizontal={true} contentContainerStyle={{ gap: 8 }}>
-            {badges.map((src) => (
-              <Badge src={src} key={src} />
+          <View style={{flexDirection: 'row', gap:8, flexWrap: 'wrap', justifyContent:'space-around'}}>
+            {badges.map((src, index) => (
+              <Badge src={src} key={index} />
             ))}
-          </ScrollView>
+          </View>
         </View>
       </ScrollView>
     </AppBackground>

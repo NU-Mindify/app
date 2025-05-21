@@ -7,28 +7,43 @@ import styles from "../../styles/styles";
 import X from "../../assets/generic/X-White.svg";
 import Animated, { ZoomIn, ZoomOut } from "react-native-reanimated";
 import axios from "axios";
-import { API_URL, avatars } from "../../constants";
+import { API_URL, avatars, navbarRoutes } from "../../constants";
 import LottieView from "lottie-react-native";
 import loading from "../../anim/loading_circle.json";
+import { useNavigationState } from "@react-navigation/native";
 
-const Leaderboard = ({ onExit, level, categoryIndex, isMastery, current }) => {
+const Leaderboard = ({ onExit, level, categoryIndex, isMastery, mode, current }) => {
   const [list, setList] = useState([]);
   const [isLoading, setLoading] = useState(true)
+
+  const routeName = useNavigationState((state) => {
+    if (!state) {
+      return "None";
+    }
+    return state.routes[state.index]?.name;
+  });
+
+  const getPaddingBottom = () => (navbarRoutes.includes(routeName) ? 80 : 0);
+
 
   const getList = async () => {
     setLoading(true)
     try {
-      const { data } = await axios.get(
-        API_URL +
-          `/getLeaderboard?level=${level}&category=${categoryIndex.id}&mode=${
-            isMastery ? "mastery" : "classic"
-          }`
-      );
+      let URL;
+      if(mode === "mastery"){
+        URL = API_URL+`/getLeaderboard?category=${categoryIndex.id}&mode=mastery`;
+      }else{
+        URL = API_URL+`/getLeaderboard?level=${level}&category=${categoryIndex.id}&mode=${mode}`;
+      }
+      const { data } = await axios.get(URL);
+      console.log(data);
+      
       setLoading(false)
-      setList(data);
+      setList(data || []);
       console.log(data);
     } catch (error) {
       ToastAndroid.show("Getting Leaderboard" + error, ToastAndroid.LONG);
+      console.error(error.response)
     }
   };
 
@@ -40,7 +55,7 @@ const Leaderboard = ({ onExit, level, categoryIndex, isMastery, current }) => {
     <Animated.View
       entering={ZoomIn}
       exiting={ZoomOut}
-      style={{ flex: 1, padding: 28 }}
+      style={{ flex: 1, padding: 28, paddingBottom: getPaddingBottom() }}
     >
       <View
         style={[
@@ -93,24 +108,27 @@ const Leaderboard = ({ onExit, level, categoryIndex, isMastery, current }) => {
           borderColor: "#2E5A9F",
         }}
       >
-          {isLoading && (
-            <LottieView
-              style={{
-                width: "100%",
-                height: "20%",
-                marginTop: 20,
-                padding: 0,
-                transform: [{ scale: 1.6 }],
-              }}
-              speed={2}
-              resizeMode="center"
-              source={loading}
-              autoPlay
-              loop
-            />
-          )}
-          {!isLoading && list.length === 0 &&
-          <Text style={{fontSize: 24, textAlign:'center', marginTop: 24}}>No data to display yet.</Text>}
+        {isLoading && (
+          <LottieView
+            style={{
+              width: "100%",
+              height: "20%",
+              marginTop: 20,
+              padding: 0,
+              transform: [{ scale: 1.6 }],
+            }}
+            speed={2}
+            resizeMode="center"
+            source={loading}
+            autoPlay
+            loop
+          />
+        )}
+        {!isLoading && list.length === 0 && (
+          <Text style={{ fontSize: 24, textAlign: "center", marginTop: 24 }}>
+            No data to display yet.
+          </Text>
+        )}
         <ScrollView contentContainerStyle={{ padding: 12 }} style={{ flex: 1 }}>
           {list.map((user, index) => (
             <UserCard

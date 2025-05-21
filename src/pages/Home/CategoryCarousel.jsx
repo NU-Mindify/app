@@ -7,20 +7,6 @@ import { useNavigation } from '@react-navigation/native';
 import { categoriesObj } from '../../constants'
 
 import AccountContext from '../../contexts/AccountContext';
-// const data = [
-//   category1,
-//   map2,
-//   map4,
-//   map2,
-//   category1
-// ]
-// const data = [
-//   category1,
-//   category2,
-//   category3,
-//   category4,
-//   category5
-// ];
 
 const {width} = Dimensions.get('window')
 const _imageWidth = width * 0.7;
@@ -44,10 +30,7 @@ const CategoryCarousel = () => {
         <Animated.FlatList
           data={categoriesObj}
           horizontal
-          renderItem={({
-            item,
-            index,
-          }) => (
+          renderItem={({ item, index }) => (
             <Photo
               item={item.cover}
               index={index}
@@ -82,6 +65,7 @@ const CategoryCarousel = () => {
           contentContainerStyle={{
             gap: _spacing,
             paddingHorizontal: (width - _imageWidth) / 2,
+            marginBottom:'auto'
           }}
           style={{ flex: 1 }}
           onScroll={onScroll}
@@ -134,7 +118,7 @@ const Photo = ({item, index, scrollX, onPress}) => {
     ]
   }))
   return (
-    <TouchableOpacity onPress={() => onPress(index)} activeOpacity={0.9} >
+    <TouchableOpacity style={{marginVertical:'auto'}} onPress={() => onPress(index)} activeOpacity={0.9} >
       <Animated.View
         style={[
           {
@@ -143,6 +127,7 @@ const Photo = ({item, index, scrollX, onPress}) => {
             overflow: "hidden",
             borderRadius: 16,
             boxShadow: "0px 2px 12px rgba(0, 0, 0, 0.8)",
+            marginVertical:'auto'
           },
           imageContainerStyle,
         ]}
@@ -160,10 +145,11 @@ const Photo = ({item, index, scrollX, onPress}) => {
             backgroundColor: "#2C519F",
             width: "80%",
             position:'absolute',
-            bottom:40,
+            bottom:-40,
             left:'50%',
             transform: [{translateX:'-50%'}],
-            paddingVertical:8
+            paddingVertical:8,
+            
           },
         ]}
       >
@@ -174,6 +160,7 @@ const Photo = ({item, index, scrollX, onPress}) => {
             fontSize: 24,
             fontFamily:'LilitaOne-Regular'
           }}
+          allowFontScaling={false}
         >
           {categoriesObj[index].name}
         </Text>

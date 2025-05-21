@@ -1,5 +1,5 @@
 import { View, Text } from "react-native";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import Animated, {
   BounceIn,
   FadeOut,
@@ -20,6 +20,7 @@ import { avatars } from "../../constants";
 import moment from "moment";
 import GameContext from "../../contexts/GameContext";
 import LottieView from "lottie-react-native";
+import { Sound } from "./Game";
 
 const Results = ({ stats, onReview, onLeaderboard }) => {
   const {isMastery, categoryIndex} = useContext(GameContext)
@@ -38,32 +39,34 @@ const Results = ({ stats, onReview, onLeaderboard }) => {
     star3: Math.floor(totalQuestions * 1),
   });
 
+  const { playSound } = Sound();
+  useEffect(() => {
+    if (isPass) {
+      playSound(require("../../audio/complete.mp3"));
+    } else {
+      playSound(require("../../audio/lose.mp3"));
+    }
+  }, [])
+
   const { accountData } = useContext(AccountContext);
   const Avatar = avatars[accountData.avatar];
 
   return (
+    <>
     <View style={{ alignItems: "center" }}>
       {/* --Completed-- Banner */}
       <Animated.Image
         source={Completed}
-        style={{ position: "absolute", top: -40, width: "100%", zIndex: 2, pointerEvents: 'none' }}
+        style={{
+          position: "absolute",
+          top: -40,
+          width: "100%",
+          zIndex: 2,
+          pointerEvents: "none",
+        }}
         entering={FlipInEasyX}
         exiting={FlipOutEasyX}
         resizeMode={"contain"}
-      />
-      <LottieView
-        style={{
-          position: "absolute",
-          margin: "auto",
-          width: 720,
-          height: "100%",
-          top: 0,
-          zIndex: 2,
-          pointerEvents: 'none'
-        }}
-        source={require("../../anim/confetti.json")}
-        autoPlay
-        loop={false}
       />
 
       {/* Results */}
@@ -185,12 +188,21 @@ const Results = ({ stats, onReview, onLeaderboard }) => {
           />
         </View>
       </Animated.View>
-      {/* <View>
-        <Animated.View style={styles.entryBackground}>
-          <Text>asd</Text>
-        </Animated.View>
-      </View> */}
+      <LottieView
+        style={{
+          position: "absolute",
+          margin: "auto",
+          width: 720,
+          height: "80%",
+          top: 0,
+          zIndex: 1
+        }}
+        source={is1Star ? require("../../anim/confetti.json") : require("../../anim/sadDefeat.json")}
+        autoPlay
+        loop={false}
+      />
     </View>
+        </>
   );
 };
 
