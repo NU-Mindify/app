@@ -18,6 +18,7 @@ const LevelButton = ({
   index,
   categoryIndex,
   isMastery,
+  mode,
   setLeaderboardLevel
 }) => {
   const [isPressing, setIsPressing] = useState(true);
@@ -48,6 +49,7 @@ const LevelButton = ({
           levelIndex: index,
           categoryIndex,
           isMastery,
+          mode,
         });
         setModal(null);
       },

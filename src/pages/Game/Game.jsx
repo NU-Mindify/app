@@ -18,10 +18,10 @@ import Animated from "react-native-reanimated";
 import Timer from "./Timer";
 
 const Game = (props) => {
-  const { level, levelIndex, categoryIndex, isMastery } = props.route.params;
+  const { level, levelIndex, categoryIndex, isMastery, mode } = props.route.params;
   const { accountData, progressData, setProgressData } = useContext(AccountContext);
   const { setModal } = useContext(ModalContext)
-  const categoryProgress = useRef(progressData[isMastery ? "mastery" : "classic"][categoryIndex.id])
+  const categoryProgress = useRef(progressData["classic"][categoryIndex.id])
 
   const [questions, setQuestions] = useState(null);
   const [currentNumber, setCurrentNumber] = useState(0);
@@ -54,10 +54,10 @@ const Game = (props) => {
       newStats.streak = 0;
     }
     setStats((prevstats) => ({...prevstats, ...newStats}));
-    if(isMastery){
+    if (["competition", "mastery"].includes(mode)) {
       setCurrentQuestion(null);
       nextQuestion(newStats);
-    }else{
+    } else {
       showRationaleModal(choice, newStats);
       setCurrentQuestion(null);
     }
@@ -75,13 +75,13 @@ const Game = (props) => {
 
       setCurrentNumber((current) => current + 1);
 
-      if (isMovingToNextLevel() && isScorePassed()) {
-        playSound(require("../../audio/complete.mp3"));
-      } else if (isScorePassed()) {
-        playSound(require("../../audio/complete.mp3"));
-      } else {
-        playSound(require("../../audio/lose.mp3"));
-      }
+      // if (isMovingToNextLevel() && isScorePassed()) {
+      //   playSound(require("../../audio/complete.mp3"));
+      // } else if (isScorePassed()) {
+      //   playSound(require("../../audio/complete.mp3"));
+      // } else {
+      //   playSound(require("../../audio/lose.mp3"));
+      // }
       return;
     }
     setCurrentNumber((current) => current + 1);
@@ -102,7 +102,7 @@ const Game = (props) => {
           wrong: newStats.wrong,
           total_items: questions.length,
           branch: accountData.branch,
-          mode: isMastery ? "mastery" : "classic",
+          mode,
         },
         progressUserLevel: isMovingToNextLevel() && isScorePassed(),
       });
@@ -189,14 +189,17 @@ const Game = (props) => {
   const getQuestions = async () => {
     try {
       let URL = `${process.env.EXPO_PUBLIC_URL}/getQuestions?category=${categoryIndex.id}&level=${level}`;
-      if(categoryIndex.id === "abnormal"){
+      if(categoryIndex.id === "abnormal" && mode !== 'mastery'){
         URL = `${process.env.EXPO_PUBLIC_URL}/getQuestions?category=${categoryIndex.id}&start=${items[level].start}&end=${items[level].end}`;
+      }
+      if(mode === "mastery"){
+        URL = API_URL + "/getQuestions?category=" + categoryIndex.id
       }
       // const { data } = await axios.get(`${process.env.EXPO_PUBLIC_URL}/getQuestions?category=${'developmental'}&level=${1}`)
       const { data } = await axios.get(URL)
       const questions = data.length !== 0 ? data : questionsData
 
-      if(isMastery){
+      if(["competition", "mastery"].includes(mode)){
         let shuffledQuestions = questions
           .map((value) => ({ value, sort: Math.random() }))
           .sort((a, b) => a.sort - b.sort)
@@ -291,6 +294,7 @@ const Game = (props) => {
                 categoryIndex={categoryIndex}
                 isMastery={isMastery}
                 current={currentAttemptID}
+                mode={mode}
               />
             )
           ))}
@@ -344,7 +348,7 @@ const items = {
   }
 }
 
-const Sound = () => {
+export const Sound = () => {
   const [bgSound, setSound] = useState(null); // Keep the sound object in a module scope
   const [soundFx, setSoundFx] = useState(null);
   
