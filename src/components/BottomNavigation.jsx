@@ -1,7 +1,6 @@
 import { View, Text } from 'react-native'
 import Home from '../assets/bottom-nav/home.svg'
 import Glossary from '../assets/bottom-nav/glossary.svg'
-import Categories from '../assets/bottom-nav/categories.svg'
 import Mindmap from '../assets/bottom-nav/mindmap.svg'
 import Chatbot from '../assets/bottom-nav/chatbot.svg'
 import React from 'react'
@@ -11,9 +10,9 @@ import Animated, { FadeInDown, FadeOutDown, SlideInDown, SlideInUp } from 'react
 import { navbarRoutes } from '../constants'
 
 const actions = [
-  {name: "Categories", icon: Categories, path: null},
-  {name: "Glossary", icon: Glossary, path: "Glossary"},
+  // {name: "Categories", icon: Categories, path: null},
   {name: "Home", icon: Home, path: "Home"},
+  {name: "Glossary", icon: Glossary, path: "Glossary"},
   {name: "Mindmap", icon: Mindmap, path: "Mindmap"},
   {name: "Chatbot", icon: Chatbot, path: "Chatbot"}
 ]
@@ -76,8 +75,7 @@ const BottomNavigation = () => {
             }
           }}
         >
-          <action.icon />
-          {/* <Text>{action.name}</Text> */}
+          <action.icon width={32} height={32} />
         </TouchableOpacity>
       ))}
     </Animated.View>

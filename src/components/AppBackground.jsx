@@ -22,7 +22,7 @@ const AppBackground = ({
     return state.routes[state.index]?.name;
   });
 
-  const getPaddingBottom = () => navbarRoutes.includes(routeName) ? 48 : 0
+  const getPaddingBottom = () => navbarRoutes.includes(routeName) ? 80 : 0
 
   if (gradientColors.length > 0) {
     return (
