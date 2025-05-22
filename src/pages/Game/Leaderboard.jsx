@@ -10,18 +10,13 @@ import axios from "axios";
 import { API_URL, avatars, navbarRoutes } from "../../constants";
 import LottieView from "lottie-react-native";
 import loading from "../../anim/loading_circle.json";
-import { useNavigationState } from "@react-navigation/native";
+import { useRoute } from "@react-navigation/native";
 
 const Leaderboard = ({ onExit, level, categoryIndex, isMastery, mode, current }) => {
   const [list, setList] = useState([]);
   const [isLoading, setLoading] = useState(true)
 
-  const routeName = useNavigationState((state) => {
-    if (!state) {
-      return "None";
-    }
-    return state.routes[state.index]?.name;
-  });
+  const routeName = useRoute().name;  
 
   const getPaddingBottom = () => (navbarRoutes.includes(routeName) ? 80 : 0);
 

@@ -1,9 +1,10 @@
-import { View, Text } from "react-native";
-import React, { useContext, useEffect } from "react";
+import { View, Text, StyleSheet } from "react-native";
+import React, { useContext, useEffect, useRef } from "react";
 import Animated, {
   BounceIn,
   FadeOut,
   FlipInEasyX,
+  FlipInXDown,
   FlipOutEasyX,
   PinwheelIn,
 } from "react-native-reanimated";
@@ -21,9 +22,10 @@ import moment from "moment";
 import GameContext from "../../contexts/GameContext";
 import LottieView from "lottie-react-native";
 import { Sound } from "./Game";
+import { ArrowRight, ArrowRightCircle, ArrowRightFromLine, RotateCcw } from "lucide-react-native";
 
 const Results = ({ stats, onReview, onLeaderboard }) => {
-  const {isMastery, categoryIndex} = useContext(GameContext)
+  const {isMastery, categoryIndex, level, mode, levelIndex} = useContext(GameContext)
   const nav = useNavigation();
 
   const duration = Math.floor(moment.duration(stats.endTime.diff(stats.startTime)).asSeconds());
@@ -39,170 +41,192 @@ const Results = ({ stats, onReview, onLeaderboard }) => {
     star3: Math.floor(totalQuestions * 1),
   });
 
+  const animRef = useRef(null);
+
   const { playSound } = Sound();
   useEffect(() => {
     if (isPass) {
       playSound(require("../../audio/complete.mp3"));
     } else {
+      animRef?.current?.play(0, 54)
       playSound(require("../../audio/lose.mp3"));
     }
   }, [])
 
   const { accountData } = useContext(AccountContext);
   const Avatar = avatars[accountData.avatar];
-
+  const {primary_color, secondary_color} = categoryIndex
   return (
     <>
-    <View style={{ alignItems: "center" }}>
-      {/* --Completed-- Banner */}
-      <Animated.Image
-        source={Completed}
-        style={{
-          position: "absolute",
-          top: -40,
-          width: "100%",
-          zIndex: 2,
-          pointerEvents: "none",
-        }}
-        entering={FlipInEasyX}
-        exiting={FlipOutEasyX}
-        resizeMode={"contain"}
-      />
-
-      {/* Results */}
-      <Animated.View
-        style={[
-          styles.entryBackground,
-          { width: "90%", paddingHorizontal: 8, borderColor: "#caa52c" },
-        ]}
-        entering={BounceIn}
-        exiting={FadeOut}
-      >
-        {/* Result/Star Container */}
-        <View
-          style={{
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: "#1C4384",
-            borderRadius: 24,
-            width: "80%",
-            padding: 24,
-            paddingHorizontal: 12,
-            margin: 24,
-            marginTop: 55,
-            paddingTop: 70,
-          }}
+      <View style={{ alignItems: "center" }}>
+        <Title
+          title={is1Star ? "COMPLETED" : "FAILED"}
+          colors={{ primary_color, secondary_color }}
+        />
+        {/* Results */}
+        <Animated.View
+          style={[
+            {
+              justifyContent: "center",
+              alignItems: "center",
+              width: "90%",
+              backgroundColor: "white",
+              padding: 12,
+              gap: 4,
+              borderRadius: 12,
+            },
+          ]}
+          entering={BounceIn}
+          exiting={FadeOut}
         >
-          {/* Star Container */}
+          <Text
+            style={{
+              fontFamily: "LilitaOne-Regular",
+              color: "black",
+              fontSize: 24,
+              textShadowRadius: 4,
+            }}
+          >
+            Level {level}
+          </Text>
+          {/* Result/Star Container */}
+          <View
+            style={{
+              justifyContent: "center",
+              alignItems: "center",
+              // backgroundColor: "#1C4384",
+              borderRadius: 24,
+              width: "80%",
+              padding: 24,
+              paddingHorizontal: 12,
+            }}
+          >
+            {/* Star Container */}
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
+                height: 130,
+                width: "100%",
+              }}
+            >
+              <SmallStar style={{ left: 0 }} isActive={is1Star} delay={400} />
+              <BigStar isActive={is3Star} />
+              <SmallStar
+                style={{ right: "0" }}
+                isActive={is2Star}
+                delay={800}
+              />
+            </View>
+            <Text
+              style={[
+                {
+                  fontFamily: "LilitaOne-Regular",
+                  color: secondary_color || "white",
+                  fontSize: 38,
+                  textShadowColor: secondary_color,
+                  textShadowRadius: 8,
+                },
+              ]}
+            >
+              {is3Star ? 
+                "PERFECT SCORE!" : "WELL DONE!"
+              }
+            </Text>
+            <Text
+              style={{
+                fontSize: 18,
+                textAlign: "center",
+                paddingHorizontal: 12,
+              }}
+            >
+              You've scored
+              <Text style={{ fontWeight: 900, fontSize: 18 }}>{` ${
+                score > 0 ? "+" : ""
+              }${score} `}</Text>
+              points in
+              <Text style={{ fontWeight: 900, fontSize: 18, color: "white" }}>
+                {` ${duration} `}
+              </Text>
+              seconds
+            </Text>
+          </View>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-evenly",
+              width: "100%",
+            }}
+          >
+            <ResultsStats
+              stat={stats.correct + stats.wrong}
+              label={"Questions"}
+            />
+            <ResultsStats
+              stat={stats.correct}
+              label={"Correct"}
+              color={"green"}
+            />
+            <ResultsStats stat={stats.wrong} label={"Wrong"} color={"red"} />
+          </View>
+
           <View
             style={{
               flexDirection: "row",
               justifyContent: "center",
-              alignItems: "center",
-              height: 130,
-              width: "100%",
-              position: "absolute",
-              top: "-15%",
+              gap: 8,
+              marginBottom: 32,
             }}
           >
-            <SmallStar style={{ left: 0 }} isActive={is1Star} delay={400} />
-            <BigStar isActive={is3Star} />
-            <SmallStar style={{ right: "0" }} isActive={is2Star} delay={800} />
+            {mode !== "review" && (
+              <Button
+                onPress={onLeaderboard}
+                text={"Leaderboard"}
+                style={{ zIndex: 10 }}
+              />
+            )}
+            {mode === "review" && <Button onPress={onReview} text={"Review"} />}
           </View>
-          {/* Profile */}
-          <View
-            style={{
-              backgroundColor: "white",
-              borderRadius: 99,
-              justifyContent: "center",
-              alignItems: "center",
-              borderWidth: 8,
-              borderColor: "#FFD41C",
-              width: 120,
-              height: 120,
-            }}
-          >
-            <Avatar width={90} height={90} />
+          <View style={{ position: "absolute", bottom: -20, gap:12, flexDirection:'row' }}>
+            <Button
+              onPress={() =>
+                nav.replace("Game", { level, levelIndex, categoryIndex, isMastery, mode })
+              }
+              // text={isPass ? "Next Level" : "Try Again"}
+              text={<RotateCcw size={32} color={"white"} style={{ zIndex: 5 }} />}
+              style={{ zIndex: 10, paddingHorizontal:12 }}
+            />
+            <Button
+              onPress={() =>
+                nav.replace("Levels", { categoryIndex, isMastery })
+              }
+              text={<ArrowRightCircle size={32} color={"white"} style={{ zIndex: 5 }} />}
+              style={{ zIndex: 10, paddingHorizontal:12 }}
+            />
           </View>
-          <Text
-            style={{
-              fontSize: 24,
-              fontWeight: 900,
-              color: "white",
-              paddingBottom: 12,
-            }}
-          >
-            {accountData.username}
-          </Text>
-          <Text
-            style={{
-              fontSize: 18,
-              color: "white",
-              textAlign: "center",
-              paddingHorizontal: 12,
-            }}
-          >
-            You've scored
-            <Text
-              style={{ fontWeight: 900, fontSize: 18, color: "yellow" }}
-            >{` ${score > 0 ? "+" : ""}${score} `}</Text>
-            points in
-            <Text style={{ fontWeight: 900, fontSize: 18, color: "white" }}>
-              {` ${duration} `}
-            </Text>
-            seconds
-          </Text>
-        </View>
-        <View
+          
+        </Animated.View>
+        <LottieView
           style={{
-            flexDirection: "row",
-            justifyContent: "space-evenly",
-            width: "100%",
+            position: "absolute",
+            margin: "auto",
+            width: 720,
+            height: "70%",
+            top: 60,
+            zIndex: 1,
           }}
-        >
-          <ResultsStats
-            stat={stats.correct + stats.wrong}
-            label={"Questions"}
-          />
-          <ResultsStats
-            stat={stats.correct}
-            label={"Correct"}
-            color={"green"}
-          />
-          <ResultsStats stat={stats.wrong} label={"Wrong"} color={"red"} />
-        </View>
-
-        <View
-          style={{ flexDirection: "row", justifyContent: "center", gap: 8 }}
-        >
-          <Button
-            onPress={() => nav.replace("Levels", { categoryIndex, isMastery })}
-            text={isPass ? "Next Level" : "Try Again"}
-            style={{ zIndex: 5 }}
-          />
-          {!isMastery && <Button onPress={onReview} text={"Review"} />}
-          <Button
-            onPress={onLeaderboard}
-            text={"Leaderboard"}
-            style={{ zIndex: 10 }}
-          />
-        </View>
-      </Animated.View>
-      <LottieView
-        style={{
-          position: "absolute",
-          margin: "auto",
-          width: 720,
-          height: "80%",
-          top: 0,
-          zIndex: 1
-        }}
-        source={is1Star ? require("../../anim/confetti.json") : require("../../anim/sadDefeat.json")}
-        autoPlay
-        loop={false}
-      />
-    </View>
-        </>
+          ref={animRef}
+          source={
+            is1Star
+              ? require("../../anim/confetti.json")
+              : require("../../anim/sadDefeat.json")
+          }
+          autoPlay
+          loop={is1Star}
+        />
+      </View>
+    </>
   );
 };
 
@@ -216,13 +240,13 @@ const ResultsStats = ({ label, stat, color }) => {
         backgroundColor: "#F6EDC6",
         borderRadius: 12,
         borderWidth: 8,
-        borderColor: "#FFC300",
+        borderColor: color || "#FFC300",
         justifyContent: "center",
         alignItems: "center",
         width: "32%",
       }}
     >
-      <Text style={{ fontSize: 32, fontWeight: 900, color }}>{stat}</Text>
+      <Text style={{ fontSize: 32, fontWeight: 900, color:'black' }}>{stat}</Text>
       <Text style={{ fontSize: 12, fontWeight: 500 }}>{label}</Text>
     </View>
   );
@@ -259,3 +283,58 @@ const BigStar = ({ isActive }) => {
     />
   );
 };
+
+export const Title = ({ title, colors }) => {
+  return (
+    <Animated.View
+      entering={FlipInXDown.delay(200)}
+      style={[
+        style.outer,
+        style.title,
+        colors && {
+          borderColor: colors.secondary_color,
+          backgroundColor: colors.secondary_color,
+        },
+      ]}
+    >
+      <Text
+        style={[
+          {
+            fontFamily: "LilitaOne-Regular",
+            color: "white",
+            fontSize: 36,
+            textAlign: "center",
+          },
+        ]}
+      >
+        {title}
+      </Text>
+    </Animated.View>
+  );
+}
+const style = StyleSheet.create({
+  outer: {
+    borderRadius: 24,
+    borderColor: "#FDD116",
+    borderWidth: 8,
+    backgroundColor: "#FDD116",
+  },
+  inner: {
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#35408E",
+    padding: 10,
+    paddingTop: 0,
+    borderRadius: 24,
+    borderColor: "#2D3A72",
+    borderWidth: 8,
+  },
+  title: {
+    borderBottomStartRadius: 0,
+    borderBottomEndRadius: 0,
+    padding: 8,
+    paddingHorizontal: 32,
+    backgroundColor: "#35408E",
+    borderBottomWidth: 0,
+  },
+});

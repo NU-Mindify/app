@@ -229,7 +229,7 @@ const Game = (props) => {
   
   return (
     <GameContext.Provider
-      value={{ level, levelIndex, categoryIndex, isMastery, gameColor: gameColors[categoryIndex.id] }}
+      value={{ level, levelIndex, categoryIndex, isMastery, mode, gameColor: gameColors[categoryIndex.id] }}
     >
       <AppBackground
         viewStyle={{
