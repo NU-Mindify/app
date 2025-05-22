@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     // fontWeight: "bold",
     textAlign: "center",
-    textShadowColor: "black",
+    textShadowColor: "rgba(0, 0, 0, 0.7)",
     textShadowOffset: { height: 1 },
     textShadowRadius: 12,
     padding: 8,
