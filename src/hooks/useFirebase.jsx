@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import AccountContext from "../contexts/AccountContext";
 import { getDatabase, onValue, ref, set } from 'firebase/database'
-import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, sendEmailVerification, signInWithEmailAndPassword, signInWithPopup, signInWithRedirect, signOut } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup, signInWithRedirect, signOut } from "firebase/auth";
 import { useNavigation } from "@react-navigation/native";
 import { OAuthProvider } from "firebase/auth";
 import axios from "axios";
@@ -122,8 +122,20 @@ const useFirebase = () => {
     }
   };
   console.log("Checks if useFirebase run");
+
+  const sendResetPasswordEmail = (email) => {
+    const auth = getAuth();
+  sendPasswordResetEmail(auth, email)
+    .then(() => {
+      alert("The Reset Password Link has been sent to your email!")
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+    });
+    }
   
-  return { getUserData, sendVerifyEmail };
+  return { getUserData, sendVerifyEmail, sendResetPasswordEmail };
 }
 export default useFirebase;
 

@@ -27,6 +27,7 @@ import PoppinsMediumFont from './src/assets/fonts/Poppins-Medium.ttf'
 import { useFonts } from 'expo-font';
 import BuildInfo from './src/components/BuildInfo';
 import BottomNavigation from './src/components/BottomNavigation';
+import ResetPassword from './src/pages/Entry/ResetPassword';
 
 ExpoSplashScreen.preventAutoHideAsync();
 
@@ -80,6 +81,7 @@ export default function App() {
               <Stack.Navigator screenOptions={{ headerShown: false, statusBarHidden: Platform.OS !== "ios", navigationBarHidden: true, }}>
                   <Stack.Screen name="Splash" component={SplashScreen} />
                   <Stack.Screen name='Get Started' component={GetStarted} />
+                  <Stack.Screen name='Reset Password' component={ResetPassword} />
                   <Stack.Screen name='Verify' component={Verify} />
                   <Stack.Screen name='Terms and Conditions' component={TermsAndConditions} />
 

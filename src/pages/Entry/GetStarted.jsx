@@ -7,6 +7,7 @@ import { printStorage } from '../../contexts/useAccount';
 import styles from '../../styles/styles';
 import Login from './Login';
 import Register from './Register';
+import { ScrollView } from 'react-native-gesture-handler';
 
 export default function GetStarted() {
   const [state, setState] = useState("get started");
@@ -43,7 +44,7 @@ export default function GetStarted() {
       style={{ flex: 1 }}
     >
       <AppBackground>
-        <View style={{ alignItems: "center",  padding: 24, paddingTop:12, height: '100%' }}>
+        <ScrollView contentContainerStyle={{ alignItems: "center",  padding: 24, paddingTop:12, minHeight:'100%' }}>
           {!isKeyboardVisible && 
             <Animated.Image
             entering={BounceIn}
@@ -56,7 +57,7 @@ export default function GetStarted() {
           {state === "login" && <Login set={setState} />}
           {state === "get started" && <GetStartedButton set={setState} />}
           {state === "register" && <Register set={setState} />}
-        </View>
+        </ScrollView>
       </AppBackground>
     </Animated.View>
   );
