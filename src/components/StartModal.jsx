@@ -1,27 +1,17 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useContext, useEffect } from "react";
+import { BackHandler, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Animated, {
   BounceIn,
-  BounceOut,
   FadeIn,
   FadeOut,
   FlipInXDown,
-  SlideInDown,
-  SlideInUp,
-  SlideOutDown,
-  ZoomIn,
-  ZoomInEasyDown,
-  ZoomOut,
+  ZoomOut
 } from "react-native-reanimated";
-import ModalBg from "../assets/modal/startCard.png";
-import YesButton from "../assets/modal/yesBtn.png";
-import NoButton from "../assets/modal/noBtn.png";
+import X from "../assets/generic/x.svg";
 import classic from "../assets/modal/classic.png";
 import mastery from "../assets/modal/mastery.png";
-import { useContext } from "react";
 import ModalContext from "../contexts/ModalContext";
 import { modalStyles } from "../styles/modalStyles";
-import React from "react";
-import X from "../assets/generic/x.svg";
 import Button from "./Button";
 
 
@@ -34,7 +24,14 @@ export default function Start() {
   function handlesNo() {
     modal.secondaryFn();
   }
-
+  useEffect(()=>{
+    const backAction = () => {
+      modal.secondaryFn();
+      return true;
+    }
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction)
+    return () => backHandler.remove();
+  },[])
   return (
     <>
       <Animated.View

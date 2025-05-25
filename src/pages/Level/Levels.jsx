@@ -2,6 +2,8 @@ import { useNavigation } from "@react-navigation/native";
 import { ArrowLeftCircle } from "lucide-react-native";
 import { useContext, useEffect, useRef, useState } from "react";
 import {
+  Alert,
+  BackHandler,
   Dimensions,
   ImageBackground,
   ScrollView,
@@ -20,6 +22,8 @@ import ModalContext from "../../contexts/ModalContext";
 const Levels = (props) => {
   const { categoryIndex, isMastery } = props.route.params;
   const { accountData, progressData } = useContext(AccountContext);
+  console.log("ProgressData", JSON.stringify(progressData));
+  
   const { setModal } = useContext(ModalContext)
   const categoryProgress =
     progressData["classic"][categoryIndex.id];
@@ -69,6 +73,26 @@ const Levels = (props) => {
     scrollViewRef.current?.scrollToEnd({ animated: false });
   }, [scrollViewRef]);
 
+  useEffect(() => {
+    const backAction = () => {
+      console.log(leaderboardLevel);
+
+      if (leaderboardLevel) {
+        setLeaderboardLevel(null);
+      } else {
+        nav.goBack();
+      }
+
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, [leaderboardLevel]);
 
   return (
     <>

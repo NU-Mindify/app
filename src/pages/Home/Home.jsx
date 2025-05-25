@@ -4,8 +4,10 @@ import {
   Pressable,
   StyleSheet,
   TouchableOpacity,
+  Alert,
+  BackHandler,
 } from "react-native";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import Animated, { FadeIn } from "react-native-reanimated";
 import {
   BookMarkedIcon,
@@ -28,6 +30,27 @@ const Home = () => {
   const nav = useNavigation();
   const { accountData, setAccountData } = useContext(AccountContext);
   const Avatar = avatars[accountData ? accountData.avatar : 0]
+
+  useEffect(() => {
+    const backAction = () => {
+      Alert.alert("Exit?", "Are you sure you want exit NU Mindify?", [
+        {
+          text: "Cancel",
+          onPress: () => null,
+          style: "cancel",
+        },
+        { text: "YES", onPress: () => BackHandler.exitApp() },
+      ]);
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, []);
 
   return (
     <Animated.View entering={FadeIn.duration(700)} style={{ flex: 1 }}>

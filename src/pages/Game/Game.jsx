@@ -103,6 +103,7 @@ const Game = (props) => {
           total_items: questions.length,
           branch: accountData.branch,
           mode,
+          stars: getStarsCount(newStats.correct, questions.length)
         },
         progressUserLevel: isMovingToNextLevel() && isScorePassed(),
       });
@@ -183,6 +184,12 @@ const Game = (props) => {
       : streakCount === 1
       ? "Nice one! Let's go for a streak!"
       : "Let's try the next one.";
+  }
+
+  const getStarsCount = (correct, totalQuestions) => {
+    return correct >= Math.floor(totalQuestions * 0.8) ? 1 : 
+    correct >= Math.floor(totalQuestions * 0.9) ? 2 :
+    correct >= Math.floor(totalQuestions * 1) ? 3 : 0;
   }
   // -----------------------------------------
 
