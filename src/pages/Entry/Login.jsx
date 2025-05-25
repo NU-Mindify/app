@@ -10,8 +10,8 @@ import useFirebase, { loginAuth } from "../../hooks/useFirebase";
 import LoadingOverlay from "../../components/LoadingOverlay";
 
 const Login = ({ set }) => {
-  const [username, setUsername] = useState("fjsalles.04@gmail.com");
-  const [password, setPassword] = useState("123123");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [isFormDisabled, setIsFormDisabled] = useState(false);
   
   const [currentField, setCurrentField] = useState(null)
@@ -104,6 +104,9 @@ const Login = ({ set }) => {
           <View style={styles.button}>
             <Text style={styles.buttonText}>Sign In</Text>
           </View>
+        </TouchableOpacity>
+        <TouchableOpacity style={{marginTop:12}} onPress={() => {nav.navigate("Reset Password")}}>
+          <Text style={{color: "#FFC916", fontWeight: "bold",  textDecorationLine:'underline' }}>Forgot Password?</Text>
         </TouchableOpacity>
       </Animated.View>
       <Animated.View
