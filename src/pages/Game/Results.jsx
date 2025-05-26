@@ -102,13 +102,14 @@ const Results = ({ stats, onReview, onLeaderboard }) => {
             }}
           >
             {/* Star Container */}
+            {mode !== "review" &&
             <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "center",
-                alignItems: "center",
-                height: 130,
-                width: "100%",
+            style={{
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center",
+              height: 130,
+              width: "100%",
               }}
             >
               <SmallStar style={{ left: 0 }} isActive={is1Star} delay={400} />
@@ -117,8 +118,9 @@ const Results = ({ stats, onReview, onLeaderboard }) => {
                 style={{ right: "0" }}
                 isActive={is2Star}
                 delay={800}
-              />
+                />
             </View>
+              }
             <Text
               style={[
                 {
@@ -131,7 +133,7 @@ const Results = ({ stats, onReview, onLeaderboard }) => {
               ]}
             >
               {is3Star ? 
-                "PERFECT SCORE!" : "WELL DONE!"
+                "PERFECT SCORE!" : is1Star ? "WELL DONE!": "TRY AGAIN"
               }
             </Text>
             <Text
@@ -199,7 +201,7 @@ const Results = ({ stats, onReview, onLeaderboard }) => {
             />
             <Button
               onPress={() =>
-                nav.replace("Levels", { categoryIndex, isMastery })
+                nav.replace("Levels", { categoryIndex, isMastery, selectedMode: mode })
               }
               text={<ArrowRightCircle size={32} color={"white"} style={{ zIndex: 5 }} />}
               style={{ zIndex: 10, paddingHorizontal:12 }}

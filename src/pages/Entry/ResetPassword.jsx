@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native'
+import { View, Text, Keyboard } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import AppBackground from '../../components/AppBackground'
 import Button from '../../components/Button'
@@ -12,18 +12,46 @@ import Input from '../../components/Input'
 import { Mail } from 'lucide-react-native'
 
 const ResetPassword = () => {
+
+  const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
+  
+    useEffect(() => {
+      const showSubscription = Keyboard.addListener(
+        "keyboardDidShow",
+        handleKeyboardShow
+      );
+      const hideSubscription = Keyboard.addListener(
+        "keyboardDidHide",
+        handleKeyboardHide
+      );
+  
+      return () => {
+        showSubscription.remove();
+        hideSubscription.remove();
+      };
+    }, []);
+  
+    const handleKeyboardShow = (event) => {
+      setIsKeyboardVisible(true);
+    };
+  
+    const handleKeyboardHide = (event) => {
+      setIsKeyboardVisible(false);
+    };
+
   const nav = useNavigation()
   const [email, setEmail] = useState("")
   const { sendResetPasswordEmail } = useFirebase();
 
   return (
     <AppBackground>
-      <Text>Verify</Text>
+      {!isKeyboardVisible &&
       <Animated.Image
         source={MindifyLogo}
         resizeMode="contain"
         style={{ width: 400, height: 200 }}
       />
+      }
       <View style={{ gap: 2 }}>
         <View
           style={{

@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useContext, useEffect, useState } from 'react';
-import { Pressable, Text } from 'react-native';
-import Animated, { BounceIn } from 'react-native-reanimated';
+import { Pressable, Text, View } from 'react-native';
+import Animated, { BounceIn, FadeIn, FadeOut } from 'react-native-reanimated';
 import levelblue from '../../assets/level/levelblue.png';
 import levelbluePressed from "../../assets/level/levelbluePressed.png";
 import levelgray from '../../assets/level/levelgray.png';
@@ -11,6 +11,10 @@ import levelredPressed from "../../assets/level/levelredPressed.png";
 import levelyellow from '../../assets/level/levelyellow.png';
 import levelyellowPressed from '../../assets/level/levelyellowPressed.png';
 import ModalContext from '../../contexts/ModalContext';
+import smallStar from "../../assets/results/smallStar.png";
+import smallStarEmpty from "../../assets/results/smallStarEmpty.png";
+import bigStar from "../../assets/results/bigStar.png";
+import bigStarEmpty from "../../assets/results/bigStarEmpty.png";
 
 const LevelButton = ({
   details: {level, position, items, time},
@@ -19,7 +23,8 @@ const LevelButton = ({
   categoryIndex,
   isMastery,
   mode,
-  setLeaderboardLevel
+  setLeaderboardLevel,
+  stars
 }) => {
   const [isPressing, setIsPressing] = useState(true);
   const { modal, setModal } = useContext(ModalContext);
@@ -100,6 +105,13 @@ const LevelButton = ({
           height: 60,
         }}
       >
+        {state === "done" && mode === "competition" &&
+        <Animated.View style={{backgroundColor:'red', position:'absolute', top:-10, zIndex:4, width:80}} entering={FadeIn} exiting={FadeOut}>
+          <SmallStar style={{left: 0}} isActive={stars >= 1} />
+          <BigStar isActive={stars >= 3} />
+          <SmallStar style={{right: 0}} isActive={stars >= 2} />
+        </Animated.View>
+        }
         <Animated.Image
           source={getSource()}
           style={{ width: 100, height: 100 }}
@@ -121,4 +133,37 @@ const LevelButton = ({
   );
 };
 
-export default LevelButton
+export default LevelButton;
+
+
+const SmallStar = ({ style, isActive, delay }) => {
+  return (
+    <Animated.Image
+      source={isActive ? smallStar : smallStarEmpty}
+      style={[
+        style,
+        {
+          height: 32,
+          width: 32,
+          position: "absolute",
+        },
+      ]}
+    />
+  );
+};
+
+const BigStar = ({ isActive }) => {
+  return (
+    <Animated.Image
+      source={isActive ? bigStar : bigStarEmpty}
+      style={{
+        height: 48,
+        width: 48,
+        position: "absolute",
+        left:'50%',
+        transform:[{translateX:'-50%'}],
+        top:-20
+      }}
+    />
+  );
+};
