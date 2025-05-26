@@ -23,13 +23,19 @@ import AppBackground from "../../components/AppBackground";
 import { useNavigation } from "@react-navigation/native";
 import { avatars } from '../../constants'
 import { getAuth, signOut } from "firebase/auth";
-import { SignOut } from "../../hooks/useFirebase";
+import useFirebase, { SignOut } from "../../hooks/useFirebase";
 import ChooseBanner from '../../assets/categories/ChooseBanner.svg';
 
 const Home = () => {
   const nav = useNavigation();
   const { accountData, setAccountData } = useContext(AccountContext);
   const Avatar = avatars[accountData ? accountData.avatar : 0]
+  const { getUserData } = useFirebase();
+  useEffect(()=> {
+    if(!accountData){
+      getUserData(getAuth().uid)
+    }
+  })
 
   useEffect(() => {
     const backAction = () => {

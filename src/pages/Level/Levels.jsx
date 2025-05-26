@@ -20,7 +20,7 @@ import locations from "./locations.json";
 import ModalContext from "../../contexts/ModalContext";
 
 const Levels = (props) => {
-  const { categoryIndex, isMastery } = props.route.params;
+  const { categoryIndex, isMastery, selectedMode = "competition"  } = props.route.params;
   const { accountData, progressData } = useContext(AccountContext);
   console.log("ProgressData", JSON.stringify(progressData));
   
@@ -29,7 +29,7 @@ const Levels = (props) => {
     progressData["classic"][categoryIndex.id];
 
   const [leaderboardLevel, setLeaderboardLevel] = useState(null);
-  const [mode, setMode] = useState("competition");
+  const [mode, setMode] = useState(selectedMode);
   const nav = useNavigation()
 
   useEffect(()=> {
@@ -138,7 +138,7 @@ const Levels = (props) => {
         />
         <ImageBackground
           source={categoryIndex.level_background}
-          style={[{ height: 1500, width: "100%" }]}
+          style={[categoryIndex.id === "abnormal" ? { height: 1500, width: "100%" } : {height:1000,width:'100%'}]}
           resizeMode="cover"
           resizeMethod="scale"
         >
@@ -163,6 +163,7 @@ const Levels = (props) => {
                       ? "current"
                       : "soon"
                   }
+                  stars={progressData?.high_scores[categoryIndex?.id]?.[index]?.stars || 0}
                 />
               ))}
             <View

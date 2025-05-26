@@ -31,6 +31,7 @@ import bulldog from './assets/avatar/bulldog.svg'
 
 import abnormalMap from "./assets/maps/abnormalLong.png";
 import developmentalMap from "./assets/maps/developmental.png";
+import organizationalMap from "./assets/maps/organizational.png";
 import Map1 from "./assets/maps/1.png";
 import Map2 from "./assets/maps/2.png";
 import Map4 from "./assets/maps/4.png";
@@ -73,18 +74,18 @@ const categoriesObj = [
     secondary_color: "#A9CA59"
   },
   {
+    id: "industrial",
+    name: "Industrial Psychology",
+    level_background: organizationalMap,
+    cover: map2,
+    primary_color: "#6C6C6C"
+  },
+  {
     id: "psychological",
     name: "Psychological Assessment",
     level_background: Map4,
     cover: map4,
     primary_color: "#3C4F76"
-  },
-  {
-    id: "industrial",
-    name: "Industrial Psychology",
-    level_background: Map2,
-    cover: map2,
-    primary_color: "#6C6C6C"
   },
   {
     id: "general",

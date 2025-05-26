@@ -39,7 +39,11 @@ const ViewProfile = () => {
     }
     c()
   }, [])
-
+  if(!progressData){
+    return (
+      <></>
+    )
+  }
   return (
     <AppBackground
       gradientColors={["#3B61B7", "#35408E"]}

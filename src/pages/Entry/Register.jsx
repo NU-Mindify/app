@@ -4,7 +4,7 @@ import Animated, { FlipInXUp, FlipOutXDown } from 'react-native-reanimated'
 import styles from '../../styles/styles'
 import Input from '../../components/Input'
 import { LockKeyhole, Mail, UserCircle2 } from 'lucide-react-native'
-import useFirebase, { createAccount } from '../../hooks/useFirebase'
+import useFirebase from '../../hooks/useFirebase'
 import ModalContext from '../../contexts/ModalContext'
 import { useNavigation } from '@react-navigation/native'
 import Unchecked from "../../assets/form/unchecked.svg";
@@ -17,7 +17,7 @@ import TermsAndConditions from './TermsAndConditions'
 const Register = ({set}) => {
   const { setModal } = useContext(ModalContext);
   const nav = useNavigation();
-
+  const { createAccount } = useFirebase();
   const [form, setForm] = useState({
     username: "",
     email: "",
@@ -36,7 +36,7 @@ const Register = ({set}) => {
     if(!validate()){
       return;
     }
-    await createAccount({ username: form.username, email: form.email, password: form.password })
+    await createAccount({ username: form.username, email: form.email, password: form.password, first_name: form.first_name, last_name: form.last_name })
   }
   const validate = () => {
     return (
@@ -59,6 +59,7 @@ const Register = ({set}) => {
         checkbox={isTermsChecked}
         toggleCheckbox={() => setIsTermsChecked(!isTermsChecked)}
       />
+
       <Animated.View
         entering={FlipInXUp}
         exiting={FlipOutXDown}
@@ -66,7 +67,7 @@ const Register = ({set}) => {
       >
         <Text style={styles.entryTitle}>Sign Up</Text>
         <Text style={styles.entryBody}>
-          Join NUMindify and start boosting your knowledge today
+          Join NUMindify and start boosting your knowledge today {"\n"}(Student ID, Branch, middle to be added)
         </Text>
         <Input
           placeholder={"Username"}
@@ -80,14 +81,34 @@ const Register = ({set}) => {
           onSubmitEditing={() => setCurrentField(1)}
         />
         <Input
+          placeholder={"First Name"}
+          Icon={UserCircle2}
+          onChangeText={(text) => setForm({ ...form, first_name: text })}
+          value={form.first_name}
+          disabled={isFormDisabled}
+          returnKeyType="next"
+          currentFocus={currentField === 1}
+          onSubmitEditing={() => setCurrentField(2)}
+        />
+        <Input
+          placeholder={"Last Name"}
+          Icon={UserCircle2}
+          onChangeText={(text) => setForm({ ...form, last_name: text })}
+          value={form.last_name}
+          disabled={isFormDisabled}
+          returnKeyType="next"
+          currentFocus={currentField === 2}
+          onSubmitEditing={() => setCurrentField(3)}
+        />
+        <Input
           placeholder={"Email"}
           Icon={Mail}
           onChangeText={(text) => setForm({ ...form, email: text })}
           value={form.email}
           disabled={isFormDisabled}
           returnKeyType="next"
-          onSubmitEditing={() => setCurrentField(2)}
-          currentFocus={currentField === 1}
+          onSubmitEditing={() => setCurrentField(4)}
+          currentFocus={currentField === 3}
         />
         <Input
           placeholder={"Password"}
@@ -96,9 +117,9 @@ const Register = ({set}) => {
           onChangeText={(text) => setForm({ ...form, password: text })}
           value={form.password}
           disabled={isFormDisabled}
-          currentFocus={currentField === 2}
+          currentFocus={currentField === 3}
           returnKeyType="next"
-          onSubmitEditing={() => setCurrentField(3)}
+          onSubmitEditing={() => setCurrentField(4)}
         />
         <Input
           placeholder={"Confirm Password"}
@@ -107,7 +128,7 @@ const Register = ({set}) => {
           onChangeText={(text) => setForm({ ...form, confirmPassword: text })}
           value={form.confirmPassword}
           disabled={isFormDisabled}
-          currentFocus={currentField === 3}
+          currentFocus={currentField === 4}
           returnKeyType="done"
         />
         <View

@@ -105,12 +105,14 @@ const Game = (props) => {
           mode,
           stars: getStarsCount(newStats.correct, questions.length)
         },
-        progressUserLevel: isMovingToNextLevel() && isScorePassed(),
+        progressUserLevel: isMovingToNextLevel() && isScorePassed() && mode === "competition",
       });
-      if (isMovingToNextLevel() && isScorePassed()) {
+      if (data.hasOwnProperty("progress_data")) {
+        console.log("ProgressData replace", data.progress_data);
         setProgressData(data.progress_data);
       }
-      console.log(data);
+      console.log("ProgressData",data.progress_data);
+      console.log("Results Data ",JSON.stringify(data));
       if(data.attempt){
         setCurrentAttemptID(data.attempt._id)
       }
@@ -187,9 +189,9 @@ const Game = (props) => {
   }
 
   const getStarsCount = (correct, totalQuestions) => {
-    return correct >= Math.floor(totalQuestions * 0.8) ? 1 : 
+    return correct >= Math.floor(totalQuestions * 1) ? 3 : 
     correct >= Math.floor(totalQuestions * 0.9) ? 2 :
-    correct >= Math.floor(totalQuestions * 1) ? 3 : 0;
+    correct >= Math.floor(totalQuestions * 0.8) ? 1 : 0
   }
   // -----------------------------------------
 
