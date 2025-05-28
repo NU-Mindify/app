@@ -20,7 +20,7 @@ import locations from "./locations.json";
 import ModalContext from "../../contexts/ModalContext";
 
 const Levels = (props) => {
-  const { categoryIndex, isMastery, selectedMode = "competition"  } = props.route.params;
+  const { categoryIndex, isMastery, selectedMode = "review"  } = props.route.params;
   const { accountData, progressData } = useContext(AccountContext);
   console.log("ProgressData", JSON.stringify(progressData));
   
@@ -233,6 +233,19 @@ const CategoryBar = ({ categoryIndex, modeState }) => {
         }}
       >
         <TouchableOpacity
+          style={[tabStyle.tab, mode === "review" ? tabStyle.tabActive : {}]}
+          onPress={() => setMode("review")}
+        >
+          <Text
+            style={[
+              tabStyle.text,
+              mode === "review" ? tabStyle.textActive : tabStyle.textInactive,
+            ]}
+          >
+            REVIEW
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
           style={[
             tabStyle.tab,
             mode === "competition" ? tabStyle.tabActive : {},
@@ -248,19 +261,6 @@ const CategoryBar = ({ categoryIndex, modeState }) => {
             ]}
           >
             COMPETITION
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[tabStyle.tab, mode === "review" ? tabStyle.tabActive : {}]}
-          onPress={() => setMode("review")}
-        >
-          <Text
-            style={[
-              tabStyle.text,
-              mode === "review" ? tabStyle.textActive : tabStyle.textInactive,
-            ]}
-          >
-            REVIEW
           </Text>
         </TouchableOpacity>
       </View>

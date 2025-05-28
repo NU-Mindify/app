@@ -57,7 +57,7 @@ const useFirebase = () => {
         return;
       }
       await sendEmailVerification(getAuth().currentUser);
-      alert("Sucessfull! Please check your email to email verification.");
+      alert("Email Verification Sent! Please check your email to verify your account.");
     } catch (error) {
       console.error(error);
       alert(error.code);
