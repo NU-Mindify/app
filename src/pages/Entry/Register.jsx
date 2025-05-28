@@ -79,6 +79,8 @@ const Register = ({set}) => {
           returnKeyType="next"
           currentFocus={currentField === 0}
           onSubmitEditing={() => setCurrentField(1)}
+          condition={(text) => text.length >= 6}
+          errorText={"Provide at least 6 characters"}
         />
         <Input
           placeholder={"First Name"}

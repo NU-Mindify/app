@@ -1,5 +1,5 @@
-import { View, TextInput } from 'react-native'
-import React, { useEffect, useRef } from 'react'
+import { View, TextInput, Text } from 'react-native'
+import React, { useEffect, useRef, useState } from 'react'
 
 const Input = ({
   children,
@@ -18,14 +18,17 @@ const Input = ({
   onSubmitEditing = () => {},
   multiline= false,
   numberOfLines=1,
-  rows=1
+  rows=1,
+  condition = () => true,
+  errorText
 }) => {
     const input = useRef(null);
     useEffect(() => {
       currentFocus && input.current?.focus();
     }, [currentFocus])
-
+    const [isValid, setIsValid] = useState(true);
   return (
+    <>
     <View
       style={[
         {
@@ -37,20 +40,23 @@ const Input = ({
           padding: 8,
           borderRadius: 24,
           gap: 12,
-          marginBottom: 6,
         },
         style,
+        !isValid ? {borderWidth:2, borderColor:'red', boxShadow: "0px 8px 24px red",} : {marginBottom: 6}
       ]}
     >
       {Icon && <Icon color="black" />}
       <TextInput
         placeholder={placeholder}
-        onChangeText={onChangeText}
+        onChangeText={text => {
+          setIsValid(condition(text))
+          onChangeText(text)
+        }}
         value={value}
         secureTextEntry={secure}
         disabled={disabled}
         editable={!disabled}
-        selectTextOnFocus={!disabled}
+        selectTextOnFocus={disabled}
         style={[{ flex: 1 }, inputStyle]}
         keyboardType={keyboardType}
         textContentType={textContentType}
@@ -61,9 +67,13 @@ const Input = ({
         rows={rows}
         textAlignVertical='top'
         ref={input}
-      ></TextInput>
+      />
       {children}
     </View>
+    {!isValid && 
+    <Text style={{color: '#ff3636', }}>{errorText}</Text>
+    }
+    </ >
   );
 };
 
