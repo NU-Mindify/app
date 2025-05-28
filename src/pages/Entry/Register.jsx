@@ -91,6 +91,8 @@ const Register = ({set}) => {
           returnKeyType="next"
           currentFocus={currentField === 1}
           onSubmitEditing={() => setCurrentField(2)}
+          condition={(text) => text.length >= 2}
+          errorText={"Provide at least 2 characters"}
         />
         <Input
           placeholder={"Last Name"}
@@ -101,6 +103,8 @@ const Register = ({set}) => {
           returnKeyType="next"
           currentFocus={currentField === 2}
           onSubmitEditing={() => setCurrentField(3)}
+          condition={(text) => text.length >= 2}
+          errorText={"Provide at least 2 characters"}
         />
         <Input
           placeholder={"Email"}
@@ -111,6 +115,8 @@ const Register = ({set}) => {
           returnKeyType="next"
           onSubmitEditing={() => setCurrentField(4)}
           currentFocus={currentField === 3}
+          condition={(text) => text.endsWith("@students.nu-moa.edu.ph")}
+          errorText={"Email is not a valid NU MOA Student email"}
         />
         <Input
           placeholder={"Password"}
@@ -122,6 +128,8 @@ const Register = ({set}) => {
           currentFocus={currentField === 3}
           returnKeyType="next"
           onSubmitEditing={() => setCurrentField(4)}
+          condition={(text) => text.length >= 6}
+          errorText={"Provide at least 6 characters"}
         />
         <Input
           placeholder={"Confirm Password"}
@@ -132,6 +140,8 @@ const Register = ({set}) => {
           disabled={isFormDisabled}
           currentFocus={currentField === 4}
           returnKeyType="done"
+          condition={(text) => text === form.password}
+          errorText={"Password does not match"}
         />
         <View
           style={{

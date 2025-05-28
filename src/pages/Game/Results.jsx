@@ -8,8 +8,6 @@ import Animated, {
   FlipOutEasyX,
   PinwheelIn,
 } from "react-native-reanimated";
-import styles from "../../styles/styles";
-import Completed from "../../assets/results/completed.png";
 import { useNavigation } from "@react-navigation/native";
 import smallStar from "../../assets/results/smallStar.png";
 import smallStarEmpty from "../../assets/results/smallStarEmpty.png";
