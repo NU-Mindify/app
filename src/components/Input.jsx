@@ -37,12 +37,13 @@ const Input = ({
           backgroundColor: disabled ? "#c4c4c4" : "white",
           width: "100%",
           marginHorizontal: "auto",
-          padding: 8,
+          padding: 2,
+          paddingHorizontal: 8,
           borderRadius: 24,
           gap: 12,
         },
         style,
-        !isValid ? {borderWidth:2, borderColor:'red', boxShadow: "0px 8px 24px red",} : {marginBottom: 6}
+        !isValid ? {borderWidth:2, borderColor:'red', boxShadow: "0px 0px 12px red"} : {marginBottom: 2}
       ]}
     >
       {Icon && <Icon color="black" />}
@@ -71,7 +72,7 @@ const Input = ({
       {children}
     </View>
     {!isValid && 
-    <Text style={{color: '#ff3636', }}>{errorText}</Text>
+    <Text style={{color: '#ff3636', fontWeight:700 }}>{errorText}</Text>
     }
     </ >
   );
