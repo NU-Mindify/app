@@ -1,17 +1,17 @@
-import { View, Text, Dimensions, TouchableOpacity, Platform } from 'react-native'
+import { View, Text, Dimensions, TouchableOpacity, Platform, StyleSheet } from 'react-native'
 import React, { useContext, useState } from 'react'
 import Animated, { interpolate, useAnimatedScrollHandler, useAnimatedStyle, useSharedValue } from 'react-native-reanimated';
-import styles from '../../styles/styles';
 import ModalContext from '../../contexts/ModalContext';
 import { useNavigation } from '@react-navigation/native';
-import { categoriesObj } from '../../constants'
+import { categoriesObj, _primary_color, _secondary_color } from '../../constants'
+import Button from '../../components/Button'
 
 import AccountContext from '../../contexts/AccountContext';
 
 const {width} = Dimensions.get('window')
-const _imageWidth = width * 0.7;
+const _imageWidth = width * 0.8;
 const _imageHeight = _imageWidth * 1.76;
-const _spacing = 12
+const _spacing = 0
 
 
 const CategoryCarousel = () => {
@@ -119,53 +119,58 @@ const Photo = ({item, index, scrollX, onPress}) => {
   }))
   return (
     <TouchableOpacity style={{marginVertical:'auto'}} onPress={() => onPress(index)} activeOpacity={0.9} >
-      <Animated.View
-        style={[
-          {
-            width: _imageWidth,
-            height: _imageHeight,
-            overflow: "hidden",
-            borderRadius: 16,
-            boxShadow: "0px 2px 12px rgba(0, 0, 0, 0.8)",
-            marginVertical:'auto'
-          },
-          imageContainerStyle,
-        ]}
-      >
-        <Animated.Image
-          resizeMode={"cover"}
-          source={item}
-          style={[{ flex: 1, width: "100%", height: "100%" }, imageStyle]}
-        />
-      </Animated.View>
-      <View
-        style={[
-          styles.entryBackground,
-          {
-            backgroundColor: "#2C519F",
-            width: "80%",
-            position:'absolute',
-            bottom:-40,
-            left:'50%',
-            transform: [{translateX:'-50%'}],
-            paddingVertical:8,
-            
-          },
-        ]}
-      >
-        <Text
-          style={{
-            textAlign: "center",
-            color: "white",
-            fontSize: 24,
-            fontFamily:'LilitaOne-Regular'
-          }}
-          allowFontScaling={false}
+      <Animated.View 
+      style={[{
+        backgroundColor:_primary_color,
+        borderColor: _secondary_color, 
+        borderWidth:6, 
+        padding:12, 
+        borderRadius:24,
+        width: _imageWidth, 
+        height: '100%',
+      }, imageContainerStyle]}>
+        <View style={[worldStyle.worldNameContainer]}>
+          <Text style={worldStyle.worldName} allowFontScaling={false}>
+            {categoriesObj[index].name}
+          </Text>
+        </View>
+        <Animated.View
+          style={[
+            {
+              width: '90%',
+              flex: 1,
+              overflow: "hidden",
+              borderRadius: 16,
+              boxShadow: "0px 2px 12px rgba(0, 0, 0, 0.8)",
+              margin:'auto',
+              marginBottom:12
+            },
+            imageContainerStyle,
+          ]}
         >
-          {categoriesObj[index].name}
-        </Text>
-      </View>
+          <Animated.Image
+            resizeMode={"cover"}
+            source={item}
+            style={[{ flex: 1, width: "100%",  }, imageStyle]}
+          />
+        </Animated.View>
+        <View>
+          <Button text={"Play"} style={{width:'80%', marginHorizontal: 'auto'}} onPress={() => onPress(index)} />
+        </View>
+      </Animated.View>
     </TouchableOpacity>
   );
 }
 
+const worldStyle = StyleSheet.create({
+  worldName: {
+    textAlign: "center",
+    color: "white",
+    fontSize: 24,
+    fontFamily:'LilitaOne-Regular'
+  },
+  worldNameContainer:{
+    backgroundColor: "#2C519F",
+    paddingVertical:8,
+  },
+})

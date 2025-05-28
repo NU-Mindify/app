@@ -66,19 +66,17 @@ const Home = () => {
             justifyContent: "space-around",
             alignItems: "center",
             flexDirection: "row",
+            paddingHorizontal:24
           }}
         >
-          <Pressable
-            style={[styles.homeRoundedIcon, { padding: 10 }]}
-            onPress={() => nav.navigate("View Profile")}
-          >
-            <Avatar width={48} height={48} />
-          </Pressable>
-          <Animated.Image
-            source={MindifiyLogo}
-            resizeMode="contain"
-            style={{ width: 200, height: 100 }}
-          />
+          <View style={{marginRight: 'auto'}}>
+            <Pressable
+              style={[styles.homeRoundedIcon, { padding: 10 }]}
+              onPress={() => nav.navigate("View Profile")}
+            >
+              <Avatar width={48} height={48} />
+            </Pressable>
+          </View>
           <Pressable
             style={styles.homeRoundedIcon}
             onPress={async () => {
@@ -90,7 +88,7 @@ const Home = () => {
             <LogOut size={32} color={"black"} />
           </Pressable>
         </View>
-        <ChooseBanner height={120} style={{marginBottom:16}} />
+        <ChooseBanner height={120} style={{marginBottom:16, marginTop:-30}} />
         <View style={{ flex: 1 }}>
           <CategoryCarousel />
         </View>
