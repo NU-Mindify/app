@@ -1,10 +1,3 @@
-import BlackOrangeGirl from "./assets/avatar/blackOrangeGirl.svg";
-import BlueMan from "./assets/avatar/blueMan.svg";
-import OrangeMan from "./assets/avatar/orangeMan.svg";
-import RedGirl from "./assets/avatar/redGirl.svg";
-import WhiteMan from "./assets/avatar/whiteMan.svg";
-import WhiteOrangeGirl from "./assets/avatar/whiteOrangeGirl.svg";
-
 import b1 from './assets/avatar/b1.svg'
 import b2 from './assets/avatar/b2.svg'
 import b3 from './assets/avatar/b3.svg'
@@ -36,6 +29,10 @@ import Map1 from "./assets/maps/1.png";
 import Map2 from "./assets/maps/2.png";
 import Map4 from "./assets/maps/4.png";
 
+import abnormalCover from "./assets/categories/abnormalCover.png";
+import developmentalCover from "./assets/categories/developmentalCover.png";
+import industrialCover from "./assets/categories/industrialCover.png";
+
 import category1 from './assets/categories/1.jpg';
 import map2 from './assets/maps/2.png'
 import map4 from './assets/maps/4.png'
@@ -61,7 +58,7 @@ const categoriesObj = [
     id: "abnormal",
     name: "Abnormal Psychology",
     level_background: abnormalMap,
-    cover: category1,
+    cover: abnormalCover,
     primary_color: "#3B3F2A",
     secondary_color: "#248552"
   },
@@ -69,15 +66,15 @@ const categoriesObj = [
     id: "developmental",
     name: "Developmental Psychology",
     level_background: developmentalMap,
-    cover: map2,
+    cover: developmentalCover,
     primary_color: "#7F9F30",
     secondary_color: "#A9CA59"
   },
   {
     id: "industrial",
-    name: "Industrial Psychology",
+    name: "Industrial/Organizational Psychology",
     level_background: organizationalMap,
-    cover: map2,
+    cover: industrialCover,
     primary_color: "#6C6C6C"
   },
   {
@@ -179,5 +176,7 @@ const branches = [
 ]
 
 const API_URL = process.env.EXPO_PUBLIC_URL;
+const _primary_color = "#2C519F"
+const _secondary_color = "#FFD41C"
 
-export { API_URL, avatars, categoriesObj, gameColors, navbarRoutes, branches };
+export { API_URL, avatars, categoriesObj, gameColors, navbarRoutes, branches, _primary_color, _secondary_color };
