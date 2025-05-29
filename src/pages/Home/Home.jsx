@@ -21,14 +21,17 @@ import AccountContext from "../../contexts/AccountContext";
 import MindifiyLogo from "../../assets/Logo.png";
 import AppBackground from "../../components/AppBackground";
 import { useNavigation } from "@react-navigation/native";
-import { avatars } from '../../constants'
+import { avatars, branches } from '../../constants'
 import { getAuth, signOut } from "firebase/auth";
 import useFirebase, { SignOut } from "../../hooks/useFirebase";
 import ChooseBanner from '../../assets/categories/ChooseBanner.svg';
+import ModalContext from "../../contexts/ModalContext";
+import Settings from '../../assets/settings/settings.svg'
 
 const Home = () => {
   const nav = useNavigation();
   const { accountData, setAccountData } = useContext(AccountContext);
+  const {setModal} = useContext(ModalContext);
   const Avatar = avatars[accountData ? accountData.avatar : 0]
   const { getUserData } = useFirebase();
   useEffect(()=> {
@@ -59,7 +62,7 @@ const Home = () => {
   }, []);
 
   return (
-    <Animated.View entering={FadeIn.duration(700)} style={{ flex: 1 }}>
+    <Animated.View style={{ flex: 1 }}>
       <AppBackground>
         <View
           style={{
@@ -69,26 +72,31 @@ const Home = () => {
             paddingHorizontal:24
           }}
         >
-          <View style={{marginRight: 'auto'}}>
+          <View style={{marginRight: 'auto', flexDirection:'row', alignItems:'center', gap:8}}>
             <Pressable
-              style={[styles.homeRoundedIcon, { padding: 10 }]}
+              style={[styles.homeRoundedIcon, { padding: 10, flexDirection:'row' }]}
               onPress={() => nav.navigate("View Profile")}
             >
               <Avatar width={48} height={48} />
             </Pressable>
+            <View>
+              <Text style={{fontSize:24, color:'white', fontFamily:'LilitaOne-Regular'}}>{accountData.first_name.toUpperCase()}</Text>
+              <Text style={{fontSize:16, color:'white', fontFamily:'LilitaOne-Regular', textAlign:'center'}}>-- {branches.find(branch => accountData.branch === branch.id).name} --</Text>
+            </View>
           </View>
           <Pressable
-            style={styles.homeRoundedIcon}
-            onPress={async () => {
-              // nav.replace("Get Started");
-              await SignOut();
-              setAccountData(null);
+            style={[styles.homeRoundedIcon, { padding: 10 }]}
+            onPress={() => {
+              setModal({
+                mode: "Settings",
+                secondaryFn: () => setModal(null)
+              })
             }}
           >
-            <LogOut size={32} color={"black"} />
+            <Settings width={40} height={40} />
           </Pressable>
         </View>
-        <ChooseBanner height={120} style={{marginBottom:16, marginTop:-30}} />
+        <ChooseBanner height={120} style={{marginBottom:16, marginTop:-20}} />
         <View style={{ flex: 1 }}>
           <CategoryCarousel />
         </View>
