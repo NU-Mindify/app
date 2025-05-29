@@ -54,6 +54,7 @@ const CategoryCarousel = () => {
               scrollX={scrollX}
               onPress={(index) => {
                 setModal({
+                  mode:'ModeSelect',
                   title: "Start",
                   subtitle: item.name,
                   body: "Start to take the quiz?",

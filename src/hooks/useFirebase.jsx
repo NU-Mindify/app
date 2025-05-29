@@ -1,12 +1,13 @@
 import { useContext } from "react";
 import AccountContext from "../contexts/AccountContext";
 import { getDatabase, onValue, ref, set } from 'firebase/database'
-import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup, signInWithRedirect, signOut } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth, getIdToken, onAuthStateChanged, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup, signInWithRedirect, signOut } from "firebase/auth";
 import { useNavigation } from "@react-navigation/native";
 import { OAuthProvider } from "firebase/auth";
 import axios from "axios";
 import { firebaseAuth } from "../firebase";
 import { ToastAndroid } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 export const loginAuth = async (email, password) => {
@@ -63,7 +64,6 @@ const useFirebase = () => {
       alert(error.code);
     }
   };
-  console.log("Checks if useFirebase run");
 
   const sendResetPasswordEmail = (email) => {
     const auth = getAuth();
@@ -155,22 +155,43 @@ export const AuthHandler = () => {
   const nav = useNavigation();
   const { getUserData } = useFirebase()
 
-  onAuthStateChanged(firebaseAuth, (user) => {
-    if (!user) {
-      nav.replace("Get Started");
-      return;
+  onAuthStateChanged(firebaseAuth, async (user) => {
+    try {
+      if (!user) {
+        nav.replace("Get Started");
+        return;
+      }
+      const idToken = await firebaseAuth.currentUser.getIdToken();
+      await storeData("token", idToken);
+      if (!user.emailVerified) {
+        nav.replace("Verify")
+        return;
+      }
+      getUserData(user.uid);
+      
+    } catch (error) {
+      console.error("statechageError",error);
+      
     }
-    if (!user.emailVerified) {
-      nav.replace("Verify")
-      return;
-    }
-    getUserData(user.uid);
   });
   return
 }
-
-export const SignOut = async () => {
-  await signOut(getAuth())
+const storeData = async (key, value) => {
+  try {
+    await AsyncStorage.setItem(key, value);
+  } catch (error) {
+    console.error("Storing Data", key, value);
+  }
+}
+const removeData = async (key) => {
+  try {
+    await AsyncStorage.removeItem(key);
+  } catch (error) {
+    console.error("Deleting Data", key);
+  }
 }
 
-console.log("Checks if run");
+export const SignOut = async () => {
+  await removeData('token');
+  await signOut(getAuth())
+}

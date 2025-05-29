@@ -13,6 +13,7 @@ import { useNavigation } from '@react-navigation/native';
 import XButton from "../../assets/generic/X-White.svg";
 import axios from 'axios';
 import { API_URL } from '../../constants';
+import api from '../../api';
 
 export default function Glossary() {
   const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
@@ -42,7 +43,7 @@ export default function Glossary() {
   };
   const fetchTerms = async () => {
     try {
-      const response = await axios.get(API_URL+`/getTerms`)
+      const response = await api.get(`/getTerms`)
       setTerms(response.data)
       setWordSearch('')
       
