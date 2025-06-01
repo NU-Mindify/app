@@ -40,7 +40,6 @@ const Verify = () => {
 
   return (
     <AppBackground>
-      <Text>Verify</Text>
       <Animated.Image
         entering={BounceIn}
         source={MindifyLogo}

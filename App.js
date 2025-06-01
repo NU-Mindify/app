@@ -28,6 +28,7 @@ import { useFonts } from 'expo-font';
 import BuildInfo from './src/components/BuildInfo';
 import BottomNavigation from './src/components/BottomNavigation';
 import ResetPassword from './src/pages/Entry/ResetPassword';
+import Store from './src/pages/Store/Store';
 
 ExpoSplashScreen.preventAutoHideAsync();
 
@@ -91,6 +92,7 @@ export default function App() {
                   <Stack.Screen name="Chatbot" component={Chatbot} />
                   <Stack.Screen name="Glossary" component={Glossary} />
                   <Stack.Screen name="Mindmap" component={Mindmap} />
+                  <Stack.Screen name="Store" component={Store} />
 
                   <Stack.Screen name='Levels' component={Levels} />
                   <Stack.Screen name='Game' component={Game} />

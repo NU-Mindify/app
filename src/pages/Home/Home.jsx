@@ -69,21 +69,21 @@ const Home = () => {
             justifyContent: "space-around",
             alignItems: "center",
             flexDirection: "row",
-            paddingHorizontal:24
+            gap:8,
           }}
         >
-          <View style={{marginRight: 'auto', flexDirection:'row', alignItems:'center', gap:8}}>
+          <View style={{ flexDirection:'row', alignItems:'center', gap:8}}>
             <Pressable
               style={[styles.homeRoundedIcon, { padding: 10, flexDirection:'row' }]}
               onPress={() => nav.navigate("View Profile")}
             >
               <Avatar width={48} height={48} />
             </Pressable>
+          </View>
             <View>
               <Text style={{fontSize:24, color:'white', fontFamily:'LilitaOne-Regular'}}>{accountData.first_name.toUpperCase()}</Text>
               <Text style={{fontSize:16, color:'white', fontFamily:'LilitaOne-Regular', textAlign:'center'}}>-- {branches.find(branch => accountData.branch === branch.id).name} --</Text>
             </View>
-          </View>
           <Pressable
             style={[styles.homeRoundedIcon, { padding: 10 }]}
             onPress={() => {
@@ -96,7 +96,7 @@ const Home = () => {
             <Settings width={40} height={40} />
           </Pressable>
         </View>
-        <ChooseBanner height={120} style={{marginBottom:16, marginTop:-20}} />
+        <ChooseBanner height={120} width={300} style={{marginBottom:16, marginTop:-20, marginHorizontal:'auto'}} />
         <View style={{ flex: 1 }}>
           <CategoryCarousel />
         </View>
