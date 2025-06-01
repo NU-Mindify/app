@@ -13,19 +13,19 @@
       {
         "level": 3,
         "position": { "left": "22%", "bottom": "29%" },
-        "items": 7,
+        "items": 8,
         "time": 30
       },
       {
         "level": 4,
         "position": { "left": "25%", "bottom": "40%" },
-        "items": 8,
+        "items": 7,
         "time": 30
       },
       {
         "level": 5,
         "position": { "left": "43%", "bottom": "50%" },
-        "items": 7,
+        "items": 20,
         "time": 40
       },
       {
@@ -37,25 +37,25 @@
       {
         "level": 7,
         "position": { "left": "47%", "bottom": "67%" },
-        "items": 20,
+        "items": 8,
         "time": 50
       },
       {
         "level": 8,
         "position": { "left": "67%", "bottom": "77%" },
-        "items": 20,
+        "items": 7,
         "time": 50
       },
       {
         "level": 9,
         "position": { "left": "30%", "bottom": "82%" },
-        "items": 20,
+        "items": 8,
         "time": 60
       },
       {
         "level": 10,
         "position": { "left": "13%", "bottom": "90%" },
-        "items": 20,
+        "items": 7,
         "time": 60
       }
     ]
@@ -66,54 +66,66 @@
     "locations": [
       {
         "level": 1,
-        "position": { "left": "20%", "bottom": "20%" },
+        "position": { "left": "18%", "bottom": "10%" },
         "items": 8,
         "time": 20
       },
       {
         "level": 2,
-        "position": { "left": "65%", "bottom": "20%" },
-        "items": 8,
+        "position": { "left": "54%", "bottom": "19%" },
+        "items": 7,
         "time": 20
       },
       {
         "level": 3,
-        "position": { "left": "75%", "bottom": "36%" },
+        "position": { "left": "79%", "bottom": "28%" },
         "items": 8,
-        "time": 20
+        "time": 30
       },
       {
         "level": 4,
-        "position": { "left": "35%", "bottom": "36%" },
-        "items": 8,
-        "time": 20
+        "position": { "left": "45%", "bottom": "35%" },
+        "items": 7,
+        "time": 30
       },
       {
         "level": 5,
-        "position": { "left": "35%", "bottom": "52%" },
-        "items": 8,
-        "time": 20
+        "position": { "left": "10%", "bottom": "46%" },
+        "items": 20,
+        "time": 40
       },
       {
         "level": 6,
-        "position": { "left": "78%", "bottom": "52%" },
-        "items": 8,
-        "time": 20
+        "position": { "left": "50%", "bottom": "51%" },
+        "items": 20,
+        "time": 40
       },
       {
         "level": 7,
-        "position": { "left": "60%", "bottom": "69%" },
+        "position": { "left": "80%", "bottom": "58%" },
         "items": 8,
-        "time": 20
+        "time": 50
       },
       {
         "level": 8,
-        "position": { "left": "30%", "bottom": "69%" },
-        "items": 8,
-        "time": 20
+        "position": { "left": "46%", "bottom": "68%" },
+        "items": 7,
+        "time": 50
       },
-      { "level": 9, "position": { "left": "17%", "bottom": "85%", "items": 8, "time": 20 } },
-      { "level": 10, "position": { "left": "70%", "bottom": "85%", "items": 8, "time": 20 } }
+      { "level": 9, "position": { "left": "8%", "bottom": "75%", "items": 8, "time": 60 } },
+      { "level": 10, "position": { "left": "60%", "bottom": "84%", "items": 7, "time": 60 } }
+    ]
+  },
+  {
+    "id": "industrial",
+    "level": "Industrial Psychology",
+    "locations": [
+      { "level": 1, "position": { "left": "29%", "bottom": "32%" } },
+      { "level": 2, "position": { "left": "46%", "bottom": "43%" } },
+      { "level": 3, "position": { "right": "36%", "bottom": "55%" } },
+      { "level": 4, "position": { "left": "37%", "bottom": "64%" } },
+      { "level": 5, "position": { "left": "26%", "bottom": "75%" } },
+      { "level": "?", "position": { "left": "17%", "bottom": "86%" } }
     ]
   },
   {
@@ -150,18 +162,6 @@
         "position": { "left": "16%", "bottom": "83%" },
         "items": 20
       }
-    ]
-  },
-  {
-    "id": "industrial",
-    "level": "Industrial Psychology",
-    "locations": [
-      { "level": 1, "position": { "left": "29%", "bottom": "32%" } },
-      { "level": 2, "position": { "left": "46%", "bottom": "43%" } },
-      { "level": 3, "position": { "right": "36%", "bottom": "55%" } },
-      { "level": 4, "position": { "left": "37%", "bottom": "64%" } },
-      { "level": 5, "position": { "left": "26%", "bottom": "75%" } },
-      { "level": "?", "position": { "left": "17%", "bottom": "86%" } }
     ]
   },
   {

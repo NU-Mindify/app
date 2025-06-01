@@ -56,7 +56,7 @@ export default function Glossary() {
   }, [])
   return (
     <AppBackground >
-      <Animated.View style={[GStyle.header, {justifyContent:'center', alignItems:'center', flexDirection:'row', position:'relative'}]}>
+      <View style={[GStyle.header, {justifyContent:'center', alignItems:'center', flexDirection:'row', position:'relative'}]}>
         <Image source={GlossaryTitle} style={GStyle.headerImage} />
         <TouchableOpacity
           activeOpacity={0.7}
@@ -71,10 +71,10 @@ export default function Glossary() {
         >
           <XButton width={30} height={30} />
         </TouchableOpacity>
-      </Animated.View>
+      </View>
 
 
-      <Animated.View style={GStyle.subCont}>
+      <View style={GStyle.subCont}>
         {/*------------------ SIDE BUTTON --------------------------*/}
         <View style={GStyle.btnCont}>
           {letters.map((elem, index) => (
@@ -83,10 +83,10 @@ export default function Glossary() {
         </View>
         {/*---------------------------------------------------------*/}
 
-        <Animated.View style={GStyle.glossMainCont}>
+        <View style={GStyle.glossMainCont}>
 
           {/*------------------ SEARCH BAR --------------------------*/}
-          <Animated.View style={GStyle.searchCont}>
+          <View style={GStyle.searchCont}>
             <Image source={searchBg} style={GStyle.searchBg} />
             <Image source={magnifying} />
             <TextInput
@@ -96,12 +96,12 @@ export default function Glossary() {
               onChangeText={setWordSearch}
               value={wordSearch}
             />
-          </Animated.View>
+          </View>
           {/*---------------------------------------------------------*/}
 
 
 
-          <Animated.View style={GStyle.glossSubCont}>
+          <View style={GStyle.glossSubCont}>
             <ScrollView ref={scrollViewRef}>
               {letters.map((letter, letterIndex) => {
                 const letterWords = filteredWords.filter(item => item.word[0].toUpperCase() === letter);
@@ -125,10 +125,10 @@ export default function Glossary() {
                 );
               })}
             </ScrollView>
-          </Animated.View>
+          </View>
 
-        </Animated.View>
-      </Animated.View>
+        </View>
+      </View>
       <View
         style={{
           position: "absolute",
