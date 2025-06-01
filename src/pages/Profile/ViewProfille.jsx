@@ -13,7 +13,7 @@ import {
 import { ScrollView } from "react-native-gesture-handler";
 import Animated, { SlideInLeft } from "react-native-reanimated";
 import AppBackground from "../../components/AppBackground";
-import { avatars, branches, categoriesObj } from "../../constants";
+import { API_URL, avatars, branches, categoriesObj } from "../../constants";
 import AccountContext from "../../contexts/AccountContext";
 import styles from "../../styles/styles";
 
@@ -21,24 +21,35 @@ const ViewProfile = () => {
   const nav = useNavigation();
   const { accountData, progressData, setProgressData } = useContext(AccountContext);
   const [selectedAvatar, setSelectedAvatar] = useState(accountData.avatar);
+  const [badges, setBadges] = useState([]);
   const Avatar = avatars[selectedAvatar];
   
   useEffect(() => {
-    const c = async () => {
-      try {
-        const { data:progressData } = await axios.get(
-          `${process.env.EXPO_PUBLIC_URL}/getProgress/${accountData._id}`,
-          { timeout: 10000 }
-        );
-        setProgressData(progressData)
-        console.log(progressData.classic);
-        
-      } catch (error) {
-        console.error("ViewProfileError", error);
-      }
-    }
-    c()
+    getProgress()
+    getBadges();
   }, [])
+  const getBadges = async () => {
+    try {
+      const {data: badges} = await axios.get(API_URL+"/getUserBadges?user_id="+accountData._id)
+      setBadges(badges)
+    } catch (error) {
+      console.error(error);
+      
+    }
+  }
+  const getProgress = async () => {
+    try {
+      const { data:progressData } = await axios.get(
+        `${process.env.EXPO_PUBLIC_URL}/getProgress/${accountData._id}`,
+        { timeout: 10000 }
+      );
+      setProgressData(progressData)
+      console.log(progressData.classic);
+      
+    } catch (error) {
+      console.error("ViewProfileError", error);
+    }
+  }
   if(!progressData){
     return (
       <></>
@@ -181,7 +192,7 @@ const ViewProfile = () => {
           </Text>
           <View style={{flexDirection: 'row', gap:8, flexWrap: 'wrap', justifyContent:'space-around'}}>
             {badges.map((src, index) => (
-              <Badge src={src} key={index} />
+              <Badge src={src.badge_id.filepath} key={index} />
             ))}
           </View>
         </View>
@@ -192,20 +203,21 @@ const ViewProfile = () => {
 
 export default ViewProfile;
 
-const badges = [
-  require("../../assets/badges/ap1.png"),
-  require("../../assets/badges/ap2.png"),
-  require("../../assets/badges/ap3.png"),
-  require("../../assets/badges/ap4.png"),
-  require("../../assets/badges/ap5.png"),
-  require("../../assets/badges/ap6.png"),
-];
+// const badges = [
+//   require("../../assets/badges/ap1.png"),
+//   require("../../assets/badges/ap2.png"),
+//   require("../../assets/badges/ap3.png"),
+//   require("../../assets/badges/ap4.png"),
+//   require("../../assets/badges/ap5.png"),
+//   require("../../assets/badges/ap6.png"),
+// ];
 
 const Badge = ({ src }) => {
+  
   return (
     <View>
       <Image
-        source={src}
+        source={{uri: "https://dllkypmqteqwaxqqzugd.supabase.co/storage/v1/object/public/badges/badge_pics/"+src}}
         style={{ width: 60, height: 60 }}
         resizeMode="contain"
       />

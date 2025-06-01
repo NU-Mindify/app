@@ -90,6 +90,12 @@ const Game = (props) => {
 
   const addAttemptToServer = async (newStats) => {
     try {
+      const highestEarnedStars = progressData.high_scores[categoryIndex.id]?.[levelIndex]?.stars || 0
+      const attemptStars = getStarsCount(newStats.correct, questions.length)
+      if(highestEarnedStars !== 3 && attemptStars === 3){
+        await addBadge(newStats);
+      }
+
       const { data } = await axios.post(API_URL + `/addAttempt`, {
         attempt: {
           user_id: accountData._id,
@@ -103,7 +109,7 @@ const Game = (props) => {
           total_items: questions.length,
           branch: accountData.branch,
           mode,
-          stars: getStarsCount(newStats.correct, questions.length)
+          stars: attemptStars
         },
         progressUserLevel: isMovingToNextLevel() && isScorePassed() && mode === "competition",
       });
@@ -136,6 +142,34 @@ const Game = (props) => {
       });
     }
   };
+
+  const addBadge = async () => {
+    try {
+      const { data: badge } = await axios.post(API_URL + "/addUserBadge", {
+        category: categoryIndex.id,
+        level,
+        user_id: accountData._id
+      })
+      console.log("BADGE FILEPATH",badge, badge.badge.filepath);
+      
+      setRationaleModal({
+        type: "Error",
+        title: "New Badge",
+        subtitle: "You earned a badge!",
+        body: "Congratulations on completing the level perfectly with 0 mistakes!",
+        "filepath": badge.badge.filepath,
+        primaryFn: () => {
+          setRationaleModal(null);
+        },
+        colors: {
+          primary_color: categoryIndex.primary_color,
+          secondary_color: categoryIndex.secondary_color
+        }
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   const showRationaleModal = (choice, newStats) => {
     setRationaleModal({
