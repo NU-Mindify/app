@@ -37,6 +37,27 @@ import category1 from './assets/categories/1.jpg';
 import map2 from './assets/maps/2.png'
 import map4 from './assets/maps/4.png'
 
+import corp1 from './assets/clothes/CORPORATE 1.svg'
+import corp2 from './assets/clothes/CORPORATE 2.svg'
+import corp3 from './assets/clothes/CORPORATE 3.svg'
+import corp4 from './assets/clothes/CORPORATE 4.svg'
+import corp5 from './assets/clothes/CORPORATE 5.svg'
+import corp6 from './assets/clothes/CORPORATE 6.svg'
+import fUnif from './assets/clothes/F UNIFORM.svg'
+import mUnif from './assets/clothes/M UNIFORM.svg'
+
+
+const clothes = [
+  { id:"female_unform", image: fUnif, },
+  { id:"male_unform", image: mUnif, },
+  { id:"blue_tie_pants", image: corp1, },
+  { id:"black_suit_tie", image: corp2, },
+  { id:"white_coat", image: corp3, },
+  { id:"white_sweater", image: corp4, },
+  { id:"white_formal", image: corp5, },
+  { id:"gray_necklace", image: corp6, },
+]
+
 const avatars = [
   bulldog,
   b1, g1,
@@ -51,7 +72,7 @@ const avatars = [
   b10, g10
 ];
 
-const navbarRoutes = ["Home", "Chatbot", "Glossary", "Mindmap"]
+const navbarRoutes = ["Home", "Chatbot", "Glossary", "Mindmap", "Store"]
 
 const categoriesObj = [
   {
@@ -179,4 +200,4 @@ const API_URL = process.env.EXPO_PUBLIC_URL;
 const _primary_color = "#2C519F"
 const _secondary_color = "#FFD41C"
 
-export { API_URL, avatars, categoriesObj, gameColors, navbarRoutes, branches, _primary_color, _secondary_color };
+export { API_URL, avatars, categoriesObj, gameColors, navbarRoutes, branches, _primary_color, _secondary_color, clothes };

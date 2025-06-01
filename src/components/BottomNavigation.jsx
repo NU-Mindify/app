@@ -3,6 +3,7 @@ import Home from '../assets/bottom-nav/home.svg'
 import Glossary from '../assets/bottom-nav/glossary.svg'
 import Mindmap from '../assets/bottom-nav/mindmap.svg'
 import Chatbot from '../assets/bottom-nav/chatbot.svg'
+import Store from '../assets/bottom-nav/store.svg'
 import React from 'react'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { CommonActions, StackActions, useNavigation, useNavigationState } from '@react-navigation/native'
@@ -14,7 +15,8 @@ const actions = [
   {name: "Home", icon: Home, path: "Home"},
   {name: "Glossary", icon: Glossary, path: "Glossary"},
   {name: "Mindmap", icon: Mindmap, path: "Mindmap"},
-  {name: "Chatbot", icon: Chatbot, path: "Chatbot"}
+  {name: "Chatbot", icon: Chatbot, path: "Chatbot"},
+  {name: "Store", icon: Store, path: "Store"}
 ]
 
 const BottomNavigation = () => {
@@ -45,7 +47,7 @@ const BottomNavigation = () => {
         position: "absolute",
         width: "100%",
         bottom: 0,
-        paddingBottom: 12,
+        paddingBottom: 6,
         paddingHorizontal: 24,
       }}
     >
@@ -69,9 +71,10 @@ const BottomNavigation = () => {
             }
           }}
         >
-        <View style={[isActive && {marginTop:-30, backgroundColor:'#454e8f',padding:12, borderRadius:42, borderWidth:6, borderColor:'white', shadowColor: 'black', shadowRadius:12, boxShadow: "0px 0px 12px black"}]}>
+        <View style={[isActive && {marginTop:-30, backgroundColor:'#454e8f',padding:12, borderRadius:42, borderWidth:4, borderColor:'white', shadowColor: 'black', shadowRadius:12, boxShadow: "0px 0px 12px black"}]}>
           <action.icon width={32} height={32} />
         </View>
+        {isActive && (<Text style={{fontFamily:'LilitaOne-Regular'}} allowFontScaling={false}>{action.name}</Text>)}
         </TouchableOpacity>
       )})}
     </Animated.View>

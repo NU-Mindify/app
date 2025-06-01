@@ -1,91 +1,82 @@
-import { useNavigation } from "@react-navigation/native";
-import axios from "axios";
-import { useContext, useState } from "react";
-import { Pressable, Text, View } from "react-native";
-import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
+import { View, Text, TouchableOpacity } from "react-native";
+import React, { useContext, useState } from "react";
 import AppBackground from "../../components/AppBackground";
-import Button from "../../components/Button";
-import Input from "../../components/Input";
+import { ArrowLeftCircle, Edit, Star } from "lucide-react-native";
+import styles from "../../styles/styles";
+import { useNavigation } from "@react-navigation/native";
 import { avatars, clothes } from "../../constants";
 import AccountContext from "../../contexts/AccountContext";
-import styles from "../../styles/styles";
+import { Pressable, ScrollView } from "react-native-gesture-handler";
 
-const EditProfile = () => {
+const Store = () => {
   const nav = useNavigation();
   const { accountData, setAccountData } = useContext(AccountContext);
   const [selectedAvatar, setSelectedAvatar] = useState(accountData.avatar);
   const [selectedCloth, setSelectedCloth] = useState(clothes[0]);
   const Avatar = avatars[selectedAvatar];
   const Cloth = selectedCloth.image
-  const [inputName, setInputName] = useState(accountData.username)
   const [selectedTab, setSelectedTab] = useState("Avatar")
-
-  const onSave = async () => {
-    try {
-      const { data: updatedUser } = await axios.post(`${process.env.EXPO_PUBLIC_URL}/updateUser`, {
-        avatar: selectedAvatar,
-        username: inputName,
-        user_id: accountData._id
-      })
-      setAccountData(updatedUser)
-    } catch (error) {
-      console.error("Error Updating User:", error);
-    }
-    nav.replace("Home");
-  }
 
   return (
     <AppBackground>
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <View style={[styles.entryBackground, { padding: 8, width: "80%" }]}>
-          <Text style={styles.entryTitle}>Edit Profile</Text>
-        </View>
+      <View style={{ flex: 1 }}>
+        {/* Header */}
         <View
-          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            padding: 14,
+          }}
         >
-          <View
-            style={{
-              backgroundColor: "#FFCEB4",
-              borderRadius: 99,
-              justifyContent: "center",
-              alignItems: "center",
-              borderWidth: 8,
-              borderColor: "#FFD41C",
-              width: 160,
-              height: 160,
+          <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={() => {
+              if (nav.canGoBack()) {
+                nav.goBack();
+              } else {
+                nav.replace("Home");
+              }
             }}
           >
-            <Avatar width={120} height={120} style={{zIndex:1}} />
-            <Cloth width={150} height={180} style={{marginTop:-20}} />
-          </View>
-          {/* <Input
-            text={"Name"}
+            <ArrowLeftCircle width={42} height={42} color={"white"} />
+          </TouchableOpacity>
+          <Text
+            style={[
+              styles.entryTitle,
+              {
+                fontSize: 32,
+              },
+            ]}
+          >
+            STORE
+          </Text>
+          <View
             style={{
-              backgroundColor: "#2C519F",
-              borderRadius: 24,
-              boxShadow: "0px 2px 12px #EDE09480",
-              borderWidth: 8,
-              borderColor: "#FFD41C",
-              width: "70%",
-              marginTop: 20,
+              backgroundColor: "white",
+              padding: 4,
+              borderRadius: 8,
+              flexDirection: "row",
+              alignItems: "center",
             }}
-            inputStyle={styles.entryTitle}
-            value={inputName}
-            onChangeText={(text) => {
-              setInputName(text);
-            }}
-          /> */}
+          >
+            <Star color={"black"} />
+            <Text>200</Text>
+          </View>
         </View>
+        
+          <View style={{margin:'auto', justifyContent:'center', alignItems:'center'}}>
+            <Avatar width={120} height={120} style={{zIndex:1}} />
+            <Cloth width={150} height={180} style={{marginTop:-10}} />
+          </View>
+          
       </View>
-      {/* Split */}
       <View
         style={{
-          borderTopColor: "#FDD116",
-          borderTopWidth: 6,
-          backgroundColor: "#273574",
-          justifyContent: "center",
-          alignItems: "center",
           flex: 1,
+          backgroundColor: "#406FC7",
+          borderColor: "#FFDE4F",
+          borderTopWidth: 4,
         }}
       >
         <Tabs tabs={["Avatar", "Clothes"]} state={[selectedTab, setSelectedTab]} style={{flex: 0}} />
@@ -114,34 +105,13 @@ const EditProfile = () => {
             <AvatarCard SVG={cloth.image} key={index} selected={cloth.id === selectedCloth.id} onPress={() => setSelectedCloth(cloth)} />
           ))}
         </ScrollView>
-        <View
-          style={{
-            flexDirection: "row",
-            gap: 4,
-            paddingHorizontal: 24,
-            marginVertical: 24,
-            marginTop: 12,
-          }}
-        >
-          <Button
-            style={{ flex: 0, width: "50%" }}
-            onPress={onSave}
-            text={"Save"}
-          />
-          <Button
-            style={{ flex: 0, width: "50%" }}
-            onPress={() => {
-              nav.replace("View Profile");
-            }}
-            text={"Back"}
-          />
-        </View>
+
       </View>
     </AppBackground>
   );
 };
 
-export default EditProfile;
+export default Store;
 
 const AvatarCard = ({ SVG, selected, onPress }) => {
   return (
@@ -159,6 +129,7 @@ const AvatarCard = ({ SVG, selected, onPress }) => {
       }}
     >
       <SVG width={60} height={60} />
+      <Text style={{marginTop:'auto'}}>200<Star color={"black"} size={14} /></Text>
     </Pressable>
   );
 };
