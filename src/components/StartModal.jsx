@@ -92,12 +92,36 @@ const SettingsContainer = () => {
   )
 }
 const LevelSelect = ({ modal }) => {
+  const levelStyle = StyleSheet.create({
+    labelContainer:{
+      width:'80%',
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+    },
+    label:{
+      fontFamily:'LilitaOne-Regular',
+      fontSize:24,
+      color: modal.colors.primary_color
+    }
+  })
   return (
   <>
     <Title title={"START"} colors={modal.colors} />
-    <Body onClose={modal.secondaryFn} colors={modal.colors}>
+    <Body onClose={modal.secondaryFn} colors={modal.colors} contentStyle={{paddingHorizontal:0, gap:4}}>
       <Text style={[modalStyles.subtitle, {color: modal.colors.primary_color}]}>{modal.subtitle}</Text>
-      <Text style={[modalStyles.bodyText, modal.colors && {color:'black'}]}>{modal.body}</Text>
+      <View style={[levelStyle.labelContainer]}>
+        <Text style={[levelStyle.label]}>Difficulty:</Text>
+        <Text>{modal.difficulty}</Text>
+      </View>
+      <View style={[levelStyle.labelContainer]}>
+        <Text style={[levelStyle.label]}>Questions:</Text>
+        <Text>{modal.items} items</Text>
+      </View>
+      <View style={[levelStyle.labelContainer]}>
+        <Text style={[levelStyle.label]}>Timer:</Text>
+        <Text>{modal.timer} seconds</Text>
+      </View>
+      {/* <Text style={[modalStyles.bodyText, modal.colors && {color:'black'}]}>{modal.body}</Text> */}
       <View
         style={[modalStyles.btnContainer]}
       >
@@ -119,7 +143,7 @@ const SelectMode = ({ modal }) => {
   <>
     <Title title={"Select Mode"} />
     <Body onClose={modal.secondaryFn}>
-      <Text style={[modalStyles.subtitle]}>
+      <Text style={[modalStyles.subtitle, {fontSize:26}]} allowFontScaling={false}>
         {modal.subtitle.toUpperCase()}
       </Text>
 

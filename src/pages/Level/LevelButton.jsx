@@ -66,6 +66,9 @@ const LevelButton = ({
       }
       \nQuestions: \t\t\t\t\t ${items} items
       \nTime per item:\t\t\t\t\t ${time} seconds`,
+      difficulty: level === "?" ? "Hard" : level < 3 ? "Easy" : "Average",
+      items,
+      timer:time,
       mode: "LevelSelect",
       onLeaderboard: () => {
         setLeaderboardLevel(level);
@@ -123,7 +126,9 @@ const LevelButton = ({
             fontWeight: 900,
             fontSize: 32,
             position:'absolute',
-            bottom: -14
+            bottom: -14,
+            textShadowColor: 'black',
+            textShadowRadius:8,
           }}
         >
           {level}
