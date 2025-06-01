@@ -51,7 +51,7 @@ const avatars = [
   b10, g10
 ];
 
-const navbarRoutes = ["Home", "Chatbot", "Glossary", "Mindmap", "Levels"]
+const navbarRoutes = ["Home", "Chatbot", "Glossary", "Mindmap"]
 
 const categoriesObj = [
   {
@@ -72,7 +72,7 @@ const categoriesObj = [
   },
   {
     id: "industrial",
-    name: "Industrial/Organizational Psychology",
+    name: "Industrial / Organizational Psychology",
     level_background: organizationalMap,
     cover: industrialCover,
     primary_color: "#6C6C6C"

@@ -31,7 +31,6 @@ const BottomNavigation = () => {
   
   
   if(!navbarRoutes.includes(routeName)) return;
-
   return (
     <Animated.View
       entering={FadeInDown.duration(400)}
@@ -50,22 +49,17 @@ const BottomNavigation = () => {
         paddingHorizontal: 24,
       }}
     >
-      {actions.map((action) => (
+      {actions.map((action) => {
+        const isActive = action.path === routeName
+        return (
         <TouchableOpacity
-          style={{
+          style={[{
             padding: 12,
-            paddingHorizontal: action.path === routeName ? 24 : 12,
-            backgroundColor:
-              action.path === routeName ? "rgba(0,0,0,0.05)" : "white",
-            borderTopWidth: action.path === routeName ? 4 : 0,
-            borderColor: "#000",
-            borderTopLeftRadius: 0,
-            borderTopRightRadius: 0,
-            borderRadius: 8,
+            paddingHorizontal:0,
             justifyContent: "center",
             alignItems: "center",
             gap: 4,
-          }}
+          }]}
           key={action.name}
           onPress={() => {
             if (action.path && action.path !== routeName) {
@@ -75,9 +69,11 @@ const BottomNavigation = () => {
             }
           }}
         >
+        <View style={[isActive && {marginTop:-30, backgroundColor:'#454e8f',padding:12, borderRadius:42, borderWidth:6, borderColor:'white', shadowColor: 'black', shadowRadius:12, boxShadow: "0px 0px 12px black"}]}>
           <action.icon width={32} height={32} />
+        </View>
         </TouchableOpacity>
-      ))}
+      )})}
     </Animated.View>
   );
 }
