@@ -15,6 +15,7 @@ import { modalStyles } from "../styles/modalStyles";
 import Button from "./Button";
 import AccountContext from "../contexts/AccountContext";
 import { SignOut } from "../hooks/useFirebase";
+import { OctagonAlert } from "lucide-react-native";
 
 
 export default function Start() {
@@ -31,7 +32,7 @@ export default function Start() {
   return (
     <>
       <Animated.View
-        style={modalStyles.modalBackground}
+        style={[modalStyles.modalBackground, modal.background === "darker" && {backgroundColor: "rgba(0,0,0,0.7)",}]}
         entering={FadeIn}
         exiting={FadeOut}
       >
@@ -48,6 +49,12 @@ export default function Start() {
           )}
           {modal.mode === "Settings" && 
             <Settings modal={modal} />
+          }
+          {modal.mode === "Tutorial-Worlds" &&
+            <HowToPlayWorlds modal={modal} />
+          }
+          {modal.mode === "Tutorial-Review" &&
+            <HowToPlayReview modal={modal} />
           }
         </Animated.View>
       </Animated.View>
@@ -78,7 +85,59 @@ const Settings = ({modal}) => {
           setAccountData(null);
           setModal(null)
         }}/>
+        <Button text={"How to play"} 
+        onPress={async () => {
+          setModal(null)
+          setModal({
+            mode:"Tutorial-Worlds",
+            secondaryFn: () => setModal(null),
+            background:'darker'
+          })
+        }}/>
       </Body>
+    </>
+  )
+}
+const HowToPlayWorlds = ({modal}) => {
+  const {setModal} = useContext(ModalContext)
+  return(
+    <>
+    <Title title={"Tutorial"} />
+    <Body onClose={modal.secondaryFn} closeButton={false} contentStyle={{
+      width:"90%", paddingTop:24, gap:12
+      }}>
+      <Text style={{fontFamily:'LilitaOne-Regular', fontSize:24, color:'white'}}>CHOOSE A WORLD</Text>
+      <Text style={{color:'white', fontSize:16, textAlign:'center', paddingHorizontal:24}}>Start by selecting one of five psychology worlds to explore. Each world is themed around a different field of psychology—pick the one that sparks your curiosity!</Text>
+      <Image source={require("../assets/tutorial/worlds.png")} style={{}} />
+      <Button 
+        text={"Continue"}
+        onPress={() => {setModal({
+          mode:"Tutorial-Review",
+          secondaryFn: () => setModal(null),
+          background:'darker'
+        })}} 
+      />
+    </Body>
+    </>
+  )
+}
+const HowToPlayReview = ({modal}) => {
+  const {setModal} = useContext(ModalContext)
+  return(
+    <>
+    <Title title={"Tutorial"} />
+    <Body onClose={modal.secondaryFn} closeButton={false} contentStyle={{
+      width:"90%", paddingTop:24, gap:12
+      }}>
+      <Text style={{fontFamily:'LilitaOne-Regular', fontSize:24, color:'white'}}>CLASSIC MODE</Text>
+      <Text style={{color:'white', fontSize:16, textAlign:'center', paddingHorizontal:24}}><OctagonAlert color={"white"} size={16} /> NOTE : You must complete and pass the current level to unlock the next one—no shortcuts!
+To pass, you need to earn at least one star or score 80% of the total items.</Text>
+      <Image source={require("../assets/tutorial/reviewTutorial.png")} style={{}} />
+      <Button 
+        text={"Continue"}
+        onPress={() => {setModal(null)}} 
+      />
+    </Body>
     </>
   )
 }
