@@ -77,11 +77,11 @@ const Home = () => {
               style={[styles.homeRoundedIcon, { padding: 10, flexDirection:'row' }]}
               onPress={() => nav.navigate("View Profile")}
             >
-              <Avatar width={48} height={48} />
+              <Avatar.head width={48} height={48} />
             </Pressable>
           </View>
             <View>
-              <Text style={{fontSize:24, color:'white', fontFamily:'LilitaOne-Regular'}}>{accountData.first_name.toUpperCase()}</Text>
+              <Text style={{fontSize:24, color:'white', fontFamily:'LilitaOne-Regular', textAlign:'center'}}>{accountData.first_name.toUpperCase()}</Text>
               <Text style={{fontSize:16, color:'white', fontFamily:'LilitaOne-Regular', textAlign:'center'}}>-- {branches.find(branch => accountData.branch === branch.id).name} --</Text>
             </View>
           <Pressable

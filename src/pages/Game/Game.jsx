@@ -12,10 +12,11 @@ import GameContext from "../../contexts/GameContext";
 import axios from "axios";
 import { Audio } from "expo-av";
 import { API_URL, gameColors } from "../../constants";
-import { Text, ToastAndroid } from "react-native";
+import { Alert, BackHandler, Text, ToastAndroid } from "react-native";
 import ModalContext from "../../contexts/ModalContext";
 import Animated from "react-native-reanimated";
 import Timer from "./Timer";
+import { useNavigation } from "@react-navigation/native";
 
 const Game = (props) => {
   const { level, levelIndex, categoryIndex, isMastery, mode } = props.route.params;
@@ -258,6 +259,28 @@ const Game = (props) => {
       console.error("getting questions", error.message);
     }
   }
+
+  const nav = useNavigation()
+  useEffect(() => {
+      const backAction = () => {
+        Alert.alert("Cancel?", "Are you sure you want to return to home screen? All progress will be lost.", [
+          {
+            text: "Cancel",
+            onPress: () => null,
+            style: "cancel",
+          },
+          { text: "YES", onPress: () => nav.goBack() },
+        ]);
+        return true;
+      };
+  
+      const backHandler = BackHandler.addEventListener(
+        "hardwareBackPress",
+        backAction
+      );
+  
+      return () => backHandler.remove();
+    }, []);
 
   const { playSound, playSFX, stopLoopingAudio } = Sound();
   useEffect(() => {
