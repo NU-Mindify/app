@@ -13,7 +13,7 @@ const Store = () => {
   const { accountData, setAccountData } = useContext(AccountContext);
   const [selectedAvatar, setSelectedAvatar] = useState(accountData.avatar);
   const [selectedCloth, setSelectedCloth] = useState(clothes[0]);
-  const Avatar = avatars[selectedAvatar];
+  const Avatar = avatars[selectedAvatar].body;
   const Cloth = selectedCloth.image
   const [selectedTab, setSelectedTab] = useState("Avatar")
 
@@ -66,8 +66,8 @@ const Store = () => {
         </View>
         
           <View style={{margin:'auto', justifyContent:'center', alignItems:'center'}}>
-            <Avatar width={120} height={120} style={{zIndex:1}} />
-            <Cloth width={150} height={180} style={{marginTop:-10}} />
+            <Avatar width={230} height={290} style={{zIndex:0,}} />
+            <Cloth width={150} height={160} style={{position: 'absolute', bottom: 0}} />
           </View>
           
       </View>
@@ -94,7 +94,7 @@ const Store = () => {
           {selectedTab === "Avatar" && avatars.map((Avatar, index) => {
             return (
               <AvatarCard
-                SVG={Avatar}
+                SVG={Avatar.head}
                 key={index}
                 selected={selectedAvatar === index}
                 onPress={() => setSelectedAvatar(index)}

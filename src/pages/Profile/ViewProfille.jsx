@@ -21,8 +21,9 @@ const ViewProfile = () => {
   const nav = useNavigation();
   const { accountData, progressData, setProgressData } = useContext(AccountContext);
   const [selectedAvatar, setSelectedAvatar] = useState(accountData.avatar);
-  const [badges, setBadges] = useState([]);
-  const Avatar = avatars[selectedAvatar];
+  const [earnedBadges, setEarnedBadges] = useState([]);
+  const [unearnedBadges, setUnearnedBadges] = useState([]);
+  const Avatar = avatars[selectedAvatar].head;
   
   useEffect(() => {
     getProgress()
@@ -31,10 +32,18 @@ const ViewProfile = () => {
   const getBadges = async () => {
     try {
       const {data: badges} = await axios.get(API_URL+"/getUserBadges?user_id="+accountData._id)
-      setBadges(badges)
+      setEarnedBadges(badges)
+      const {data: allBadges} = await axios.get(API_URL+"/getAllBadges")
+
+      const unearnedBadges = allBadges.filter(allBadge => {
+        return !badges.some(earnedBadge => earnedBadge.badge_id._id === allBadge._id);
+      });
+      setUnearnedBadges(unearnedBadges)
     } catch (error) {
-      console.error(error);
-      
+      console.error("Fetching badges", error);
+      console.error(
+        JSON.stringify(error)
+      );
     }
   }
   const getProgress = async () => {
@@ -191,8 +200,11 @@ const ViewProfile = () => {
             Badges Earned:
           </Text>
           <View style={{flexDirection: 'row', gap:8, flexWrap: 'wrap', justifyContent:'space-around'}}>
-            {badges.map((src, index) => (
+            {earnedBadges.map((src, index) => (
               <Badge src={src.badge_id.filepath} key={index} />
+            ))}
+            {unearnedBadges.map((src, index) => (
+              <Badge src={src.filepath} key={index} imageStyle={{filter: 'grayscale(100%)',}} />
             ))}
           </View>
         </View>
@@ -212,13 +224,13 @@ export default ViewProfile;
 //   require("../../assets/badges/ap6.png"),
 // ];
 
-const Badge = ({ src }) => {
+const Badge = ({ src, imageStyle }) => {
   
   return (
     <View>
       <Image
         source={{uri: "https://dllkypmqteqwaxqqzugd.supabase.co/storage/v1/object/public/badges/badge_pics/"+src}}
-        style={{ width: 60, height: 60 }}
+        style={[{ width: 60, height: 60 }, imageStyle]}
         resizeMode="contain"
       />
     </View>

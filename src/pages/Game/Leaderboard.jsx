@@ -149,7 +149,7 @@ const tabStyle = {
 export default Leaderboard;
 
 const UserCard = ({ data, index, current }) => {
-  const Avatar = avatars[data.user_id.avatar];
+  const Avatar = avatars[data.user_id.avatar].head;
   return (
     <>
       <View

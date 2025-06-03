@@ -17,10 +17,31 @@ import g5 from './assets/avatar/g5.svg'
 import g6 from './assets/avatar/g6.svg'
 import g7 from './assets/avatar/g7.svg'
 import g8 from './assets/avatar/g8.svg'
-import g9 from './assets/avatar/g9.svg'
-import g10 from './assets/avatar/g10.svg'
+
+
+import b1body from './assets/body/b1.svg'
+import b2body from './assets/body/b2.svg'
+import b3body from './assets/body/b3.svg'
+import b4body from './assets/body/b4.svg'
+import b5body from './assets/body/b5.svg'
+import b6body from './assets/body/b6.svg'
+import b7body from './assets/body/b7.svg'
+import b8body from './assets/body/b8.svg'
+import b9body from './assets/body/b9.svg'
+import b10body from './assets/body/b10.svg'
+
+import g1body from './assets/body/g1.svg'
+import g2body from './assets/body/g2.svg'
+import g3body from './assets/body/g3.svg'
+import g4body from './assets/body/g4.svg'
+import g5body from './assets/body/g5.svg'
+import g6body from './assets/body/g6.svg'
+import g7body from './assets/body/g7.svg'
+import g8body from './assets/body/g8.svg'
+
 
 import bulldog from './assets/avatar/bulldog.svg'
+import bulldogbody from './assets/body/bulldog.svg'
 
 import abnormalMap from "./assets/maps/abnormalLong.png";
 import developmentalMap from "./assets/maps/developmental.png";
@@ -59,17 +80,25 @@ const clothes = [
 ]
 
 const avatars = [
-  bulldog,
-  b1, g1,
-  b2, g2,
-  b3, g3,
-  b4, g4,
-  b5, g5,
-  b6, g6,
-  b7, g7,
-  b8, g8, 
-  b9, g9, 
-  b10, g10
+  {id: "", head: bulldog, body: bulldogbody, gender: 'other'},
+  {id: "", head: b1, body: b1body, gender:'male'},
+  {id: "", head: b2, body: b2body, gender:'male'},
+  {id: "", head: b3, body: b3body, gender:'male'},
+  {id: "", head: b4, body: b4body, gender:'male'},
+  {id: "", head: b5, body: b5body, gender:'male'},
+  {id: "", head: b6, body: b6body, gender:'male'},
+  {id: "", head: b7, body: b7body, gender:'male'},
+  {id: "", head: b8, body: b8body, gender:'male'},
+  {id: "", head: b9, body: b9body, gender:'male'},
+  {id: "", head: b10, body: b10body, gender:'male'},
+  {id: "", head: g1, body: g1body, gender:'female'},
+  {id: "", head: g2, body: g2body, gender:'female'},
+  {id: "", head: g3, body: g3body, gender:'female'},
+  {id: "", head: g4, body: g4body, gender:'female'},
+  {id: "", head: g5, body: g5body, gender:'female'},
+  {id: "", head: g6, body: g6body, gender:'female'},
+  {id: "", head: g7, body: g7body, gender:'female'},
+  {id: "", head: g8, body: g8body, gender:'female'},
 ];
 
 const navbarRoutes = ["Home", "Chatbot", "Glossary", "Mindmap", "Store"]
