@@ -15,7 +15,7 @@ const actions = [
   {name: "Home", icon: Home, path: "Home"},
   {name: "Glossary", icon: Glossary, path: "Glossary"},
   {name: "Mindmap", icon: Mindmap, path: "Mindmap"},
-  {name: "Chatbot", icon: Chatbot, path: "Chatbot"},
+  {name: "Mindy", icon: Chatbot, path: "Chatbot"},
   {name: "Store", icon: Store, path: "Store"}
 ]
 

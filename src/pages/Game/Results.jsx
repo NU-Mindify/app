@@ -127,6 +127,7 @@ const Results = ({ stats, onReview, onLeaderboard }) => {
                   fontSize: 38,
                   textShadowColor: secondary_color,
                   textShadowRadius: 8,
+                  textAlign:'center'
                 },
               ]}
             >
@@ -142,11 +143,12 @@ const Results = ({ stats, onReview, onLeaderboard }) => {
               }}
             >
               You've scored
-              <Text style={{ fontWeight: 900, fontSize: 18 }}>{` ${
+              {/* <Text style={{ fontWeight: 900, fontSize: 18 }}>{` ${
                 score > 0 ? "+" : ""
-              }${score} `}</Text>
-              points in
-              <Text style={{ fontWeight: 900, fontSize: 18, color: "white" }}>
+              }${score} `}</Text> */}
+              <Text style={{ fontWeight: 900, fontSize: 18 }}>{` ${stats.correct} `}</Text>
+              out of {stats.correct + stats.wrong} in
+              <Text style={{ fontWeight: 900, fontSize: 18, color: "black" }}>
                 {` ${duration} `}
               </Text>
               seconds

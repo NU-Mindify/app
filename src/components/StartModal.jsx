@@ -16,6 +16,7 @@ import Button from "./Button";
 import AccountContext from "../contexts/AccountContext";
 import { SignOut } from "../hooks/useFirebase";
 import { OctagonAlert } from "lucide-react-native";
+import { ScrollView } from "react-native-gesture-handler";
 
 
 export default function Start() {
@@ -32,7 +33,12 @@ export default function Start() {
   return (
     <>
       <Animated.View
-        style={[modalStyles.modalBackground, modal.background === "darker" && {backgroundColor: "rgba(0,0,0,0.7)",}]}
+        style={[
+          modalStyles.modalBackground,
+          modal.background === "darker" && {
+            backgroundColor: "rgba(0,0,0,0.7)",
+          },
+        ]}
         entering={FadeIn}
         exiting={FadeOut}
       >
@@ -41,21 +47,25 @@ export default function Start() {
           entering={BounceIn.duration(500)}
           exiting={ZoomOut.duration(300)}
         >
-          {modal.mode === "LevelSelect" && (
-          <LevelSelect modal={modal} />
+          {!modal.mode && <Default modal={modal} />}
+          {modal.mode === "LevelSelect" && <LevelSelect modal={modal} />}
+          {modal.mode === "LevelSelectMastery" && (
+            <LevelSelectMastery modal={modal} />
           )}
-          {modal.mode === "ModeSelect" && (
-            <SelectMode modal={modal} />
-          )}
-          {modal.mode === "Settings" && 
-            <Settings modal={modal} />
-          }
-          {modal.mode === "Tutorial-Worlds" &&
+          {modal.mode === "ModeSelect" && <SelectMode modal={modal} />}
+          {modal.mode === "Settings" && <Settings modal={modal} />}
+          {modal.mode === "Tutorial-Worlds" && (
             <HowToPlayWorlds modal={modal} />
-          }
-          {modal.mode === "Tutorial-Review" &&
+          )}
+          {modal.mode === "Tutorial-Review" && (
             <HowToPlayReview modal={modal} />
-          }
+          )}
+          {modal.mode === "Tutorial-Competition" && (
+            <HowToPlayCompetition modal={modal} />
+          )}
+          {modal.mode === "Tutorial-Mastery" && (
+            <HowToPlayReview modal={modal} />
+          )}
         </Animated.View>
       </Animated.View>
     </>
@@ -90,7 +100,22 @@ const Settings = ({modal}) => {
           setModal(null)
           setModal({
             mode:"Tutorial-Worlds",
-            secondaryFn: () => setModal(null),
+            secondaryFn: () => {
+              setModal({
+                mode: "Tutorial-Review",
+                secondaryFn: () =>
+                  setModal({
+                    mode: "Tutorial-Competition",
+                    secondaryFn: () =>
+                      setModal({
+                        mode: "Settings",
+                        secondaryFn: () => setModal(null),
+                      }),
+                    background: "darker",
+                  }),
+                background: "darker",
+              });
+            },
             background:'darker'
           })
         }}/>
@@ -99,7 +124,6 @@ const Settings = ({modal}) => {
   )
 }
 const HowToPlayWorlds = ({modal}) => {
-  const {setModal} = useContext(ModalContext)
   return(
     <>
     <Title title={"Tutorial"} />
@@ -111,36 +135,85 @@ const HowToPlayWorlds = ({modal}) => {
       <Image source={require("../assets/tutorial/worlds.png")} style={{}} />
       <Button 
         text={"Continue"}
-        onPress={() => {setModal({
-          mode:"Tutorial-Review",
-          secondaryFn: () => setModal(null),
-          background:'darker'
-        })}} 
+        onPress={modal.secondaryFn} 
       />
     </Body>
     </>
   )
 }
 const HowToPlayReview = ({modal}) => {
-  const {setModal} = useContext(ModalContext)
   return(
     <>
     <Title title={"Tutorial"} />
     <Body onClose={modal.secondaryFn} closeButton={false} contentStyle={{
-      width:"90%", paddingTop:24, gap:12
-      }}>
+      width:"90%", paddingTop:24, gap:12, maxHeight:600
+    }}>
+        <ScrollView contentContainerStyle={{alignItems:'center', gap:8}} persistentScrollbar={true}>
+
       <Text style={{fontFamily:'LilitaOne-Regular', fontSize:24, color:'white'}}>CLASSIC MODE</Text>
-      <Text style={{color:'white', fontSize:16, textAlign:'center', paddingHorizontal:24}}><OctagonAlert color={"white"} size={16} /> NOTE : You must complete and pass the current level to unlock the next one—no shortcuts!
-To pass, you need to earn at least one star or score 80% of the total items.</Text>
+      <Text style={{fontFamily:'LilitaOne-Regular', fontSize:18, color:'white'}}>-- Review --</Text>
+
+
+      <Text style={tutorialStyle.text}><OctagonAlert color={"white"} size={16} /> NOTE : You must complete and pass the current level in competition mode to unlock the next one—no shortcuts!
+      <Text style={{fontWeight:900}}> To pass, you need to earn at least one star or score 80% of the total items.</Text></Text>
+
       <Image source={require("../assets/tutorial/reviewTutorial.png")} style={{}} />
+      <Image source={require("../assets/tutorial/selectLevel.png")} style={{}} />
+      <Text style={tutorialStyle.text}>Select a level, hit the Start button, and begin your learning journey.</Text>
+      <Image source={require("../assets/tutorial/questionnaire.png")} style={{}} />
+      <Text style={tutorialStyle.text}>Read each question carefully and choose the correct answer.
+      Be mindful of the time—every second counts!</Text>
+      <Image source={require("../assets/tutorial/rationale.png")} style={{}} />
+      <Text style={tutorialStyle.text}>After answering, you'll receive a feedback.
+      Take a moment to understand the explanation—it's your key to leveling up!</Text>
+
+      <Image source={require("../assets/tutorial/reviewResults.png")} style={{}} />
+      <Text style={tutorialStyle.text}>Answer all the questions and—tadah!—you're done!
+      Good luck on your learning journey!</Text>
+        </ScrollView>
       <Button 
         text={"Continue"}
-        onPress={() => {setModal(null)}} 
+        onPress={modal.secondaryFn} 
+        />
+    </Body>
+    </>
+  )
+}
+const HowToPlayCompetition = ({modal}) => {
+  return(
+    <>
+    <Title title={"Tutorial"} />
+    <Body onClose={modal.secondaryFn} closeButton={false} contentStyle={{
+      width:"90%", paddingTop:24, gap:12, maxHeight:600
+      }}>
+        <ScrollView contentContainerStyle={{alignItems:'center', gap:8}} persistentScrollbar={true}>
+      <Text style={{fontFamily:'LilitaOne-Regular', fontSize:24, color:'white'}}>CLASSIC MODE</Text>
+      <Text style={{fontFamily:'LilitaOne-Regular', fontSize:18, color:'white'}}>-- Competition --</Text>
+      <Text style={tutorialStyle.text}><OctagonAlert color={"white"} size={16} /> NOTE : You must complete and pass the current level to unlock the next one—no shortcuts!
+      <Text style={{fontWeight:900}}> To pass, you need to earn at least one star or score 80% of the total items.</Text></Text>
+      <Image source={require("../assets/tutorial/competitionTutorial.png")} style={{}} />
+      <Text style={tutorialStyle.text}> There's no feedback here—just pure skill and focus.
+      Give it your best shot and aim for a perfect score!</Text>
+      <Image source={require("../assets/tutorial/answer.png")} style={{}} />
+
+      <Text style={tutorialStyle.text}> Answer all the questions and—tadah!—you're done!
+      Earn stars and climb the leaderboard.</Text>
+
+      <Image source={require("../assets/tutorial/competitionResults.png")} style={{}} />
+
+      </ScrollView>
+      <Button 
+        text={"Continue"}
+        onPress={modal.secondaryFn} 
       />
     </Body>
     </>
   )
 }
+
+const tutorialStyle = StyleSheet.create({
+  text:{color:'white', fontSize:16, textAlign:'center', paddingHorizontal:24}
+})
 const SettingsContainer = () => {
   return (
     <> 
@@ -185,6 +258,69 @@ const LevelSelect = ({ modal }) => {
         style={[modalStyles.btnContainer]}
       >
         <Button text={"Start"} onPress={modal.primaryFn} style={{width:'50%'}} />
+      </View>
+    </Body>
+    <Button
+      text={"View Leaderboard"}
+      onPress={modal.onLeaderboard}
+      style={{ marginVertical: 16 }}
+      textStyle={{fontSize: 18}}
+    />
+  </>
+  )
+}
+const Default = ({ modal }) => {
+  return (
+    <>
+      <Title title={modal.title} onClose={modal.primaryFn} />
+      <Body
+        onClose={modal.secondaryFn}
+        contentStyle={{ paddingHorizontal: 0, gap: 4 }}
+      >
+        <Text
+          style={[modalStyles.subtitle]}
+        >
+          {modal.subtitle}
+        </Text>
+        <Text
+          style={[modalStyles.bodyText]}
+        >
+          {modal.body}
+        </Text>
+        <View style={[modalStyles.btnContainer]}>
+          <Button
+            text={"Ok"}
+            onPress={modal.primaryFn}
+            style={{ width: "50%" }}
+          />
+        </View>
+      </Body>
+    </>
+  );
+};
+const LevelSelectMastery = ({ modal }) => {
+  const levelStyle = StyleSheet.create({
+    labelContainer:{
+      width:'80%',
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+    },
+    label:{
+      fontFamily:'LilitaOne-Regular',
+      fontSize:24,
+      color: modal.colors.primary_color
+    }
+  })
+  return (
+  <>
+    <Title title={"START"} colors={modal.colors} />
+    <Body onClose={modal.secondaryFn} colors={modal.colors} contentStyle={{paddingHorizontal:0, gap:4}}>
+      <Text style={[modalStyles.subtitle, {color: modal.colors.primary_color}]}>{modal.subtitle}</Text>
+      <Text style={[modalStyles.bodyText, modal.colors && {color:'black'}]}>{modal.body}</Text>
+      <View
+        style={[modalStyles.btnContainer]}
+      >
+        <Button text={modal.button || "Start"} onPress={modal.primaryFn} style={{width:'60%'}} />
       </View>
     </Body>
     <Button

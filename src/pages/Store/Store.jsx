@@ -1,22 +1,65 @@
-import { View, Text, TouchableOpacity } from "react-native";
-import React, { useContext, useState } from "react";
+import { View, Text, TouchableOpacity, Image } from "react-native";
+import React, { useContext, useEffect, useState } from "react";
 import AppBackground from "../../components/AppBackground";
-import { ArrowLeftCircle, Edit, Star } from "lucide-react-native";
+import { ArrowLeftCircle, Edit } from "lucide-react-native";
+import Star from "../../assets/results/smallStar.png";
 import styles from "../../styles/styles";
 import { useNavigation } from "@react-navigation/native";
-import { avatars, clothes } from "../../constants";
+import { API_URL, avatars, clothes } from "../../constants";
 import AccountContext from "../../contexts/AccountContext";
 import { Pressable, ScrollView } from "react-native-gesture-handler";
+import Button from "../../components/Button";
+import axios from "axios";
+import ModalContext from "../../contexts/ModalContext";
 
 const Store = () => {
   const nav = useNavigation();
   const { accountData, setAccountData } = useContext(AccountContext);
-  const [selectedAvatar, setSelectedAvatar] = useState(accountData.avatar);
-  const [selectedCloth, setSelectedCloth] = useState(clothes[0]);
-  const Avatar = avatars[selectedAvatar].body;
-  const Cloth = selectedCloth.image
+  const { setModal } = useContext(ModalContext);
+  const [selectedAvatar, setSelectedAvatar] = useState(accountData.avatar || "b1");
+  const [selectedCloth, setSelectedCloth] = useState(accountData.cloth || "male_unform" );
+  const [isBuyDisabled, setIsBuyDisabled] = useState(true)
+  const Avatar = avatars.find((avatar) => avatar.id === selectedAvatar).body;
+  const Cloth = clothes.find((cloth) => cloth.id === selectedCloth).image;
   const [selectedTab, setSelectedTab] = useState("Avatar")
+  useEffect(()=> {
+    if (selectedTab === "Avatar") {
+      setSelectedCloth(accountData.cloth);
+    } else {
+      setSelectedAvatar(accountData.avatar);
+    }
+  }, [selectedTab])
+  useEffect(()=> {
+    if(accountData.points < 5){
+      setIsBuyDisabled(true)
+      return;
+    }
+    if(accountData.cloth !== selectedCloth || accountData.avatar !== selectedAvatar){
+      setIsBuyDisabled(false)
+    }else{
+      setIsBuyDisabled(true)
+    }
+  }, [selectedAvatar, selectedCloth, accountData])
+  const onBuy = async () => {
+    let URL = ""
+    if(selectedTab === "Avatar"){
+      URL = API_URL + "/userBuy?item="+selectedAvatar+"&user_id="+accountData._id
+    }else if(selectedTab === "Clothes")
+    URL = API_URL + "/userBuy?item="+selectedCloth+"&user_id="+accountData._id
 
+    try {
+      const {data} = await axios.get(URL);
+      setAccountData(data)
+      setModal({
+        title: "Store",
+        body:"You've successfully bought an item!",
+        primaryFn: () => {setModal(null)},
+        secondaryFn: () => {setModal(null)}
+      })
+    } catch (error) {
+      console.error("buying error",error);
+    }
+  }
   return (
     <AppBackground>
       <View style={{ flex: 1 }}>
@@ -24,9 +67,9 @@ const Store = () => {
         <View
           style={{
             flexDirection: "row",
-            justifyContent: "space-between",
+            justifyContent: "center",
             alignItems: "center",
-            padding: 14,
+            margin: 14,
           }}
         >
           <TouchableOpacity
@@ -38,6 +81,7 @@ const Store = () => {
                 nav.replace("Home");
               }
             }}
+            style={{ position: "absolute", left: 0 }}
           >
             <ArrowLeftCircle width={42} height={42} color={"white"} />
           </TouchableOpacity>
@@ -58,18 +102,40 @@ const Store = () => {
               borderRadius: 8,
               flexDirection: "row",
               alignItems: "center",
+              position: "absolute",
+              right: 0,
             }}
           >
-            <Star color={"black"} />
-            <Text>200</Text>
+            <Image
+              source={Star}
+              style={[
+                {
+                  height: 40,
+                  width: 30,
+                },
+              ]}
+              resizeMode="contain"
+            />
+            <Text style={{ fontFamily: "LilitaOne-Regular", fontSize: 15 }}>
+              {accountData.points}
+            </Text>
           </View>
         </View>
-        
-          <View style={{margin:'auto', justifyContent:'center', alignItems:'center'}}>
-            <Avatar width={230} height={290} style={{zIndex:0,}} />
-            <Cloth width={150} height={160} style={{position: 'absolute', bottom: 0}} />
-          </View>
-          
+
+        <View
+          style={{
+            margin: "auto",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Avatar width={230} height={290} style={{ zIndex: 0 }} />
+          <Cloth
+            width={150}
+            height={160}
+            style={{ position: "absolute", bottom: 0 }}
+          />
+        </View>
       </View>
       <View
         style={{
@@ -79,7 +145,11 @@ const Store = () => {
           borderTopWidth: 4,
         }}
       >
-        <Tabs tabs={["Avatar", "Clothes"]} state={[selectedTab, setSelectedTab]} style={{flex: 0}} />
+        <Tabs
+          tabs={["Avatar", "Clothes"]}
+          state={[selectedTab, setSelectedTab]}
+          style={{ flex: 0 }}
+        />
         <ScrollView
           style={{ flex: 1 }}
           contentContainerStyle={{
@@ -91,21 +161,52 @@ const Store = () => {
             gap: 12,
           }}
         >
-          {selectedTab === "Avatar" && avatars.map((Avatar, index) => {
-            return (
-              <AvatarCard
-                SVG={Avatar.head}
-                key={index}
-                selected={selectedAvatar === index}
-                onPress={() => setSelectedAvatar(index)}
-              />
-            );
-          })}
-          {selectedTab === "Clothes" && clothes.map((cloth, index) => (
-            <AvatarCard SVG={cloth.image} key={index} selected={cloth.id === selectedCloth.id} onPress={() => setSelectedCloth(cloth)} />
-          ))}
+          {selectedTab === "Avatar" &&
+            avatars.map((Avatar, index) => {
+              if (accountData.items.includes(Avatar.id)) {
+                return null;
+              }
+              return (
+                <AvatarCard
+                  SVG={Avatar.head}
+                  key={index}
+                  selected={selectedAvatar === Avatar.id}
+                  onPress={() => setSelectedAvatar(Avatar.id)}
+                />
+              );
+            })}
+          {selectedTab === "Clothes" &&
+            clothes.map((cloth, index) => {
+              if (accountData.items.includes(cloth.id)) {
+                return null;
+              }
+              return (
+                <AvatarCard
+                  SVG={cloth.image}
+                  key={index}
+                  selected={cloth.id === selectedCloth}
+                  onPress={() => setSelectedCloth(cloth.id)}
+                  type={"clothes"}
+                />
+              );
+            })}
         </ScrollView>
-
+        <View
+          style={{
+            flexDirection: "row",
+            gap: 4,
+            paddingHorizontal: 24,
+            marginVertical: 24,
+            marginTop: 12,
+          }}
+        >
+          <Button
+            style={[{ flex: 0, width: "50%", margin: "auto",}, isBuyDisabled && { backgroundColor: "gray" }] }
+            onPress={onBuy}
+            text={"Buy"}
+            disabled={isBuyDisabled}
+          />
+        </View>
       </View>
     </AppBackground>
   );
@@ -113,7 +214,8 @@ const Store = () => {
 
 export default Store;
 
-const AvatarCard = ({ SVG, selected, onPress }) => {
+const AvatarCard = ({ SVG, selected, onPress, type }) => {
+  const {accountData} = useContext(AccountContext);
   return (
     <Pressable
       onPress={onPress}
@@ -125,11 +227,16 @@ const AvatarCard = ({ SVG, selected, onPress }) => {
         borderWidth: 8,
         borderColor: selected ? "#fff41c" : "#FFD41C",
         width: 100,
-        height: 100,
+        height: type === "clothes" ? 120 : 100,
       }}
     >
-      <SVG width={60} height={60} />
-      <Text style={{marginTop:'auto'}}>200<Star color={"black"} size={14} /></Text>
+      <SVG width={60} height={type === "clothes" ? 80 : 60} />
+      <View style={{marginTop:'auto', flexDirection:'row', gap:2}}>
+      <Text style={{marginTop:'auto', justifyContent:'center', alignItems:'center'}}>5 
+      </Text>
+        <Image source={Star} style={[{height: 20, width: 20},]}/>
+
+      </View>
     </Pressable>
   );
 };
@@ -151,7 +258,6 @@ const Tabs = ({state, tabs, style}) => {
         justifyContent: "space-around",
         alignItems: 'center',
         flex: 1,
-        height: 60,
       }, style]}
     >
       {tabs.map(tab => (

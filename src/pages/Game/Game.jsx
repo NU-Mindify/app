@@ -20,7 +20,7 @@ import { useNavigation } from "@react-navigation/native";
 
 const Game = (props) => {
   const { level, levelIndex, categoryIndex, isMastery, mode } = props.route.params;
-  const { accountData, progressData, setProgressData } = useContext(AccountContext);
+  const { accountData, setAccountData, progressData, setProgressData } = useContext(AccountContext);
   const { setModal } = useContext(ModalContext)
   const categoryProgress = useRef(progressData["classic"][categoryIndex.id])
 
@@ -123,6 +123,9 @@ const Game = (props) => {
       if(data.attempt){
         setCurrentAttemptID(data.attempt._id)
       }
+
+      const { data:newAccount } = await axios.get(API_URL + `/addPoints?user_id=`+accountData._id+"&stars="+attemptStars)
+      setAccountData(newAccount)
       setPostGameScreen("Results");
     } catch (error) {
       ToastAndroid.show("Failed to add record: " + error, ToastAndroid.LONG);
