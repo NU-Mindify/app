@@ -149,7 +149,7 @@ const tabStyle = {
 export default Leaderboard;
 
 const UserCard = ({ data, index, current }) => {
-  const Avatar = avatars[data.user_id.avatar].head;
+  const Avatar = avatars.find(avatar => avatar.id === data.user_id.avatar)?.head || avatars[0].head;
   return (
     <>
       <View

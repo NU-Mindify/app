@@ -14,9 +14,9 @@ const EditProfile = () => {
   const nav = useNavigation();
   const { accountData, setAccountData } = useContext(AccountContext);
   const [selectedAvatar, setSelectedAvatar] = useState(accountData.avatar);
-  const [selectedCloth, setSelectedCloth] = useState(clothes[0]);
-  const Avatar = avatars[selectedAvatar];
-  const Cloth = selectedCloth.image
+  const [selectedCloth, setSelectedCloth] = useState(accountData.cloth || clothes[0].id);
+  const Avatar = avatars.find((avatar) => avatar.id === selectedAvatar).body;
+  const Cloth = clothes.find((cloth) => cloth.id === selectedCloth).image;
   const [inputName, setInputName] = useState(accountData.username)
   const [selectedTab, setSelectedTab] = useState("Avatar")
 
@@ -24,6 +24,7 @@ const EditProfile = () => {
     try {
       const { data: updatedUser } = await axios.post(`${process.env.EXPO_PUBLIC_URL}/updateUser`, {
         avatar: selectedAvatar,
+        cloth: selectedCloth,
         username: inputName,
         user_id: accountData._id
       })
@@ -45,36 +46,18 @@ const EditProfile = () => {
         >
           <View
             style={{
-              backgroundColor: "#FFCEB4",
-              borderRadius: 99,
+              margin: "auto",
               justifyContent: "center",
               alignItems: "center",
-              borderWidth: 8,
-              borderColor: "#FFD41C",
-              width: 160,
-              height: 160,
             }}
           >
-            <Avatar width={120} height={120} style={{zIndex:1}} />
-            <Cloth width={150} height={180} style={{marginTop:-20}} />
+            <Avatar width={230} height={290} style={{ zIndex: 0 }} />
+            <Cloth
+              width={150}
+              height={160}
+              style={{ position: "absolute", bottom: 0 }}
+            />
           </View>
-          {/* <Input
-            text={"Name"}
-            style={{
-              backgroundColor: "#2C519F",
-              borderRadius: 24,
-              boxShadow: "0px 2px 12px #EDE09480",
-              borderWidth: 8,
-              borderColor: "#FFD41C",
-              width: "70%",
-              marginTop: 20,
-            }}
-            inputStyle={styles.entryTitle}
-            value={inputName}
-            onChangeText={(text) => {
-              setInputName(text);
-            }}
-          /> */}
         </View>
       </View>
       {/* Split */}
@@ -83,12 +66,14 @@ const EditProfile = () => {
           borderTopColor: "#FDD116",
           borderTopWidth: 6,
           backgroundColor: "#273574",
-          justifyContent: "center",
-          alignItems: "center",
           flex: 1,
         }}
       >
-        <Tabs tabs={["Avatar", "Clothes"]} state={[selectedTab, setSelectedTab]} style={{flex: 0}} />
+        <Tabs
+          tabs={["Avatar", "Clothes"]}
+          state={[selectedTab, setSelectedTab]}
+          style={{  }}
+        />
         <ScrollView
           style={{ flex: 1 }}
           contentContainerStyle={{
@@ -100,19 +85,32 @@ const EditProfile = () => {
             gap: 12,
           }}
         >
-          {selectedTab === "Avatar" && avatars.map((Avatar, index) => {
-            return (
-              <AvatarCard
-                SVG={Avatar}
+          {selectedTab === "Avatar" &&
+            avatars.map((Avatar, index) => {
+              if(!accountData.items.includes(Avatar.id)){
+                return null
+              }
+              return (
+                <AvatarCard
+                  SVG={Avatar.head}
+                  key={index}
+                  selected={selectedAvatar === Avatar.id}
+                  onPress={() => setSelectedAvatar(Avatar.id)}
+                />
+              );
+            })}
+          {selectedTab === "Clothes" &&
+            clothes.map((cloth, index) => {
+              if (!accountData.items.includes(cloth.id)) {
+                return null;
+              }
+              return <AvatarCard
+                SVG={cloth.image}
                 key={index}
-                selected={selectedAvatar === index}
-                onPress={() => setSelectedAvatar(index)}
+                selected={cloth.id === selectedCloth}
+                onPress={() => setSelectedCloth(cloth.id)}
               />
-            );
-          })}
-          {selectedTab === "Clothes" && clothes.map((cloth, index) => (
-            <AvatarCard SVG={cloth.image} key={index} selected={cloth.id === selectedCloth.id} onPress={() => setSelectedCloth(cloth)} />
-          ))}
+        })}
         </ScrollView>
         <View
           style={{
@@ -179,8 +177,7 @@ const Tabs = ({state, tabs, style}) => {
         flexDirection: "row",
         justifyContent: "space-around",
         alignItems: 'center',
-        flex: 1,
-        height: 60,
+        height:70
       }, style]}
     >
       {tabs.map(tab => (

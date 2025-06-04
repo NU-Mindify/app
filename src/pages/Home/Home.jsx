@@ -21,18 +21,19 @@ import AccountContext from "../../contexts/AccountContext";
 import MindifiyLogo from "../../assets/Logo.png";
 import AppBackground from "../../components/AppBackground";
 import { useNavigation } from "@react-navigation/native";
-import { avatars, branches } from '../../constants'
+import { API_URL, avatars, branches } from '../../constants'
 import { getAuth, signOut } from "firebase/auth";
 import useFirebase, { SignOut } from "../../hooks/useFirebase";
 import ChooseBanner from '../../assets/categories/ChooseBanner.svg';
 import ModalContext from "../../contexts/ModalContext";
 import Settings from '../../assets/settings/settings.svg'
+import axios from "axios";
 
 const Home = () => {
   const nav = useNavigation();
   const { accountData, setAccountData } = useContext(AccountContext);
   const {setModal} = useContext(ModalContext);
-  const Avatar = avatars[accountData ? accountData.avatar : 0]
+  const Avatar = avatars.find((avatar) => avatar.id === accountData.avatar).head;
   const { getUserData } = useFirebase();
   useEffect(()=> {
     if(!accountData){
@@ -61,6 +62,28 @@ const Home = () => {
     return () => backHandler.remove();
   }, []);
 
+  const removeTutorial = async () => {
+    try {
+      const {data} = await axios.get(API_URL + "/removeTutorial?user_id="+accountData._id+"&tutorial=worlds");
+      setAccountData(data);
+      console.log(data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  useEffect(() => {
+    if(accountData.tutorial.worlds){
+      setModal({
+        mode: "Tutorial-Worlds",
+        secondaryFn: () => {
+          removeTutorial()
+          setModal(null)
+        },
+        background: "darker",
+      });
+    }
+  }, [] )
+
   return (
     <Animated.View style={{ flex: 1 }}>
       <AppBackground>
@@ -77,7 +100,7 @@ const Home = () => {
               style={[styles.homeRoundedIcon, { padding: 10, flexDirection:'row' }]}
               onPress={() => nav.navigate("View Profile")}
             >
-              <Avatar.head width={48} height={48} />
+              <Avatar width={48} height={48} />
             </Pressable>
           </View>
             <View>

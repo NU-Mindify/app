@@ -101,7 +101,7 @@ const Chatbot = () => {
         >
           <ArrowLeftCircle size={32} color={"white"} />
         </TouchableOpacity>
-        <Text style={[styles.entryTitle, { fontSize: 32 }]}>MINDIBOT</Text>
+        <Text style={[styles.entryTitle, { fontSize: 32 }]}>Ask Mindy</Text>
         <TouchableOpacity
           onPress={() => {
             deleteAll();
@@ -165,7 +165,7 @@ const Chatbot = () => {
           style={{ flexDirection: "row", alignItems: "center", marginTop: 8 }}
         >
           <Input
-            placeholder={"Ask Mindibot..."}
+            placeholder={"Ask Mindy..."}
             onChangeText={(text) => setInput(text)}
             value={input}
             disabled={isFetching}

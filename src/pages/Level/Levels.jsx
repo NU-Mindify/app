@@ -18,10 +18,12 @@ import Leaderboard from "../Game/Leaderboard";
 import LevelButton from "./LevelButton";
 import locations from "./locations.json";
 import ModalContext from "../../contexts/ModalContext";
+import axios from "axios";
+import { API_URL } from "../../constants";
 
 const Levels = (props) => {
   const { categoryIndex, isMastery, selectedMode = "review"  } = props.route.params;
-  const { accountData, progressData } = useContext(AccountContext);
+  const { accountData, progressData, setAccountData } = useContext(AccountContext);
   console.log("ProgressData", JSON.stringify(progressData));
   
   const { setModal } = useContext(ModalContext)
@@ -32,14 +34,64 @@ const Levels = (props) => {
   const [mode, setMode] = useState(selectedMode);
   const nav = useNavigation()
 
-  useEffect(()=> {
+  useEffect(() => {
     console.log("is mastery", isMastery);
-    
-    if(isMastery){
-      openMasteryModal()
+
+    // if (isMastery && !accountData.tutorial.mastery) {
+    //   openMasteryModal();
+    // } 
+    // else if (accountData.tutorial.matery && isMastery) {
+    //   setModal({
+    //     mode: "Tutorial-Mastery",
+    //     secondaryFn: () => {
+    //       removeTutorial("mastery");
+    //       openMasteryModal();
+    //     },
+    //     background: "darker",
+    //   });
+    // }
+    if(isMastery && categoryIndex === 10){
+      openMasteryModal();
+    }else if(isMastery){
+      completeAllLevelsModal();
     }
-  }, [])
-  
+
+    if (!isMastery && mode === "review" && accountData.tutorial.review) {
+      setModal({
+        mode: "Tutorial-Review",
+        secondaryFn: () => {
+          removeTutorial("review");
+          setModal(null)
+        },
+        background: "darker",
+      });
+    }else if(!isMastery && mode === "competition" && accountData.tutorial.competition){
+      setModal({
+        mode: "Tutorial-Competition",
+        secondaryFn: () => {
+          removeTutorial("competition");
+          setModal(null);
+        },
+        background: "darker",
+      });
+    }
+  }, [mode]);
+
+  const removeTutorial = async (tutorial) => {
+    try {
+      const { data } = await axios.get(
+        API_URL +
+          "/removeTutorial?user_id=" +
+          accountData._id +
+          "&tutorial=" +
+          tutorial
+      );
+      setAccountData(data);
+      console.log(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
   const openMasteryModal = () => {
     setModal({
       subtitle: `Mastery`,
@@ -55,10 +107,34 @@ const Levels = (props) => {
         nav.goBack();
         setModal(null);
       },
-      body: `Would you like to start mastery?`,
-      mode: "LevelSelect",
+      body: `Answer all 100 questions from this world! Would you like to start mastery?`,
+      mode: "LevelSelectMastery",
       onLeaderboard: () => {
         setLeaderboardLevel("none")
+        setModal(null);
+      },
+      colors: {
+        primary_color: categoryIndex.primary_color,
+        secondary_color: categoryIndex.secondary_color,
+      },
+    });
+  }
+  const completeAllLevelsModal = () => {
+    setModal({
+      subtitle: `Mastery`,
+      button: "Continue",
+      primaryFn: () => {
+        nav.goBack();
+        setModal(null);
+      },
+      secondaryFn: () => {
+        nav.goBack();
+        setModal(null);
+      },
+      body: `You have to complete all levels of this category first before you can compete in mastery.`,
+      mode: "LevelSelectMastery",
+      onLeaderboard: () => {
+        setLeaderboardLevel("none");
         setModal(null);
       },
       colors: {

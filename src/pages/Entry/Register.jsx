@@ -67,7 +67,7 @@ const Register = ({set}) => {
       >
         <Text style={styles.entryTitle}>Sign Up</Text>
         <Text style={styles.entryBody}>
-          Join NUMindify and start boosting your knowledge today {"\n"}(Student ID, Branch, middle to be added)
+          Join NUMindify and start boosting your knowledge today!
         </Text>
         <Input
           placeholder={"Username"}

@@ -23,7 +23,7 @@ const ViewProfile = () => {
   const [selectedAvatar, setSelectedAvatar] = useState(accountData.avatar);
   const [earnedBadges, setEarnedBadges] = useState([]);
   const [unearnedBadges, setUnearnedBadges] = useState([]);
-  const Avatar = avatars[selectedAvatar].head;
+  const Avatar = avatars.find(avatar => avatar.id === selectedAvatar).head;
   
   useEffect(() => {
     getProgress()
