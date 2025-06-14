@@ -71,6 +71,7 @@ const Chatbot = () => {
         return newList
       });
       setInput(inputToSend);
+      console.error(error);
     }
     setIsFetching(false);
   };

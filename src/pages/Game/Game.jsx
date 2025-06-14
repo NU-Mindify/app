@@ -243,7 +243,12 @@ const Game = (props) => {
         URL = API_URL + "/getQuestions?category=" + categoryIndex.id
       }
       // const { data } = await axios.get(`${process.env.EXPO_PUBLIC_URL}/getQuestions?category=${'developmental'}&level=${1}`)
-      const { data } = await axios.get(URL)
+      console.log(accountData.token)
+      const { data } = await axios.get(URL, {
+        headers: {
+          Authorization: `Bearer ${accountData.token}`,
+        },
+      });
       const questions = data.length !== 0 ? data : questionsData
 
       if(["competition", "mastery"].includes(mode)){

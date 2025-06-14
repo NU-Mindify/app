@@ -28,16 +28,17 @@ import ChooseBanner from '../../assets/categories/ChooseBanner.svg';
 import ModalContext from "../../contexts/ModalContext";
 import Settings from '../../assets/settings/settings.svg'
 import axios from "axios";
+import LoadingOverlay from "../../components/LoadingOverlay";
+import TypeWriter from "react-native-typewriter";
 
 const Home = () => {
   const nav = useNavigation();
-  const { accountData, setAccountData } = useContext(AccountContext);
+  const { accountData, progressData, setAccountData } = useContext(AccountContext);
   const {setModal} = useContext(ModalContext);
-  const Avatar = avatars.find((avatar) => avatar.id === accountData.avatar).head;
   const { getUserData } = useFirebase();
   useEffect(()=> {
-    if(!accountData){
-      getUserData(getAuth().uid)
+    if(!accountData || !progressData ){
+      getUserData(getAuth().currentUser.uid)
     }
   })
 
@@ -84,6 +85,10 @@ const Home = () => {
     }
   }, [] )
 
+  if(!accountData || !progressData){
+    return <LoadingOverlay text={"Registering..."} />
+  }
+  const Avatar = avatars.find((avatar) => avatar.id === accountData.avatar).head;
   return (
     <Animated.View style={{ flex: 1 }}>
       <AppBackground>
@@ -92,6 +97,7 @@ const Home = () => {
             justifyContent: "space-around",
             alignItems: "center",
             flexDirection: "row",
+            paddingTop:12,
             gap:8,
           }}
         >

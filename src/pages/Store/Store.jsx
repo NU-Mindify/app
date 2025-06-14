@@ -104,19 +104,21 @@ const Store = () => {
               alignItems: "center",
               position: "absolute",
               right: 0,
+              paddingHorizontal:12,
             }}
           >
             <Image
               source={Star}
               style={[
                 {
-                  height: 40,
+                  height: 35,
                   width: 30,
+                  marginRight:4
                 },
               ]}
               resizeMode="contain"
             />
-            <Text style={{ fontFamily: "LilitaOne-Regular", fontSize: 15 }}>
+            <Text style={{ fontFamily: "LilitaOne-Regular", fontSize: 24 }}>
               {accountData.points}
             </Text>
           </View>

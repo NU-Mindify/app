@@ -44,7 +44,7 @@ const Verify = () => {
         entering={BounceIn}
         source={MindifyLogo}
         resizeMode="contain"
-        style={{ width: 400, height: 200 }}
+        style={{ width: 400, height: 200, marginTop:32 }}
       />
       <View style={{ gap: 2 }}>
         <View

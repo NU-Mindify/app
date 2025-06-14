@@ -211,7 +211,7 @@ const Photo = ({ item, index, scrollX, onPress }) => {
                 ]}
                 resizeMode="contain"
               />
-              <Text style={{fontFamily:'LilitaOne-Regular', fontSize:26, color:'#2E5A9F' }}>{Object.values(progressData.high_scores[categoriesObj[index].id]).reduce((sum, score) => sum + score.stars, 0)}/30</Text>
+              <Text style={{fontFamily:'LilitaOne-Regular', fontSize:26, color:'#2E5A9F' }}>{Object.values(progressData?.high_scores[categoriesObj[index]?.id]).reduce((sum, score) => sum + score.stars, 0) || 0}/30</Text>
             </View>
           </Animated.View>
         </View>
