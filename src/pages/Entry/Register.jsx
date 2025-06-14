@@ -115,8 +115,8 @@ const Register = ({set}) => {
           returnKeyType="next"
           onSubmitEditing={() => setCurrentField(4)}
           currentFocus={currentField === 3}
-          condition={(text) => text.endsWith("@students.nu-moa.edu.ph")}
-          errorText={"Email is not a valid NU MOA Student email"}
+          // condition={(text) => text.endsWith("@students.nu-moa.edu.ph")}
+          // errorText={"Email is not a valid email"}
         />
         <Input
           placeholder={"Password"}

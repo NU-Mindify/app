@@ -41,7 +41,8 @@ const useFirebase = () => {
       if (!data || !progressData) {
         throw new Error("Cannot find user data!");
       }
-      setAccountData(data)
+      console.log(userID)
+        setAccountData({...data, token: await firebaseAuth.currentUser?.getIdToken() || ""})
       setProgressData(progressData)
       nav.replace("Home");
     } catch (error) {
@@ -114,7 +115,7 @@ const useFirebase = () => {
       setAccountData(response.data)
       callback();
     } catch (err) {
-      console.error("Creating Account", err.message);
+      console.error("Creating Account", err);
       const errorCode = err.code;
       const errorMessage = err.message;
       let customErrorMessage = "";

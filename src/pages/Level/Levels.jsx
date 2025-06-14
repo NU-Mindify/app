@@ -50,7 +50,7 @@ const Levels = (props) => {
     //     background: "darker",
     //   });
     // }
-    if(isMastery && categoryIndex === 10){
+    if(isMastery && progressData.classic[categoryIndex.id] >= 1){
       openMasteryModal();
     }else if(isMastery){
       completeAllLevelsModal();

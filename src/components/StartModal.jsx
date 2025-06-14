@@ -77,25 +77,9 @@ const Settings = ({modal}) => {
   return (
     <>
       <Title title={"Settings"} />
-      <Body onClose={modal.secondaryFn} contentStyle={{padding:24, width:300}}>
-        <View>
-          <SettingsContainer>
-            <Text>SFX</Text>
-
-          </SettingsContainer>
-          <View>
-
-          </View>
-        </View>
-
-        <Button text={"Sign Out"} 
-        onPress={async () => {
-          // nav.replace("Get Started");
-          await SignOut();
-          setAccountData(null);
-          setModal(null)
-        }}/>
+      <Body onClose={modal.secondaryFn} contentStyle={{padding:24, width:300, gap:12}}>
         <Button text={"How to play"} 
+        style={{width:'80%', marginTop:18}}
         onPress={async () => {
           setModal(null)
           setModal({
@@ -118,6 +102,14 @@ const Settings = ({modal}) => {
             },
             background:'darker'
           })
+        }}/>
+        <Button text={"Sign Out"} 
+        style={{width:'80%'}}
+        onPress={async () => {
+          // nav.replace("Get Started");
+          await SignOut();
+          setAccountData(null);
+          setModal(null)
         }}/>
       </Body>
     </>

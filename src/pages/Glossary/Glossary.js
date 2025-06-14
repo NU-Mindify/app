@@ -14,6 +14,7 @@ import XButton from "../../assets/generic/X-White.svg";
 import axios from 'axios';
 import { API_URL } from '../../constants';
 import api from '../../api';
+import LoadingOverlay from '../../components/LoadingOverlay';
 
 export default function Glossary() {
   const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
@@ -22,13 +23,16 @@ export default function Glossary() {
 
   const scrollViewRef = useRef(null);
   const sectionRefs = useRef(letters.map(() => React.createRef()));
+  const [isFetching, setIsFetching] = useState(true)
 
   const [wordSearch, setWordSearch] = useState('');
   const [filteredWords, setFilteredWords] = useState([]);
 
   useEffect(() => {
+    setIsFetching(true)
     const newFilteredWords = terms.filter(item => item.word.toLowerCase().includes(wordSearch.toLowerCase()));
     setFilteredWords(newFilteredWords);
+    setIsFetching(false)
   }, [wordSearch, terms]);
 
   
@@ -42,6 +46,7 @@ export default function Glossary() {
     }
   };
   const fetchTerms = async () => {
+    setIsFetching(true)
     try {
       const response = await api.get(`/getTerms`)
       setTerms(response.data)
@@ -50,12 +55,16 @@ export default function Glossary() {
     } catch (error) {
       ToastAndroid.show(error.message, ToastAndroid.LONG)
     }
+    setIsFetching(false)
   }
   useEffect(() => {
     fetchTerms();
   }, [])
   return (
     <AppBackground >
+      {isFetching &&
+       <LoadingOverlay text={"Loading..."} />
+      }
       <View style={[GStyle.header, {justifyContent:'center', alignItems:'center', flexDirection:'row', position:'relative'}]}>
         <Image source={GlossaryTitle} style={GStyle.headerImage} />
         <TouchableOpacity
