@@ -70,7 +70,7 @@ const Login = ({ set }) => {
           Sign in to your account to get started.
         </Text>
         <Input
-          placeholder="Email"
+          label="Email"
           Icon={UserCircle2}
           onChangeText={(text) => setUsername(text)}
           value={username}
@@ -82,7 +82,7 @@ const Login = ({ set }) => {
           onSubmitEditing={() => setCurrentField(1)}
         />
         <Input
-          placeholder={"Password"}
+          label={"Password"}
           secure={true}
           Icon={LockKeyhole}
           onChangeText={(text) => setPassword(text)}
