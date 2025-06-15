@@ -70,11 +70,11 @@ const Register = ({set}) => {
           Join NUMindify and start boosting your knowledge today!
         </Text>
         <Input
-          placeholder={"Username"}
+          label={"Username"}
           Icon={UserCircle2}
           onChangeText={(text) => setForm({ ...form, username: text })}
           value={form.username}
-          style={{ marginTop: 24 }}
+          style={{ marginTop: 12 }}
           disabled={isFormDisabled}
           returnKeyType="next"
           currentFocus={currentField === 0}
@@ -83,7 +83,7 @@ const Register = ({set}) => {
           errorText={"Provide at least 6 characters"}
         />
         <Input
-          placeholder={"First Name"}
+          label={"First Name"}
           Icon={UserCircle2}
           onChangeText={(text) => setForm({ ...form, first_name: text })}
           value={form.first_name}
@@ -95,7 +95,7 @@ const Register = ({set}) => {
           errorText={"Provide at least 2 characters"}
         />
         <Input
-          placeholder={"Last Name"}
+          label={"Last Name"}
           Icon={UserCircle2}
           onChangeText={(text) => setForm({ ...form, last_name: text })}
           value={form.last_name}
@@ -107,7 +107,7 @@ const Register = ({set}) => {
           errorText={"Provide at least 2 characters"}
         />
         <Input
-          placeholder={"Email"}
+          label={"Email"}
           Icon={Mail}
           onChangeText={(text) => setForm({ ...form, email: text })}
           value={form.email}
@@ -119,7 +119,7 @@ const Register = ({set}) => {
           // errorText={"Email is not a valid email"}
         />
         <Input
-          placeholder={"Password"}
+          label={"Password"}
           secure={true}
           Icon={LockKeyhole}
           onChangeText={(text) => setForm({ ...form, password: text })}
@@ -132,7 +132,7 @@ const Register = ({set}) => {
           errorText={"Provide at least 6 characters"}
         />
         <Input
-          placeholder={"Confirm Password"}
+          label={"Confirm Password"}
           secure={true}
           Icon={LockKeyhole}
           onChangeText={(text) => setForm({ ...form, confirmPassword: text })}
