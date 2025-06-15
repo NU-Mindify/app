@@ -17,12 +17,15 @@ import ModalContext from "../../contexts/ModalContext";
 import Animated from "react-native-reanimated";
 import Timer from "./Timer";
 import { useNavigation } from "@react-navigation/native";
+import { usePreventScreenCapture } from "expo-screen-capture";
 
 const Game = (props) => {
   const { level, levelIndex, categoryIndex, isMastery, mode } = props.route.params;
   const { accountData, setAccountData, progressData, setProgressData } = useContext(AccountContext);
   const { setModal } = useContext(ModalContext)
   const categoryProgress = useRef(progressData["classic"][categoryIndex.id])
+
+  usePreventScreenCapture();
 
   const [questions, setQuestions] = useState(null);
   const [currentNumber, setCurrentNumber] = useState(0);
@@ -335,7 +338,9 @@ const Game = (props) => {
               </Text>
             </Animated.View>
             <Text style={{ color: "#8CFFC2", fontSize:32, textAlign:'center', marginVertical:24, fontFamily:'LilitaOne-Regular'}}>LEVEL: EASY</Text>
+            {mode !== "review" &&
             <Timer onZero={() => onAnswerSelect({isCorrect: false})} duration={20} currentNumber={currentNumber} />
+            }
             <Questions
               level={level}
               data={currentQuestion}
