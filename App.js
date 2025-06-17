@@ -29,6 +29,7 @@ import BuildInfo from './src/components/BuildInfo';
 import BottomNavigation from './src/components/BottomNavigation';
 import ResetPassword from './src/pages/Entry/ResetPassword';
 import Store from './src/pages/Store/Store';
+import ViewOtherProfile from './src/pages/Profile/ViewOtherProfile';
 
 ExpoSplashScreen.preventAutoHideAsync();
 
@@ -96,6 +97,8 @@ export default function App() {
 
                   <Stack.Screen name='Levels' component={Levels} />
                   <Stack.Screen name='Game' component={Game} />
+
+                  <Stack.Screen name='View Other Profile' component={ViewOtherProfile} />
                 </Stack.Navigator>
                 <BottomNavigation />
                 {modal &&

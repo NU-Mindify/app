@@ -15,6 +15,8 @@ import smallStar from "../../assets/results/smallStar.png";
 import smallStarEmpty from "../../assets/results/smallStarEmpty.png";
 import bigStar from "../../assets/results/bigStar.png";
 import bigStarEmpty from "../../assets/results/bigStarEmpty.png";
+import AccountContext from '../../contexts/AccountContext';
+import { avatars } from '../../constants';
 
 const LevelButton = ({
   details: {level, position, items, time},
@@ -28,7 +30,9 @@ const LevelButton = ({
 }) => {
   const [isPressing, setIsPressing] = useState(true);
   const { modal, setModal } = useContext(ModalContext);
+  const { accountData } = useContext(AccountContext)
   const nav = useNavigation();
+  const Avatar = avatars.find(avatar => avatar.id === accountData.avatar).head;
 
   const getSource = () => {
     switch (state) {
@@ -114,6 +118,11 @@ const LevelButton = ({
           <BigStar isActive={stars >= 3} />
           <SmallStar style={{right: 0}} isActive={stars >= 2} />
         </Animated.View>
+        }
+        {state === "current" && 
+          <View style={{position:'absolute', top:-40, zIndex:4, backgroundColor:'white', padding: 4, borderRadius:24, borderWidth:4}}>
+            <Avatar height={40} width={40} />
+          </View>
         }
         <Animated.Image
           source={getSource()}

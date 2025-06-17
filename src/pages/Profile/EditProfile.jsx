@@ -9,13 +9,14 @@ import Input from "../../components/Input";
 import { avatars, clothes } from "../../constants";
 import AccountContext from "../../contexts/AccountContext";
 import styles from "../../styles/styles";
+import Avatar from "../../components/Avatar";
 
 const EditProfile = () => {
   const nav = useNavigation();
   const { accountData, setAccountData } = useContext(AccountContext);
   const [selectedAvatar, setSelectedAvatar] = useState(accountData.avatar);
   const [selectedCloth, setSelectedCloth] = useState(accountData.cloth || clothes[0].id);
-  const Avatar = avatars.find((avatar) => avatar.id === selectedAvatar).body;
+  const Head = avatars.find((avatar) => avatar.id === selectedAvatar).body;
   const Cloth = clothes.find((cloth) => cloth.id === selectedCloth).image;
   const [inputName, setInputName] = useState(accountData.username)
   const [selectedTab, setSelectedTab] = useState("Avatar")
@@ -44,20 +45,7 @@ const EditProfile = () => {
         <View
           style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
         >
-          <View
-            style={{
-              margin: "auto",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <Avatar width={230} height={290} style={{ zIndex: 0 }} />
-            <Cloth
-              width={150}
-              height={160}
-              style={{ position: "absolute", bottom: 0 }}
-            />
-          </View>
+          <Avatar Head={Head} Cloth={Cloth} size={1} />
         </View>
       </View>
       {/* Split */}

@@ -10,7 +10,8 @@ import axios from "axios";
 import { API_URL, avatars, navbarRoutes } from "../../constants";
 import LottieView from "lottie-react-native";
 import loading from "../../anim/loading_circle.json";
-import { useRoute } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import AccountContext from "../../contexts/AccountContext";
 
 const Leaderboard = ({ onExit, level, categoryIndex, isMastery, mode, current }) => {
   const [list, setList] = useState([]);
@@ -31,11 +32,9 @@ const Leaderboard = ({ onExit, level, categoryIndex, isMastery, mode, current })
         URL = API_URL+`/getLeaderboard?level=${level}&category=${categoryIndex.id}&mode=${mode}`;
       }
       const { data } = await axios.get(URL);
-      console.log(data);
       
       setLoading(false)
       setList(data || []);
-      console.log(data);
     } catch (error) {
       ToastAndroid.show("Getting Leaderboard" + error, ToastAndroid.LONG);
       console.error(error.response)
@@ -75,7 +74,7 @@ const Leaderboard = ({ onExit, level, categoryIndex, isMastery, mode, current })
         style={{
           backgroundColor: "#F9EBDE",
           borderRadius: 24,
-          padding: 6,
+          padding: 12,
           borderWidth: 4,
           marginVertical: 6,
           borderColor: "#2E5A9F",
@@ -83,7 +82,13 @@ const Leaderboard = ({ onExit, level, categoryIndex, isMastery, mode, current })
           justifyContent: "space-around",
         }}
       >
-        <View style={tabStyle.tab}>
+        <Text style={{ fontWeight: "bold" }}>{categoryIndex.name}</Text>
+        {mode === "mastery" ? 
+          <Text style={{ fontWeight: "bold" }}>Mastery Mode</Text>
+        :
+          <Text style={{ fontWeight: "bold" }}>Level: {level}</Text>
+        }
+        {/* <View style={tabStyle.tab}>
           <Text style={tabStyle.text}>Overall</Text>
         </View>
         <View style={[tabStyle.tab, tabStyle.tabActive]}>
@@ -91,7 +96,7 @@ const Leaderboard = ({ onExit, level, categoryIndex, isMastery, mode, current })
         </View>
         <View style={tabStyle.tab}>
           <Text style={tabStyle.text}>Personal</Text>
-        </View>
+        </View> */}
       </View>
       <View
         style={{
@@ -150,9 +155,17 @@ export default Leaderboard;
 
 const UserCard = ({ data, index, current }) => {
   const Avatar = avatars.find(avatar => avatar.id === data.user_id.avatar)?.head || avatars[0].head;
+  const nav = useNavigation();
+  const { accountData } = useContext(AccountContext);
   return (
     <>
-      <View
+      <TouchableOpacity
+        onPress={() => {
+          if(data.user_id._id === accountData._id){
+            return;
+          }
+          nav.navigate("View Other Profile",{user_id: data.user_id._id})
+        }}
         style={[
           {
             backgroundColor: data._id === current ? "#fdffcc" : "#FBF0EE",
@@ -194,7 +207,7 @@ const UserCard = ({ data, index, current }) => {
             {data.time_completion} seconds
           </Text>
         </View>
-      </View>
+      </TouchableOpacity>
     </>
   );
 };

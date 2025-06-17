@@ -11,6 +11,7 @@ import { Pressable, ScrollView } from "react-native-gesture-handler";
 import Button from "../../components/Button";
 import axios from "axios";
 import ModalContext from "../../contexts/ModalContext";
+import Avatar from "../../components/Avatar";
 
 const Store = () => {
   const nav = useNavigation();
@@ -19,7 +20,7 @@ const Store = () => {
   const [selectedAvatar, setSelectedAvatar] = useState(accountData.avatar || "b1");
   const [selectedCloth, setSelectedCloth] = useState(accountData.cloth || "male_unform" );
   const [isBuyDisabled, setIsBuyDisabled] = useState(true)
-  const Avatar = avatars.find((avatar) => avatar.id === selectedAvatar).body;
+  const Head = avatars.find((avatar) => avatar.id === selectedAvatar).body;
   const Cloth = clothes.find((cloth) => cloth.id === selectedCloth).image;
   const [selectedTab, setSelectedTab] = useState("Avatar")
   useEffect(()=> {
@@ -124,20 +125,7 @@ const Store = () => {
           </View>
         </View>
 
-        <View
-          style={{
-            margin: "auto",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Avatar width={230} height={290} style={{ zIndex: 0 }} />
-          <Cloth
-            width={150}
-            height={160}
-            style={{ position: "absolute", bottom: 0 }}
-          />
-        </View>
+        <Avatar Head={Head} Cloth={Cloth} size={1} />
       </View>
       <View
         style={{

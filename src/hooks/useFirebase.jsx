@@ -27,7 +27,7 @@ const useFirebase = () => {
   const getUserData = async (userID) => {
     try {
       const { data } = await axios.get(
-        `${process.env.EXPO_PUBLIC_URL}/getUser/${userID}`,
+        `${process.env.EXPO_PUBLIC_URL}/getUser?uid=${userID}`,
         { timeout: 10000 }
       );
       console.log("check uid", data);
