@@ -17,6 +17,7 @@ import AccountContext from "../contexts/AccountContext";
 import { SignOut } from "../hooks/useFirebase";
 import { OctagonAlert } from "lucide-react-native";
 import { ScrollView } from "react-native-gesture-handler";
+import { useNavigation } from "@react-navigation/native";
 
 
 export default function Start() {
@@ -74,12 +75,19 @@ export default function Start() {
 const Settings = ({modal}) => {
   const {setAccountData} = useContext(AccountContext);
   const {setModal} = useContext(ModalContext)
+  const nav = useNavigation();
   return (
     <>
       <Title title={"Settings"} />
       <Body onClose={modal.secondaryFn} contentStyle={{padding:24, width:300, gap:12}}>
-        <Button text={"How to play"} 
+        <Button text={"Replay Story"} 
         style={{width:'80%', marginTop:18}}
+        onPress={async () => {
+          nav.navigate("Story")
+          setModal(null)
+        }}/>
+        <Button text={"How to play"} 
+        style={{width:'80%'}}
         onPress={async () => {
           setModal(null)
           setModal({

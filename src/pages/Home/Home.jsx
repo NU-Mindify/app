@@ -63,25 +63,18 @@ const Home = () => {
     return () => backHandler.remove();
   }, []);
 
-  const removeTutorial = async () => {
-    try {
-      const {data} = await axios.get(API_URL + "/removeTutorial?user_id="+accountData._id+"&tutorial=worlds");
-      setAccountData(data);
-      console.log(data);
-    } catch (error) {
-      console.error(error);
-    }
-  }
+  
   useEffect(() => {
     if(accountData.tutorial.worlds){
-      setModal({
-        mode: "Tutorial-Worlds",
-        secondaryFn: () => {
-          removeTutorial()
-          setModal(null)
-        },
-        background: "darker",
-      });
+      // setModal({
+      //   mode: "Tutorial-Worlds",
+      //   secondaryFn: () => {
+      //     removeTutorial()
+      //     setModal(null)
+      //   },
+      //   background: "darker",
+      // });
+      nav.navigate("Story");
     }
   }, [] )
 
