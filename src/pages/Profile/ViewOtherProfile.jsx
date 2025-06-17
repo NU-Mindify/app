@@ -8,65 +8,87 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View
+  View,
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import Animated, { SlideInLeft } from "react-native-reanimated";
 import AppBackground from "../../components/AppBackground";
-import { API_URL, avatars, branches, categoriesObj, clothes } from "../../constants";
+import {
+  API_URL,
+  avatars,
+  branches,
+  categoriesObj,
+  clothes,
+} from "../../constants";
 import AccountContext from "../../contexts/AccountContext";
 import styles from "../../styles/styles";
 import Avatar from "../../components/Avatar";
 
-const ViewProfile = () => {
+const ViewOtherProfile = (props) => {
+  const { user_id } = props.route.params;
   const nav = useNavigation();
-  const { accountData, progressData, setProgressData } = useContext(AccountContext);
+  const [accountData, setAccountData] = useState(null);
+  const [progressData, setProgressData] = useState(null)
 
   const [earnedBadges, setEarnedBadges] = useState([]);
   const [unearnedBadges, setUnearnedBadges] = useState([]);
 
-  const Head = avatars.find(avatar => avatar.id === accountData.avatar).body;
-  const Cloth = clothes.find((cloth) => cloth.id === accountData.cloth).image;
   
   useEffect(() => {
-    getProgress()
+    getData();
     getBadges();
-  }, [])
+  }, []);
   const getBadges = async () => {
     try {
-      const {data: badges} = await axios.get(API_URL+"/getUserBadges?user_id="+accountData._id)
-      setEarnedBadges(badges)
-      const {data: allBadges} = await axios.get(API_URL+"/getAllBadges")
+      const { data: badges } = await axios.get(
+        API_URL + "/getUserBadges?user_id=" + user_id
+      );
+      setEarnedBadges(badges);
+      const { data: allBadges } = await axios.get(API_URL + "/getAllBadges");
 
-      const unearnedBadges = allBadges.filter(allBadge => {
-        return !badges.some(earnedBadge => earnedBadge.badge_id._id === allBadge._id);
+      const unearnedBadges = allBadges.filter((allBadge) => {
+        return !badges.some(
+          (earnedBadge) => earnedBadge.badge_id._id === allBadge._id
+        );
       });
-      setUnearnedBadges(unearnedBadges)
+      setUnearnedBadges(unearnedBadges);
     } catch (error) {
       console.error("Fetching badges", error);
-      console.error(
-        JSON.stringify(error)
-      );
+      console.error(JSON.stringify(error));
     }
-  }
-  const getProgress = async () => {
+  };
+  const getData = async () => {
     try {
-      const { data:progressData } = await axios.get(
-        `${process.env.EXPO_PUBLIC_URL}/getProgress/${accountData._id}`,
-        { timeout: 10000 }
+      const { data: progressData } = await axios.get(
+        `${process.env.EXPO_PUBLIC_URL}/getProgress/${user_id}`,
       );
-      setProgressData(progressData)
-      console.log(progressData.classic);
+      setProgressData(progressData);
+      console.log(
+        "GOT PROGRESS",
+        progressData,
+        API_URL + "/getUser?user_id=" + user_id
+      );
+      const {data: account} = await axios.get(
+        API_URL+"/getUser?user_id="+user_id
+      )
+      setAccountData(account);
+      console.log("GOT ACCOUNT", account, API_URL + "/getUser/" + user_id);
+      console.log("GOT ACCOUNT", user_id);
       
     } catch (error) {
       console.error("ViewProfileError", error);
     }
+  };
+
+  if (!accountData || !progressData) {
+    return <></>;
   }
-  if(!progressData){
-    return (
-      <></>
-    )
-  }
+  console.log(accountData || "NO AVATAR");
+  
+  const Head = avatars.find((avatar) => avatar.id === accountData.avatar || "")?.body || avatars[0].body;
+  const Cloth = clothes.find((cloth) => cloth.id === accountData.cloth || "")?.image || clothes[0].image;
+  
+  
   return (
     <AppBackground
       gradientColors={["#3B61B7", "#35408E"]}
@@ -103,15 +125,9 @@ const ViewProfile = () => {
         >
           PROFILE
         </Text>
-        <TouchableOpacity
-          onPress={() => {
-            nav.replace("Edit Profile");
-          }}
-        >
-          <Edit size={32} color={"white"} />
-        </TouchableOpacity>
+        <View style={{ padding: 16 }}></View>
       </View>
-      <ScrollView contentContainerStyle={{paddingBottom:24}}>
+      <ScrollView contentContainerStyle={{ paddingBottom: 24 }}>
         {/* Profile */}
         <View
           style={{
@@ -123,8 +139,11 @@ const ViewProfile = () => {
             borderRadius: 8,
           }}
         >
-          
-            <Avatar Head={Head} Cloth={Cloth} style={{flex: 2}} />
+          <Avatar
+            Head={Head}
+            Cloth={Cloth}
+            style={{ transform: [{ scale: 1 }], flex: 2 }}
+          />
           <View
             style={{
               flex: 3,
@@ -189,12 +208,23 @@ const ViewProfile = () => {
           >
             Badges Earned:
           </Text>
-          <View style={{flexDirection: 'row', gap:8, flexWrap: 'wrap', justifyContent:'space-around'}}>
+          <View
+            style={{
+              flexDirection: "row",
+              gap: 8,
+              flexWrap: "wrap",
+              justifyContent: "space-around",
+            }}
+          >
             {earnedBadges.map((src, index) => (
               <Badge src={src.badge_id.filepath} key={index} />
             ))}
             {unearnedBadges.map((src, index) => (
-              <Badge src={src.filepath} key={index} imageStyle={{filter: 'grayscale(100%)',}} />
+              <Badge
+                src={src.filepath}
+                key={index}
+                imageStyle={{ filter: "grayscale(100%)" }}
+              />
             ))}
           </View>
         </View>
@@ -203,7 +233,7 @@ const ViewProfile = () => {
   );
 };
 
-export default ViewProfile;
+export default ViewOtherProfile;
 
 // const badges = [
 //   require("../../assets/badges/ap1.png"),
@@ -215,11 +245,10 @@ export default ViewProfile;
 // ];
 
 const Badge = ({ src, imageStyle }) => {
-  
   return (
     <View>
       <Image
-        source={{uri: src}}
+        source={{ uri: src }}
         style={[{ width: 60, height: 60 }, imageStyle]}
         resizeMode="contain"
       />
@@ -250,10 +279,10 @@ const CategoryCard = ({ name, percent }) => {
         style={{
           flexDirection: "row",
           backgroundColor: "#273574",
-          borderWidth:1,
+          borderWidth: 1,
           width: "100%",
           borderRadius: 12,
-          overflow: 'hidden'
+          overflow: "hidden",
         }}
       >
         <Animated.View
@@ -270,16 +299,20 @@ const CategoryCard = ({ name, percent }) => {
   );
 };
 
-const getColorByPercentage = percentage => {
-  return percentage <= 30 ? "#FFEB3B" :
-  percentage <= 50 ? "#FFC107" :
-  percentage <= 70 ? "#FF9800" :
-  percentage <= 85 ? "#FF5722" :
-  percentage <= 100 ? "#F44336" : "black"
-}
+const getColorByPercentage = (percentage) => {
+  return percentage <= 30
+    ? "#FFEB3B"
+    : percentage <= 50
+    ? "#FFC107"
+    : percentage <= 70
+    ? "#FF9800"
+    : percentage <= 85
+    ? "#FF5722"
+    : percentage <= 100
+    ? "#F44336"
+    : "black";
+};
 
 const profileStyles = StyleSheet.create({
-  title: {
-
-  }
-})
+  title: {},
+});

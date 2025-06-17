@@ -193,7 +193,7 @@ const Levels = (props) => {
             }}
             level={leaderboardLevel}
             categoryIndex={categoryIndex}
-            mode={isMastery ? "mastery" : mode}
+            mode={isMastery ? "mastery" : "competition"}
           />
         </View>
       )}
