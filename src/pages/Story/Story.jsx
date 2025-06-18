@@ -127,7 +127,7 @@ const Story = (props) => {
   const Head = avatars.find((avatar) => avatar.id === accountData.avatar).body;
   const Cloth = clothes.find(cloth => cloth.id === accountData.cloth).image;
   return (
-    <SafeAreaView style={{ backgroundColor: "#3D70C9", flex: 1 }}>
+    <View style={{ backgroundColor: "#3D70C9", flex: 1 }}>
       <ImageBackground
         source={story.bgImage || null}
         style={[{ flex: 1, zIndex:0 }]}
@@ -188,7 +188,7 @@ const Story = (props) => {
           </View>
         )}
       </ImageBackground>
-    </SafeAreaView>
+    </View>
   );
 }
 

@@ -18,6 +18,7 @@ import { SignOut } from "../hooks/useFirebase";
 import { OctagonAlert } from "lucide-react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
+import SearchStudent from "./modal/SearchStudent";
 
 
 export default function Start() {
@@ -66,6 +67,9 @@ export default function Start() {
           )}
           {modal.mode === "Tutorial-Mastery" && (
             <HowToPlayReview modal={modal} />
+          )}
+          {modal.mode === "Search" && (
+            <SearchStudent  />
           )}
         </Animated.View>
       </Animated.View>
