@@ -21,6 +21,10 @@ import GameContext from "../../contexts/GameContext";
 import LottieView from "lottie-react-native";
 import { Sound } from "./Game";
 import { ArrowRight, ArrowRightCircle, ArrowRightFromLine, RotateCcw } from "lucide-react-native";
+import BronzeStar from "../../assets//results/bronze_star.svg";
+import SilverStar from "../../assets//results/silver_star.svg";
+import GoldStar from "../../assets//results/gold_star.svg";
+import NoStar from "../../assets//results/no_star.svg";
 
 const Results = ({ stats, onReview, onLeaderboard }) => {
   const {isMastery, categoryIndex, level, mode, levelIndex} = useContext(GameContext)
@@ -33,6 +37,10 @@ const Results = ({ stats, onReview, onLeaderboard }) => {
   const is1Star = stats.correct >= Math.floor(totalQuestions * 0.8);
   const is2Star = stats.correct >= Math.floor(totalQuestions * 0.9);
   const is3Star = stats.correct >= Math.floor(totalQuestions * 1);
+  const getStarsCount = (correct, totalQuestions) => {
+    return is3Star ? 3 : is2Star ? 2 : is1Star ? 1 : 0;
+  }
+  const stars = getStarsCount(stats.correct, totalQuestions)
   console.log({
     star1: Math.floor(totalQuestions * 0.8),
     star2: Math.floor(totalQuestions * 0.9),
@@ -100,25 +108,32 @@ const Results = ({ stats, onReview, onLeaderboard }) => {
             }}
           >
             {/* Star Container */}
-            {mode !== "review" &&
-            <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center",
-              height: 130,
-              width: "100%",
-              }}
-            >
-              <SmallStar style={{ left: 0 }} isActive={is1Star} delay={400} />
-              <BigStar isActive={is3Star} />
-              <SmallStar
-                style={{ right: "0" }}
-                isActive={is2Star}
-                delay={800}
+            {mode !== "review" && (
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: 130,
+                  width: "100%",
+                }}
+              >
+                <SmallStar
+                  style={{ left: 0 }}
+                  isActive={is1Star}
+                  delay={400}
+                  star={stars}
                 />
-            </View>
-              }
+                {/* <BigStar  isActive={is3Star} /> */}
+                <SmallStar star={stars} style={{ top: 0 }} isActive={is3Star} />
+                <SmallStar
+                  style={{ right: "0" }}
+                  isActive={is2Star}
+                  delay={800}
+                  star={stars}
+                />
+              </View>
+            )}
             <Text
               style={[
                 {
@@ -127,13 +142,15 @@ const Results = ({ stats, onReview, onLeaderboard }) => {
                   fontSize: 38,
                   textShadowColor: secondary_color,
                   textShadowRadius: 8,
-                  textAlign:'center'
+                  textAlign: "center",
                 },
               ]}
             >
-              {is3Star ? 
-                "PERFECT SCORE!" : is1Star ? "WELL DONE!": "TRY AGAIN"
-              }
+              {is3Star
+                ? "PERFECT SCORE!"
+                : is1Star
+                ? "WELL DONE!"
+                : "TRY AGAIN"}
             </Text>
             <Text
               style={{
@@ -146,7 +163,9 @@ const Results = ({ stats, onReview, onLeaderboard }) => {
               {/* <Text style={{ fontWeight: 900, fontSize: 18 }}>{` ${
                 score > 0 ? "+" : ""
               }${score} `}</Text> */}
-              <Text style={{ fontWeight: 900, fontSize: 18 }}>{` ${stats.correct} `}</Text>
+              <Text
+                style={{ fontWeight: 900, fontSize: 18 }}
+              >{` ${stats.correct} `}</Text>
               out of {stats.correct + stats.wrong} in
               <Text style={{ fontWeight: 900, fontSize: 18, color: "black" }}>
                 {` ${duration} `}
@@ -190,24 +209,48 @@ const Results = ({ stats, onReview, onLeaderboard }) => {
             )}
             {mode === "review" && <Button onPress={onReview} text={"Review"} />}
           </View>
-          <View style={{ position: "absolute", bottom: -20, gap:12, flexDirection:'row' }}>
+          <View
+            style={{
+              position: "absolute",
+              bottom: -20,
+              gap: 12,
+              flexDirection: "row",
+            }}
+          >
             <Button
               onPress={() =>
-                nav.replace("Game", { level, levelIndex, categoryIndex, isMastery, mode })
+                nav.replace("Game", {
+                  level,
+                  levelIndex,
+                  categoryIndex,
+                  isMastery,
+                  mode,
+                })
               }
               // text={isPass ? "Next Level" : "Try Again"}
-              text={<RotateCcw size={32} color={"white"} style={{ zIndex: 5 }} />}
-              style={{ zIndex: 10, paddingHorizontal:12 }}
+              text={
+                <RotateCcw size={32} color={"white"} style={{ zIndex: 5 }} />
+              }
+              style={{ zIndex: 10, paddingHorizontal: 12 }}
             />
             <Button
               onPress={() =>
-                nav.replace("Levels", { categoryIndex, isMastery, selectedMode: mode })
+                nav.replace("Levels", {
+                  categoryIndex,
+                  isMastery,
+                  selectedMode: mode,
+                })
               }
-              text={<ArrowRightCircle size={32} color={"white"} style={{ zIndex: 5 }} />}
-              style={{ zIndex: 10, paddingHorizontal:12 }}
+              text={
+                <ArrowRightCircle
+                  size={32}
+                  color={"white"}
+                  style={{ zIndex: 5 }}
+                />
+              }
+              style={{ zIndex: 10, paddingHorizontal: 12 }}
             />
           </View>
-          
         </Animated.View>
         <LottieView
           style={{
@@ -253,8 +296,26 @@ const ResultsStats = ({ label, stat, color }) => {
     </View>
   );
 };
-
-const SmallStar = ({ style, isActive, delay }) => {
+const SmallStar = ({ style, isActive, delay, star }) => {
+  const StarColor = star === 3 ? GoldStar : star === 2 ? SilverStar : star === 1 ? BronzeStar : NoStar
+  const Star = isActive ? StarColor : NoStar
+  return (
+    <Animated.View
+      entering={isActive ? PinwheelIn.springify().delay(delay) : undefined}
+      style={[
+        style,
+        {
+          height: 80,
+          width: 80,
+          position: "absolute",
+        },
+      ]}
+    >
+      <Star height={80} width={80} />
+    </Animated.View>
+  );
+};
+const SmallStars = ({ style, isActive, delay }) => {
   return (
     <Animated.Image
       source={isActive ? smallStar : smallStarEmpty}

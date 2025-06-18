@@ -337,9 +337,9 @@ const Game = (props) => {
                 {categoryIndex.name.toUpperCase()}
               </Text>
             </Animated.View>
-            <Text style={{ color: "#8CFFC2", fontSize:32, textAlign:'center', marginVertical:24, fontFamily:'LilitaOne-Regular'}}>LEVEL: EASY</Text>
+            <Text style={{ color: "#8CFFC2", fontSize:32, textAlign:'center', marginVertical:24, fontFamily:'LilitaOne-Regular'}}>{mode === "mastery" ? "MASTERY" : "LEVEL: EASY"}</Text>
             {mode !== "review" &&
-            <Timer onZero={() => onAnswerSelect({isCorrect: false})} duration={20} currentNumber={currentNumber} />
+            <Timer onZero={() => onAnswerSelect({isCorrect: false})} duration={mode !== "mastery" ? 30 : currentQuestion.difficulty === "E" ? 20 : currentQuestion.difficulty === "A" ? 40 : currentQuestion.difficulty === "D" ? 60 : 30 } currentNumber={currentNumber} />
             }
             <Questions
               level={level}

@@ -17,6 +17,10 @@ import bigStar from "../../assets/results/bigStar.png";
 import bigStarEmpty from "../../assets/results/bigStarEmpty.png";
 import AccountContext from '../../contexts/AccountContext';
 import { avatars } from '../../constants';
+import BronzeStar from "../../assets//results/bronze_star.svg";
+import SilverStar from "../../assets//results/silver_star.svg";
+import GoldStar from "../../assets//results/gold_star.svg";
+import NoStar from "../../assets//results/no_star.svg";
 
 const LevelButton = ({
   details: {level, position, items, time},
@@ -112,18 +116,53 @@ const LevelButton = ({
           height: 60,
         }}
       >
-        {state === "done" && mode === "competition" &&
-        <Animated.View style={{backgroundColor:'red', position:'absolute', top:-10, zIndex:4, width:80}} entering={FadeIn} exiting={FadeOut}>
-          <SmallStar style={{left: 0}} isActive={stars >= 1} />
-          <BigStar isActive={stars >= 3} />
-          <SmallStar style={{right: 0}} isActive={stars >= 2} />
-        </Animated.View>
-        }
-        {state === "current" && 
-          <View style={{position:'absolute', top:-40, zIndex:4, backgroundColor:'white', padding: 4, borderRadius:24, borderWidth:4}}>
+        {state === "done" && mode === "competition" && (
+          <Animated.View
+            style={{
+              backgroundColor: "red",
+              position: "absolute",
+              top: -10,
+              zIndex: 4,
+              width: 80,
+            }}
+            entering={FadeIn}
+            exiting={FadeOut}
+          >
+            <SmallStar star={stars} isActive={stars >= 1} style={{ left: 0 }} />
+            <SmallStar
+              star={stars}
+              isActive={stars >= 3}
+              style={{
+                position: "absolute",
+                left: "50%",
+                transform: [{ translateX: "-50%" }],
+                top: -20,
+              }}
+            />
+            <SmallStar
+              star={stars}
+              isActive={stars >= 2}
+              style={{ right: 0 }}
+            />
+            {/* <BigStar isActive={stars >= 3} />
+          <SmallStar style={{right: 0}} isActive={stars >= 2} /> */}
+          </Animated.View>
+        )}
+        {state === "current" && (
+          <View
+            style={{
+              position: "absolute",
+              top: -40,
+              zIndex: 4,
+              backgroundColor: "white",
+              padding: 4,
+              borderRadius: 24,
+              borderWidth: 4,
+            }}
+          >
             <Avatar height={40} width={40} />
           </View>
-        }
+        )}
         <Animated.Image
           source={getSource()}
           style={{ width: 100, height: 100 }}
@@ -134,10 +173,10 @@ const LevelButton = ({
             color: "white",
             fontWeight: 900,
             fontSize: 32,
-            position:'absolute',
+            position: "absolute",
             bottom: -14,
-            textShadowColor: 'black',
-            textShadowRadius:8,
+            textShadowColor: "black",
+            textShadowRadius: 8,
           }}
         >
           {level}
@@ -150,19 +189,23 @@ const LevelButton = ({
 export default LevelButton;
 
 
-const SmallStar = ({ style, isActive, delay }) => {
+const SmallStar = ({ style, isActive, delay, star }) => {
+  const StarColor = star >= 3 ? GoldStar : star >= 2 ? SilverStar : star >= 1 ? BronzeStar : NoStar
+  const Star = isActive ? StarColor : NoStar
   return (
-    <Animated.Image
-      source={isActive ? smallStar : smallStarEmpty}
+    <Animated.View
+      source={Star}
       style={[
         style,
         {
-          height: 32,
-          width: 32,
+          height: 38,
+          width: 38,
           position: "absolute",
         },
       ]}
-    />
+    >
+      <Star height={32} width={32} />
+    </Animated.View>
   );
 };
 

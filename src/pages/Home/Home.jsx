@@ -12,8 +12,10 @@ import Animated, { FadeIn } from "react-native-reanimated";
 import {
   BookMarkedIcon,
   BrainCircuitIcon,
+  List,
   LogOut,
   MessageSquareQuoteIcon,
+  UserSearch,
 } from "lucide-react-native";
 import styles from "../../styles/styles";
 import CategoryCarousel from "./CategoryCarousel";
@@ -101,22 +103,35 @@ const Home = () => {
             >
               <Avatar width={48} height={48} />
             </Pressable>
-          </View>
             <View>
               <Text style={{fontSize:24, color:'white', fontFamily:'LilitaOne-Regular', textAlign:'center'}}>{accountData.first_name.toUpperCase()}</Text>
               <Text style={{fontSize:16, color:'white', fontFamily:'LilitaOne-Regular', textAlign:'center'}}>-- {branches.find(branch => accountData.branch === branch.id).name} --</Text>
             </View>
-          <Pressable
-            style={[styles.homeRoundedIcon, { padding: 10 }]}
-            onPress={() => {
-              setModal({
-                mode: "Settings",
-                secondaryFn: () => setModal(null)
-              })
-            }}
-          >
-            <Settings width={40} height={40} />
-          </Pressable>
+          </View>
+          <View style={{flexDirection: 'row', gap: 4}}>
+            <Pressable
+              style={[styles.homeRoundedIcon, { padding: 6 }]}
+              onPress={() => {
+                setModal({
+                  mode: "Search",
+                  secondaryFn: () => setModal(null),
+                });
+              }}
+            >
+              <UserSearch width={32} height={32} color={"black"} />
+            </Pressable>
+            <Pressable
+              style={[styles.homeRoundedIcon, { padding: 6 }]}
+              onPress={() => {
+                setModal({
+                  mode: "Settings",
+                  secondaryFn: () => setModal(null)
+                })
+              }}
+            >
+              <Settings width={32} height={32} />
+            </Pressable>
+          </View>
         </View>
         <ChooseBanner height={120} width={300} style={{marginBottom:16, marginTop:-20, marginHorizontal:'auto'}} />
         <View style={{ flex: 1 }}>

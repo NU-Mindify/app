@@ -50,7 +50,7 @@ const Input = ({
             width: "100%",
             marginHorizontal: "auto",
             padding: 8,
-            paddingVertical: 2,
+            paddingVertical: 12,
             borderRadius: 12,
             gap: 12,
             borderWidth: 2,
