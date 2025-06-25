@@ -31,6 +31,8 @@ import ResetPassword from './src/pages/Entry/ResetPassword';
 import Store from './src/pages/Store/Store';
 import ViewOtherProfile from './src/pages/Profile/ViewOtherProfile';
 import Story from './src/pages/Story/Story';
+import { useNavigation } from '@react-navigation/native';
+import { currentRouteName, getActiveRouteName, navigationRef } from './src/utils/RootNavigation';
 
 ExpoSplashScreen.preventAutoHideAsync();
 
@@ -43,7 +45,8 @@ ExpoSplashScreen.preventAutoHideAsync();
  * @property {(() => void)} secondaryFn
  * 
  */
-export default function App() { 
+export default function App() {
+  const [activeTab, setActiveTab] = useState('Home');
   const [fontLoaded, fontError] = useFonts({
     'LilitaOne-Regular': LilitaFont,
     'Poppins-Regular': PoppinsFont,
@@ -55,61 +58,77 @@ export default function App() {
   /**
    * @type {[Modal, React.Dispatch<React.SetStateAction<Modal>>]}
   */
- const [modal, setModal] = useState(null)
+  const [modal, setModal] = useState(null)
 
 
 
- useEffect(() => {
-  console.log(fontLoaded, fontError);
-  
-   if (fontLoaded || fontError) {
-     ExpoSplashScreen.hideAsync();
-   }
- }, [fontLoaded, fontError]);
+  useEffect(() => {
+    console.log(fontLoaded, fontError);
 
- if (!fontLoaded || fontError) {
-   return null;
- }
+    if (fontLoaded || fontError) {
+      ExpoSplashScreen.hideAsync();
+    }
+  }, [fontLoaded, fontError]);
+
+  if (!fontLoaded || fontError) {
+    return null;
+  }
+
+  // For Getting Active Screen
+  const handleStateChange = (state) => {
+    const previousRouteName = currentRouteName.current;
+    const newRouteName = getActiveRouteName(state);
+    if (previousRouteName !== newRouteName) {
+      console.log('New route:', newRouteName);
+      setActiveTab(newRouteName);
+    }
+    currentRouteName.current = newRouteName;
+  };
 
   return (
     <>
       {Platform.OS !== "ios" && <StatusBar hidden={true} />}
-      <NavigationContainer>
-          <AccountContext.Provider value={{ accountData, setAccountData, progressData, setProgressData }}>
-            <ModalContext.Provider value={{ modal, setModal }}>
-              <GestureHandlerRootView>
-                <BuildInfo />
+      <AccountContext.Provider value={{ accountData, setAccountData, progressData, setProgressData }}>
+        <ModalContext.Provider value={{ modal, setModal }}>
+          <GestureHandlerRootView>
+            <NavigationContainer ref={navigationRef} onReady={() => {
+                currentRouteName.current = getActiveRouteName(navigationRef.current.getState());
+                setActiveTab(currentRouteName.current);
+              }}
+              onStateChange={handleStateChange}
+            >
+              <BuildInfo />
 
-                {/* <ResetButton /> */}
+              {/* <ResetButton /> */}
               <Stack.Navigator screenOptions={{ headerShown: false, statusBarHidden: Platform.OS !== "ios", navigationBarHidden: true, }}>
-                  <Stack.Screen name="Splash" component={SplashScreen} />
-                  <Stack.Screen name='Get Started' component={GetStarted} />
-                  <Stack.Screen name='Reset Password' component={ResetPassword} />
-                  <Stack.Screen name='Verify' component={Verify} />
-                  <Stack.Screen name='Terms and Conditions' component={TermsAndConditions} />
+                <Stack.Screen name="Splash" component={SplashScreen} />
+                <Stack.Screen name='Get Started' component={GetStarted} />
+                <Stack.Screen name='Reset Password' component={ResetPassword} />
+                <Stack.Screen name='Verify' component={Verify} />
+                <Stack.Screen name='Terms and Conditions' component={TermsAndConditions} />
 
-                  <Stack.Screen name='Home' component={Home} />
-                  <Stack.Screen name="View Profile" component={ViewProfile} />
-                  <Stack.Screen name="Edit Profile" component={EditProfile} />
-                  <Stack.Screen name="Chatbot" component={Chatbot} />
-                  <Stack.Screen name="Glossary" component={Glossary} />
-                  <Stack.Screen name="Mindmap" component={Mindmap} />
-                  <Stack.Screen name="Store" component={Store} />
+                <Stack.Screen name='Home' component={Home} />
+                <Stack.Screen name="View Profile" component={ViewProfile} />
+                <Stack.Screen name="Edit Profile" component={EditProfile} />
+                <Stack.Screen name="Chatbot" component={Chatbot} />
+                <Stack.Screen name="Glossary" component={Glossary} />
+                <Stack.Screen name="Mindmap" component={Mindmap} />
+                <Stack.Screen name="Store" component={Store} />
 
-                  <Stack.Screen name='Levels' component={Levels} />
-                  <Stack.Screen name='Game' component={Game} />
+                <Stack.Screen name='Levels' component={Levels} />
+                <Stack.Screen name='Game' component={Game} />
 
-                  <Stack.Screen name='View Other Profile' component={ViewOtherProfile} />
-                  <Stack.Screen name='Story' component={Story} />
-                </Stack.Navigator>
-                <BottomNavigation />
-                {modal &&
-                  <StartModal />
-                }
-              </GestureHandlerRootView>
-            </ModalContext.Provider>
-          </AccountContext.Provider>
-      </NavigationContainer>
+                <Stack.Screen name='View Other Profile' component={ViewOtherProfile} />
+                <Stack.Screen name='Story' component={Story} />
+              </Stack.Navigator>
+              <BottomNavigation activeTab={activeTab} />
+              {modal &&
+                <StartModal />
+              }
+            </NavigationContainer>
+          </GestureHandlerRootView>
+        </ModalContext.Provider>
+      </AccountContext.Provider>
     </>
   );
 }

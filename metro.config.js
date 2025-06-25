@@ -18,5 +18,8 @@ module.exports = (() => {
     sourceExts: [...resolver.sourceExts, "svg"]
   };
 
+  config.resolver.unstable_enablePackageExports = false;
+  config.resolver.assetExts.push("cjs");
+
   return wrapWithReanimatedMetroConfig(config);
 })();
