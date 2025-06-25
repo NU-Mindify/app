@@ -9,6 +9,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler'
 import { CommonActions, StackActions, useNavigation, useNavigationState } from '@react-navigation/native'
 import Animated, { FadeInDown, FadeOutDown, SlideInDown, SlideInUp } from 'react-native-reanimated'
 import { navbarRoutes } from '../constants'
+import { navigate } from '../utils/RootNavigation'
 
 const actions = [
   // {name: "Categories", icon: Categories, path: null},
@@ -19,20 +20,20 @@ const actions = [
   {name: "Store", icon: Store, path: "Store"}
 ]
 
-const BottomNavigation = () => {
+const BottomNavigation = ({activeTab}) => {
   
-  const nav = useNavigation()
-  const routeName = useNavigationState(
-    (state) => {
-      if(!state){
-        return "None"
-      }
-      return state.routes[state.index]?.name
-    }
-  );
+  // const nav = useNavigation()
+  // const routeName = useNavigationState(
+  //   (state) => {
+  //     if(!state){
+  //       return "None"
+  //     }
+  //     return state.routes[state.index]?.name
+  //   }
+  // );
   
   
-  if(!navbarRoutes.includes(routeName)) return;
+  if (!navbarRoutes.includes(activeTab)) return;
   return (
     <Animated.View
       entering={FadeInDown.duration(400)}
@@ -52,7 +53,7 @@ const BottomNavigation = () => {
       }}
     >
       {actions.map((action) => {
-        const isActive = action.path === routeName
+        const isActive = action.path === activeTab;
         return (
         <TouchableOpacity
           style={[{
@@ -64,10 +65,11 @@ const BottomNavigation = () => {
           }]}
           key={action.name}
           onPress={() => {
-            if (action.path && action.path !== routeName) {
-              nav.dispatch(
-                StackActions.replace(action.path)
-              )
+            if (action.path && action.path !== activeTab) {
+              // nav.dispatch(
+              //   StackActions.replace(action.path)
+              // )
+              navigate(action.path);
             }
           }}
         >
