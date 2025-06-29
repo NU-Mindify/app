@@ -88,15 +88,16 @@ export default function App() {
   return (
     <>
       {Platform.OS !== "ios" && <StatusBar hidden={true} />}
+      <NavigationContainer ref={navigationRef} 
+        onReady={() => {
+          currentRouteName.current = getActiveRouteName(navigationRef.current.getState());
+          setActiveTab(currentRouteName.current);
+        }}
+        onStateChange={handleStateChange}
+      >
       <AccountContext.Provider value={{ accountData, setAccountData, progressData, setProgressData }}>
         <ModalContext.Provider value={{ modal, setModal }}>
           <GestureHandlerRootView>
-            <NavigationContainer ref={navigationRef} onReady={() => {
-                currentRouteName.current = getActiveRouteName(navigationRef.current.getState());
-                setActiveTab(currentRouteName.current);
-              }}
-              onStateChange={handleStateChange}
-            >
               <BuildInfo />
 
               {/* <ResetButton /> */}
@@ -125,10 +126,10 @@ export default function App() {
               {modal &&
                 <StartModal />
               }
-            </NavigationContainer>
           </GestureHandlerRootView>
         </ModalContext.Provider>
       </AccountContext.Provider>
+      </NavigationContainer>
     </>
   );
 }

@@ -20,11 +20,11 @@ import locations from "./locations.json";
 import ModalContext from "../../contexts/ModalContext";
 import axios from "axios";
 import { API_URL } from "../../constants";
+import { Pressable } from "react-native-gesture-handler";
 
 const Levels = (props) => {
   const { categoryIndex, isMastery, selectedMode = "review"  } = props.route.params;
   const { accountData, progressData, setAccountData } = useContext(AccountContext);
-  console.log("ProgressData", JSON.stringify(progressData));
   
   const { setModal } = useContext(ModalContext)
   const categoryProgress =
@@ -279,7 +279,7 @@ const CategoryBar = ({ categoryIndex, modeState }) => {
           flex: 0,
         }}
       >
-        <TouchableOpacity
+        <Pressable
           style={{
             position: "absolute",
             left: 16,
@@ -290,7 +290,7 @@ const CategoryBar = ({ categoryIndex, modeState }) => {
           }}
         >
           <ArrowLeftCircle size={32} color={"white"} />
-        </TouchableOpacity>
+        </Pressable>
         <Text style={[styles.entryTitle, { color: "white", fontSize: 24 }]}>
           {categoryIndex.name.toUpperCase()}
         </Text>
@@ -308,7 +308,7 @@ const CategoryBar = ({ categoryIndex, modeState }) => {
           justifyContent: "space-around",
         }}
       >
-        <TouchableOpacity
+        <Pressable
           style={[tabStyle.tab, mode === "review" ? tabStyle.tabActive : {}]}
           onPress={() => setMode("review")}
         >
@@ -320,11 +320,14 @@ const CategoryBar = ({ categoryIndex, modeState }) => {
           >
             REVIEW
           </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[
+        </Pressable>
+        <Pressable
+          style={({ pressed }) => [
             tabStyle.tab,
             mode === "competition" ? tabStyle.tabActive : {},
+            {
+              opacity: pressed ? 0.5 : 1, // Change opacity when pressed
+            },
           ]}
           onPress={() => setMode("competition")}
         >
@@ -338,7 +341,7 @@ const CategoryBar = ({ categoryIndex, modeState }) => {
           >
             COMPETITION
           </Text>
-        </TouchableOpacity>
+        </Pressable>
       </View>
     </>
   );

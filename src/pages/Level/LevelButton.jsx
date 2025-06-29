@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useContext, useEffect, useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import Animated, { BounceIn, FadeIn, FadeOut } from 'react-native-reanimated';
 import levelblue from '../../assets/level/levelblue.png';
 import levelbluePressed from "../../assets/level/levelbluePressed.png";
@@ -21,6 +21,7 @@ import BronzeStar from "../../assets//results/bronze_star.svg";
 import SilverStar from "../../assets//results/silver_star.svg";
 import GoldStar from "../../assets//results/gold_star.svg";
 import NoStar from "../../assets//results/no_star.svg";
+import { Pressable } from 'react-native-gesture-handler';
 
 const LevelButton = ({
   details: {level, position, items, time},
