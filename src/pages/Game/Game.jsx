@@ -117,12 +117,9 @@ const Game = (props) => {
         },
         progressUserLevel: isMovingToNextLevel() && isScorePassed() && mode === "competition",
       });
-      if (data.hasOwnProperty("progress_data")) {
-        console.log("ProgressData replace", data.progress_data);
+      if (data.hasOwnProperty("progress_data")) { 
         setProgressData(data.progress_data);
       }
-      console.log("ProgressData",data.progress_data);
-      console.log("Results Data ",JSON.stringify(data));
       if(data.attempt){
         setCurrentAttemptID(data.attempt._id)
       }
