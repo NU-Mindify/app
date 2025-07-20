@@ -10,7 +10,7 @@ import Review from "./Review";
 import Leaderboard from "./Leaderboard";
 import GameContext from "../../contexts/GameContext";
 import axios from "axios";
-import { Audio } from "expo-av";
+// import { Audio } from "expo-av";
 import { API_URL, gameColors } from "../../constants";
 import { Alert, BackHandler, Text, ToastAndroid } from "react-native";
 import ModalContext from "../../contexts/ModalContext";
@@ -18,6 +18,7 @@ import Animated from "react-native-reanimated";
 import Timer from "./Timer";
 import { useNavigation } from "@react-navigation/native";
 import { usePreventScreenCapture } from "expo-screen-capture";
+import { useAudioPlayer } from "expo-audio";
 
 const Game = (props) => {
   const { level, levelIndex, categoryIndex, isMastery, mode } = props.route.params;
@@ -26,6 +27,10 @@ const Game = (props) => {
   const categoryProgress = useRef(progressData["classic"][categoryIndex.id])
 
   usePreventScreenCapture();
+
+  const musicPlayer = useAudioPlayer(require("../../audio/guess.mp3"));
+  const correctSfxPlayer = useAudioPlayer(require("../../audio/correct.mp3"));
+  const wrongSfxPlayer = useAudioPlayer(require("../../audio/wrong.mp3"));
 
   const [questions, setQuestions] = useState(null);
   const [currentNumber, setCurrentNumber] = useState(0);
@@ -51,9 +56,13 @@ const Game = (props) => {
     if (choice.isCorrect) {
       newStats.correct = stats.correct + 1;
       newStats.streak = stats.streak + 1;
-      playSFX(require('../../audio/correct.mp3'))
+      // PlaySFX(require('../../audio/correct.mp3'))
+      correctSfxPlayer.seekTo(0);
+      correctSfxPlayer.play();
     } else {
-      playSFX(require('../../audio/wrong.mp3'))
+      // PlaySFX(require("../../audio/wrong.mp3"));
+      wrongSfxPlayer.seekTo(0);
+      wrongSfxPlayer.play();
       newStats.wrong = stats.wrong + 1;
       newStats.streak = 0;
     }
@@ -71,7 +80,9 @@ const Game = (props) => {
   const nextQuestion = async (newStats) => {
     console.log(newStats);
     if (isLevelComplete()) {
-      stopLoopingAudio();
+      // stopLoopingAudio();
+      musicPlayer.pause();
+  
       setStats((prevstats) => ({ ...prevstats, endTime: moment() }));
       newStats.endTime = moment()
 
@@ -290,14 +301,11 @@ const Game = (props) => {
       return () => backHandler.remove();
     }, []);
 
-  const { playSound, playSFX, stopLoopingAudio } = Sound();
+  // const { playSound, stopLoopingAudio } = Sound();
   useEffect(() => {
     getQuestions();
-    playSound();
-
-    return () => {
-      stopLoopingAudio(); // Stop and unload on unmount
-    };
+    musicPlayer.loop = true
+    musicPlayer.play()
   }, []);
 
   
@@ -422,69 +430,4 @@ const items = {
     start: 94,
     end:100
   }
-}
-
-export const Sound = () => {
-  const [bgSound, setSound] = useState(null); // Keep the sound object in a module scope
-  const [soundFx, setSoundFx] = useState(null);
-  
-  const playSFX = async (source) => {
-    if (soundFx) {
-      await soundFx.unloadAsync();
-      setSoundFx(null);
-    }
-    const { sound } = await Audio.Sound.createAsync(
-      source || require("../../audio/guess.mp3"),
-      {
-        isLooping: source ? false : true,
-        shouldPlay: true,
-      }
-    );
-    setSoundFx(sound);
-  }
-  const playSound = async (source) => {
-    if(sound){
-      await sound.unloadAsync();
-      setSound(null)
-    }
-    const { sound } = await Audio.Sound.createAsync(
-      source || require("../../audio/guess.mp3"),
-      {
-        isLooping: source ? false : true,
-        shouldPlay: true,
-      }
-    );
-    setSound(sound);
-  };
-  
-  const stopLoopingAudio = async () => {
-    try {
-      if (bgSound) {
-      await bgSound.unloadAsync();
-        setSound(null);
-      }
-    } catch (error) {
-      console.error("Error playing looping audio:", error);
-    }
-    };
-
-  useEffect(() => {
-    return bgSound
-      ? () => {
-          console.log("Unloading Sound");
-          bgSound.unloadAsync();
-        }
-      : undefined;
-  }, [bgSound]);
-
-  useEffect(() => {
-    return soundFx
-      ? () => {
-          console.log("Unloading SoundFX");
-          soundFx.unloadAsync();
-        }
-      : undefined;
-  }, [soundFx]);
-
-  return { playSound, playSFX, stopLoopingAudio };
 }
