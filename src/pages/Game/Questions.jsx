@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import Animated, { BounceIn, SlideInLeft } from "react-native-reanimated";
+import Animated, { BounceIn, FadeInDown, SlideInLeft } from "react-native-reanimated";
 import { useContext, useEffect, useRef } from "react";
 import GameContext from "../../contexts/GameContext";
 import { gameColors } from "../../constants";
@@ -16,7 +16,7 @@ export default function Questions({ data, onAnswer, number, length }) {
     <>
       <Animated.View
         style={questStyle.scrollView}
-        entering={BounceIn}
+        entering={FadeInDown}
       >
         <View
           style={{

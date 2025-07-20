@@ -19,12 +19,12 @@ import { avatars } from "../../constants";
 import moment from "moment";
 import GameContext from "../../contexts/GameContext";
 import LottieView from "lottie-react-native";
-import { Sound } from "./Game";
 import { ArrowRight, ArrowRightCircle, ArrowRightFromLine, RotateCcw } from "lucide-react-native";
 import BronzeStar from "../../assets//results/bronze_star.svg";
 import SilverStar from "../../assets//results/silver_star.svg";
 import GoldStar from "../../assets//results/gold_star.svg";
 import NoStar from "../../assets//results/no_star.svg";
+import { useAudioPlayer } from "expo-audio";
 
 const Results = ({ stats, onReview, onLeaderboard }) => {
   const {isMastery, categoryIndex, level, mode, levelIndex} = useContext(GameContext)
@@ -49,13 +49,14 @@ const Results = ({ stats, onReview, onLeaderboard }) => {
 
   const animRef = useRef(null);
 
-  const { playSound } = Sound();
+  const winSfx = useAudioPlayer(require("../../audio/complete.mp3"));
+  const loseSfx = useAudioPlayer(require("../../audio/lose.mp3"));
   useEffect(() => {
     if (isPass) {
-      playSound(require("../../audio/complete.mp3"));
+      winSfx.play()
     } else {
       animRef?.current?.play(0, 54)
-      playSound(require("../../audio/lose.mp3"));
+      loseSfx.play();
     }
   }, [])
 
