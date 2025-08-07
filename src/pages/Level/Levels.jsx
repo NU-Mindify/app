@@ -214,7 +214,7 @@ const Levels = (props) => {
         />
         <ImageBackground
           source={categoryIndex.level_background}
-          style={[categoryIndex.id === "abnormal" ? { height: 1500, width: "100%" } : {height:1000,width:'100%'}]}
+          style={[categoryIndex.id === "abnormal" ? { height: 1500, width: "100%" } : {height:1500,width:'100%'}]}
           resizeMode="cover"
           resizeMethod="scale"
         >

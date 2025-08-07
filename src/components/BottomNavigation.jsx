@@ -5,7 +5,7 @@ import Mindmap from '../assets/bottom-nav/mindmap.svg'
 import Chatbot from '../assets/bottom-nav/chatbot.svg'
 import Store from '../assets/bottom-nav/store.svg'
 import React from 'react'
-import { TouchableOpacity } from 'react-native-gesture-handler'
+import { Pressable } from 'react-native-gesture-handler'
 import { CommonActions, StackActions, useNavigation, useNavigationState } from '@react-navigation/native'
 import Animated, { FadeInDown, FadeOutDown, SlideInDown, SlideInUp } from 'react-native-reanimated'
 import { navbarRoutes } from '../constants'
@@ -55,7 +55,7 @@ const BottomNavigation = ({activeTab}) => {
       {actions.map((action) => {
         const isActive = action.path === activeTab;
         return (
-        <TouchableOpacity
+        <Pressable
           style={[{
             padding: 12,
             paddingHorizontal:0,
@@ -77,7 +77,7 @@ const BottomNavigation = ({activeTab}) => {
           <action.icon width={32} height={32} />
         </View>
         {isActive && (<Text style={{fontFamily:'LilitaOne-Regular'}} allowFontScaling={false}>{action.name}</Text>)}
-        </TouchableOpacity>
+        </Pressable>
       )})}
     </Animated.View>
   );

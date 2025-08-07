@@ -2,7 +2,7 @@ import { View, Text, TouchableOpacity, Image } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import AppBackground from "../../components/AppBackground";
 import { ArrowLeftCircle, Edit } from "lucide-react-native";
-import Star from "../../assets/results/smallStar.png";
+import Star from "../../assets/generic/starCoin.png";
 import styles from "../../styles/styles";
 import { useNavigation } from "@react-navigation/native";
 import { API_URL, avatars, clothes } from "../../constants";
@@ -221,8 +221,8 @@ const AvatarCard = ({ SVG, selected, onPress, type }) => {
       }}
     >
       <SVG width={60} height={type === "clothes" ? 80 : 60} />
-      <View style={{marginTop:'auto', flexDirection:'row', gap:2}}>
-      <Text style={{marginTop:'auto', justifyContent:'center', alignItems:'center'}}>5 
+      <View style={{marginTop:'auto', flexDirection:'row',justifyContent:'center', alignItems:'center', gap:2}}>
+      <Text style={{marginTop:'auto', justifyContent:'center', alignItems:'center',fontWeight:'bold', fontSize:18}}>5 
       </Text>
         <Image source={Star} style={[{height: 20, width: 20},]}/>
 
