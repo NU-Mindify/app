@@ -169,7 +169,7 @@ const Tabs = ({state, tabs, style}) => {
       }, style]}
     >
       {tabs.map(tab => (
-        <TouchableOpacity
+        <Pressable
           key={tab}
           style={[
             tabStyle.tab,
@@ -180,7 +180,7 @@ const Tabs = ({state, tabs, style}) => {
           <Text style={mode === tab ? tabStyle.textActive : tabStyle.text}>
             {tab}
           </Text>
-        </TouchableOpacity>
+        </Pressable>
       ))}
     </View>
   )

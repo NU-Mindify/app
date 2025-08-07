@@ -38,9 +38,9 @@ const Mindmap = () => {
           >
             Mind Map
           </Text>
-          <TouchableOpacity onPress={() => nav.goBack()}>
+          {/* <TouchableOpacity onPress={() => nav.goBack()}>
             <X width={32} height={32} />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
         <View
           style={{

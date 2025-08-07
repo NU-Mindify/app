@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Keyboard, Text, TouchableOpacity, View } from 'react-native';
+import { Keyboard, Text, View } from 'react-native';
 import Animated, { BounceIn, FadeIn, FadeOut } from 'react-native-reanimated';
 import MindifyLogo from "../../assets/Logo.png";
 import AppBackground from "../../components/AppBackground";
@@ -7,7 +7,7 @@ import { printStorage } from '../../contexts/useAccount';
 import styles from '../../styles/styles';
 import Login from './Login';
 import Register from './Register';
-import { ScrollView } from 'react-native-gesture-handler';
+import { Pressable, ScrollView } from 'react-native-gesture-handler';
 
 export default function GetStarted() {
   const [state, setState] = useState("get started");
@@ -67,7 +67,7 @@ export default function GetStarted() {
 const GetStartedButton = ({set}) => {
   
   return (
-    <TouchableOpacity
+    <Pressable
           style={[
             styles.buttonOpacity,
             { marginTop: "auto" },
@@ -83,7 +83,7 @@ const GetStartedButton = ({set}) => {
           >
             <Text style={styles.buttonText}>Get Started</Text>
           </Animated.View>
-    </TouchableOpacity>
+    </Pressable>
   );};
 
 

@@ -1,5 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
+import { getAuth } from "firebase/auth";
 
 const api = axios.create({
   baseURL: process.env.EXPO_PUBLIC_URL,
@@ -8,8 +9,9 @@ const api = axios.create({
 api.interceptors.request.use(
   async (config) => {
     const accessToken = await AsyncStorage.getItem('token')
-    if (accessToken) {
-      config.headers.Authorization = `Bearer ${accessToken}`;
+    const idToken = await getAuth().currentUser.getIdToken();
+    if (idToken) {
+      config.headers.Authorization = `Bearer ${idToken}`;
       console.log("Added Token");
       
     }

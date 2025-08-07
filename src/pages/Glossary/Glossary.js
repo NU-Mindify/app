@@ -67,7 +67,7 @@ export default function Glossary() {
       }
       <View style={[GStyle.header, {justifyContent:'center', alignItems:'center', flexDirection:'row', position:'relative'}]}>
         <Image source={GlossaryTitle} style={GStyle.headerImage} />
-        <TouchableOpacity
+        {/* <TouchableOpacity
           activeOpacity={0.7}
           onPress={() => {
             nav.goBack();
@@ -79,7 +79,7 @@ export default function Glossary() {
           }}
         >
           <XButton width={30} height={30} />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
 
 

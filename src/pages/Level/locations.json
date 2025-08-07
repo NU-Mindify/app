@@ -66,54 +66,54 @@
     "locations": [
       {
         "level": 1,
-        "position": { "left": "18%", "bottom": "10%" },
+        "position": { "left": "13%", "bottom": "10%" },
         "items": 8,
         "time": 20
       },
       {
         "level": 2,
-        "position": { "left": "54%", "bottom": "19%" },
+        "position": { "left": "24%", "bottom": "21%" },
         "items": 7,
         "time": 20
       },
       {
         "level": 3,
-        "position": { "left": "79%", "bottom": "28%" },
+        "position": { "left": "77%", "bottom": "28%" },
         "items": 8,
         "time": 30
       },
       {
         "level": 4,
-        "position": { "left": "45%", "bottom": "35%" },
+        "position": { "left": "45%", "bottom": "38%" },
         "items": 7,
         "time": 30
       },
       {
         "level": 5,
-        "position": { "left": "10%", "bottom": "46%" },
+        "position": { "left": "11%", "bottom": "50%" },
         "items": 20,
         "time": 40
       },
       {
         "level": 6,
-        "position": { "left": "50%", "bottom": "51%" },
+        "position": { "left": "40%", "bottom": "56%" },
         "items": 20,
         "time": 40
       },
       {
         "level": 7,
-        "position": { "left": "80%", "bottom": "58%" },
+        "position": { "left": "78%", "bottom": "63%" },
         "items": 8,
         "time": 50
       },
       {
         "level": 8,
-        "position": { "left": "46%", "bottom": "68%" },
+        "position": { "left": "46%", "bottom": "71%" },
         "items": 7,
         "time": 50
       },
-      { "level": 9, "position": { "left": "8%", "bottom": "75%", "items": 8, "time": 60 } },
-      { "level": 10, "position": { "left": "60%", "bottom": "84%", "items": 7, "time": 60 } }
+      { "level": 9, "position": { "left": "12%", "bottom": "84%", "items": 8, "time": 60 } },
+      { "level": 10, "position": { "left": "66%", "bottom": "91%", "items": 7, "time": 60 } }
     ]
   },
   {
@@ -122,54 +122,54 @@
     "locations": [
       {
         "level": 1,
-        "position": { "left": "18%", "bottom": "10%" },
+        "position": { "left": "15%", "bottom": "5%" },
         "items": 8,
         "time": 20
       },
       {
         "level": 2,
-        "position": { "left": "54%", "bottom": "19%" },
+        "position": { "left": "54%", "bottom": "10%" },
         "items": 7,
         "time": 20
       },
       {
         "level": 3,
-        "position": { "left": "79%", "bottom": "28%" },
+        "position": { "left": "39%", "bottom": "23%" },
         "items": 8,
         "time": 30
       },
       {
         "level": 4,
-        "position": { "left": "45%", "bottom": "35%" },
+        "position": { "left": "10%", "bottom": "35%" },
         "items": 7,
         "time": 30
       },
       {
         "level": 5,
-        "position": { "left": "10%", "bottom": "46%" },
+        "position": { "left": "56%", "bottom": "42%" },
         "items": 20,
         "time": 40
       },
       {
         "level": 6,
-        "position": { "left": "50%", "bottom": "51%" },
+        "position": { "left": "80%", "bottom": "52%" },
         "items": 20,
         "time": 40
       },
       {
         "level": 7,
-        "position": { "left": "80%", "bottom": "58%" },
+        "position": { "left": "42%", "bottom": "57%" },
         "items": 8,
         "time": 50
       },
       {
         "level": 8,
-        "position": { "left": "46%", "bottom": "68%" },
+        "position": { "left": "30%", "bottom": "69%" },
         "items": 7,
         "time": 50
       },
-      { "level": 9, "position": { "left": "8%", "bottom": "75%", "items": 8, "time": 60 } },
-      { "level": 10, "position": { "left": "60%", "bottom": "84%", "items": 7, "time": 60 } }
+      { "level": 9, "position": { "left": "65%", "bottom": "77%", "items": 8, "time": 60 } },
+      { "level": 10, "position": { "left": "10%", "bottom": "90%", "items": 7, "time": 60 } }
     ]
   },
   {
@@ -178,32 +178,52 @@
     "locations": [
       {
         "level": 1,
-        "position": { "right": "19%", "bottom": "10%" },
+        "position": { "left": "18%", "bottom": "5%" },
         "items": 8
       },
       {
         "level": 2,
-        "position": { "right": "23%", "bottom": "27%" },
+        "position": { "left": "48%", "bottom": "18%" },
         "items": 7
       },
       {
         "level": 3,
-        "position": { "right": "27%", "bottom": "42%" },
+        "position": { "left": "78%", "bottom": "27%" },
         "items": 8
       },
       {
         "level": 4,
-        "position": { "left": "47%", "bottom": "58%" },
+        "position": { "left": "24%", "bottom": "35%" },
         "items": 7
       },
       {
         "level": 5,
-        "position": { "left": "34%", "bottom": "72%" },
+        "position": { "left": "11%", "bottom": "50%" },
         "items": 20
       },
       {
-        "level": "...",
-        "position": { "left": "16%", "bottom": "83%" },
+        "level": 6,
+        "position": { "left": "55%", "bottom": "52%" },
+        "items": 20
+      },
+      {
+        "level": 7,
+        "position": { "left": "79%", "bottom": "63%" },
+        "items": 20
+      },
+      {
+        "level": 8,
+        "position": { "left": "46%", "bottom": "69%" },
+        "items": 20
+      },
+      {
+        "level": 9,
+        "position": { "left": "12%", "bottom": "82%" },
+        "items": 20
+      },
+      {
+        "level": 10,
+        "position": { "left": "55%", "bottom": "87%" },
         "items": 20
       }
     ]
@@ -213,11 +233,16 @@
     "level": "General Psychology",
     "locations": [
       { "level": 1, "position": { "left": "19%", "bottom": "10%" } },
-      { "level": 2, "position": { "left": "22%", "bottom": "24%" } },
-      { "level": 3, "position": { "left": "20%", "bottom": "39%" } },
-      { "level": 4, "position": { "left": "27%", "bottom": "53%" } },
-      { "level": 5, "position": { "left": "45%", "bottom": "65%" } },
-      { "level": "...", "position": { "left": "59%", "bottom": "80%" } }
+      { "level": 2, "position": { "left": "50%", "bottom": "19%" } },
+      { "level": 3, "position": { "left": "82%", "bottom": "28%" } },
+      { "level": 4, "position": { "left": "46%", "bottom": "38%" } },
+      { "level": 5, "position": { "left": "6%", "bottom": "50%" } },
+      { "level": 6, "position": { "left": "65%", "bottom": "54%" } },
+      { "level": 7, "position": { "left": "80%", "bottom": "66%" } },
+      { "level": 8, "position": { "left": "30%", "bottom": "70%" } },
+      { "level": 9, "position": { "left": "16%", "bottom": "82%" } },
+      { "level": 10, "position": { "left": "67%", "bottom": "88%" } }
+      
     ]
   }
 ]

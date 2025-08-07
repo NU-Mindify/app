@@ -16,7 +16,7 @@ import Button from "./Button";
 import AccountContext from "../contexts/AccountContext";
 import { SignOut } from "../hooks/useFirebase";
 import { OctagonAlert } from "lucide-react-native";
-import { ScrollView } from "react-native-gesture-handler";
+import { Pressable, ScrollView } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
 import SearchStudent from "./modal/SearchStudent";
 
@@ -346,12 +346,12 @@ const SelectMode = ({ modal }) => {
         {modal.subtitle.toUpperCase()}
       </Text>
 
-      <TouchableOpacity onPress={() => modal.primaryFn()}>
+      <Pressable onPress={() => modal.primaryFn()}>
         <Image source={classic} />
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => modal.masteryFn()}>
+      </Pressable>
+      <Pressable onPress={() => modal.masteryFn()}>
         <Image source={mastery} />
-      </TouchableOpacity>
+      </Pressable>
     </Body>
   </>
  )
@@ -423,9 +423,9 @@ export const Body = ({ children, closeButton=true, onClose, colors, contentStyle
               },
             ]}
           >
-            <TouchableOpacity activeOpacity={0.7} onPress={onClose}>
+            <Pressable activeOpacity={0.7} onPress={onClose}>
               <X width={42} height={42} />
-            </TouchableOpacity>
+            </Pressable>
           </View>
         )}
         {children}

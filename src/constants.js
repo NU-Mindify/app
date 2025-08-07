@@ -43,20 +43,19 @@ import g8body from './assets/body/g8.svg'
 import bulldog from './assets/avatar/bulldog.svg'
 import bulldogbody from './assets/body/bulldog.svg'
 
-import abnormalMap from "./assets/maps/abnormalLong.png";
+import abnormalMap from "./assets/maps/abnormal.png";
 import developmentalMap from "./assets/maps/developmental.png";
 import organizationalMap from "./assets/maps/organizational.png";
-import Map1 from "./assets/maps/1.png";
-import Map2 from "./assets/maps/2.png";
-import Map4 from "./assets/maps/4.png";
+import psychologicalMap from "./assets/maps/psychological.png";
+import generalMap from "./assets/maps/general.png";
+
 
 import abnormalCover from "./assets/categories/abnormalCover.png";
 import developmentalCover from "./assets/categories/developmentalCover.png";
 import industrialCover from "./assets/categories/industrialCover.png";
+import psychologicalCover from "./assets/categories/psychologicalCover.png";
+import generalCover from "./assets/categories/generalCover.png";
 
-import category1 from './assets/categories/1.jpg';
-import map2 from './assets/maps/2.png'
-import map4 from './assets/maps/4.png'
 
 import corp1 from './assets/clothes/CORPORATE 1.svg'
 import corp2 from './assets/clothes/CORPORATE 2.svg'
@@ -130,15 +129,15 @@ const categoriesObj = [
   {
     id: "psychological",
     name: "Psychological Assessment",
-    level_background: Map4,
-    cover: map4,
+    level_background: psychologicalMap,
+    cover: psychologicalCover,
     primary_color: "#3C4F76"
   },
   {
     id: "general",
     name: "General Psychology",
-    level_background: Map1,
-    cover: category1,
+    level_background: generalMap,
+    cover: generalCover,
     primary_color:"#B7C9A8"
   },
 ]
@@ -157,6 +156,30 @@ const gameColors = {
     timer: ["#8AFFC1", "#6ECC9A", "#539974"],
     answerBorder: {
       inner: "#3B3F2A",
+      outer: "#248552"
+    }
+  },
+  industrial: {
+    background: ["#7A825B", "#1E2921"],
+    timer: ["#FFA500", "#FFA500"],
+    answerBorder: {
+      inner: "#2C2C2C",
+      outer: "#248552"
+    }
+  },
+  psychological: {
+    background: ["#7A825B", "#1E2921"],
+    timer: ["#F2C94C", "#F2C94C"],
+    answerBorder: {
+      inner: "#356CDD",
+      outer: "#248552"
+    }
+  },
+  general: {
+    background: ["#7A825B", "#1E2921"],
+    timer: ["#F08A8A", "#F08A8A"],
+    answerBorder: {
+      inner: "#5A88C2",
       outer: "#248552"
     }
   }
