@@ -293,7 +293,7 @@ const Default = ({ modal }) => {
         </Text>
         <View style={[modalStyles.btnContainer]}>
           <Button
-            text={"Ok"}
+            text={"OK"}
             onPress={modal.primaryFn}
             style={{ width: "50%" }}
           />
@@ -324,7 +324,8 @@ const LevelSelectMastery = ({ modal }) => {
       <View
         style={[modalStyles.btnContainer]}
       >
-        <Button text={modal.button || "Start"} onPress={modal.primaryFn} style={{width:'60%'}} />
+        <Button text={modal.button || "YES"} onPress={modal.primaryFn} style={{width:'40%'}} />
+        <Button text={modal.button || "NO"} onPress={modal.secondaryFn} style={{width:'40%'}} />
       </View>
     </Body>
     <Button

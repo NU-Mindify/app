@@ -80,7 +80,7 @@ const Register = ({set}) => {
           currentFocus={currentField === 0}
           onSubmitEditing={() => setCurrentField(1)}
           condition={(text) => text.length >= 6}
-          errorText={"Provide at least 6 characters"}
+          errorText={"Username must be at least 6 characters long."}
         />
         <Input
           label={"First Name"}
@@ -92,7 +92,7 @@ const Register = ({set}) => {
           currentFocus={currentField === 1}
           onSubmitEditing={() => setCurrentField(2)}
           condition={(text) => text.length >= 2}
-          errorText={"Provide at least 2 characters"}
+          errorText={"First name must be at least 2 characters long."}
         />
         <Input
           label={"Last Name"}
@@ -104,7 +104,7 @@ const Register = ({set}) => {
           currentFocus={currentField === 2}
           onSubmitEditing={() => setCurrentField(3)}
           condition={(text) => text.length >= 2}
-          errorText={"Provide at least 2 characters"}
+          errorText={"Last name must be at least 2 characters long."}
         />
         <Input
           label={"Email"}

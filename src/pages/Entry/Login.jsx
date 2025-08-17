@@ -43,7 +43,7 @@ const Login = ({ set }) => {
           customErrorMessage = "Please enter a valid email address.";
           break;
         case "auth/invalid-credential":
-          customErrorMessage = "Wrong email or password. Please try again.";
+          customErrorMessage = "Invalid email address or password. Please try again.";
           break;
         case "auth/network-request-failed":
           customErrorMessage = "There was a network error. Please check your internet connection and try again.";
