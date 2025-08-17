@@ -53,7 +53,7 @@ const Store = () => {
       setAccountData(data)
       setModal({
         title: "Store",
-        body:"You've successfully bought an item!",
+        body:"You have successfully bought an item!",
         primaryFn: () => {setModal(null)},
         secondaryFn: () => {setModal(null)}
       })

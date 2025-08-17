@@ -82,8 +82,10 @@ export const GStyle = StyleSheet.create({
     },
 
     btnTxt:{
-        fontSize: 11,
-        color: 'white'
+        fontSize: 10,
+        color: 'white',
+        // textAlign: 'center',
+        // textAlignVertical: 'center',
     },
 
 

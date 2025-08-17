@@ -112,8 +112,13 @@ export default function Glossary() {
 
           <View style={GStyle.glossSubCont}>
             <ScrollView ref={scrollViewRef}>
-              {letters.map((letter, letterIndex) => {
-                const letterWords = filteredWords.filter(item => item.word[0].toUpperCase() === letter);
+              {filteredWords.length === 0 && wordSearch.length >0 ? (
+                <View style={{ padding:20, alignItems: 'center'}}>
+                  <Text style = {{color:"black", fontSize:15}}>No terms to show.</Text>
+                </View>
+              ) : (
+                letters.map((letter, letterIndex) => {
+                  const letterWords = filteredWords.filter(item => item.word[0].toUpperCase() === letter);
 
                 return (
                   <View key={letterIndex} ref={sectionRefs.current[letterIndex]}>
@@ -132,8 +137,10 @@ export default function Glossary() {
                     ))}
                   </View>
                 );
-              })}
+              })
+              )}
             </ScrollView>
+
           </View>
 
         </View>
