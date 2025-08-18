@@ -76,11 +76,8 @@ const Store = () => {
           <TouchableOpacity
             activeOpacity={0.7}
             onPress={() => {
-              if (nav.canGoBack()) {
-                nav.goBack();
-              } else {
                 nav.replace("Home");
-              }
+              
             }}
             style={{ position: "absolute", left: 0 }}
           >

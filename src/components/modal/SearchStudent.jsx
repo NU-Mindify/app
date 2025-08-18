@@ -36,7 +36,14 @@ const SearchStudent = () => {
         contentStyle={{ padding: 24, width: '90%', height:600, gap: 12 }}
       >
         <Input style={{marginTop: 12}} value={searchText} onChangeText={(text) => {setSearchText(text); onSearch(text)}} placeholder={"Search for student..."}>
-          <TouchableOpacity onPress={onSearch}>
+          <TouchableOpacity onPress={() => {
+            if (searchText.trim() ==="") {
+              ToastAndroid.show("Please fill field with a name.",ToastAndroid.SHORT);
+              return;
+            }
+            onSearch(searchText);
+          }}
+          >
             <View>
               <Search color={"black"} />
             </View>

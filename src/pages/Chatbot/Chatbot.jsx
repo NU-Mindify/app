@@ -14,6 +14,7 @@ import AccountContext from "../../contexts/AccountContext";
 import axios from "axios";
 import { API_URL } from "../../constants";
 import Animated, { FadeInDown } from "react-native-reanimated";
+import { Alert } from "react-native";
 
 const Chatbot = () => {
   const { accountData, setAccountData } = useContext(AccountContext);
@@ -93,20 +94,31 @@ const Chatbot = () => {
         <TouchableOpacity
           activeOpacity={0.7}
           onPress={() => {
-            if (nav.canGoBack()) {
-              nav.goBack();
-            } else {
               nav.replace("Home");
-            }
           }}
         >
           <ArrowLeftCircle size={32} color={"white"} />
         </TouchableOpacity>
         <Text style={[styles.entryTitle, { fontSize: 32 }]}>Ask Mindy</Text>
         <TouchableOpacity
-          onPress={() => {
-            deleteAll();
-          }}
+            onPress={() => {
+              Alert.alert(
+                "Delete Confirmation",
+                "Are you sure you want to delete your chat history?",
+                [
+                  {
+                    text: "Cancel",
+                    style: "cancel",
+                  },
+                  {
+                    text: "Delete",
+                    style: "destructive",
+                    onPress: () => deleteAll(),
+                  },
+                ],
+                { cancelable: true }
+              );
+            }}
         >
           <Trash2 size={32} color={"white"} />
         </TouchableOpacity>
@@ -175,7 +187,14 @@ const Chatbot = () => {
             numberOfLines={4}
             rows={4}
           >
-            <TouchableOpacity onPress={sendMessage} disabled={isFetching}>
+            <TouchableOpacity onPress={() => {
+              if (input.trim() === ""){
+                ToastAndroid.show("Please fill field with question.",ToastAndroid.SHORT);
+                return;
+              }
+              sendMessage();
+            }}
+            >
               <View style={[isFetching && { backgroundColor: "#c4c4c4" }]}>
                 <SendHorizonal color={"black"} />
               </View>

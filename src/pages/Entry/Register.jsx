@@ -20,6 +20,8 @@ const Register = ({set}) => {
   const { createAccount } = useFirebase();
   const [form, setForm] = useState({
     username: "",
+    first_name:"",
+    last_name:"",
     email: "",
     password: "",
     confirmPassword: "",
@@ -28,6 +30,8 @@ const Register = ({set}) => {
   const [isFormSatisfied, setIsFormSatisfied] = useState(false)
   const [isTermsChecked, setIsTermsChecked] = useState(false)
   const [isTermsOpen, setIsTermsOpen] = useState(false)
+  const [formErrors, setFormErrors] = useState({});
+
 
   const [currentField, setCurrentField] = useState(null)
 
@@ -38,14 +42,53 @@ const Register = ({set}) => {
     }
     await createAccount({ username: form.username, email: form.email, password: form.password, first_name: form.first_name, last_name: form.last_name })
   }
+
   const validate = () => {
-    return (
-      form.username.trim() !== "" && 
-      form.email.trim() !== "" &&
-      form.password.trim() !== "" &&
-      form.password.trim() === form.confirmPassword.trim()
-    )
-  }
+    let isValid = true;
+    let errors = {};
+
+    if (form.username.trim().length < 3) {
+      errors.username = "Username must be at least 6 characters";
+      isValid = false;
+    }
+
+    if (form.first_name.trim().length < 2) {
+      errors.first_name = "First name must be at least 2 characters";
+      isValid = false;
+    }
+
+    if (form.last_name.trim().length < 2) {
+      errors.last_name = "Last name must be at least 2 characters";
+      isValid = false;
+    }
+
+    if (!form.email.trim()) {
+      errors.email = "Email is required";
+      isValid = false;
+    } else if (!/\S+@\S+\.\S+/.test(form.email)) {
+      errors.email = "Enter a valid email";
+      isValid = false;
+    }
+
+    if (!form.password.trim()) {
+      errors.password = "Password is required";
+      isValid = false;
+    } else if (form.password.length < 6) {
+      errors.password = "Password must be at least 6 characters";
+      isValid = false;
+    }
+
+    if (form.password !== form.confirmPassword) {
+      errors.confirmPassword = "Passwords do not match";
+      isValid = false;
+    }
+
+    
+    setFormErrors(errors);
+
+    return isValid;
+  };
+
   useEffect(() => {
     setIsFormSatisfied(validate())
   },[form])
@@ -80,7 +123,7 @@ const Register = ({set}) => {
           currentFocus={currentField === 0}
           onSubmitEditing={() => setCurrentField(1)}
           condition={(text) => text.length >= 6}
-          errorText={"Username must be at least 6 characters long."}
+          errorText={formErrors.username}
         />
         <Input
           label={"First Name"}
@@ -92,7 +135,7 @@ const Register = ({set}) => {
           currentFocus={currentField === 1}
           onSubmitEditing={() => setCurrentField(2)}
           condition={(text) => text.length >= 2}
-          errorText={"First name must be at least 2 characters long."}
+          errorText={formErrors.first_name}
         />
         <Input
           label={"Last Name"}
@@ -104,7 +147,7 @@ const Register = ({set}) => {
           currentFocus={currentField === 2}
           onSubmitEditing={() => setCurrentField(3)}
           condition={(text) => text.length >= 2}
-          errorText={"Last name must be at least 2 characters long."}
+          errorText={formErrors.last_name}
         />
         <Input
           label={"Email"}
@@ -116,7 +159,7 @@ const Register = ({set}) => {
           onSubmitEditing={() => setCurrentField(4)}
           currentFocus={currentField === 3}
           // condition={(text) => text.endsWith("@students.nu-moa.edu.ph")}
-          // errorText={"Email is not a valid email"}
+          errorText={formErrors.email} //for trial purposes kaya ko i-uncomment
         />
         <Input
           label={"Password"}
@@ -129,7 +172,7 @@ const Register = ({set}) => {
           returnKeyType="next"
           onSubmitEditing={() => setCurrentField(4)}
           condition={(text) => text.length >= 6}
-          errorText={"Provide at least 6 characters"}
+          errorText={formErrors.password}
         />
         <Input
           label={"Confirm Password"}
@@ -141,7 +184,7 @@ const Register = ({set}) => {
           currentFocus={currentField === 4}
           returnKeyType="done"
           condition={(text) => text === form.password}
-          errorText={"Password does not match"}
+          errorText={formErrors.confirmPassword}
         />
         <View
           style={{
@@ -163,9 +206,33 @@ const Register = ({set}) => {
             </Text>
           </TouchableOpacity>
         </View>
+        
+
         <TouchableOpacity
-          disabled={isFormDisabled || !isTermsChecked || !isFormSatisfied}
+          disabled={isFormDisabled }
           onPress={() => {
+            if (
+              form.username.trim() === "" ||
+              form.first_name?.trim() === "" ||
+              form.last_name?.trim() === "" ||
+              form.email.trim() === "" ||
+              form.password.trim() === "" ||
+              form.confirmPassword.trim() === ""
+            ) {
+              ToastAndroid.show("Please fill in all required fields", ToastAndroid.SHORT);
+              return;
+            }
+
+            if (!isTermsChecked) {
+              ToastAndroid.show("Please accept Terms and Conditions and Data Privacy Consent to continue.", ToastAndroid.SHORT);
+              return;
+            }
+        
+            if (!isFormSatisfied) {
+              ToastAndroid.show("Please double check your input fields.", ToastAndroid.SHORT);
+              return;
+            }
+
             onSubmit().then(() => setIsFormDisabled(false));
           }}
           style={
@@ -173,7 +240,7 @@ const Register = ({set}) => {
               ? [
                   styles.buttonOpacity,
                   styles.button,
-                  { backgroundColor: "gray" },
+                  // { backgroundColor: "gray" },
                 ]
               : [styles.buttonOpacity, styles.button]
           }

@@ -19,6 +19,12 @@ const Login = ({ set }) => {
 
   const onSubmit = () => {
     setIsFormDisabled(true)
+    if (username.trim() === "" && password.trim() === ""){
+      ToastAndroid.show("Please fill in all required fields.",ToastAndroid.SHORT);
+      setIsFormDisabled(false)
+      return;
+    }
+
     if(username.trim() === ""){
       ToastAndroid.show("Email Field is required.", ToastAndroid.SHORT);
       setIsFormDisabled(false)
