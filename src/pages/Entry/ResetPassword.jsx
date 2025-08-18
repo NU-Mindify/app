@@ -1,4 +1,4 @@
-import { View, Text, Keyboard } from 'react-native'
+import { View, Text, Keyboard,ToastAndroid } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import AppBackground from '../../components/AppBackground'
 import Button from '../../components/Button'
@@ -11,9 +11,14 @@ import { useNavigation } from '@react-navigation/native'
 import Input from '../../components/Input'
 import { Mail } from 'lucide-react-native'
 
+
 const ResetPassword = () => {
 
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
+  const nav = useNavigation()
+  const [email, setEmail] = useState("")
+  const { sendResetPasswordEmail } = useFirebase();
+  const [error, setError]=useState("")
   
     useEffect(() => {
       const showSubscription = Keyboard.addListener(
@@ -39,9 +44,36 @@ const ResetPassword = () => {
       setIsKeyboardVisible(false);
     };
 
-  const nav = useNavigation()
-  const [email, setEmail] = useState("")
-  const { sendResetPasswordEmail } = useFirebase();
+// code ko starting here:
+    const handleReset = async () => {
+      if (!email.trim()) {
+        ToastAndroid.show("Please enter your email address.", ToastAndroid.SHORT);
+        return;
+      }
+
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)){
+        ToastAndroid.show("Error sending password reset email. Please try again.", ToastAndroid.SHORT);
+        return;
+        // setError("Error sending password reset email. Please try again.")
+        // return;
+      }
+
+      try {
+        await sendResetPasswordEmail(email);
+        setError("")
+      } catch (err) 
+        {
+          if (err.code === "auth/user-not-found") {
+            setError("Error sending password reset email. Please try again.")
+          }
+          else {
+            setError("Error sending password reset email. Please try again.");
+          }
+        }
+    };
+
+
 
   return (
     <AppBackground>
@@ -79,9 +111,14 @@ const ResetPassword = () => {
             Enter your email address below, and we'll send you a secure link to reset your password.
           </Text>
           <Input value={email} onChangeText={text => setEmail(text)} placeholder={"e.g juan@national-u.edu.ph"} Icon={Mail} style={{paddingHorizontal:12}}/>
+            {error ? (
+              <Text style={{ color: "red", shadowColor:"black", marginTop: 6, textAlign: "center" }}>
+                {error}
+              </Text>
+            ) : null}
         </View>
         <View style={{padding: 16, gap:4}}>
-          <Button onPress={() => {sendResetPasswordEmail(email)}} text={"Reset Password"} />
+          <Button onPress={() => {handleReset(email)}} text={"Reset Password"} />
           <Button onPress={() => nav.goBack()} style={{backgroundColor: 'rgb(255, 65, 65)'}} text={"Back"} />
         </View>
       </View>

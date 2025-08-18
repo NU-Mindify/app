@@ -184,7 +184,7 @@ const Story = (props) => {
                 {story.text}
               </TypeWriter>
             </Text>
-            <Text style={{marginTop:'auto', marginLeft:'auto', fontSize:10}}>Tap to continue</Text>
+            <Text style={{marginTop:'auto', marginLeft:'auto', fontSize:10}}>Tap anywhere to continue.</Text>
           </View>
         )}
       </ImageBackground>
