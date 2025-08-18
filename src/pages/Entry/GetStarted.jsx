@@ -70,7 +70,7 @@ const GetStartedButton = ({set}) => {
     <>
       <View style={{flex: 1}}></View>
       <Pressable
-        style={[styles.buttonOpacity]}
+        style={[styles.buttonOpacity, {marginHorizontal:'auto', margin:32}]}
         onPress={() => {
           printStorage();
           set("login");
