@@ -3,6 +3,7 @@ import { StyleSheet } from "react-native";
 const styles = StyleSheet.create({
   buttonOpacity: {
     width: "80%",
+    maxWidth:300
   },
   button: {
     backgroundColor: "#FDB813",

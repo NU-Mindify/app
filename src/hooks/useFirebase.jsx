@@ -8,6 +8,7 @@ import axios from "axios";
 import { firebaseAuth } from "../firebase";
 import { ToastAndroid } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { API_URL } from "../constants";
 
 
 export const loginAuth = async (email, password) => {
@@ -27,13 +28,13 @@ const useFirebase = () => {
   const getUserData = async (userID) => {
     try {
       const { data } = await axios.get(
-        `${process.env.EXPO_PUBLIC_URL}/getUser?uid=${userID}`,
+        API_URL + `/getUser?uid=${userID}`,
         { timeout: 10000 }
       );
       console.log("check uid", data);
 
       const { data: progressData } = await axios.get(
-        `${process.env.EXPO_PUBLIC_URL}/getProgress/${data._id}`,
+        API_URL + `/getProgress/${data._id}`,
         { timeout: 10000 }
       );
       console.log("mongoUserData", userID, data, progressData);
@@ -66,7 +67,14 @@ const useFirebase = () => {
     }
   };
 
-  const sendResetPasswordEmail = (email) => {
+  const sendResetPasswordEmail = async (email) => {
+    const { data } = await axios.get(API_URL + "/checkEmailExists", { email })
+    console.log(data);
+    if(!data.exists) {
+      
+      alert("Please provide registered email.")
+      return;
+    }
     const auth = getAuth();
     sendPasswordResetEmail(auth, email)
       .then(() => {
@@ -101,7 +109,7 @@ const useFirebase = () => {
       });
 
       const response = await axios.post(
-        process.env.EXPO_PUBLIC_URL + "/createUser",
+        API_URL + "/createUser",
         {
           branch,
           username,
