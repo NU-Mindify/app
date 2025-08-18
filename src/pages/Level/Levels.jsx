@@ -264,36 +264,36 @@ const CategoryBar = ({ categoryIndex, modeState }) => {
   const insets = useSafeAreaInsets();
   const notchHeight = insets.top;
   return (
-    <>
+    <View style={{backgroundColor: `${categoryIndex.primary_color}CC`,}}>
+      <View style={{height: notchHeight}}></View>
       <View
         style={{
           justifyContent: "center",
           alignItems: "center",
           width: "100%",
           zIndex: 5,
-          paddingTop: notchHeight + 14,
           backgroundColor: `${categoryIndex.primary_color}CC`,
-          paddingHorizontal: 24,
-          paddingVertical: 12,
           flexDirection: "row",
           flex: 0,
         }}
       >
-        <Pressable
-          style={{
-            position: "absolute",
-            left: 16,
-            top: notchHeight + 6,
-          }}
-          onPress={() => {
-            nav.goBack();
-          }}
-        >
-          <ArrowLeftCircle size={32} color={"white"} />
-        </Pressable>
-        <Text style={[styles.entryTitle, { color: "white", fontSize: 24 }]}>
-          {categoryIndex.name.toUpperCase()}
-        </Text>
+        <View style={{flexDirection: 'row', justifyContent:'space-evenly', alignItems:'center'}}>
+          <Pressable
+            style={{
+              padding: 12,
+              position:'absolute'
+            }}
+            onPress={() => {
+              nav.goBack();
+            }}
+          >
+            <ArrowLeftCircle size={32} color={"white"} />
+          </Pressable>
+          <Text style={[styles.entryTitle, { color: "white", fontSize: 24, alignSelf:'center', flex: 1}]}>
+            {categoryIndex.name.toUpperCase()}
+          </Text>
+          <View></View>
+        </View>
       </View>
       <View
         style={{
@@ -343,7 +343,7 @@ const CategoryBar = ({ categoryIndex, modeState }) => {
           </Text>
         </Pressable>
       </View>
-    </>
+    </View>
   );
 };
 

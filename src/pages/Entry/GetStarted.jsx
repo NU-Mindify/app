@@ -55,9 +55,9 @@ export default function GetStarted() {
             />
           }
           {state === "login" && <Login set={setState} />}
-          {state === "get started" && <GetStartedButton set={setState} />}
           {state === "register" && <Register set={setState} />}
         </ScrollView>
+          {state === "get started" && <GetStartedButton set={setState} />}
       </AppBackground>
     </Animated.View>
   );
@@ -67,23 +67,23 @@ export default function GetStarted() {
 const GetStartedButton = ({set}) => {
   
   return (
-    <Pressable
-          style={[
-            styles.buttonOpacity,
-            { marginTop: "auto" },
-          ]}
-          onPress={() => {
-            printStorage()
-            set("login");
-          }}
+    <>
+      <View style={{flex: 1}}></View>
+      <Pressable
+        style={[styles.buttonOpacity]}
+        onPress={() => {
+          printStorage();
+          set("login");
+        }}
+      >
+        <Animated.View
+          style={[styles.button]}
+          entering={BounceIn.springify().delay(300)}
         >
-          <Animated.View
-            style={[styles.button]}
-            entering={BounceIn.springify().delay(300)}
-          >
-            <Text style={styles.buttonText}>Get Started</Text>
-          </Animated.View>
-    </Pressable>
+          <Text style={styles.buttonText}>Get Started</Text>
+        </Animated.View>
+      </Pressable>
+    </>
   );};
 
 

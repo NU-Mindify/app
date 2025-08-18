@@ -42,7 +42,7 @@ const Home = () => {
     if(!accountData || !progressData ){
       getUserData(getAuth().currentUser.uid)
     }
-  })
+  }, [])
 
   useEffect(() => {
     const backAction = () => {
