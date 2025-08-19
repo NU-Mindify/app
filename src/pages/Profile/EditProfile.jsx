@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import { useContext, useState } from "react";
-import { Pressable, Text, View } from "react-native";
+import { Pressable, Text, View, ToastAndroid } from "react-native";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import AppBackground from "../../components/AppBackground";
 import Button from "../../components/Button";
@@ -28,13 +28,17 @@ const EditProfile = () => {
         cloth: selectedCloth,
         username: inputName,
         user_id: accountData._id
-      })
-      setAccountData(updatedUser)
+      });
+      setAccountData(updatedUser);
+      ToastAndroid.show("The changes has been saved.", ToastAndroid.SHORT);
+
+      nav.replace("Home");
     } catch (error) {
       console.error("Error Updating User:", error);
+      ToastAndroid.show("Failed to save changes.", ToastAndroid.LONG);
     }
-    nav.replace("Home");
-  }
+  };
+
 
   return (
     <AppBackground>

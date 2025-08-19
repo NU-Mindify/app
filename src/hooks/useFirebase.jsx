@@ -144,6 +144,10 @@ const useFirebase = () => {
           customErrorMessage =
             "There was a network error. Please check your internet connection and try again.";
           break;
+        case "auth/does-not-meet-requirements":
+          customErrorMessage =
+            "Password must contain at least one uppercase letter and special character.";
+          break;
         default:
           customErrorMessage =
             "An unexpected error occurred. Please try again later.";

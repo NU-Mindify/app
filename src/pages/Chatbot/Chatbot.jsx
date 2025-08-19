@@ -33,17 +33,19 @@ const Chatbot = () => {
     setIsFetching(false);
   };
   const deleteAll = async () => {
-    try {
-      const { data: result } = await axios.post(API_URL+"/deleteAllMessages", {
-        user_id: accountData._id
-      })
-      console.log(result);
-      getData();
-    } catch (error) {
-      console.error("Deleteing Message error", error);
-      ToastAndroid.show("Failed to Delete", ToastAndroid.LONG);
-    }
+  try {
+    const { data: result } = await axios.post(API_URL+"/deleteAllMessages", {
+      user_id: accountData._id
+    });
+    console.log(result);
+    getData();
+    ToastAndroid.show("Chat history successfully cleared.", ToastAndroid.SHORT);
+  } catch (error) {
+    console.error("Deleting Message error", error);
+    ToastAndroid.show("Failed to Delete", ToastAndroid.LONG);
   }
+};
+
   useEffect(() => {
     getData();
   }, []);
