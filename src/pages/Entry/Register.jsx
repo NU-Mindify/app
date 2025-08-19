@@ -78,6 +78,13 @@ const Register = ({set}) => {
       isValid = false;
     }
 
+    const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*]).{6,}$/;
+      if (!passwordRegex.test(form.password)) {
+        errors.password =
+          "Password must contain at least one uppercase letter and special character.";
+        isValid = false;
+      }
+
     if (form.password !== form.confirmPassword) {
       errors.confirmPassword = "Passwords do not match";
       isValid = false;
@@ -211,6 +218,10 @@ const Register = ({set}) => {
         <TouchableOpacity
           disabled={isFormDisabled }
           onPress={() => {
+            if (formErrors.password) {
+              ToastAndroid.show(formErrors.password, ToastAndroid.LONG);
+              return;
+}
             if (
               form.username.trim() === "" ||
               form.first_name?.trim() === "" ||
