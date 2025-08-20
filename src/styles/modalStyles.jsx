@@ -21,6 +21,7 @@ export const modalStyles = StyleSheet.create({
   card: {
     justifyContent: "center",
     alignItems: "center",
+    maxWidth: 500
   },
 
   btnStyle: {

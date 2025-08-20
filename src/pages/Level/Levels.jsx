@@ -171,7 +171,7 @@ const Levels = (props) => {
   }, [leaderboardLevel]);
 
   return (
-    <>
+    <View style={{ backgroundColor: `${categoryIndex.primary_color}` }}>
       {leaderboardLevel && (
         <View
           style={{
@@ -187,8 +187,8 @@ const Levels = (props) => {
           <Leaderboard
             onExit={() => {
               setLeaderboardLevel(null);
-              if(isMastery) {
-                openMasteryModal()
+              if (isMastery) {
+                openMasteryModal();
               }
             }}
             level={leaderboardLevel}
@@ -203,6 +203,8 @@ const Levels = (props) => {
         style={{
           height: Dimensions.get("screen").height,
           backgroundColor: `${categoryIndex.primary_color}`,
+          maxWidth: 440,
+          marginHorizontal: "auto",
         }}
         overScrollMode="never"
         scrollToOverflowEnabled={false}
@@ -214,7 +216,11 @@ const Levels = (props) => {
         />
         <ImageBackground
           source={categoryIndex.level_background}
-          style={[categoryIndex.id === "abnormal" ? { height: 1500, width: "100%" } : {height:1500,width:'100%'}]}
+          style={[
+            categoryIndex.id === "abnormal"
+              ? { height: 1500, width: "100%" }
+              : { height: 1500, width: "100%" },
+          ]}
           resizeMode="cover"
           resizeMethod="scale"
         >
@@ -239,7 +245,10 @@ const Levels = (props) => {
                       ? "current"
                       : "soon"
                   }
-                  stars={progressData?.high_scores[categoryIndex?.id]?.[index]?.stars || 0}
+                  stars={
+                    progressData?.high_scores[categoryIndex?.id]?.[index]
+                      ?.stars || 0
+                  }
                 />
               ))}
             <View
@@ -252,7 +261,7 @@ const Levels = (props) => {
           </View>
         </ImageBackground>
       </ScrollView>
-    </>
+    </View>
   );
 };
 
@@ -264,7 +273,7 @@ const CategoryBar = ({ categoryIndex, modeState }) => {
   const insets = useSafeAreaInsets();
   const notchHeight = insets.top;
   return (
-    <View style={{backgroundColor: `${categoryIndex.primary_color}CC`,}}>
+    <View style={{backgroundColor: `${categoryIndex.primary_color}DD`,}}>
       <View style={{height: notchHeight}}></View>
       <View
         style={{
@@ -272,16 +281,17 @@ const CategoryBar = ({ categoryIndex, modeState }) => {
           alignItems: "center",
           width: "100%",
           zIndex: 5,
-          backgroundColor: `${categoryIndex.primary_color}CC`,
           flexDirection: "row",
           flex: 0,
         }}
       >
-        <View style={{flexDirection: 'row', justifyContent:'space-evenly', alignItems:'center'}}>
+        <View style={{flexDirection: 'row', justifyContent:'space-evenly', alignItems:'center', padding: 14, width:'100%'}}>
           <Pressable
             style={{
               padding: 12,
-              position:'absolute'
+              position:'absolute',
+              left: 0,
+              zIndex:10
             }}
             onPress={() => {
               nav.goBack();
@@ -289,10 +299,9 @@ const CategoryBar = ({ categoryIndex, modeState }) => {
           >
             <ArrowLeftCircle size={32} color={"white"} />
           </Pressable>
-          <Text style={[styles.entryTitle, { color: "white", fontSize: 24, alignSelf:'center', flex: 1}]}>
+          <Text style={[styles.entryTitle, { color: "white", fontSize: 20, alignSelf:'center', width:'90%'}]}>
             {categoryIndex.name.toUpperCase()}
           </Text>
-          <View></View>
         </View>
       </View>
       <View
