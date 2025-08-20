@@ -49,6 +49,8 @@ export default function Glossary() {
     setIsFetching(true)
     try {
       const response = await api.get(`/getTerms`)
+      console.log(response.data);
+      
       setTerms(response.data)
       setWordSearch('')
       

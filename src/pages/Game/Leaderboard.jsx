@@ -49,7 +49,7 @@ const Leaderboard = ({ onExit, level, categoryIndex, isMastery, mode, current })
     <Animated.View
       entering={ZoomIn}
       exiting={ZoomOut}
-      style={{ flex: 1, padding: 28, paddingBottom: getPaddingBottom() }}
+      style={{ flex: 1, padding: 28, paddingBottom: getPaddingBottom(), maxWidth:500, width:'100%', marginHorizontal:'auto' }}
     >
       <View
         style={[

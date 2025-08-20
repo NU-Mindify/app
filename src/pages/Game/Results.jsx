@@ -65,7 +65,7 @@ const Results = ({ stats, onReview, onLeaderboard }) => {
   const {primary_color, secondary_color} = categoryIndex
   return (
     <>
-      <View style={{ alignItems: "center" }}>
+      <View style={{ alignItems: "center", maxWidth: 450, marginHorizontal:'auto' }}>
         <Title
           title={is1Star ? "COMPLETED" : "FAILED"}
           colors={{ primary_color, secondary_color }}
@@ -101,7 +101,6 @@ const Results = ({ stats, onReview, onLeaderboard }) => {
             style={{
               justifyContent: "center",
               alignItems: "center",
-              // backgroundColor: "#1C4384",
               borderRadius: 24,
               width: "80%",
               padding: 24,
@@ -116,7 +115,7 @@ const Results = ({ stats, onReview, onLeaderboard }) => {
                   justifyContent: "center",
                   alignItems: "center",
                   height: 130,
-                  width: "100%",
+                  width: "250",
                 }}
               >
                 <SmallStar
