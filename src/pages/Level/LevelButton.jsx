@@ -70,11 +70,7 @@ const LevelButton = ({
       secondaryFn: () => {
         setModal(null);
       },
-      body: `Difficulty: \t\t\t\t\t${
-        level === "?" ? "Hard" : level < 3 ? "Easy" : "Average"
-      }
-      \nQuestions: \t\t\t\t\t ${items} items
-      \nTime per item:\t\t\t\t\t ${time} seconds`,
+      gameMode: mode,
       difficulty: level === "?" ? "Hard" : level < 3 ? "Easy" : "Average",
       items,
       timer:time,

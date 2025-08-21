@@ -10,17 +10,19 @@ import {
   TouchableOpacity,
   View
 } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
+import { Pressable, ScrollView } from "react-native-gesture-handler";
 import Animated, { SlideInLeft } from "react-native-reanimated";
 import AppBackground from "../../components/AppBackground";
 import { API_URL, avatars, branches, categoriesObj, clothes } from "../../constants";
 import AccountContext from "../../contexts/AccountContext";
 import styles from "../../styles/styles";
 import Avatar from "../../components/Avatar";
+import ModalContext from "../../contexts/ModalContext";
 
 const ViewProfile = () => {
   const nav = useNavigation();
   const { accountData, progressData, setProgressData } = useContext(AccountContext);
+  const { modal, setModal } = useContext(ModalContext);
 
   const [earnedBadges, setEarnedBadges] = useState([]);
   const [unearnedBadges, setUnearnedBadges] = useState([]);
@@ -191,10 +193,32 @@ const ViewProfile = () => {
           </Text>
           <View style={{flexDirection: 'row', gap:8, flexWrap: 'wrap', justifyContent:'space-around'}}>
             {earnedBadges.map((src, index) => (
-              <Badge src={src.badge_id.filepath} key={index} />
+              <Badge src={src.badge_id.filepath} details={src} key={index} />
             ))}
             {unearnedBadges.map((src, index) => (
-              <Badge src={src.filepath} key={index} imageStyle={{filter: 'grayscale(100%)',}} />
+              <Badge src={src.filepath} details={src}  key={index} imageStyle={{filter: 'grayscale(100%)'}} 
+              onPress={() => {
+                setModal({
+                  title: "Badge",
+                  body: (
+                    <View style={{justifyContent:'center', alignItems:'center',  padding: 16, gap:8}}>
+                      <Image
+                        source={{ uri: src.filepath }}
+                        style={[
+                          { width: 100, height: 100 },
+                          { filter: "grayscale(100%)" },
+                        ]}
+                        resizeMode="contain"
+                      />
+                      <Text style={{color:'white', textAlign:'center', fontSize:18, fontFamily:'LilitaOne-Regular'}}>
+                        Earn 3 stars on level {src.level} of {categoriesObj.find(cat => cat.id === src.category).name} to unlock this badge.
+                      </Text>
+                    </View>
+                  ),
+                  primaryFn: () => setModal(null),
+                  closeButton: false
+                });
+              }} />
             ))}
           </View>
         </View>
@@ -214,16 +238,16 @@ export default ViewProfile;
 //   require("../../assets/badges/ap6.png"),
 // ];
 
-const Badge = ({ src, imageStyle }) => {
+const Badge = ({ src, imageStyle, onPress }) => {
   
   return (
-    <View>
+    <Pressable onPress={onPress}>
       <Image
-        source={{uri: src}}
+        source={{ uri: src }}
         style={[{ width: 60, height: 60 }, imageStyle]}
         resizeMode="contain"
       />
-    </View>
+    </Pressable>
   );
 };
 

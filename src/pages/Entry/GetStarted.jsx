@@ -8,10 +8,13 @@ import styles from '../../styles/styles';
 import Login from './Login';
 import Register from './Register';
 import { Pressable, ScrollView } from 'react-native-gesture-handler';
+import TermsAndConditions from './TermsAndConditions';
 
 export default function GetStarted() {
   const [state, setState] = useState("get started");
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
+  const [isTermsOpen, setIsTermsOpen] = useState(false)
+  const [isTermsChecked, setIsTermsChecked] = useState(false)
 
   useEffect(() => {
     const showSubscription = Keyboard.addListener(
@@ -44,20 +47,33 @@ export default function GetStarted() {
       style={{ flex: 1 }}
     >
       <AppBackground>
-        <ScrollView contentContainerStyle={{ alignItems: "center",  padding: 24, paddingTop:12, minHeight:'100%' }}>
-          {!isKeyboardVisible && 
+        <ScrollView
+          contentContainerStyle={{
+            alignItems: "center",
+            padding: 24,
+            paddingTop: 12,
+            minHeight: "100%",
+          }}
+        >
+          {!isKeyboardVisible && (
             <Animated.Image
-            entering={BounceIn}
-            exiting={FadeOut}
-            source={MindifyLogo}
-            resizeMode="contain"
-            style={{ width: 280, height: 200 }}
+              entering={BounceIn}
+              exiting={FadeOut}
+              source={MindifyLogo}
+              resizeMode="contain"
+              style={{ width: 280, height: 200 }}
             />
-          }
+          )}
           {state === "login" && <Login set={setState} />}
-          {state === "register" && <Register set={setState} />}
+          {state === "register" && <Register set={setState} setTerms={{setTermsOpen: setIsTermsOpen, isTermsChecked, setIsTermsChecked}}  />}
         </ScrollView>
-          {state === "get started" && <GetStartedButton set={setState} />}
+        {state === "get started" && <GetStartedButton set={setState} />}
+        <TermsAndConditions
+          onClose={() => setIsTermsOpen(false)}
+          isOpen={isTermsOpen}
+          checkbox={isTermsChecked}
+          toggleCheckbox={() => setIsTermsChecked(!isTermsChecked)}
+        />
       </AppBackground>
     </Animated.View>
   );
