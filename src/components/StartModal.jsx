@@ -240,6 +240,8 @@ const LevelSelect = ({ modal }) => {
       color: modal.colors.primary_color
     }
   })
+  console.log(modal);
+  
   return (
   <>
     <Title title={"START"} colors={modal.colors} />
@@ -253,10 +255,12 @@ const LevelSelect = ({ modal }) => {
         <Text style={[levelStyle.label]}>Questions:</Text>
         <Text>{modal.items} items</Text>
       </View>
+      {modal.gameMode === "competition" && 
       <View style={[levelStyle.labelContainer]}>
         <Text style={[levelStyle.label]}>Timer:</Text>
         <Text>{modal.timer} seconds</Text>
       </View>
+      }
       {/* <Text style={[modalStyles.bodyText, modal.colors && {color:'black'}]}>{modal.body}</Text> */}
       <View
         style={[modalStyles.btnContainer]}
@@ -279,13 +283,16 @@ const Default = ({ modal }) => {
       <Title title={modal.title} onClose={modal.primaryFn} />
       <Body
         onClose={modal.secondaryFn}
+        closeButton={modal.closeButton}
         contentStyle={{ paddingHorizontal: 0, gap: 4 }}
       >
-        <Text
+        {modal.subtitle &&
+          <Text
           style={[modalStyles.subtitle]}
-        >
-          {modal.subtitle}
-        </Text>
+          >
+            {modal.subtitle}
+          </Text>
+        }
         <Text
           style={[modalStyles.bodyText]}
         >

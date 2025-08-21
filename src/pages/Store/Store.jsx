@@ -17,8 +17,8 @@ const Store = () => {
   const nav = useNavigation();
   const { accountData, setAccountData } = useContext(AccountContext);
   const { setModal } = useContext(ModalContext);
-  const [selectedAvatar, setSelectedAvatar] = useState(accountData.avatar || "b1");
-  const [selectedCloth, setSelectedCloth] = useState(accountData.cloth || "male_unform" );
+  const [selectedAvatar, setSelectedAvatar] = useState(accountData?.avatar || "b1");
+  const [selectedCloth, setSelectedCloth] = useState(accountData?.cloth || "male_unform" );
   const [isBuyDisabled, setIsBuyDisabled] = useState(true)
   const Head = avatars.find((avatar) => avatar.id === selectedAvatar).body;
   const Cloth = clothes.find((cloth) => cloth.id === selectedCloth).image;
@@ -31,6 +31,8 @@ const Store = () => {
     }
   }, [selectedTab])
   useEffect(()=> {
+    if(!accountData) return;
+    
     if(accountData.points < 5){
       setIsBuyDisabled(true)
       return;
@@ -60,6 +62,9 @@ const Store = () => {
     } catch (error) {
       console.error("buying error",error);
     }
+  }
+  if(!accountData){
+    return <></>
   }
   return (
     <AppBackground>
@@ -117,7 +122,7 @@ const Store = () => {
               resizeMode="contain"
             />
             <Text style={{ fontFamily: "LilitaOne-Regular", fontSize: 24 }}>
-              {accountData.points}
+              {accountData?.points || 0}
             </Text>
           </View>
         </View>

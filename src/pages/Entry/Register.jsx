@@ -14,7 +14,7 @@ import LottieView from 'lottie-react-native'
 import LoadingOverlay from '../../components/LoadingOverlay'
 import TermsAndConditions from './TermsAndConditions'
 
-const Register = ({set}) => {
+const Register = ({set, setTerms}) => {
   const { setModal } = useContext(ModalContext);
   const nav = useNavigation();
   const { createAccount } = useFirebase();
@@ -28,10 +28,10 @@ const Register = ({set}) => {
   })
   const [isFormDisabled, setIsFormDisabled] = useState(false);
   const [isFormSatisfied, setIsFormSatisfied] = useState(false)
-  const [isTermsChecked, setIsTermsChecked] = useState(false)
-  const [isTermsOpen, setIsTermsOpen] = useState(false)
+  
+  
   const [formErrors, setFormErrors] = useState({});
-
+  const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*]).{6,}$/;
 
   const [currentField, setCurrentField] = useState(null)
 
@@ -47,7 +47,7 @@ const Register = ({set}) => {
     let isValid = true;
     let errors = {};
 
-    if (form.username.trim().length < 3) {
+    if (form.username.trim().length < 6) {
       errors.username = "Username must be at least 6 characters";
       isValid = false;
     }
@@ -78,7 +78,6 @@ const Register = ({set}) => {
       isValid = false;
     }
 
-    const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*]).{6,}$/;
       if (!passwordRegex.test(form.password)) {
         errors.password =
           "Password must contain at least one uppercase letter and special character.";
@@ -103,12 +102,6 @@ const Register = ({set}) => {
   return (
     <>
       {isFormDisabled && <LoadingOverlay text={"Registering..."} />}
-      <TermsAndConditions
-        onClose={() => setIsTermsOpen(false)}
-        isOpen={isTermsOpen}
-        checkbox={isTermsChecked}
-        toggleCheckbox={() => setIsTermsChecked(!isTermsChecked)}
-      />
 
       <Animated.View
         entering={FlipInXUp}
@@ -165,7 +158,10 @@ const Register = ({set}) => {
           returnKeyType="next"
           onSubmitEditing={() => setCurrentField(4)}
           currentFocus={currentField === 3}
-          // condition={(text) => text.endsWith("@students.nu-moa.edu.ph")}
+          condition={(text) => (
+            // text.endsWith("@students.nu-moa.edu.ph"
+            /\S+@\S+\.\S+/.test(text)
+            )}
           errorText={formErrors.email} //for trial purposes kaya ko i-uncomment
         />
         <Input
@@ -178,7 +174,11 @@ const Register = ({set}) => {
           currentFocus={currentField === 3}
           returnKeyType="next"
           onSubmitEditing={() => setCurrentField(4)}
-          condition={(text) => text.length >= 6}
+          condition={(text) =>
+            passwordRegex.test(text) &&
+            form.password.trim() &&
+            form.password.length > 6
+          }
           errorText={formErrors.password}
         />
         <Input
@@ -202,10 +202,12 @@ const Register = ({set}) => {
             width: "90%",
           }}
         >
-          <TouchableOpacity onPress={() => setIsTermsChecked(!isTermsChecked)}>
-            {isTermsChecked ? <Checked /> : <Unchecked />}
+          <TouchableOpacity
+            onPress={() => setTerms.setIsTermsChecked(!setTerms.isTermsChecked)}
+          >
+            {setTerms.isTermsChecked ? <Checked /> : <Unchecked />}
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => setIsTermsOpen(true)}>
+          <TouchableOpacity onPress={() => setTerms.setTermsOpen(true)}>
             <Text style={{ color: "white", fontSize: 12 }}>
               I accept and acknowledge the{" "}
               <Text style={textHighlight}>Data Privacy Consent</Text> and the{" "}
@@ -213,15 +215,10 @@ const Register = ({set}) => {
             </Text>
           </TouchableOpacity>
         </View>
-        
 
         <TouchableOpacity
-          disabled={isFormDisabled }
+          disabled={isFormDisabled}
           onPress={() => {
-            if (formErrors.password) {
-              ToastAndroid.show(formErrors.password, ToastAndroid.LONG);
-              return;
-}
             if (
               form.username.trim() === "" ||
               form.first_name?.trim() === "" ||
@@ -230,24 +227,31 @@ const Register = ({set}) => {
               form.password.trim() === "" ||
               form.confirmPassword.trim() === ""
             ) {
-              ToastAndroid.show("Please fill in all required fields", ToastAndroid.SHORT);
+              alert(
+                "Please fill in all required fields",
+              )
               return;
             }
 
-            if (!isTermsChecked) {
-              ToastAndroid.show("Please accept Terms and Conditions and Data Privacy Consent to continue.", ToastAndroid.SHORT);
+            if (!setTerms.isTermsChecked) {
+              alert(
+                "Please accept Terms and Conditions and Data Privacy Consent to continue.",
+              )
+                
               return;
             }
-        
+
             if (!isFormSatisfied) {
-              ToastAndroid.show("Please double check your input fields.", ToastAndroid.SHORT);
+              alert(
+                "Please double check your input fields.",
+              )
               return;
             }
 
             onSubmit().then(() => setIsFormDisabled(false));
           }}
           style={
-            isFormDisabled || !isTermsChecked || !isFormSatisfied
+            isFormDisabled || !setTerms.isTermsChecked || !isFormSatisfied
               ? [
                   styles.buttonOpacity,
                   styles.button,

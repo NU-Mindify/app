@@ -6,7 +6,7 @@ import { useNavigation } from "@react-navigation/native";
 import { OAuthProvider } from "firebase/auth";
 import axios from "axios";
 import { firebaseAuth } from "../firebase";
-import { ToastAndroid } from "react-native";
+import { Alert, ToastAndroid } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { API_URL } from "../constants";
 
@@ -50,6 +50,9 @@ const useFirebase = () => {
       console.error("getUserData", error.message);
       console.error(error.response.data);
       ToastAndroid.show(`Can't get user data: ${error.message}`)
+      Alert.alert("Error", "Please check your internet connection.", [
+              { text: "Retry", onPress: () => getUserData(userID) },
+            ]);
     }
   }
 

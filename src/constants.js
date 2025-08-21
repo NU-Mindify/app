@@ -66,6 +66,16 @@ import corp6 from './assets/clothes/CORPORATE 6.svg'
 import fUnif from './assets/clothes/F UNIFORM.svg'
 import mUnif from './assets/clothes/M UNIFORM.svg'
 
+import ap1 from './assets/badges/ap1.png';
+import ap2 from './assets/badges/ap2.png';
+import ap3 from './assets/badges/ap3.png';
+import ap4 from './assets/badges/ap4.png';
+import ap5 from './assets/badges/ap5.png';
+import ap6 from './assets/badges/ap6.png';
+import ap7 from './assets/badges/ap7.png';
+import ap8 from './assets/badges/ap8.png';
+import ap9 from './assets/badges/ap9.png';
+import ap10 from './assets/badges/ap10.png';
 
 const clothes = [
   { id:"female_unform", image: fUnif, },
@@ -246,6 +256,19 @@ const branches = [
     name: "NU Cebu",
     extension: 'nu-cebu.edu.ph'
   }
+]
+
+const badges = [
+  { id: "ap1", category: "abnormal", level: 1, icon: ap1 },
+  { id: "ap2", category: "abnormal", level: 2, icon: ap2 },
+  { id: "ap3", category: "abnormal", level: 3, icon: ap3 },
+  { id: "ap4", category: "abnormal", level: 4, icon: ap4 },
+  { id: "ap5", category: "abnormal", level: 5, icon: ap5 },
+  { id: "ap6", category: "abnormal", level: 6, icon: ap6 },
+  { id: "ap7", category: "abnormal", level: 7, icon: ap7 },
+  { id: "ap8", category: "abnormal", level: 8, icon: ap8 },
+  { id: "ap9", category: "abnormal", level: 9, icon: ap9 },
+  { id: "ap10", category: "abnormal", level: 10, icon: ap10 },
 ]
 
 const API_URL = process.env.EXPO_PUBLIC_URL;
