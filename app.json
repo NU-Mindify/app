@@ -14,20 +14,33 @@
     },
     "ios": {
       "supportsTablet": true,
-      "icon": "./assets/logo.png"
+      "icon": "./assets/logo.png",
+      "bundleIdentifier": "com.mindify.nu",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/logo.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.mindify.nu"
+      "package": "com.mindify.nu",
+      "permissions": [
+        "android.permission.RECORD_AUDIO",
+        "android.permission.MODIFY_AUDIO_SETTINGS"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
       "expo-audio"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "92daf18f-87e7-40fe-b5e4-e40ddf9a1384"
+      }
+    }
   }
 }
