@@ -10,8 +10,10 @@ import Register from './Register';
 import { Pressable, ScrollView } from 'react-native-gesture-handler';
 import TermsAndConditions from './TermsAndConditions';
 
-export default function GetStarted() {
-  const [state, setState] = useState("get started");
+export default function GetStarted(props) {
+  const {state: entryState} = props.route.params
+  
+  const [state, setState] = useState(entryState || "get started");
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
   const [isTermsOpen, setIsTermsOpen] = useState(false)
   const [isTermsChecked, setIsTermsChecked] = useState(false)

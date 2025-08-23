@@ -17,7 +17,7 @@ import ModalContext from "../../contexts/ModalContext";
 import Animated from "react-native-reanimated";
 import Timer from "./Timer";
 import { useNavigation } from "@react-navigation/native";
-import { usePreventScreenCapture } from "expo-screen-capture";
+import { allowScreenCaptureAsync, preventScreenCaptureAsync } from "expo-screen-capture";
 import { useAudioPlayer } from "expo-audio";
 
 const Game = (props) => {
@@ -25,8 +25,6 @@ const Game = (props) => {
   const { accountData, setAccountData, progressData, setProgressData } = useContext(AccountContext);
   const { setModal } = useContext(ModalContext)
   const categoryProgress = useRef(progressData["classic"][categoryIndex.id])
-
-  usePreventScreenCapture();
 
   const musicPlayer = useAudioPlayer(require("../../audio/guess.mp3"));
   const correctSfxPlayer = useAudioPlayer(require("../../audio/correct.mp3"));
@@ -280,28 +278,53 @@ const Game = (props) => {
   }
 
   const nav = useNavigation()
+  // Confirm back while in-game
   useEffect(() => {
-      const backAction = () => {
-        Alert.alert("Cancel?", "Are you sure you want to return to home screen? All progress will be lost.", [
-          {
-            text: "Cancel",
-            onPress: () => null,
-            style: "cancel",
-          },
-          { text: "YES", onPress: () => nav.goBack() },
-        ]);
-        return true;
-      };
-  
-      const backHandler = BackHandler.addEventListener(
-        "hardwareBackPress",
-        backAction
-      );
-  
-      return () => backHandler.remove();
-    }, []);
+    const unsubscribe = nav.addListener("beforeRemove", (e) => {
+      e.preventDefault();
+      const isGoBackAction =
+        e.data.action.type === "GO_BACK" || e.data.action.type === "POP";
+      
+      if(postGameScreen !== "") {
+        nav.dispatch(e.data.action);
+        return;
+      }
+      if (!isGoBackAction && postGameScreen === "") return;
 
-  // const { playSound, stopLoopingAudio } = Sound();
+      Alert.alert(
+        "Cancel?",
+        "Are you sure you want to return to home screen? All progress will be lost.",
+        [
+          { text: "Cancel", style: "cancel", onPress: () => {} },
+          {
+            text: "Yes",
+            style: "destructive",
+            onPress: () => nav.dispatch(e.data.action),
+          },
+        ]
+      );
+    });
+
+    return unsubscribe; 
+  }, [nav, postGameScreen]);
+  // Prevents Screenshot
+  useEffect(() => {
+    console.log(postGameScreen);
+    const toggleScreenCapture = async () => {
+      if (postGameScreen === "" || postGameScreen === "Review") {
+        await preventScreenCaptureAsync();
+      } else {
+        await allowScreenCaptureAsync();
+      }
+    };
+
+    toggleScreenCapture();
+
+    return () => {
+      allowScreenCaptureAsync();
+    };
+  }, [postGameScreen]);
+  
   useEffect(() => {
     getQuestions();
     musicPlayer.loop = true

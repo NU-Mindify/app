@@ -45,25 +45,30 @@ const Home = () => {
   }, [])
 
   useEffect(() => {
-    const backAction = () => {
-      Alert.alert("Exit?", "Are you sure you want exit NU Mindify?", [
-        {
-          text: "Cancel",
-          onPress: () => null,
-          style: "cancel",
-        },
-        { text: "YES", onPress: () => BackHandler.exitApp() },
-      ]);
-      return true;
-    };
+    console.log("nav inits");
+      const unsubscribe = nav.addListener("beforeRemove", (e) => {
+        console.log("called");
+        const isGoBackAction =
+          e.data.action.type === "GO_BACK" || e.data.action.type === "POP";
 
-    const backHandler = BackHandler.addEventListener(
-      "hardwareBackPress",
-      backAction
-    );
-
-    return () => backHandler.remove();
-  }, []);
+        if(!isGoBackAction) return;
+        
+        e.preventDefault();
+        Alert.alert(
+          "Exit?", "Are you sure you want exit NU Mindify?",
+          [
+            { text: "Cancel", style: "cancel", onPress: () => {} },
+            {
+              text: "Yes",
+              style: "destructive",
+              onPress: () => nav.dispatch(e.data.action),
+            },
+          ]
+        );
+      });
+  
+      return unsubscribe; // Clean up the listener when the component unmounts
+    }, [nav]);
 
   
   useEffect(() => {

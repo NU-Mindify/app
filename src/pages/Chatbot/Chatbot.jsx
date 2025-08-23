@@ -153,7 +153,7 @@ const Chatbot = () => {
                   fontSize: 32,
                 }}
               >
-                Hello {accountData.first_name}!
+                Hello {accountData?.first_name}!
               </Text>
               <Text
                 style={{
