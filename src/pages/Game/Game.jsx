@@ -12,7 +12,7 @@ import GameContext from "../../contexts/GameContext";
 import axios from "axios";
 // import { Audio } from "expo-av";
 import { API_URL, gameColors } from "../../constants";
-import { Alert, BackHandler, Text, ToastAndroid } from "react-native";
+import { Alert, BackHandler, Text } from "react-native";
 import ModalContext from "../../contexts/ModalContext";
 import Animated from "react-native-reanimated";
 import Timer from "./Timer";
@@ -23,7 +23,7 @@ import { useAudioPlayer } from "expo-audio";
 const Game = (props) => {
   const { level, levelIndex, categoryIndex, isMastery, mode } = props.route.params;
   const { accountData, setAccountData, progressData, setProgressData } = useContext(AccountContext);
-  const { setModal } = useContext(ModalContext)
+  const { setModal, setToast } = useContext(ModalContext)
   const categoryProgress = useRef(progressData["classic"][categoryIndex.id])
 
   const musicPlayer = useAudioPlayer(require("../../audio/guess.mp3"));
@@ -137,7 +137,7 @@ const Game = (props) => {
       setAccountData(newAccount)
       setPostGameScreen("Results");
     } catch (error) {
-      ToastAndroid.show("Failed to add record: " + error, ToastAndroid.LONG);
+      setToast("Failed to add record: " + error);
       console.error("attempt Error", error.message);
       setRationaleModal({
         type: "Error",

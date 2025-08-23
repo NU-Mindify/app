@@ -33,6 +33,7 @@ import ViewOtherProfile from './src/pages/Profile/ViewOtherProfile';
 import Story from './src/pages/Story/Story';
 import { useNavigation } from '@react-navigation/native';
 import { currentRouteName, getActiveRouteName, navigationRef } from './src/utils/RootNavigation';
+import Toast from './src/components/Toast';
 
 ExpoSplashScreen.preventAutoHideAsync();
 
@@ -59,6 +60,7 @@ export default function App() {
    * @type {[Modal, React.Dispatch<React.SetStateAction<Modal>>]}
   */
   const [modal, setModal] = useState(null)
+  const [toast, setToast] = useState("");
 
 
 
@@ -96,7 +98,7 @@ export default function App() {
         onStateChange={handleStateChange}
       >
       <AccountContext.Provider value={{ accountData, setAccountData, progressData, setProgressData }}>
-        <ModalContext.Provider value={{ modal, setModal }}>
+        <ModalContext.Provider value={{ modal, setModal, toast, setToast }}>
           <GestureHandlerRootView>
               <BuildInfo />
 
@@ -123,6 +125,7 @@ export default function App() {
                 <Stack.Screen name='Story' component={Story} />
               </Stack.Navigator>
               <BottomNavigation activeTab={activeTab} />
+              <Toast />
               {modal &&
                 <StartModal />
               }

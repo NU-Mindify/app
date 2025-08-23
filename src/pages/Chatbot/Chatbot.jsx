@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, KeyboardAvoidingView, Platform, ToastAndroid } from "react-native";
+import { View, Text, ScrollView, KeyboardAvoidingView, Platform } from "react-native";
 import { useContext, useEffect, useRef, useState } from "react";
 import AppBackground from "../../components/AppBackground";
 import styles from "../../styles/styles";
@@ -11,6 +11,7 @@ import {
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
 import AccountContext from "../../contexts/AccountContext";
+import ModalContext from "../../contexts/ModalContext";
 import axios from "axios";
 import { API_URL } from "../../constants";
 import Animated, { FadeInDown } from "react-native-reanimated";
@@ -18,6 +19,7 @@ import { Alert } from "react-native";
 
 const Chatbot = () => {
   const { accountData, setAccountData } = useContext(AccountContext);
+  const { setToast } = useContext(ModalContext)
   const scrollViewRef = useRef();
 
   const [input, setInput] = useState("");
@@ -39,10 +41,10 @@ const Chatbot = () => {
     });
     console.log(result);
     getData();
-    ToastAndroid.show("Chat history successfully cleared.", ToastAndroid.SHORT);
+    setToast("Chat history successfully cleared.")
   } catch (error) {
     console.error("Deleting Message error", error);
-    ToastAndroid.show("Failed to Delete", ToastAndroid.LONG);
+    setToast("Failed to Delete");
   }
 };
 
@@ -82,7 +84,7 @@ const Chatbot = () => {
   return (
     <AppBackground
       gradientColors={["#3B61B7", "#35408E"]}
-      style={{ paddingHorizontal: 12, paddingBottom: 24 }}
+      style={{ paddingHorizontal: 12, paddingBottom: 12 }}
     >
       {/* Header */}
       <View
@@ -191,7 +193,7 @@ const Chatbot = () => {
           >
             <TouchableOpacity onPress={() => {
               if (input.trim() === ""){
-                ToastAndroid.show("Please fill field with question.",ToastAndroid.SHORT);
+                setToast("Please fill field with question.");
                 return;
               }
               sendMessage();

@@ -1,7 +1,6 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useContext } from 'react';
 import { GStyle } from './GStyle';
-import Animated, { SlideInDown, SlideOutDown } from 'react-native-reanimated';
-import { Image, ImageBackground, ScrollView, Text, TextInput, ToastAndroid, TouchableOpacity, View } from 'react-native';
+import { Image, ScrollView, Text, TextInput, View } from 'react-native';
 import GlossButtons from './GlossButtons';
 import GlossaryBG from '../../assets/glossary/glossBg.png';
 import GlossaryTitle from '../../assets/glossary/glossary.png';
@@ -10,16 +9,14 @@ import magnifying from '../../assets/glossary/magnifying.png';
 import letterBG from '../../assets/glossary/letterBG.png';
 import AppBackground from '../../components/AppBackground';
 import { useNavigation } from '@react-navigation/native';
-import XButton from "../../assets/generic/X-White.svg";
-import axios from 'axios';
-import { API_URL } from '../../constants';
 import api from '../../api';
 import LoadingOverlay from '../../components/LoadingOverlay';
+import ModalContext from '../../contexts/ModalContext';
 
 export default function Glossary() {
+  const {setToast} = useContext(ModalContext)
   const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
   const [terms, setTerms] = useState([])
-  const nav = useNavigation()
 
   const scrollViewRef = useRef(null);
   const sectionRefs = useRef(letters.map(() => React.createRef()));
@@ -55,7 +52,7 @@ export default function Glossary() {
       setWordSearch('')
       
     } catch (error) {
-      ToastAndroid.show(error.message, ToastAndroid.LONG)
+      setToast(error.message)
     }
     setIsFetching(false)
   }
