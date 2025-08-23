@@ -1,4 +1,4 @@
-import { View, Text, ToastAndroid } from "react-native";
+import { View, Text } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import AppBackground from "../../components/AppBackground";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
@@ -12,6 +12,7 @@ import LottieView from "lottie-react-native";
 import loading from "../../anim/loading_circle.json";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import AccountContext from "../../contexts/AccountContext";
+import ModalContext from "../../contexts/ModalContext";
 
 const Leaderboard = ({ onExit, level, categoryIndex, isMastery, mode, current }) => {
   const [list, setList] = useState([]);
@@ -20,6 +21,7 @@ const Leaderboard = ({ onExit, level, categoryIndex, isMastery, mode, current })
   const routeName = useRoute().name;  
 
   const getPaddingBottom = () => (navbarRoutes.includes(routeName) ? 80 : 0);
+  const {setToast} = useContext(ModalContext);
 
 
   const getList = async () => {
@@ -36,7 +38,7 @@ const Leaderboard = ({ onExit, level, categoryIndex, isMastery, mode, current })
       setLoading(false)
       setList(data || []);
     } catch (error) {
-      ToastAndroid.show("Getting Leaderboard" + error, ToastAndroid.LONG);
+      setToast("Getting Leaderboard" + error);
       console.error(error.response)
     }
   };

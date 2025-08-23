@@ -50,6 +50,7 @@ const BottomNavigation = ({activeTab}) => {
         bottom: 0,
         paddingBottom: 6,
         paddingHorizontal: 24,
+        maxWidth:700
       }}
     >
       {actions.map((action) => {
@@ -73,7 +74,7 @@ const BottomNavigation = ({activeTab}) => {
             }
           }}
         >
-        <View style={[isActive && {marginTop:-30, backgroundColor:'#454e8f',padding:12, borderRadius:42, borderWidth:4, borderColor:'white', shadowColor: 'black', shadowRadius:12, boxShadow: "0px 0px 12px black"}]}>
+        <View style={[isActive && {marginTop:-40, backgroundColor:'#454e8f',padding:12, borderRadius:42, borderWidth:4, borderColor:'white', shadowColor: 'black', shadowRadius:12, boxShadow: "0px 0px 12px black"}]}>
           <action.icon width={32} height={32} />
         </View>
         {isActive && (<Text style={{fontFamily:'LilitaOne-Regular'}} allowFontScaling={false}>{action.name}</Text>)}

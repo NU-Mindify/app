@@ -29,7 +29,7 @@ import smallStar from '../../assets/results/smallStar.png'
 const { width } = Dimensions.get("window");
 const _imageWidth = width * 0.8;
 const _imageHeight = _imageWidth * 1.76;
-const _spacing = 0;
+const _spacing = 12;
 
 const CategoryCarousel = () => {
   const nav = useNavigation();
@@ -38,7 +38,6 @@ const CategoryCarousel = () => {
   const onScroll = useAnimatedScrollHandler((e) => {
     scrollX.value = e.contentOffset.x / (_imageWidth + _spacing);
   });
-  const { progressData } = useContext(AccountContext);
   const { setModal } = useContext(ModalContext);
 
   return (
@@ -107,7 +106,7 @@ const Photo = ({ item, index, scrollX, onPress }) => {
           scale: interpolate(
             scrollX.value,
             [index - 1, index, index + 1],
-            Platform.OS === "ios" ? [1, 1, 1] : [1.5, 1, 1.5]
+            Platform.OS === "ios" ? [1, 1, 1] : [1.5, 1, 1]
           ),
         },
         {
@@ -126,7 +125,7 @@ const Photo = ({ item, index, scrollX, onPress }) => {
         scale: interpolate(
           scrollX.value,
           [index - 1, index, index + 1],
-          Platform.OS === "ios" ? [1, 1, 1] : [0.85, 1, 0.85]
+          Platform.OS === "ios" ? [1, 1, 1] : [0.9, 1, 0.9]
         ),
       },
     ],

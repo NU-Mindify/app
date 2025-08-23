@@ -330,8 +330,14 @@ const LevelSelectMastery = ({ modal }) => {
       <View
         style={[modalStyles.btnContainer]}
       >
-        <Button text={modal.button || "YES"} onPress={modal.primaryFn} style={{width:'40%'}} />
-        <Button text={modal.button || "NO"} onPress={modal.secondaryFn} style={{width:'40%'}} />
+        {modal.button ? 
+          <Button text={modal.button || "YES"} onPress={modal.primaryFn} style={{width:'70%'}} /> 
+        : 
+        <>
+          <Button text={modal.button || "YES"} onPress={modal.primaryFn} style={{width:'40%'}} />
+          <Button text={modal.button || "NO"} onPress={modal.secondaryFn} style={{width:'40%'}} />
+        </>
+        }
       </View>
     </Body>
     <Button

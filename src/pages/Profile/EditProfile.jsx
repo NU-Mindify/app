@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import { useContext, useState } from "react";
-import { Pressable, Text, View, ToastAndroid } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import AppBackground from "../../components/AppBackground";
 import Button from "../../components/Button";
@@ -10,10 +10,12 @@ import { avatars, clothes } from "../../constants";
 import AccountContext from "../../contexts/AccountContext";
 import styles from "../../styles/styles";
 import Avatar from "../../components/Avatar";
+import ModalContext from "../../contexts/ModalContext";
 
 const EditProfile = () => {
   const nav = useNavigation();
   const { accountData, setAccountData } = useContext(AccountContext);
+  const {setToast} = useContext(ModalContext)
   const [selectedAvatar, setSelectedAvatar] = useState(accountData.avatar);
   const [selectedCloth, setSelectedCloth] = useState(accountData.cloth || clothes[0].id);
   const Head = avatars.find((avatar) => avatar.id === selectedAvatar).body;
@@ -30,12 +32,12 @@ const EditProfile = () => {
         user_id: accountData._id
       });
       setAccountData(updatedUser);
-      ToastAndroid.show("The changes has been saved.", ToastAndroid.SHORT);
+      setToast("The changes has been saved.");
 
       nav.replace("Home");
     } catch (error) {
       console.error("Error Updating User:", error);
-      ToastAndroid.show("Failed to save changes.", ToastAndroid.LONG);
+      setToast("Failed to save changes.");
     }
   };
 

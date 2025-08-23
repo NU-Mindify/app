@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native'
+import { View, Text, Platform } from 'react-native'
 import React from 'react'
 import { modalStyles } from '../styles/modalStyles'
 import LottieView from 'lottie-react-native';
@@ -7,7 +7,11 @@ import Animated, { FadeIn, FadeOut, ZoomIn, ZoomOut } from 'react-native-reanima
 
 const LoadingOverlay = ({text}) => {
   return (
-    <Animated.View entering={FadeIn} exiting={FadeOut} style={modalStyles.modalBackground}>
+    <Animated.View
+      entering={FadeIn}
+      exiting={FadeOut}
+      style={modalStyles.modalBackground}
+    >
       <Animated.View
         entering={ZoomIn}
         exiting={ZoomOut}
@@ -29,7 +33,7 @@ const LoadingOverlay = ({text}) => {
             margin: "auto",
             marginTop: 0,
             padding: 0,
-            transform: [{ scale: 1.6 }],
+            transform: Platform.OS === "ios" ? [{ scale: 1 }] : [{ scale: 1.6 }],
           }}
           speed={2}
           resizeMode="center"

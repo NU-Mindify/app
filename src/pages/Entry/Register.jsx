@@ -1,4 +1,4 @@
-import { Text, ToastAndroid, TouchableOpacity, View } from 'react-native'
+import { Text, TouchableOpacity, View } from 'react-native'
 import React, { use, useContext, useEffect, useRef, useState } from 'react'
 import Animated, { FlipInXUp, FlipOutXDown } from 'react-native-reanimated'
 import styles from '../../styles/styles'

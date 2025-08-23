@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, ToastAndroid } from 'react-native'
+import { View, Text, TouchableOpacity } from 'react-native'
 import React, { useContext, useState } from 'react'
 import { Body, Title } from '../StartModal'
 import Input from '../../components/Input.jsx'
@@ -11,7 +11,7 @@ import axios from 'axios'
 import { ScrollView } from 'react-native-gesture-handler'
 
 const SearchStudent = () => {
-  const {modal} = useContext(ModalContext)
+  const {modal, setToast} = useContext(ModalContext)
   const [searchText, setSearchText] = useState("");
   const [searchList, setSearchList] = useState([]);
 
@@ -25,7 +25,7 @@ const SearchStudent = () => {
       setSearchList(data);
     } catch (error) {
       console.error("SEARCH",error);
-      ToastAndroid.show("Failed to search.", ToastAndroid.LONG)
+      setToast("Failed to search.")
     }
   }
   return (
@@ -38,7 +38,7 @@ const SearchStudent = () => {
         <Input style={{marginTop: 12}} value={searchText} onChangeText={(text) => {setSearchText(text); onSearch(text)}} placeholder={"Search for student..."}>
           <TouchableOpacity onPress={() => {
             if (searchText.trim() ==="") {
-              ToastAndroid.show("Please fill field with a name.",ToastAndroid.SHORT);
+              setToast("Please fill field with a name.")
               return;
             }
             onSearch(searchText);

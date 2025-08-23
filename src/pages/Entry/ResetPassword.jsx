@@ -1,4 +1,4 @@
-import { View, Text, Keyboard,ToastAndroid } from 'react-native'
+import { View, Text, Keyboard } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import AppBackground from '../../components/AppBackground'
 import Button from '../../components/Button'
@@ -65,9 +65,7 @@ const ResetPassword = () => {
         await sendResetPasswordEmail(email);
         setError("")
       } catch (err) 
-        {
-          console.log(err);
-          
+        { 
           if (err.code === "auth/user-not-found") {
             setError("Error sending password reset email. Please try again.")
           }

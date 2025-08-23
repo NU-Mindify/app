@@ -2,7 +2,7 @@ import { LockKeyhole, UserCircle2 } from "lucide-react-native";
 import { useEffect, useState } from "react";
 import Animated, { FlipInXUp, FlipOutXDown } from "react-native-reanimated";
 import Input from "../../components/Input";
-import { Text, ToastAndroid, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import AccountContext from "../../contexts/AccountContext";
 import styles from "../../styles/styles";
 import { useNavigation } from "@react-navigation/native";

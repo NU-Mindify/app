@@ -1,4 +1,4 @@
-import { ImageBackground, StyleSheet } from "react-native";
+import { ImageBackground, Platform, StyleSheet } from "react-native";
 import MindifyBackground from "../assets/bg.png";
 import { SafeAreaView } from "react-native-safe-area-context";
 import LottieView from "lottie-react-native";
@@ -22,12 +22,12 @@ const AppBackground = ({
     return state.routes[state.index]?.name;
   });
 
-  const getPaddingBottom = () => navbarRoutes.includes(routeName) ? 90 : 0
+  const getPaddingBottom = () => navbarRoutes.includes(routeName) ? 100 : 0
 
   if (gradientColors.length > 0) {
     return (
       <LinearGradient colors={gradientColors} style={[{ flex: 1 }, style]}>
-        <SafeAreaView style={[{ flex: 1, width: "100%", paddingBottom: getPaddingBottom() }, viewStyle]}>
+        <SafeAreaView style={[{ flex: 1, width: "100%", marginBottom: getPaddingBottom() }, viewStyle]}>
           {children}
         </SafeAreaView>
       </LinearGradient>
@@ -48,7 +48,7 @@ const AppBackground = ({
       >
         <LottieView
           style={{
-            display: source ? "none" : "flex",
+            display: source || Platform.OS === 'ios' ? "none" : "flex",
             position: "absolute",
             width: 720,
             height: 1280,
