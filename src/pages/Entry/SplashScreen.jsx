@@ -10,7 +10,6 @@ import loading from '../../anim/loading.json'
 
 const SplashScreen = () => {
   AuthHandler()
-  console.log("splash");
   
   return (
     <AppBackground>

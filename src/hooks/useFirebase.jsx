@@ -71,12 +71,10 @@ const useFirebase = () => {
   };
 
   const sendResetPasswordEmail = async (email) => {
-    const { data } = await axios.get(API_URL + "/checkEmailExists", { email })
+    const { data } = await axios.post(API_URL + "/checkEmailExists", { "email": email })
     console.log(data);
     if(!data.exists) {
-      
-      alert("Please provide registered email.")
-      return;
+      throw ("unregistered");
     }
     const auth = getAuth();
     sendPasswordResetEmail(auth, email)
@@ -156,7 +154,7 @@ const useFirebase = () => {
             "An unexpected error occurred. Please try again later.";
           console.error("Firebase Auth Error:", err);
       }
-      ToastAndroid.show(customErrorMessage, ToastAndroid.LONG);
+      alert(customErrorMessage);
     }
   };
 
@@ -168,13 +166,16 @@ export default useFirebase;
 // Initializes Auth changes
 // */
 export const AuthHandler = () => {
+  const {accountData, setAccountData} = useContext(AccountContext)
   const nav = useNavigation();
   const { getUserData } = useFirebase()
 
   onAuthStateChanged(firebaseAuth, async (user) => {
     try {
       if (!user) {
-        nav.replace("Get Started");
+        const param = accountData ? {state: "login"} : {}
+        nav.replace("Get Started", param);
+        setAccountData(null);
         return;
       }
       const idToken = await firebaseAuth.currentUser.getIdToken();

@@ -120,7 +120,6 @@ const Settings = ({modal}) => {
         onPress={async () => {
           // nav.replace("Get Started");
           await SignOut();
-          setAccountData(null);
           setModal(null)
         }}/>
       </Body>

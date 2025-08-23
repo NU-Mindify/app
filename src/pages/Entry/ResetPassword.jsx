@@ -43,17 +43,19 @@ const ResetPassword = () => {
     const handleKeyboardHide = (event) => {
       setIsKeyboardVisible(false);
     };
-
+    useEffect(() => {
+      setError("")
+    }, [email])
 // code ko starting here:
     const handleReset = async () => {
       if (!email.trim()) {
-        ToastAndroid.show("Please enter your email address.", ToastAndroid.SHORT);
+        setError("Please enter your email address.");
         return;
       }
 
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(email)){
-        ToastAndroid.show("Error sending password reset email. Please try again.", ToastAndroid.SHORT);
+        setError("Please enter a valid email address.");
         return;
         // setError("Error sending password reset email. Please try again.")
         // return;
@@ -64,8 +66,13 @@ const ResetPassword = () => {
         setError("")
       } catch (err) 
         {
+          console.log(err);
+          
           if (err.code === "auth/user-not-found") {
             setError("Error sending password reset email. Please try again.")
+          }
+          if (err === "unregistered") {
+            setError("Please provide registered email.");
           }
           else {
             setError("Error sending password reset email. Please try again.");
@@ -111,11 +118,9 @@ const ResetPassword = () => {
             Enter your email address below, and we'll send you a secure link to reset your password.
           </Text>
           <Input value={email} onChangeText={text => setEmail(text)} placeholder={"e.g juan@national-u.edu.ph"} Icon={Mail} style={{paddingHorizontal:12}}/>
-            {error ? (
-              <Text style={{ color: "red", shadowColor:"black", marginTop: 6, textAlign: "center" }}>
-                {error}
-              </Text>
-            ) : null}
+            {error && 
+          <Text style={{color:'#ff2121', fontWeight:'bold', backgroundColor:'white', paddingHorizontal:12, padding:8, margin:12, borderRadius:12, textAlign:'center'}}>{error}</Text>
+        }
         </View>
         <View style={{padding: 16, gap:4}}>
           <Button onPress={() => {handleReset(email)}} text={"Reset Password"} />

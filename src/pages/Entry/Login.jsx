@@ -1,5 +1,5 @@
 import { LockKeyhole, UserCircle2 } from "lucide-react-native";
-import { useContext, useState } from "react";
+import { useEffect, useState } from "react";
 import Animated, { FlipInXUp, FlipOutXDown } from "react-native-reanimated";
 import Input from "../../components/Input";
 import { Text, ToastAndroid, TouchableOpacity, View } from "react-native";
@@ -13,6 +13,10 @@ const Login = ({ set }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isFormDisabled, setIsFormDisabled] = useState(false);
+  const [error, setError] = useState(null);
+  useEffect(() => {
+    setError(null)
+  }, [username, password])
   
   const [currentField, setCurrentField] = useState(null)
   const nav = useNavigation();
@@ -20,18 +24,18 @@ const Login = ({ set }) => {
   const onSubmit = () => {
     setIsFormDisabled(true)
     if (username.trim() === "" && password.trim() === ""){
-      ToastAndroid.show("Please fill in all required fields.",ToastAndroid.SHORT);
+      setError("Please fill in all required fields.")
       setIsFormDisabled(false)
       return;
     }
 
     if(username.trim() === ""){
-      ToastAndroid.show("Email Field is required.", ToastAndroid.SHORT);
+      setError("Email Field is required.");
       setIsFormDisabled(false)
       return;
     }
     if(password.trim() === ""){
-      ToastAndroid.show("Password Field is required.", ToastAndroid.SHORT);
+      setError("Password Field is required.");
       setIsFormDisabled(false)
       return;
     }
@@ -58,8 +62,7 @@ const Login = ({ set }) => {
           customErrorMessage = "An unexpected error occurred. Please try again later.";
           console.error("Firebase Auth Error:", err);
       }
-      
-      ToastAndroid.show(customErrorMessage, ToastAndroid.SHORT);
+      setError(customErrorMessage);
       setIsFormDisabled(false)
     })
   }
@@ -98,6 +101,9 @@ const Login = ({ set }) => {
           returnKeyType="done"
           currentFocus={currentField === 1}
         />
+        {error && 
+          <Text style={{color:'#ff2121', fontWeight:'bold', backgroundColor:'white', paddingHorizontal:12, padding:8, margin:12, borderRadius:12, textAlign:'center'}}>{error}</Text>
+        }
         <TouchableOpacity
           onPress={onSubmit}
           style={
