@@ -59,7 +59,7 @@ const Timer = ({ onZero, duration = 20, currentNumber }) => {
         borderRadius: 24,
       }}
     >
-      <Text style={{position: 'absolute', width:'100%', textAlign:'center', top:2, zIndex:2, fontWeight:700}}>{seconds} seconds</Text>
+      <Text style={{position: 'absolute', width:'100%', textAlign:'center', top:2, zIndex:2, fontWeight:700, textShadowColor:'white', textShadowRadius:4, }}>{seconds} seconds</Text>
       <Animated.View
         style={[
           {

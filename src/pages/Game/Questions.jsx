@@ -9,21 +9,63 @@ import Animated, { BounceIn, FadeInDown, SlideInLeft } from "react-native-reanim
 import { useContext, useEffect, useRef } from "react";
 import GameContext from "../../contexts/GameContext";
 import { gameColors } from "../../constants";
+import LottieView from "lottie-react-native";
+import fireAnimation from '../../anim/Fire.json'
 
-export default function Questions({ data, onAnswer, number, length }) {
+export default function Questions({ data, onAnswer, number, length, streak, mode }) {
   const { level, categoryIndex } = useContext(GameContext);
+  const animationRef = useRef(null);
+
+  useEffect(()=> {
+    if(streak < 5) {
+      animationRef.current.pause()
+    }else{
+      animationRef.current.play()
+    }
+  }, [streak])
+
+  console.log(data.answer);
+
   return (
     <>
-      <Animated.View
-        style={questStyle.scrollView}
-        entering={FadeInDown}
-      >
+      <Animated.View style={questStyle.scrollView} entering={FadeInDown}>
+        {mode === "mastery" && (
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                backgroundColor:'white',
+                marginHorizontal:'auto',
+                borderRadius:12,
+                padding: 4
+              }}
+            >
+              <LottieView
+                ref={animationRef}
+                style={{
+                  width: 42,
+                  height: 42,
+                  padding: 0,
+                  filter: [{ grayscale: streak < 5 ? "100%" : "0" }],
+                }}
+                resizeMode="center"
+                source={fireAnimation}
+                autoPlay
+                loop
+              />
+              {streak >= 5 && (
+                <Text style={{ fontSize: 18, fontFamily: "LilitaOne-Regular", paddingRight:8 }}>
+                  Streak: {streak}
+                </Text>
+              )}
+            </View>
+          )}
         <View
           style={{
             position: "absolute",
             top: "50%",
             left: 0,
-            height: '50%',
+            height: "50%",
             width: "100%",
             transform: [{ translateY: "-50%" }],
             backgroundColor: "#A1CDB6",
