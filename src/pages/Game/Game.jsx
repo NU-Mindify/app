@@ -48,17 +48,14 @@ const Game = (props) => {
     let newStats = {
       ...stats,
       answers: [...stats.answers, choice],
-      streak: 0,
     };
 
     if (choice.isCorrect) {
       newStats.correct = stats.correct + 1;
       newStats.streak = stats.streak + 1;
-      // PlaySFX(require('../../audio/correct.mp3'))
       correctSfxPlayer.seekTo(0);
       correctSfxPlayer.play();
     } else {
-      // PlaySFX(require("../../audio/wrong.mp3"));
       wrongSfxPlayer.seekTo(0);
       wrongSfxPlayer.play();
       newStats.wrong = stats.wrong + 1;
@@ -375,6 +372,8 @@ const Game = (props) => {
               number={currentNumber}
               onAnswer={onAnswerSelect}
               length={questions.length}
+              streak={stats.streak}
+              mode={mode}
             />
           </>
         )}

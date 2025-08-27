@@ -156,7 +156,11 @@ const tabStyle = {
 export default Leaderboard;
 
 const UserCard = ({ data, index, current }) => {
-  const Avatar = avatars.find(avatar => avatar.id === data.user_id.avatar)?.head || avatars[0].head;
+  console.log(data);
+  if(!data.user_id?.avatar) console.log(data);
+  
+  
+  const Avatar = avatars.find(avatar => avatar.id === data.user_id?.avatar)?.head || avatars[0].head;
   const nav = useNavigation();
   const { accountData } = useContext(AccountContext);
   return (
