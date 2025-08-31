@@ -47,7 +47,7 @@ export default function RationaleModal ({modal}) {
             {modal.subtitle}
           </Text>
           {modal.filepath && (
-            <Image source={{ uri: "https://dllkypmqteqwaxqqzugd.supabase.co/storage/v1/object/public/badges/badge_pics/"+modal.filepath }} width={100} height={100} style={{width:100, height:100}} resizeMode='cover' />
+            <Image source={{ uri: modal.filepath }} width={100} height={100} style={{width:100, height:100, paddingTop:4}} resizeMode='cover' />
           )
         }
           {modal.body && 

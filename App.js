@@ -1,7 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import React, { useEffect, useState } from 'react';
-import { Platform, StatusBar, Text } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { AppState, Platform, StatusBar, Text } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import StartModal from './src/components/StartModal';
 import AccountContext from './src/contexts/AccountContext';
@@ -34,6 +34,10 @@ import Story from './src/pages/Story/Story';
 import { useNavigation } from '@react-navigation/native';
 import { currentRouteName, getActiveRouteName, navigationRef } from './src/utils/RootNavigation';
 import Toast from './src/components/Toast';
+import axios from 'axios';
+import { API_URL } from './src/constants';
+import moment from 'moment';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 ExpoSplashScreen.preventAutoHideAsync();
 
@@ -62,7 +66,67 @@ export default function App() {
   const [modal, setModal] = useState(null)
   const [toast, setToast] = useState("");
 
+  
+  // For Session time
+  const appState = useRef(AppState.currentState);
+  const [appStateVisible, setAppStateVisible] = useState(appState.current);
+  const startTime = useRef(null)
+  
+  async function addSessionTime() {
+    console.log(startTime.current);
+    try {
+      
+      const endTime = moment()
+      const duration = moment.duration(endTime.diff(startTime.current)).asSeconds()
+      const newSession =  {
+        start_time: startTime.current,
+        end_time: new Date(),
+        duration,
+        user: accountData ? accountData[0]._id : null
+      }
+      let queue = JSON.parse(await AsyncStorage.getItem("unsent_sessions")) || [];
+      queue.push(newSession);
+      await AsyncStorage.setItem("unsent_sessions", JSON.stringify(queue));
+      addBulkSessions();
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  async function addBulkSessions() {
+    let queue = JSON.parse(await AsyncStorage.getItem("unsent_sessions")) || [];
 
+    if (queue.length === 0) return;
+    console.log("Sending unsent sessions:", queue);
+
+    try {
+      const { data } = await axios.post(API_URL + "/addSession", queue);
+      console.log(data);
+      await AsyncStorage.removeItem("unsent_sessions");
+
+    } catch (error) {
+      console.error(error);
+
+    }
+  }
+
+  useEffect(() => {
+    startTime.current = moment()
+    const subscription = AppState.addEventListener("change", async (nextState) => {
+      if (nextState.match(/background|inactive/)) {
+        console.log("on bg: Started adding");
+        await addSessionTime(); // send to DB when app backgrounds
+        console.log("added");
+        
+      }
+      if(nextState === "active"){
+        console.log("Active again");
+        addBulkSessions()
+        startTime.current = moment()
+      }
+    });
+
+    return () => subscription.remove();
+  }, []);
 
   useEffect(() => {
     console.log(fontLoaded, fontError);
@@ -103,7 +167,7 @@ export default function App() {
               <BuildInfo />
 
               {/* <ResetButton /> */}
-              <Stack.Navigator screenOptions={{ headerShown: false, statusBarHidden: Platform.OS !== "ios", navigationBarHidden: true, }}>
+              <Stack.Navigator screenOptions={{ headerShown: false, statusBarHidden: Platform.OS !== "ios", navigationBarHidden: true, gestureEnabled: false, }}>
                 <Stack.Screen name="Splash" component={SplashScreen} />
                 <Stack.Screen name='Get Started' component={GetStarted} />
                 <Stack.Screen name='Reset Password' component={ResetPassword} />

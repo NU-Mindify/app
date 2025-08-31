@@ -41,21 +41,23 @@ const Results = ({ stats, onReview, onLeaderboard }) => {
     return is3Star ? 3 : is2Star ? 2 : is1Star ? 1 : 0;
   }
   const stars = getStarsCount(stats.correct, totalQuestions)
+  const scoreLeftToPass = Math.floor(totalQuestions * 0.8) - stats.correct;
+  const scoreLeftForBadge = Math.floor(totalQuestions * 1) - stats.correct;
   console.log({
     star1: Math.floor(totalQuestions * 0.8),
     star2: Math.floor(totalQuestions * 0.9),
     star3: Math.floor(totalQuestions * 1),
   });
 
-  const animRef = useRef(null);
+  
 
-  const winSfx = useAudioPlayer(require("../../audio/complete.mp3"));
-  const loseSfx = useAudioPlayer(require("../../audio/lose.mp3"));
+  const winSfx = useAudioPlayer(require("../../audio/complete.wav"));
+  const loseSfx = useAudioPlayer(require("../../audio/lose.wav"));
   useEffect(() => {
     if (isPass) {
       winSfx.play()
     } else {
-      animRef?.current?.play(0, 54)
+      
       loseSfx.play();
     }
   }, [])
@@ -65,7 +67,13 @@ const Results = ({ stats, onReview, onLeaderboard }) => {
   const {primary_color, secondary_color} = categoryIndex
   return (
     <>
-      <View style={{ alignItems: "center", maxWidth: 450, marginHorizontal:'auto' }}>
+      <View
+        style={{
+          alignItems: "center",
+          maxWidth: 450,
+          marginHorizontal: "auto",
+        }}
+      >
         <Title
           title={is1Star ? "COMPLETED" : "FAILED"}
           colors={{ primary_color, secondary_color }}
@@ -156,7 +164,7 @@ const Results = ({ stats, onReview, onLeaderboard }) => {
               style={{
                 fontSize: 18,
                 textAlign: "center",
-                paddingHorizontal: 12,
+                marginTop:12
               }}
             >
               You've scored
@@ -165,12 +173,12 @@ const Results = ({ stats, onReview, onLeaderboard }) => {
               }${score} `}</Text> */}
               <Text
                 style={{ fontWeight: 900, fontSize: 18 }}
-              >{` ${stats.correct} `}</Text>
-              out of {stats.correct + stats.wrong} in
+              >{` ${Math.floor((stats.correct / totalQuestions) * 100)}%`}</Text> in
               <Text style={{ fontWeight: 900, fontSize: 18, color: "black" }}>
                 {` ${duration} `}
               </Text>
-              seconds
+              seconds. {!is1Star && `\nAnswer ${scoreLeftToPass} more correctly to pass.`}
+              {is1Star && !is3Star && `Score ${scoreLeftForBadge} more to earn a badge.`}
             </Text>
           </View>
           <View
@@ -252,24 +260,21 @@ const Results = ({ stats, onReview, onLeaderboard }) => {
             />
           </View>
         </Animated.View>
-        <LottieView
-          style={{
-            position: "absolute",
-            margin: "auto",
-            width: 720,
-            height: "70%",
-            top: 60,
-            zIndex: 1,
-          }}
-          ref={animRef}
-          source={
-            is1Star
-              ? require("../../anim/confetti.json")
-              : require("../../anim/sadDefeat.json")
-          }
-          autoPlay
-          loop={is1Star}
-        />
+        {is1Star && (
+          <LottieView
+            style={{
+              position: "absolute",
+              margin: "auto",
+              width: 720,
+              height: "70%",
+              top: 60,
+              zIndex: 1,
+            }}
+            source={require("../../anim/confetti.json")}
+            autoPlay
+            loop={is1Star}
+          />
+        )}
       </View>
     </>
   );

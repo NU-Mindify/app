@@ -50,8 +50,6 @@ const useFirebase = () => {
       nav.replace("Home");
     } catch (error) {
       console.error("getUserData", error.message);
-      console.error(error.response.data);
-      setToast(`Can't get user data: ${error.message}`)
       Alert.alert("Error", "Please check your internet connection.", [
               { text: "Retry", onPress: () => getUserData(userID) },
             ]);

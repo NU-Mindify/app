@@ -12,19 +12,23 @@ import GameContext from "../../contexts/GameContext";
 import axios from "axios";
 // import { Audio } from "expo-av";
 import { API_URL, gameColors } from "../../constants";
-import { Alert, BackHandler, Text } from "react-native";
+import { Alert, BackHandler, Pressable, Text, View } from "react-native";
 import ModalContext from "../../contexts/ModalContext";
 import Animated from "react-native-reanimated";
 import Timer from "./Timer";
 import { useNavigation } from "@react-navigation/native";
 import { allowScreenCaptureAsync, preventScreenCaptureAsync } from "expo-screen-capture";
 import { useAudioPlayer } from "expo-audio";
+import { Home } from "lucide-react-native";
+import styles from "../../styles/styles";
 
 const Game = (props) => {
-  const { level, levelIndex, categoryIndex, isMastery, mode } = props.route.params;
-  const { accountData, setAccountData, progressData, setProgressData } = useContext(AccountContext);
-  const { setModal, setToast } = useContext(ModalContext)
-  const categoryProgress = useRef(progressData["classic"][categoryIndex.id])
+  const { level, levelIndex, categoryIndex, isMastery, mode } =
+    props.route.params;
+  const { accountData, setAccountData, progressData, setProgressData } =
+    useContext(AccountContext);
+  const { setModal, setToast } = useContext(ModalContext);
+  const categoryProgress = useRef(progressData["classic"][categoryIndex.id]);
 
   const musicPlayer = useAudioPlayer(require("../../audio/guess.mp3"));
   const correctSfxPlayer = useAudioPlayer(require("../../audio/correct.mp3"));
@@ -35,7 +39,7 @@ const Game = (props) => {
   const [currentQuestion, setCurrentQuestion] = useState(null);
   const [rationaleModal, setRationaleModal] = useState(null);
   const [postGameScreen, setPostGameScreen] = useState("");
-  const [currentAttemptID, setCurrentAttemptID] = useState(null)
+  const [currentAttemptID, setCurrentAttemptID] = useState(null);
   const [stats, setStats] = useState({
     startTime: moment(),
     correct: 0,
@@ -55,13 +59,15 @@ const Game = (props) => {
       newStats.streak = stats.streak + 1;
       correctSfxPlayer.seekTo(0);
       correctSfxPlayer.play();
+      setToast("Correct")
     } else {
       wrongSfxPlayer.seekTo(0);
       wrongSfxPlayer.play();
       newStats.wrong = stats.wrong + 1;
       newStats.streak = 0;
+      setToast("Wrong")
     }
-    setStats((prevstats) => ({...prevstats, ...newStats}));
+    setStats((prevstats) => ({ ...prevstats, ...newStats }));
     if (["competition", "mastery"].includes(mode)) {
       setCurrentQuestion(null);
       nextQuestion(newStats);
@@ -69,7 +75,6 @@ const Game = (props) => {
       showRationaleModal(choice, newStats);
       setCurrentQuestion(null);
     }
-
   };
   // -------------------------------------
   const nextQuestion = async (newStats) => {
@@ -77,21 +82,14 @@ const Game = (props) => {
     if (isLevelComplete()) {
       // stopLoopingAudio();
       musicPlayer.pause();
-  
-      setStats((prevstats) => ({ ...prevstats, endTime: moment() }));
-      newStats.endTime = moment()
 
-      addAttemptToServer(newStats)
+      setStats((prevstats) => ({ ...prevstats, endTime: moment() }));
+      newStats.endTime = moment();
+
+      addAttemptToServer(newStats);
 
       setCurrentNumber((current) => current + 1);
 
-      // if (isMovingToNextLevel() && isScorePassed()) {
-      //   playSound(require("../../audio/complete.mp3"));
-      // } else if (isScorePassed()) {
-      //   playSound(require("../../audio/complete.mp3"));
-      // } else {
-      //   playSound(require("../../audio/lose.mp3"));
-      // }
       return;
     }
     setCurrentNumber((current) => current + 1);
@@ -100,9 +98,10 @@ const Game = (props) => {
 
   const addAttemptToServer = async (newStats) => {
     try {
-      const highestEarnedStars = progressData.high_scores[categoryIndex.id]?.[levelIndex]?.stars || 0
-      const attemptStars = getStarsCount(newStats.correct, questions.length)
-      if(highestEarnedStars !== 3 && attemptStars === 3){
+      const highestEarnedStars =
+        progressData.high_scores[categoryIndex.id]?.[levelIndex]?.stars || 0;
+      const attemptStars = getStarsCount(newStats.correct, questions.length);
+      if (highestEarnedStars !== 3 && attemptStars === 3) {
         await addBadge(newStats);
       }
 
@@ -119,19 +118,26 @@ const Game = (props) => {
           total_items: questions.length,
           branch: accountData.branch,
           mode,
-          stars: attemptStars
+          stars: attemptStars,
         },
-        progressUserLevel: isMovingToNextLevel() && isScorePassed() && mode === "competition",
+        progressUserLevel:
+          isMovingToNextLevel() && isScorePassed() && mode === "competition",
       });
-      if (data.hasOwnProperty("progress_data")) { 
+      if (data.hasOwnProperty("progress_data")) {
         setProgressData(data.progress_data);
       }
-      if(data.attempt){
-        setCurrentAttemptID(data.attempt._id)
+      if (data.attempt) {
+        setCurrentAttemptID(data.attempt._id);
       }
 
-      const { data:newAccount } = await axios.get(API_URL + `/addPoints?user_id=`+accountData._id+"&stars="+attemptStars)
-      setAccountData(newAccount)
+      const { data: newAccount } = await axios.get(
+        API_URL +
+          `/addPoints?user_id=` +
+          accountData._id +
+          "&stars=" +
+          attemptStars
+      );
+      setAccountData(newAccount);
       setPostGameScreen("Results");
     } catch (error) {
       setToast("Failed to add record: " + error);
@@ -147,8 +153,8 @@ const Game = (props) => {
         },
         colors: {
           primary_color: categoryIndex.primary_color,
-          secondary_color: categoryIndex.secondary_color
-        }
+          secondary_color: categoryIndex.secondary_color,
+        },
       });
     }
   };
@@ -158,37 +164,37 @@ const Game = (props) => {
       const { data: badge } = await axios.post(API_URL + "/addUserBadge", {
         category: categoryIndex.id,
         level,
-        user_id: accountData._id
-      })
-      console.log("BADGE FILEPATH",badge, badge.badge.filepath);
-      
+        user_id: accountData._id,
+      });
+      console.log("BADGE FILEPATH", badge, badge.badge.filepath);
+
       setRationaleModal({
         type: "Error",
-        title: "New Badge",
+        title: badge.badge.name + "Badge",
         subtitle: "You earned a badge!",
         body: "Congratulations on completing the level perfectly with 0 mistakes!",
-        "filepath": badge.badge.filepath,
+        filepath: badge.badge.filepath,
         primaryFn: () => {
           setRationaleModal(null);
         },
         colors: {
           primary_color: categoryIndex.primary_color,
-          secondary_color: categoryIndex.secondary_color
-        }
+          secondary_color: categoryIndex.secondary_color,
+        },
       });
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   const showRationaleModal = (choice, newStats) => {
     setRationaleModal({
       title: `Question ${currentNumber + 1}`,
       subtitle: choice.letter
         ? `${choice.letter.toUpperCase()}. ${choice.text}`
-        : `Answer:\n ${
-            currentQuestion.choices.find((choice) => choice.isCorrect).letter.toUpperCase()
-          }. ${
+        : `Answer:\n ${currentQuestion.choices
+            .find((choice) => choice.isCorrect)
+            .letter.toUpperCase()}. ${
             currentQuestion.choices.find((choice) => choice.isCorrect).text
           }`,
       body: getModalBody(stats.streak, choice),
@@ -203,19 +209,19 @@ const Game = (props) => {
       },
     });
   };
-  
+
   // ------------------------
 
   const isLevelComplete = () => {
     return currentNumber + 1 === questions.length;
-  }
+  };
   const isMovingToNextLevel = () => {
     console.log(categoryProgress, levelIndex);
-    return categoryProgress.current === levelIndex
-  }
+    return categoryProgress.current === levelIndex;
+  };
   const isScorePassed = () => {
     return stats.correct >= Math.floor((stats.correct + stats.wrong) * 0.8);
-  }
+  };
   const getModalBody = (streakCount, choice) => {
     if (!isMastery) {
       return (
@@ -230,105 +236,108 @@ const Game = (props) => {
       : streakCount === 1
       ? "Nice one! Let's go for a streak!"
       : "Let's try the next one.";
-  }
+  };
 
   const getStarsCount = (correct, totalQuestions) => {
-    return correct >= Math.floor(totalQuestions * 1) ? 3 : 
-    correct >= Math.floor(totalQuestions * 0.9) ? 2 :
-    correct >= Math.floor(totalQuestions * 0.8) ? 1 : 0
-  }
+    return correct >= Math.floor(totalQuestions * 1)
+      ? 3
+      : correct >= Math.floor(totalQuestions * 0.9)
+      ? 2
+      : correct >= Math.floor(totalQuestions * 0.8)
+      ? 1
+      : 0;
+  };
   // -----------------------------------------
 
   const getQuestions = async () => {
     try {
       let URL = `${process.env.EXPO_PUBLIC_URL}/getQuestions?category=${categoryIndex.id}&level=${level}`;
-      if(categoryIndex.id === "abnormal" && mode !== 'mastery'){
+      if (categoryIndex.id === "abnormal" && mode !== "mastery") {
         URL = `${process.env.EXPO_PUBLIC_URL}/getQuestions?category=${categoryIndex.id}&start=${items[level].start}&end=${items[level].end}`;
       }
-      if(mode === "mastery"){
-        URL = API_URL + "/getQuestions?category=" + categoryIndex.id
+      if (mode === "mastery") {
+        URL = API_URL + "/getQuestions?category=" + categoryIndex.id;
       }
       // const { data } = await axios.get(`${process.env.EXPO_PUBLIC_URL}/getQuestions?category=${'developmental'}&level=${1}`)
-      console.log(accountData.token)
+      console.log(accountData.token);
       const { data } = await axios.get(URL, {
         headers: {
           Authorization: `Bearer ${accountData.token}`,
         },
       });
-      const questions = data.length !== 0 ? data : questionsData
+      const questions = data.length !== 0 ? data : questionsData;
 
-      if(["competition", "mastery"].includes(mode)){
+      if (["competition", "mastery"].includes(mode)) {
         let shuffledQuestions = questions
           .map((value) => ({ value, sort: Math.random() }))
           .sort((a, b) => a.sort - b.sort)
           .map(({ value }) => value);
-        setQuestions(shuffledQuestions)
+        setQuestions(shuffledQuestions);
         setCurrentQuestion(shuffledQuestions[currentNumber]);
-      }else{
+      } else {
         setQuestions(questions);
         setCurrentQuestion(questions[currentNumber]);
       }
-
     } catch (error) {
       console.error("getting questions", error.message);
     }
-  }
+  };
 
-  const nav = useNavigation()
+  const nav = useNavigation();
   // Confirm back while in-game
   useEffect(() => {
-    const unsubscribe = nav.addListener("beforeRemove", (e) => {
-      e.preventDefault();
-      const isGoBackAction =
-        e.data.action.type === "GO_BACK" || e.data.action.type === "POP";
-      
-      if(postGameScreen !== "") {
-        nav.dispatch(e.data.action);
-        return;
-      }
-      if (!isGoBackAction && postGameScreen === "") return;
-
-      Alert.alert(
-        "Cancel?",
-        "Are you sure you want to return to home screen? All progress will be lost.",
-        [
-          { text: "Cancel", style: "cancel", onPress: () => {} },
-          {
-            text: "Yes",
-            style: "destructive",
-            onPress: () => nav.dispatch(e.data.action),
-          },
-        ]
-      );
-    });
-
-    return unsubscribe; 
-  }, [nav, postGameScreen]);
-  // Prevents Screenshot
-  useEffect(() => {
-    console.log(postGameScreen);
-    const toggleScreenCapture = async () => {
-      if (postGameScreen === "" || postGameScreen === "Review") {
-        await preventScreenCaptureAsync();
-      } else {
-        await allowScreenCaptureAsync();
-      }
+    const backAction = () => {
+      showBackAlert();
+      return true;
     };
 
-    toggleScreenCapture();
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
 
-    return () => {
-      allowScreenCaptureAsync();
-    };
-  }, [postGameScreen]);
-  
+    return () => backHandler.remove();
+  }, []);
+  const showBackAlert = () => {
+    Alert.alert(
+      "Cancel?",
+      "Are you sure you want to return to home screen? All progress will be lost.",
+      [
+        {
+          text: "Cancel",
+          onPress: () => null,
+          style: "cancel",
+        },
+        { text: "YES", onPress: () => nav.goBack() },
+      ]
+    );
+  }
+  //! Prevents Screenshot (Temporary Removed - IOS Compatibility Issue)
+  // useEffect(() => {
+  //   console.log(postGameScreen);
+  //   const toggleScreenCapture = async () => {
+  //     if (postGameScreen === "" || postGameScreen === "Review") {
+  //       console.log("Block screen - BLACK SCREEN");
+  //       await preventScreenCaptureAsync();
+  //     } else {
+  //       console.log("Allow Screen - Clear");
+  //       await allowScreenCaptureAsync();
+  //     }
+  //   };
+
+  //   toggleScreenCapture();
+
+  //   return () => {
+  //     allowScreenCaptureAsync();
+  //   };
+  // }, [postGameScreen]);
+
   useEffect(() => {
     getQuestions();
-    musicPlayer.loop = true
-    musicPlayer.play()
+    musicPlayer.loop = true;
+    musicPlayer.play();
   }, []);
 
-  
   return (
     <GameContext.Provider
       value={{ level, levelIndex, categoryIndex, isMastery, mode, gameColor: gameColors[categoryIndex.id] }}
@@ -337,6 +346,8 @@ const Game = (props) => {
         viewStyle={{
           justifyContent: "center",
           backgroundColor: "rgba(0,0,0,0.6)",
+          maxWidth:800,
+          paddingTop: 12
         }}
         gradientColors={gameColors[categoryIndex.id].background}
       >
@@ -348,8 +359,15 @@ const Game = (props) => {
                 margin: "auto",
                 borderRadius: 24,
                 backgroundColor: "white",
+                justifyContent:'center',
               }}
             >
+              <View style={{position:'absolute', backgroundColor:'white', left:12, zIndex:5}}>
+                <Pressable onPress={showBackAlert}>
+                  <Home />
+                </Pressable>
+
+              </View>
               <Text
                 style={{
                   fontSize: 20,
@@ -362,10 +380,34 @@ const Game = (props) => {
                 {categoryIndex.name.toUpperCase()}
               </Text>
             </Animated.View>
-            <Text style={{ color: "#8CFFC2", fontSize:32, textAlign:'center', marginVertical:24, fontFamily:'LilitaOne-Regular'}}>{mode === "mastery" ? "MASTERY" : "LEVEL: EASY"}</Text>
-            {mode !== "review" &&
-            <Timer onZero={() => onAnswerSelect({isCorrect: false})} duration={mode !== "mastery" ? 30 : currentQuestion.difficulty === "E" ? 20 : currentQuestion.difficulty === "A" ? 40 : currentQuestion.difficulty === "D" ? 60 : 30 } currentNumber={currentNumber} />
-            }
+            <Text
+              style={{
+                color: "#8CFFC2",
+                fontSize: 32,
+                textAlign: "center",
+                marginVertical: 24,
+                fontFamily: "LilitaOne-Regular",
+              }}
+            >
+              {mode === "mastery" ? "MASTERY" : "LEVEL: EASY"}
+            </Text>
+            {mode !== "review" && (
+              <Timer
+                onZero={() => onAnswerSelect({ isCorrect: false })}
+                duration={
+                  mode !== "mastery"
+                    ? 30
+                    : currentQuestion.difficulty === "E"
+                    ? 20
+                    : currentQuestion.difficulty === "A"
+                    ? 40
+                    : currentQuestion.difficulty === "D"
+                    ? 60
+                    : 30
+                }
+                currentNumber={currentNumber}
+              />
+            )}
             <Questions
               level={level}
               data={currentQuestion}

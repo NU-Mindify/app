@@ -1,7 +1,7 @@
-import { View, Text } from "react-native";
+import { View, Text, BackHandler } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import AppBackground from "../../components/AppBackground";
-import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
+import { Pressable, ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import moment from "moment";
 import styles from "../../styles/styles";
 import X from "../../assets/generic/X-White.svg";
@@ -23,6 +23,19 @@ const Leaderboard = ({ onExit, level, categoryIndex, isMastery, mode, current })
   const getPaddingBottom = () => (navbarRoutes.includes(routeName) ? 80 : 0);
   const {setToast} = useContext(ModalContext);
 
+  useEffect(() => {
+    const backAction = () => {
+        onExit();
+        return true;
+      };
+
+      const backHandler = BackHandler.addEventListener(
+        "hardwareBackPress",
+        backAction
+      );
+
+      return () => backHandler.remove();
+  }, []);
 
   const getList = async () => {
     setLoading(true)
@@ -68,9 +81,9 @@ const Leaderboard = ({ onExit, level, categoryIndex, isMastery, mode, current })
         <Text style={[styles.entryBody, { fontSize: 24, fontWeight: "bold" }]}>
           Leaderboards
         </Text>
-        <TouchableOpacity onPress={onExit}>
+        <Pressable onPress={onExit}>
           <X width={32} height={32} />
-        </TouchableOpacity>
+        </Pressable>
       </View>
       <View
         style={{
