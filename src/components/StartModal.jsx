@@ -292,11 +292,14 @@ const Default = ({ modal }) => {
             {modal.subtitle}
           </Text>
         }
-        <Text
+        {typeof modal.body === "string" &&
+          <Text
           style={[modalStyles.bodyText]}
-        >
+          >
+            {modal.body}
+          </Text>
+        }
           {modal.body}
-        </Text>
         <View style={[modalStyles.btnContainer]}>
           <Button
             text={"OK"}

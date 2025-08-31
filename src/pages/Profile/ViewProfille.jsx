@@ -18,6 +18,7 @@ import AccountContext from "../../contexts/AccountContext";
 import styles from "../../styles/styles";
 import Avatar from "../../components/Avatar";
 import ModalContext from "../../contexts/ModalContext";
+import moment from "moment";
 
 const ViewProfile = () => {
   const nav = useNavigation();
@@ -193,24 +194,47 @@ const ViewProfile = () => {
           </Text>
           <View style={{flexDirection: 'row', gap:8, flexWrap: 'wrap', justifyContent:'space-around'}}>
             {earnedBadges.map((src, index) => (
-              <Badge src={src.badge_id.filepath} details={src} key={index} />
-            ))}
-            {unearnedBadges.map((src, index) => (
-              <Badge src={src.filepath} details={src}  key={index} imageStyle={{filter: 'grayscale(100%)'}} 
-              onPress={() => {
+              <Badge src={src.badge_id.filepath} details={src} key={index} onPress={() => {
+                const badgeDetails = src.badge_id
                 setModal({
                   title: "Badge",
+                  subtitle:badgeDetails.name+" Badge",
                   body: (
-                    <View style={{justifyContent:'center', alignItems:'center',  padding: 16, gap:8}}>
+                    <View style={{justifyContent:'center', alignItems:'center', margin:'auto',}}>
                       <Image
-                        source={{ uri: src.filepath }}
+                        source={{ uri: badgeDetails.filepath }}
                         style={[
                           { width: 100, height: 100 },
-                          { filter: "grayscale(100%)" },
                         ]}
                         resizeMode="contain"
                       />
-                      <Text style={{color:'white', textAlign:'center', fontSize:18, fontFamily:'LilitaOne-Regular'}}>
+                      <Text style={{color:'white', textAlign:'center', fontSize:18, fontFamily:'LilitaOne-Regular', width:300, paddingVertical:6}}>
+                        Earn 3 stars on level {badgeDetails.level} of {categoriesObj.find(cat => cat.id === badgeDetails.category).name}. {"\n\n"} Unlocked at {moment(src.createdAt).format("MMM Do YY, h:mm:ssa")}.
+                      </Text>
+                    </View>
+                  ),
+                  primaryFn: () => setModal(null),
+                  closeButton: false
+                });
+              }} />
+            ))}
+            {unearnedBadges.map((src, index) => (
+              <Badge src={src.filepath} details={src}  key={index} imageStyle={{filter: 'grayscale(1)'}} 
+              onPress={() => {
+                setModal({
+                  title: "Badge",
+                  subtitle:src.name+" Badge",
+                  body: (
+                    <View style={{justifyContent:'center', alignItems:'center', margin:'auto',}}>
+                      <Image
+                        source={{ uri: src.filepath }}
+                        style={[
+                          { width: 100, height: 100, },
+                          { filter: "grayscale(1)" },
+                        ]}
+                        resizeMode="contain"
+                      />
+                      <Text style={{color:'white', textAlign:'center', fontSize:18, fontFamily:'LilitaOne-Regular', width:300}}>
                         Earn 3 stars on level {src.level} of {categoriesObj.find(cat => cat.id === src.category).name} to unlock this badge.
                       </Text>
                     </View>

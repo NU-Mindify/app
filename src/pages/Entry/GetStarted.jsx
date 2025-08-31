@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Keyboard, Text, View } from 'react-native';
+import { Alert, BackHandler, Keyboard, Text, View } from 'react-native';
 import Animated, { BounceIn, FadeIn, FadeOut } from 'react-native-reanimated';
 import MindifyLogo from "../../assets/Logo.png";
 import AppBackground from "../../components/AppBackground";
@@ -9,9 +9,12 @@ import Login from './Login';
 import Register from './Register';
 import { Pressable, ScrollView } from 'react-native-gesture-handler';
 import TermsAndConditions from './TermsAndConditions';
+import { useNavigation } from '@react-navigation/native';
 
 export default function GetStarted(props) {
   const {state: entryState} = props.route.params
+
+  const nav = useNavigation()
   
   const [state, setState] = useState(entryState || "get started");
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
@@ -41,7 +44,26 @@ export default function GetStarted(props) {
   const handleKeyboardHide = (event) => {
     setIsKeyboardVisible(false);
   };
+  useEffect(() => {
+    const backAction = () => {
+        Alert.alert("Exit?", "Are you sure you want exit NU Mindify?", [
+          {
+            text: "Cancel",
+            onPress: () => null,
+            style: "cancel",
+          },
+          { text: "YES", onPress: () => BackHandler.exitApp() },
+        ]);
+        return true;
+      };
 
+      const backHandler = BackHandler.addEventListener(
+        "hardwareBackPress",
+        backAction
+      );
+
+      return () => backHandler.remove();
+    }, []);
   return (
     <Animated.View
       entering={FadeIn.duration(1000)}

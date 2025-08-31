@@ -17,6 +17,7 @@ export default function Questions({ data, onAnswer, number, length, streak, mode
   const animationRef = useRef(null);
 
   useEffect(()=> {
+    if(!animationRef.current) return;
     if(streak < 5) {
       animationRef.current.pause()
     }else{
