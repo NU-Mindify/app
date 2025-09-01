@@ -91,7 +91,7 @@ const useFirebase = () => {
   }
 
   const createAccount = async (
-    { email, username, password, first_name, last_name, branch = "moa" },
+    { student_id, email, username, password, first_name, last_name, branch = "moa" },
     callback = () => { }
   ) => {
     try {
@@ -118,6 +118,7 @@ const useFirebase = () => {
           first_name,
           last_name,
           uid: user.uid,
+          student_id
         }
       );
       console.log(response.data);
