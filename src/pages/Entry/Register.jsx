@@ -1,9 +1,9 @@
-import { Text, TouchableOpacity, View } from 'react-native'
+import { Pressable, Text, TouchableOpacity, View } from 'react-native'
 import React, { use, useContext, useEffect, useRef, useState } from 'react'
 import Animated, { FlipInXUp, FlipOutXDown } from 'react-native-reanimated'
 import styles from '../../styles/styles'
 import Input from '../../components/Input'
-import { LockKeyhole, Mail, UserCircle2 } from 'lucide-react-native'
+import { Building, IdCard, LockKeyhole, Mail, UserCircle2 } from 'lucide-react-native'
 import useFirebase from '../../hooks/useFirebase'
 import ModalContext from '../../contexts/ModalContext'
 import { useNavigation } from '@react-navigation/native'
@@ -14,7 +14,7 @@ import LottieView from 'lottie-react-native'
 import LoadingOverlay from '../../components/LoadingOverlay'
 import TermsAndConditions from './TermsAndConditions'
 
-const Register = ({set, setTerms}) => {
+const Register = ({set, setTerms, setBranch}) => {
   const { setModal } = useContext(ModalContext);
   const nav = useNavigation();
   const { createAccount } = useFirebase();
@@ -32,6 +32,7 @@ const Register = ({set, setTerms}) => {
   
   const [formErrors, setFormErrors] = useState({});
   const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*]).{6,}$/;
+  const studentIDRegex = /^\d{4}-\d+$/;
 
   const [currentField, setCurrentField] = useState(null)
 
@@ -40,12 +41,22 @@ const Register = ({set, setTerms}) => {
     if(!validate()){
       return;
     }
-    await createAccount({ username: form.username, email: form.email, password: form.password, first_name: form.first_name, last_name: form.last_name })
+    await createAccount({ branch: setBranch.selectedBranch?.id, student_id:form.student_id, username: form.username, email: form.email, password: form.password, first_name: form.first_name, last_name: form.last_name })
   }
 
   const validate = () => {
     let isValid = true;
     let errors = {};
+
+    if(!setBranch && !setBranch.selectedBranch?.id){
+      errors.branch = "Select a branch";
+      isValid = false;
+    }
+
+    if(!studentIDRegex.test(form.student_id)){
+      errors.student_id = "Invalid Student ID"
+      isValid = false;
+    }
 
     if (form.username.trim().length < 6) {
       errors.username = "Username must be at least 6 characters";
@@ -112,16 +123,58 @@ const Register = ({set, setTerms}) => {
         <Text style={styles.entryBody}>
           Join NUMindify and start boosting your knowledge today!
         </Text>
+        <Pressable
+          style={[{ width: "100%", marginHorizontal: "auto" }]}
+          onPress={() => setBranch.setIsBranchOpen(true)}
+        >
+          <Text
+            style={{
+              color: "white",
+              fontSize: 18,
+              fontFamily: "LilitaOne-Regular",
+            }}
+          >
+            NU Campus:<Text style={{ color: "#ff2121" }}>*</Text>
+          </Text>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              backgroundColor: isFormDisabled ? "#c4c4c4" : "white",
+              width: "100%",
+              marginHorizontal: "auto",
+              padding: 8,
+              paddingVertical: 8,
+              borderRadius: 12,
+              gap: 12,
+              borderWidth: 2,
+            }}
+          >
+            <Building color={"black"} />
+            <Text>{setBranch.selectedBranch?.name || "Select Branch"}</Text>
+          </View>
+        </Pressable>
+        <Input
+          label={"Student ID"}
+          Icon={IdCard}
+          onChangeText={(text) => setForm({ ...form, student_id: text })}
+          value={form.student_id}
+          disabled={isFormDisabled}
+          returnKeyType="next"
+          currentFocus={currentField === 0}
+          onSubmitEditing={() => setCurrentField(1)}
+          condition={(text) => /^\d{4}-\d+$/.test(text)}
+          errorText={formErrors.student_id}
+        />
         <Input
           label={"Username"}
           Icon={UserCircle2}
           onChangeText={(text) => setForm({ ...form, username: text })}
           value={form.username}
-          style={{ marginTop: 12 }}
           disabled={isFormDisabled}
           returnKeyType="next"
-          currentFocus={currentField === 0}
-          onSubmitEditing={() => setCurrentField(1)}
+          currentFocus={currentField === 1}
+          onSubmitEditing={() => setCurrentField(2)}
           condition={(text) => text.length >= 6}
           errorText={formErrors.username}
         />
@@ -132,8 +185,8 @@ const Register = ({set, setTerms}) => {
           value={form.first_name}
           disabled={isFormDisabled}
           returnKeyType="next"
-          currentFocus={currentField === 1}
-          onSubmitEditing={() => setCurrentField(2)}
+          currentFocus={currentField === 2}
+          onSubmitEditing={() => setCurrentField(3)}
           condition={(text) => text.length >= 2}
           errorText={formErrors.first_name}
         />
@@ -144,8 +197,8 @@ const Register = ({set, setTerms}) => {
           value={form.last_name}
           disabled={isFormDisabled}
           returnKeyType="next"
-          currentFocus={currentField === 2}
-          onSubmitEditing={() => setCurrentField(3)}
+          currentFocus={currentField === 3}
+          onSubmitEditing={() => setCurrentField(4)}
           condition={(text) => text.length >= 2}
           errorText={formErrors.last_name}
         />
@@ -156,12 +209,12 @@ const Register = ({set, setTerms}) => {
           value={form.email}
           disabled={isFormDisabled}
           returnKeyType="next"
-          onSubmitEditing={() => setCurrentField(4)}
-          currentFocus={currentField === 3}
-          condition={(text) => (
+          onSubmitEditing={() => setCurrentField(5)}
+          currentFocus={currentField === 4}
+          condition={(text) =>
             // text.endsWith("@students.nu-moa.edu.ph"
             /\S+@\S+\.\S+/.test(text)
-            )}
+          }
           errorText={formErrors.email} //for trial purposes kaya ko i-uncomment
         />
         <Input
@@ -171,9 +224,9 @@ const Register = ({set, setTerms}) => {
           onChangeText={(text) => setForm({ ...form, password: text })}
           value={form.password}
           disabled={isFormDisabled}
-          currentFocus={currentField === 3}
+          currentFocus={currentField === 5}
           returnKeyType="next"
-          onSubmitEditing={() => setCurrentField(4)}
+          onSubmitEditing={() => setCurrentField(6)}
           condition={(text) =>
             passwordRegex.test(text) &&
             form.password.trim() &&
@@ -188,7 +241,7 @@ const Register = ({set, setTerms}) => {
           onChangeText={(text) => setForm({ ...form, confirmPassword: text })}
           value={form.confirmPassword}
           disabled={isFormDisabled}
-          currentFocus={currentField === 4}
+          currentFocus={currentField === 6}
           returnKeyType="done"
           condition={(text) => text === form.password}
           errorText={formErrors.confirmPassword}
@@ -227,24 +280,20 @@ const Register = ({set, setTerms}) => {
               form.password.trim() === "" ||
               form.confirmPassword.trim() === ""
             ) {
-              alert(
-                "Please fill in all required fields",
-              )
+              alert("Please fill in all required fields");
               return;
             }
 
             if (!setTerms.isTermsChecked) {
               alert(
-                "Please accept Terms and Conditions and Data Privacy Consent to continue.",
-              )
-                
+                "Please accept Terms and Conditions and Data Privacy Consent to continue."
+              );
+
               return;
             }
 
             if (!isFormSatisfied) {
-              alert(
-                "Please double check your input fields.",
-              )
+              alert("Please double check your input fields.");
               return;
             }
 

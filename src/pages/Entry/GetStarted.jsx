@@ -10,6 +10,9 @@ import Register from './Register';
 import { Pressable, ScrollView } from 'react-native-gesture-handler';
 import TermsAndConditions from './TermsAndConditions';
 import { useNavigation } from '@react-navigation/native';
+import Branch from './Branch';
+import axios from 'axios';
+import { API_URL } from '../../constants';
 
 export default function GetStarted(props) {
   const {state: entryState} = props.route.params
@@ -21,6 +24,23 @@ export default function GetStarted(props) {
   const [isTermsOpen, setIsTermsOpen] = useState(false)
   const [isTermsChecked, setIsTermsChecked] = useState(false)
 
+  const [isBranchOpen, setIsBranchOpen] = useState(false)
+  const [selectedBranch, setSelectedBranch] = useState(null);
+  const [branchList, setBranchList] = useState(null)
+  
+  const getBranches = async () => {
+    try {
+      const {data:fetchedBranches} = await axios.get(API_URL+"/getBranches")
+      setBranchList(fetchedBranches);
+      console.log("LOGBRANCHLIST", branchList, fetchedBranches); 
+    } catch (error) {
+      console.error("Branch Error"); 
+    }
+  }
+  useEffect(() => {
+    getBranches();
+  },[])
+    
   useEffect(() => {
     const showSubscription = Keyboard.addListener(
       "keyboardDidShow",
@@ -89,7 +109,17 @@ export default function GetStarted(props) {
             />
           )}
           {state === "login" && <Login set={setState} />}
-          {state === "register" && <Register set={setState} setTerms={{setTermsOpen: setIsTermsOpen, isTermsChecked, setIsTermsChecked}}  />}
+          {state === "register" && (
+            <Register
+              set={setState}
+              setTerms={{
+                setTermsOpen: setIsTermsOpen,
+                isTermsChecked,
+                setIsTermsChecked,
+              }}
+              setBranch={{ setIsBranchOpen, selectedBranch }}
+            />
+          )}
         </ScrollView>
         {state === "get started" && <GetStartedButton set={setState} />}
         <TermsAndConditions
@@ -98,6 +128,15 @@ export default function GetStarted(props) {
           checkbox={isTermsChecked}
           toggleCheckbox={() => setIsTermsChecked(!isTermsChecked)}
         />
+        {isBranchOpen && (
+          <Branch
+            branches={branchList}
+            setSelected={(e) => setSelectedBranch(e)}
+            onClose={() => setIsBranchOpen(false)}
+            selected={selectedBranch}
+            isOpen={isBranchOpen}
+          />
+        )}
       </AppBackground>
     </Animated.View>
   );

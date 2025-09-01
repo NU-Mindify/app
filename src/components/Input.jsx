@@ -1,5 +1,6 @@
-import { View, TextInput, Text } from 'react-native'
+import { View, TextInput, Text, Pressable } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
+import { Eye, EyeOff } from 'lucide-react-native';
 
 const Input = ({
   children,
@@ -28,6 +29,7 @@ const Input = ({
       currentFocus && input.current?.focus();
     }, [currentFocus])
     const [isValid, setIsValid] = useState(true);
+    const [isValueHidden, setIsValueHidden] = useState(secure)
   return (
     <View style={[{ width: "100%", marginHorizontal: "auto" }, style]}>
       {label && (
@@ -72,11 +74,11 @@ const Input = ({
             onChangeText(text);
           }}
           value={value}
-          secureTextEntry={secure}
+          secureTextEntry={isValueHidden}
           disabled={disabled}
           editable={!disabled}
           selectTextOnFocus={disabled}
-          style={[{ flex: 1 }, inputStyle]}
+          style={[{ flex: 1, color:'black' }, inputStyle]}
           keyboardType={keyboardType}
           textContentType={textContentType}
           returnKeyType={returnKeyType}
@@ -88,6 +90,15 @@ const Input = ({
           ref={input}
         />
         {children}
+        {secure &&
+        <Pressable onPress={() => setIsValueHidden(!isValueHidden)}> 
+          {isValueHidden ? 
+          <Eye color={"black"} /> 
+        :
+        <EyeOff color={"black"} />
+        }
+        </Pressable>
+        }
       </View>
       {!isValid && (
         <Text style={{ color: "#ff3636", fontWeight: 700 }}>{errorText}</Text>
