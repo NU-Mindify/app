@@ -11,7 +11,7 @@ import Leaderboard from "./Leaderboard";
 import GameContext from "../../contexts/GameContext";
 import axios from "axios";
 // import { Audio } from "expo-av";
-import { API_URL, gameColors } from "../../constants";
+import { API_URL, gameColors, numberOfItems } from "../../constants";
 import { Alert, BackHandler, Pressable, Text, View } from "react-native";
 import ModalContext from "../../contexts/ModalContext";
 import Animated from "react-native-reanimated";
@@ -170,8 +170,8 @@ const Game = (props) => {
 
       setRationaleModal({
         type: "Error",
-        title: badge.badge.name + "Badge",
-        subtitle: "You earned a badge!",
+        title: "Badge",
+        subtitle: `You earned the ${badge.badge.name} badge!`,
         body: "Congratulations on completing the level perfectly with 0 mistakes!",
         filepath: badge.badge.filepath,
         primaryFn: () => {
@@ -247,16 +247,20 @@ const Game = (props) => {
       ? 1
       : 0;
   };
+
+  const getDifficultyByLevel = (level) => {
+    return level > 7 ? "hard" : level < 3 ? "easy" : "average";
+  }
   // -----------------------------------------
 
   const getQuestions = async () => {
     try {
-      let URL = `${process.env.EXPO_PUBLIC_URL}/getQuestions?category=${categoryIndex.id}&level=${level}`;
-      if (categoryIndex.id === "abnormal" && mode !== "mastery") {
-        URL = `${process.env.EXPO_PUBLIC_URL}/getQuestions?category=${categoryIndex.id}&start=${items[level].start}&end=${items[level].end}`;
-      }
+      let URL = ""
+      
       if (mode === "mastery") {
         URL = API_URL + "/getQuestions?category=" + categoryIndex.id;
+      }else{
+        URL = `${process.env.EXPO_PUBLIC_URL}/getQuestions?category=${categoryIndex.id}&level=${level}&difficulty=${getDifficultyByLevel(level)}&limit=${numberOfItems[categoryIndex.id][level].items}`;
       }
       // const { data } = await axios.get(`${process.env.EXPO_PUBLIC_URL}/getQuestions?category=${'developmental'}&level=${1}`)
       console.log(accountData.token);
@@ -345,7 +349,7 @@ const Game = (props) => {
       <AppBackground
         viewStyle={{
           justifyContent: "center",
-          backgroundColor: "rgba(0,0,0,0.6)",
+          
           maxWidth:800,
           paddingTop: 12
         }}
@@ -382,14 +386,14 @@ const Game = (props) => {
             </Animated.View>
             <Text
               style={{
-                color: "#8CFFC2",
+                color: gameColors[categoryIndex.id].headerText,
                 fontSize: 32,
                 textAlign: "center",
                 marginVertical: 24,
                 fontFamily: "LilitaOne-Regular",
               }}
             >
-              {mode === "mastery" ? "MASTERY" : "LEVEL: EASY"}
+              {mode === "mastery" ? "MASTERY" : "LEVEL: " + getDifficultyByLevel(level).toUpperCase()}
             </Text>
             {mode !== "review" && (
               <Timer

@@ -134,21 +134,24 @@ const categoriesObj = [
     name: "Industrial / Organizational Psychology",
     level_background: organizationalMap,
     cover: industrialCover,
-    primary_color: "#6C6C6C"
+    primary_color: "#2C2C2C",
+    secondary_color: "#7E7E7E"
   },
   {
     id: "psychological",
     name: "Psychological Assessment",
     level_background: psychologicalMap,
     cover: psychologicalCover,
-    primary_color: "#3C4F76"
+    primary_color: "#356CDD",
+    secondary_color: "#F2C94C"
   },
   {
     id: "general",
     name: "General Psychology",
     level_background: generalMap,
     cover: generalCover,
-    primary_color:"#B7C9A8"
+    primary_color:"#9C7743",
+    secondary_color:"#E9CFAA"
   },
 ]
 
@@ -156,6 +159,8 @@ const gameColors = {
   developmental: {
     background: ["#D0E796", "#7F9F30"],
     timer: ["#AFD02A", "#A1CA3D", "#AFD02A"],
+    headerText: "#7F9F30",
+    questionBackground: "#F2FFBE",
     answerBorder: {
       inner: "#E48238",
       outer: "#A15A24"
@@ -164,36 +169,108 @@ const gameColors = {
   abnormal: {
     background: ["#7A825B", "#1E2921"],
     timer: ["#8AFFC1", "#6ECC9A", "#539974"],
+    headerText: "#8AFFC1",
+    questionBackground: "#A1CDB6",
     answerBorder: {
       inner: "#3B3F2A",
       outer: "#248552"
     }
   },
   industrial: {
-    background: ["#7A825B", "#1E2921"],
+    background: ["#868686", "#2C2C2C"],
     timer: ["#FFA500", "#FFA500"],
+    headerText: "#FFA500",
+    questionBackground: "#FFFEEA",
     answerBorder: {
-      inner: "#2C2C2C",
-      outer: "#248552"
+      inner: "#FFA500",
+      outer: "#A7A9AC"
     }
   },
   psychological: {
-    background: ["#7A825B", "#1E2921"],
+    background: ["#98A4BD", "#356CDD"],
     timer: ["#F2C94C", "#F2C94C"],
+    headerText: "#F2C94C",
+    questionBackground: "#EAF3FF",
     answerBorder: {
       inner: "#356CDD",
-      outer: "#248552"
+      outer: "#F2C94C"
     }
   },
   general: {
-    background: ["#7A825B", "#1E2921"],
-    timer: ["#F08A8A", "#F08A8A"],
+    background: ["#F5F2EA",  "#9C7743"],
+    timer: ["#9C7743", "#9C7743"],
+    timerBackground: "#F5F2EA",
+    headerText: "#9C7743",
+    questionBackground: "#FFE4BE",
     answerBorder: {
-      inner: "#5A88C2",
-      outer: "#248552"
+      inner: "#F5F2EA",
+      outer: "#E9CFAA"
     }
   }
 }
+
+const numberOfItems = {
+  abnormal: {
+    1: { items: 8, timer: 20 },
+    2: { items: 7, timer: 20 },
+    3: { items: 8, timer: 30 },
+    4: { items: 7, timer: 30 },
+    5: { items: 20, timer: 40 },
+    6: { items: 20, timer: 40 },
+    7: { items: 8, timer: 50 },
+    8: { items: 7, timer: 50 },
+    9: { items: 8, timer: 60 },
+    10: { items: 7, timer: 60 },
+  },
+  developmental: {
+    1: { items: 7 },
+    2: { items: 8 },
+    3: { items: 7 },
+    4: { items: 8 },
+    5: { items: 20 },
+    6: { items: 20 },
+    7: { items: 10 },
+    8: { items: 10 },
+    9: { items: 5 },
+    10: { items: 5 },
+  },
+  psychological: {
+    1: { items: 10 },
+    2: { items: 9 },
+    3: { items: 10 },
+    4: { items: 10 },
+    5: { items: 26 },
+    6: { items: 26 },
+    7: { items: 10 },
+    8: { items: 9 },
+    9: { items: 10 },
+    10: { items: 10 },
+  },
+  industrial: {
+    1: { items: 5 },
+    2: { items: 4 },
+    3: { items: 11 },
+    4: { items: 10 },
+    5: { items: 20 },
+    6: { items: 20 },
+    7: { items: 11 },
+    8: { items: 11 },
+    9: { items: 4 },
+    10: { items: 4 },
+  },
+  general: {
+    1: { items: 10 },
+    2: { items: 10 },
+    3: { items: 10 },
+    4: { items: 10 },
+    5: { items: 10 },
+    6: { items: 10 },
+    7: { items: 10 },
+    8: { items: 10 },
+    9: { items: 10 },
+    10: { items: 10 },
+  },
+};
 
 const branches = [
   {
@@ -275,4 +352,4 @@ const API_URL = process.env.EXPO_PUBLIC_URL;
 const _primary_color = "#2C519F"
 const _secondary_color = "#FFD41C"
 
-export { API_URL, avatars, categoriesObj, gameColors, navbarRoutes, branches, _primary_color, _secondary_color, clothes };
+export { API_URL, avatars, categoriesObj, gameColors, navbarRoutes, branches, _primary_color, _secondary_color, clothes, numberOfItems };

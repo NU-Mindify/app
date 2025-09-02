@@ -5,7 +5,7 @@ import GameContext from '../../contexts/GameContext';
 import Animated, { Easing, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 
 const Timer = ({ onZero, duration = 20, currentNumber }) => {
-  const { isMastery, gameColor } = useContext(GameContext);
+  const { isMastery, gameColor, categoryIndex } = useContext(GameContext);
   const [seconds, setSeconds] = useState(duration);
   const progress = useSharedValue(1);
   const [percentage, setPercentage] = useState(100);
@@ -13,7 +13,6 @@ const Timer = ({ onZero, duration = 20, currentNumber }) => {
   useEffect(() => {
     setPercentage(Math.floor((seconds / duration) * 100));
     if (seconds >= 0) {
-      console.log(percentage);
       // eslint-disable-next-line no-undef
       const interval = setInterval(() => {
         setSeconds((prevSeconds) => prevSeconds - 1);
@@ -51,7 +50,7 @@ const Timer = ({ onZero, duration = 20, currentNumber }) => {
   return (
     <View
       style={{
-        backgroundColor: "#3B3F2A",
+        backgroundColor: gameColor.timerBackground || categoryIndex.secondary_color || "#3B3F2A",
         width: "90%",
         margin: "auto",
         marginBottom: 12,
@@ -65,7 +64,7 @@ const Timer = ({ onZero, duration = 20, currentNumber }) => {
           {
             height: 24,
             borderRadius: 24,
-            boxShadow: `2px 8px 24px ${"#7F9F30"}`,
+            boxShadow: `2px 8px 24px ${gameColor.timer[0]}`,
           },
           animatedStyle,
         ]}

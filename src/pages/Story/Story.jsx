@@ -7,37 +7,38 @@ import Avatar from '../../components/Avatar';
 import { API_URL, avatars, clothes } from '../../constants';
 import AccountContext from '../../contexts/AccountContext';
 
-import House1 from "../../assets/story/start/house1.svg";
-import House2 from "../../assets/story/start/house2.svg";
-import House3 from "../../assets/story/start/house3.svg";
+import House1 from "../../assets/story/start/house1.png";
+import House2 from "../../assets/story/start/house2.png";
 import DevelopmentalCover from "../../assets/categories/developmentalCover.png";
 import AbnormalCover from "../../assets/categories/abnormalCover.png";
 import IndustrialCover from "../../assets/categories/industrialCover.png";
+import PsychologicalCover from "../../assets/categories/psychologicalCover.png";
+import GeneralCover from "../../assets/categories/generalCover.png";
 import ModalContext from '../../contexts/ModalContext';
 import axios from 'axios';
 
 const startStory = [
-  { bg: House1, text: "It's the night before your psychology board exam" },
+  { bgImage: House1, text: "It's the night before your psychology board exam" },
   {
-    bg: House1,
+    bgImage: House1,
     text: "You've studied all day. Your mind is heavy with theories, theorists, terms, and timelines…",
   },
   {
-    bg: House2,
+    bgImage: House2,
     effectStyle: { backgroundColor: "rgba(0,0,0,0.9)", zIndex: 3 },
     timer: 1,
   },
   {
-    bg: House3,
+    bgImage: House2,
     effectStyle: { backgroundColor: "rgba(255,255,255,0.8)", zIndex: 3 },
     timer: 0.8,
   },
   {
-    bg: House3,
+    bgImage: House2,
     text: "You have crossed into Mindify — a world shaped by your own knowledge.",
   },
   {
-    bg: House3,
+    bgImage: House2,
     text: "To awaken fully prepared for the board exam, you must conquer the five worlds of your mind.",
   },
   {
@@ -56,7 +57,17 @@ const startStory = [
     effectStyle: { backgroundColor: "rgba(0,0,0,0.6)", zIndex: 2 },
   },
   {
-    bg: House3,
+    bgImage: PsychologicalCover,
+    text: "No matter how hard it is...",
+    effectStyle: { backgroundColor: "rgba(0,0,0,0.6)", zIndex: 2 },
+  },
+  {
+    bgImage: GeneralCover,
+    text: "You have to make a decision.",
+    effectStyle: { backgroundColor: "rgba(0,0,0,0.6)", zIndex: 2 },
+  },
+  {
+    bgImage: House2,
     text: "Which path will you face first?",
   },
 ];
@@ -128,11 +139,21 @@ const Story = (props) => {
   const Cloth = clothes.find(cloth => cloth.id === accountData.cloth).image;
   return (
     <View style={{ backgroundColor: "#3D70C9", flex: 1 }}>
+      <Pressable
+          onPress={() => onNext()}
+          style={[
+            {
+              position: "absolute",
+              top: 0,
+              height: "100%",
+              width: "100%",
+              zIndex: 100,
+            },
+          ]}
+        ></Pressable>
       <ImageBackground
         source={story.bgImage || null}
-        style={[{ flex: 1, zIndex:0 }]}
-        resizeMode="cover"
-        resizeMethod="scale"
+        style={[{ flex: 1, zIndex:0, width:'100%' }]}
       >
         <View
           style={[
@@ -145,8 +166,7 @@ const Story = (props) => {
             story.effectStyle,
           ]}
         ></View>
-        <Pressable
-          onPress={() => onNext()}
+        <View
           style={[
             {
               backgroundColor: "rgba(0,0,0,0.1)",
@@ -159,7 +179,7 @@ const Story = (props) => {
           ]}
         >
           <Avatar Head={Head} Cloth={Cloth} size={1.2} />
-        </Pressable>
+        </View>
         <View style={{ flex: 1 }}>{story.bg && <story.bg></story.bg>}</View>
         {story.text && (
           <View
