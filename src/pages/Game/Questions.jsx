@@ -69,7 +69,7 @@ export default function Questions({ data, onAnswer, number, length, streak, mode
             height: "50%",
             width: "100%",
             transform: [{ translateY: "-50%" }],
-            backgroundColor: "#A1CDB6",
+            backgroundColor: gameColors[categoryIndex.id].questionBackground,
             borderRadius: 16,
           }}
         ></View>
@@ -144,6 +144,7 @@ export const questStyle = StyleSheet.create({
     justifyContent: "flex-start",
     borderRadius: 18,
     margin: "auto",
+    boxShadow: "0px 6px 12px black",
   },
   questionNum: {
     fontSize: 28,

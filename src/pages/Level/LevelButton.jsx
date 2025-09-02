@@ -16,7 +16,7 @@ import smallStarEmpty from "../../assets/results/smallStarEmpty.png";
 import bigStar from "../../assets/results/bigStar.png";
 import bigStarEmpty from "../../assets/results/bigStarEmpty.png";
 import AccountContext from '../../contexts/AccountContext';
-import { avatars } from '../../constants';
+import { avatars, numberOfItems } from '../../constants';
 import BronzeStar from "../../assets//results/bronze_star.svg";
 import SilverStar from "../../assets//results/silver_star.svg";
 import GoldStar from "../../assets//results/gold_star.svg";
@@ -72,8 +72,8 @@ const LevelButton = ({
       },
       gameMode: mode,
       difficulty: level === "?" ? "Hard" : level < 3 ? "Easy" : "Average",
-      items,
-      timer:time,
+      items: numberOfItems[categoryIndex.id][level].items,
+      timer: time,
       mode: "LevelSelect",
       onLeaderboard: () => {
         setLeaderboardLevel(level);
@@ -81,8 +81,8 @@ const LevelButton = ({
       },
       colors: {
         primary_color: categoryIndex.primary_color,
-        secondary_color: categoryIndex.secondary_color
-      }
+        secondary_color: categoryIndex.secondary_color,
+      },
     });
   };
 

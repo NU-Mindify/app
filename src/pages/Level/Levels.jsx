@@ -33,28 +33,12 @@ const Levels = (props) => {
   const [leaderboardLevel, setLeaderboardLevel] = useState(null);
   const [mode, setMode] = useState(selectedMode);
   const nav = useNavigation()
-
+  const insets = useSafeAreaInsets();
+  const notchHeight = insets.top;
   useEffect(() => {
     console.log("is mastery", isMastery);
 
-    // if (isMastery && !accountData.tutorial.mastery) {
-    //   openMasteryModal();
-    // } 
-    // else if (accountData.tutorial.matery && isMastery) {
-    //   setModal({
-    //     mode: "Tutorial-Mastery",
-    //     secondaryFn: () => {
-    //       removeTutorial("mastery");
-    //       openMasteryModal();
-    //     },
-    //     background: "darker",
-    //   });
-    // }
-    if(isMastery && progressData.classic[categoryIndex.id] >= 1){
-      openMasteryModal();
-    }else if(isMastery){
-      completeAllLevelsModal();
-    }
+    openMastery();
 
     if (!isMastery && mode === "review" && accountData.tutorial.review) {
       setModal({
@@ -76,6 +60,14 @@ const Levels = (props) => {
       });
     }
   }, [mode]);
+
+  const openMastery = () => {
+    if (isMastery && progressData.classic[categoryIndex.id] >= 1) {
+      openMasteryModal();
+    } else if (isMastery) {
+      completeAllLevelsModal();
+    }
+  }
 
   const removeTutorial = async (tutorial) => {
     try {
@@ -131,7 +123,12 @@ const Levels = (props) => {
         nav.goBack();
         setModal(null);
       },
-      body: `You have to complete all levels of this category first before you can compete in mastery.`,
+      body: (
+        <>
+          You have to complete all levels of this category first before you can
+          compete in mastery. {"\n\n"} <Text style={{color:'gray', fontSize:14, textAlign:'center'}}>For testing purposes,{"\n"}Pass level 1 to unlock this.</Text>{" "}
+        </>
+      ),
       mode: "LevelSelectMastery",
       onLeaderboard: () => {
         setLeaderboardLevel("none");
@@ -187,9 +184,7 @@ const Levels = (props) => {
           <Leaderboard
             onExit={() => {
               setLeaderboardLevel(null);
-              if (isMastery) {
-                openMasteryModal();
-              }
+              openMastery();
             }}
             level={leaderboardLevel}
             categoryIndex={categoryIndex}
@@ -197,30 +192,23 @@ const Levels = (props) => {
           />
         </View>
       )}
+      <CategoryBar categoryIndex={categoryIndex} modeState={[mode, setMode]} />
       <ScrollView
-        stickyHeaderIndices={[0]}
         ref={scrollViewRef}
+        contentContainerStyle={{paddingTop: notchHeight + 100, justifyContent:'center', alignItems:'center'}}
         style={{
           height: Dimensions.get("screen").height,
           backgroundColor: `${categoryIndex.primary_color}`,
-          maxWidth: 440,
+          width: 420,
           marginHorizontal: "auto",
         }}
         overScrollMode="never"
         scrollToOverflowEnabled={false}
         decelerationRate="fast"
       >
-        <CategoryBar
-          categoryIndex={categoryIndex}
-          modeState={[mode, setMode]}
-        />
         <ImageBackground
           source={categoryIndex.level_background}
-          style={[
-            categoryIndex.id === "abnormal"
-              ? { height: 1500, width: "100%" }
-              : { height: 1500, width: "100%" },
-          ]}
+          style={[{ height: 1500, width: "100%" }]}
           resizeMode="cover"
           resizeMethod="scale"
         >
@@ -273,7 +261,7 @@ const CategoryBar = ({ categoryIndex, modeState }) => {
   const insets = useSafeAreaInsets();
   const notchHeight = insets.top;
   return (
-    <View style={{backgroundColor: `${categoryIndex.primary_color}DD`,}}>
+    <View style={{backgroundColor: `${categoryIndex.primary_color}DD`, position:'absolute', top:0, zIndex:4}}>
       <View style={{height: notchHeight}}></View>
       <View
         style={{
