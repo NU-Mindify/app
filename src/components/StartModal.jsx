@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { BackHandler, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Animated, {
   BounceIn,
@@ -15,10 +15,14 @@ import { modalStyles } from "../styles/modalStyles";
 import Button from "./Button";
 import AccountContext from "../contexts/AccountContext";
 import { SignOut } from "../hooks/useFirebase";
-import { OctagonAlert } from "lucide-react-native";
+import { BookOpenTextIcon, OctagonAlert } from "lucide-react-native";
 import { Pressable, ScrollView } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
 import SearchStudent from "./modal/SearchStudent";
+import on from '../assets/settings/on.png'
+import off from '../assets/settings/off.png'
+import axios from "axios";
+import { API_URL } from "../constants";
 
 
 export default function Start() {
@@ -77,48 +81,86 @@ export default function Start() {
   );
 }
 const Settings = ({modal}) => {
-  const {setAccountData} = useContext(AccountContext);
+  const {accountData, setAccountData} = useContext(AccountContext);
   const {setModal} = useContext(ModalContext)
   const nav = useNavigation();
+  const [music, setMusic] = useState(accountData.settings.music)
+  const [sfx, setSfx] = useState(accountData.settings.sfx)
+
+  const tutorial = async () => {
+    setModal(null)
+    setModal({
+      mode:"Tutorial-Worlds",
+      secondaryFn: () => {
+        setModal({
+          mode: "Tutorial-Review",
+          secondaryFn: () =>
+            setModal({
+              mode: "Tutorial-Competition",
+              secondaryFn: () =>
+                setModal({
+                  mode: "Settings",
+                  secondaryFn: () => setModal(null),
+                }),
+              background: "darker",
+            }),
+          background: "darker",
+        });
+      },
+      background:'darker'
+    })
+  }
+  const buttonText = {
+    color: "white",
+    fontFamily: "LilitaOne-Regular",
+    fontSize: 24,
+    textAlign: "center",
+    textShadowColor: "rgba(0, 0, 0, 0.7)",
+    textShadowOffset: { height: 1 },
+    textShadowRadius: 12,
+    padding: 8,
+  }
+  const onClose = async () => {
+    try {
+      const { data } = await axios.post(API_URL + "/changeSettings", {user_id: accountData._id, music, sfx});
+      setAccountData(data)
+    } catch (error) {
+      console.error(error);
+    }
+    modal.secondaryFn();
+  }
   return (
     <>
       <Title title={"Settings"} />
-      <Body onClose={modal.secondaryFn} contentStyle={{padding:24, width:300, gap:12}}>
+      <Body onClose={onClose} contentStyle={{padding:24, width:300, gap:12}}>
+        <Pressable onPress={() => setMusic(!music)} style={{marginTop: 24, justifyContent:'space-between', alignItems:'center', flexDirection:'row', width:'80%', backgroundColor:'#FDB813', borderRadius:12, padding:4}}>
+          <View>
+            <Text style={buttonText}>Music</Text>
+          </View>
+          {music ? 
+            <Image source={on} /> : 
+            <Image source={off} /> 
+          }
+        </Pressable>
+        <Pressable onPress={() => setSfx(!sfx)} style={{justifyContent:'space-between', alignItems:'center', flexDirection:'row', width:'80%', backgroundColor:'#FDB813', borderRadius:12, padding:4}}>
+          <Text style={buttonText}>SFX</Text>
+          {sfx ? 
+            <Image source={on} /> : 
+            <Image source={off} /> 
+          }
+        </Pressable>
         <Button text={"Replay Story"} 
-        style={{width:'80%', marginTop:18}}
+        style={{width:'80%'}}
         onPress={async () => {
           nav.navigate("Story")
           setModal(null)
         }}/>
         <Button text={"How to play"} 
         style={{width:'80%'}}
-        onPress={async () => {
-          setModal(null)
-          setModal({
-            mode:"Tutorial-Worlds",
-            secondaryFn: () => {
-              setModal({
-                mode: "Tutorial-Review",
-                secondaryFn: () =>
-                  setModal({
-                    mode: "Tutorial-Competition",
-                    secondaryFn: () =>
-                      setModal({
-                        mode: "Settings",
-                        secondaryFn: () => setModal(null),
-                      }),
-                    background: "darker",
-                  }),
-                background: "darker",
-              });
-            },
-            background:'darker'
-          })
-        }}/>
+        onPress={() => tutorial()}/>
         <Button text={"Sign Out"} 
         style={{width:'80%'}}
         onPress={async () => {
-          // nav.replace("Get Started");
           await SignOut();
           setModal(null)
         }}/>
@@ -264,6 +306,15 @@ const LevelSelect = ({ modal }) => {
       <View
         style={[modalStyles.btnContainer]}
       >
+        <Pressable 
+          onPress={() => {
+            modal.onRepeatStory()
+            modal.secondaryFn();
+          }} 
+          style={{position:'absolute', left: -12, backgroundColor:'#FDB813', padding:8, borderRadius:8 }}
+        >
+          <BookOpenTextIcon size={24} color={"white"} />
+        </Pressable>
         <Button text={"Start"} onPress={modal.primaryFn} style={{width:'50%'}} />
       </View>
     </Body>

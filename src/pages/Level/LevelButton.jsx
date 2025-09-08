@@ -24,6 +24,7 @@ import NoStar from "../../assets//results/no_star.svg";
 import { Pressable } from 'react-native-gesture-handler';
 
 const LevelButton = ({
+  onStory,
   details: {level, position, items, time},
   state,
   index,
@@ -53,8 +54,11 @@ const LevelButton = ({
         break;
     }
   };
-  const showModal = () => {
+  const onLevelPress = () => {
     if (state === "soon") return;
+    onStory(showModal, index);
+  }
+  const showModal = () => {
     setModal({
       subtitle: `Level ${level}`,
       primaryFn: () => {
@@ -70,6 +74,7 @@ const LevelButton = ({
       secondaryFn: () => {
         setModal(null);
       },
+      onRepeatStory: () => onStory(showModal, index, false),
       gameMode: mode,
       difficulty: level === "?" ? "Hard" : level < 3 ? "Easy" : "Average",
       items: numberOfItems[categoryIndex.id][level].items,
@@ -102,7 +107,7 @@ const LevelButton = ({
       ]}
       onPressIn={() => setIsPressing(true)}
       onPressOut={() => setIsPressing(false)}
-      onPress={showModal}
+      onPress={() => onLevelPress()}
     >
       <Animated.View
         entering={BounceIn.delay(200 * index)}

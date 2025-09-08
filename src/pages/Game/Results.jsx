@@ -54,10 +54,10 @@ const Results = ({ stats, onReview, onLeaderboard }) => {
   const winSfx = useAudioPlayer(require("../../audio/complete.wav"));
   const loseSfx = useAudioPlayer(require("../../audio/lose.wav"));
   useEffect(() => {
+    if(!accountData.settings.sfx) return;
     if (isPass) {
       winSfx.play()
     } else {
-      
       loseSfx.play();
     }
   }, [])

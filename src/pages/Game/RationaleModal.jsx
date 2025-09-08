@@ -4,8 +4,10 @@ import { modalStyles } from '../../styles/modalStyles'
 import { Body, Title } from '../../components/StartModal'
 import Button from '../../components/Button'
 import { ScrollView } from 'react-native-gesture-handler'
+import { usePreventScreenCapture } from 'expo-screen-capture'
 
 export default function RationaleModal ({modal}) {
+  usePreventScreenCapture();
   
   return (
     <Animated.View
