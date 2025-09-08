@@ -12,6 +12,10 @@ import { useNavigation } from '@react-navigation/native';
 import api from '../../api';
 import LoadingOverlay from '../../components/LoadingOverlay';
 import ModalContext from '../../contexts/ModalContext';
+import axios from 'axios';
+import { API_URL } from '../../constants';
+import { getData, storeData } from '../../hooks/useFirebase';
+import { FlatList } from 'react-native-gesture-handler';
 
 export default function Glossary() {
   const {setToast} = useContext(ModalContext)
@@ -27,8 +31,21 @@ export default function Glossary() {
 
   useEffect(() => {
     setIsFetching(true)
-    const newFilteredWords = terms.filter(item => item.word.toLowerCase().includes(wordSearch.toLowerCase()));
-    setFilteredWords(newFilteredWords);
+
+    const lower = wordSearch.toLowerCase();
+    const startsWith = terms.filter((t) =>
+      t.word.toLowerCase().startsWith(lower)
+    );
+    const contains = terms.filter(
+      (t) =>
+        !t.word.toLowerCase().startsWith(lower) &&
+        t.word.toLowerCase().includes(lower)
+    );
+
+    setFilteredWords([...startsWith, ...contains]);
+
+    // const newFilteredWords = terms.filter(item => item.word.toLowerCase().includes(wordSearch.toLowerCase()));
+    // setFilteredWords(newFilteredWords);
     setIsFetching(false)
   }, [wordSearch, terms]);
 
@@ -46,18 +63,34 @@ export default function Glossary() {
     setIsFetching(true)
     try {
       const response = await api.get(`/getTerms`)
-      console.log(response.data);
+      console.log(response.data.length);
       
       setTerms(response.data)
       setWordSearch('')
       
+      storeData("terms", response.data)
     } catch (error) {
       setToast(error.message)
     }
     setIsFetching(false)
   }
+  const prepareTerms = async () => {
+    const {data: cloudLatestTerm} = await axios.get(API_URL + "/getLatestUpdatedTerm")
+    const savedLatestTerm = await getData("latest_term")
+    console.log("Comparing Term update:", cloudLatestTerm, savedLatestTerm);
+    console.log("Comparing RESULT:", cloudLatestTerm.updatedAt > savedLatestTerm.updatedAt);
+    
+    if(!savedLatestTerm || cloudLatestTerm.updatedAt > savedLatestTerm.updatedAt){
+      await fetchTerms();
+      await storeData("latest_term", cloudLatestTerm)
+    }else{
+      const storageTerms = await getData("terms");
+      setTerms(storageTerms)
+    }
+  }
   useEffect(() => {
-    fetchTerms();
+    prepareTerms();
+    return () => setTerms([])
   }, [])
   return (
     <AppBackground >
@@ -86,7 +119,7 @@ export default function Glossary() {
         {/*------------------ SIDE BUTTON --------------------------*/}
         <View style={GStyle.btnCont}>
           {letters.map((elem, index) => (
-            <GlossButtons key={index} letter={elem} id={index} onPress={() => handleScrollToLetter(index)} />
+            <GlossButtons key={index} letter={elem} id={index} onPress={() => setWordSearch(elem)} />
           ))}
         </View>
         {/*---------------------------------------------------------*/}
@@ -110,8 +143,16 @@ export default function Glossary() {
 
 
           <View style={GStyle.glossSubCont}>
-            <ScrollView ref={scrollViewRef}>
-              {filteredWords.length === 0 && wordSearch.length >0 ? (
+            <Text style={{fontSize:12}}>{filteredWords.length} terms found</Text>
+            <FlatList 
+              data={filteredWords} 
+            renderItem={({ item }) => (
+              <View style={{ padding: 8 }}>
+                <Text style={{ fontWeight: "bold" }}>{item.word}</Text>
+                <Text>{item.meaning}</Text>
+              </View>
+            )} ref={scrollViewRef}>
+              {/* {filteredWords.length === 0 && wordSearch.length >0 ? (
                 <View style={{ padding:20, alignItems: 'center'}}>
                   <Text style = {{color:"black", fontSize:15}}>No terms to show.</Text>
                 </View>
@@ -137,8 +178,8 @@ export default function Glossary() {
                   </View>
                 );
               })
-              )}
-            </ScrollView>
+              )} */}
+            </FlatList>
 
           </View>
 

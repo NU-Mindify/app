@@ -1,0 +1,920 @@
+{
+  "abnormal": {
+    "EASY": [
+      {
+        "text": "Huh? It's dark… and cold."
+      },
+      {
+        "text": "Where am I? A forest?"
+      },
+      {
+        "text": "It's quiet here. Like the world paused… but something inside me kept moving."
+      },
+      {
+        "text": "I guess this is where it starts. I'm not sure what I'll find… but I'm listening."
+      }
+    ],
+    "1": [
+      {
+        "text": "…A door? Out here in the middle of the forest?"
+      },
+      {
+        "text": "It's shut tight, like it's hiding something. Or maybe… protecting something."
+      },
+      {
+        "text": "I'm not sure what's on the other side. But I think I'm meant to face it."
+      },
+      {
+        "text": "I didn't need to force it open. Just choosing to face it… was enough for now."
+      }
+    ],
+    "2": [
+      {
+        "text": "There are pages all over the ground. Drawings, scribbles, symbols I don't recognize."
+      },
+      {
+        "text": "Looks like someone tried to make sense of things but gave up halfway."
+      },
+      {
+        "text": "Maybe I'm supposed to read between the lines… find a pattern in the pieces."
+      },
+      {
+        "text": "I didn't understand every page. But I heard the message behind the mess."
+      }
+    ],
+    "3": [
+      {
+        "text": "A couch… in the middle of nowhere?"
+      },
+      {
+        "text": "It's worn but still standing. Like someone sat here for a long time, thinking."
+      },
+      {
+        "text": "I think they were trying to feel okay—just for a moment. Maybe I can too."
+      },
+      {
+        "text": "I lit the fire. Even a little warmth makes a difference."
+      }
+    ],
+    "4": [
+      {
+        "text": "There's a dock by the river. I can hear faint voices."
+      },
+      {
+        "text": "It's like the mind is speaking in fragments. I need to listen—gently."
+      },
+      {
+        "text": "Some are soft. Some are loud. None of them are mine."
+      },
+      {
+        "text": "I think I heard something important… even if I didn't fully understand it yet."
+      }
+    ],
+    "AVERAGE": [
+      {
+        "text": "The forest is deeper now. The silence is louder."
+      },
+      {
+        "text": "But something in me is stronger, too."
+      },
+      {
+        "text": "I feel like I'm learning not just about the mind, but about people—and maybe myself."
+      }
+    ],
+    "5": [
+      {
+        "text": "There's a path lined with mirrors. None of them reflect me the same way. ?"
+      },
+      {
+        "text": "One version is calm. Another looks scared."
+      },
+      {
+        "text": "Maybe we're all made of parts we don't always recognize. ?"
+      },
+      {
+        "text": "I don't have all the answers… but I'm okay with that."
+      }
+    ],
+    "6": [
+      {
+        "text": "These lanterns light up as I pass… and they each show a different journey."
+      },
+      {
+        "text": "Some are about healing. Some are about struggle. All of them are human."
+      },
+      {
+        "text": "Everyone's path is different."
+      },
+      {
+        "text": "I hope someone will understand me like that someday, too."
+      }
+    ],
+    "7": [
+      {
+        "text": "I finally found the old hospital on the map. ?"
+      },
+      {
+        "text": "It's abandoned… but not forgotten. There's history here. ?"
+      },
+      {
+        "text": "Not all of it feels good, but some of it helped. ?"
+      },
+      {
+        "text": "That felt important. Like I paid attention to something that mattered."
+      }
+    ],
+    "DIFFICULT": [
+      {
+        "text": "I've come this far. Through the woods, the whispers, the mirrors."
+      },
+      {
+        "text": "Maybe the goal isn't to fix everything—but to understand it with more kindness."
+      }
+    ],
+    "8": [
+      {
+        "text": "I'm back at the river… but it's calm now. ?"
+      },
+      {
+        "text": "Thoughts float by like leaves—memories of what I've seen and I just need to stay still and observe."
+      },
+      {
+        "text": "Sometimes, the answer comes when you stop chasing it."
+      },
+      {
+        "text": "I didn't need to control everything—just to notice."
+      }
+    ],
+    "9": [
+      {
+        "text": "The trees here are full of paper—letters, notes, questions."
+      },
+      {
+        "text": "They're from people with different stories… different worlds. ?"
+      },
+      {
+        "text": "This level reminds me to be open. Always."
+      },
+      {
+        "text": "Understanding is more powerful than judgment."
+      }
+    ],
+    "10": [
+      {
+        "text": "It's here. The last door."
+      },
+      {
+        "text": "I think it's not about being right. It's about being ready to listen."
+      },
+      {
+        "text": "If I've learned anything, it's that every mind is worth understanding."
+      },
+      {
+        "text": "I'm walking out of this forest—not with answers, but with empathy."
+      }
+    ],
+    "END": [
+      {
+        "text": "I didn't solve the mind. I don't think anyone can."
+      },
+      {
+        "text": "But I walked through it. I listened. I learned.  ?"
+      },
+      {
+        "text": "That's enough for now."
+      },
+      {
+        "text": "Three worlds done. Two more to go."
+      }
+    ]
+  },
+  "developmental":{
+    "EASY": [
+      {
+        "text": "Why am I… so small?"
+      },
+      {
+        "text": "Wait… am I a kid?"
+      },
+      {
+        "text": "This must be the first stage."
+      },
+      {
+        "text": "This must be the first stage."
+      },
+      {
+        "text": "Looks like I'm starting with early development — probably the easy part."
+      }
+    ],
+    "1": [
+      {
+        "text": "Ooooh, there are so many toys here! Are all these toys for me?"
+      },
+      {
+        "text": "I can't wait to play them!"
+      },
+      {
+        "text": "Let's try to crawl for now. One step at a time."
+      },
+      {
+        "text": "Woah, that was easy. My legs are quite wobbly, but I made it! Yay!"
+      }
+    ],
+    "2": [
+      {
+        "text": "Is that a teddy bear?"
+      },
+      {
+        "text": "Oh! It looks like someone set up a picnic… for me?"
+      },
+      {
+        "text": "This must be what comfort and bonding feel like."
+      },
+      {
+        "text": "Phew… what a level. But I want to learn more!"
+      }
+    ],
+    "3": [
+      {
+        "text": "Oh wait… What's that sound I'm hearing? Music?"
+      },
+      {
+        "text": "I guess this is how babies (like me!) learn new words—by listening and watching their surroundings."
+      },
+      {
+        "text": "I want to tell my Mama I can hear her loud and clear."
+      },
+      {
+        "text": "Whoo-hoo! I just told Mama my first word: ‘Passed!"
+      }
+    ],
+    "4": [
+      {
+        "text": "Woah, I feel like my legs are now strong enough to walk, run, and jump."
+      },
+      {
+        "text": "Aaah! I want to try different things."
+      },
+      {
+        "text": "Should I play on that hopscotch? Or try to ride that bike?"
+      },
+      {
+        "text": "This is so fun! Let's hop on the next stage!"
+      }
+    ],
+    "AVERAGE": [
+      {
+        "text": "Now I'm a teenager… makes sense."
+      },
+      {
+        "text": "Cognitive growth — this must be the middle stage."
+      },
+      {
+        "text": "Let's see what I remember."
+      }
+    ],
+    "5": [
+      {
+        "text": "It feels like everyone's eyes are on me."
+      },
+      {
+        "text": "There are so many choices now. There's a soccer game over there, skateboarding, and even a street painting. Who am I supposed to be?"
+      },
+      {
+        "text": "Whew… I made it through. That felt more real than I expected."
+      }
+    ],
+    "6": [
+      {
+        "text": "I still have so many unanswered questions."
+      },
+      {
+        "text": "But I think I'm starting to figure things out."
+      },
+      {
+        "text": "There is still a lot to learn, but hey, I made progress."
+      }
+    ],
+    "DIFFICULT": [
+      {
+        "text": "I'm older now. Everything matters more."
+      },
+      {
+        "text": "Choices. Purpose. Responsibility."
+      }
+    ],
+    "7": [
+      {
+        "text": "So, I guess, this is where the real beginning kicks in."
+      },
+      {
+        "text": "I can sense a heavy pressure here."
+      },
+      {
+        "text": "But also…"
+      },
+      {
+        "text": "Purpose. A purpose to keep on going."
+      },
+      {
+        "text": "From small steps… and now we're here!"
+      }
+    ],
+    "8": [
+      {
+        "text": "Everything feels heavier now… responsibilities, expectations, and dreams."
+      },
+      {
+        "text": "I can't just think about myself anymore."
+      },
+      {
+        "text": "Studies, relationships, choices… they all seem to pile up."
+      },
+      {
+        "text": "But maybe this weight is shaping me into who I need to be."
+      },
+      {
+        "text": "That was tough. But I carried it—and I'm still standing!"
+      }
+    ],
+    "9": [
+      {
+        "text": "This feels like the hardest climb yet."
+      },
+      {
+        "text": "All my past struggles are flashing before me… every lesson, every failure, every win."
+      },
+      {
+        "text": "I realize now… they weren't just stages. They were preparing me for this moment."
+      },
+      {
+        "text": "I'm scared… but I'm also ready. One last push!"
+      }
+    ],
+    "10": [
+      {
+        "text": "From crawling to running, from unsolved questions to multiple answers."
+      },
+      {
+        "text": "Every stage left something behind in me."
+      },
+      {
+        "text": "And I carried it. I still carry it throughout life."
+      },
+      {
+        "text": "Scored. And this time around… it really mattered. Sheeeesh!"
+      }
+    ],
+    "END": [
+      {
+        "text": "From child to grown-up… I've walked life's early path."
+      },
+      {
+        "text": "Choices. Purpose. Responsibility."
+      }
+    ]
+  },
+  "psychological":{
+    "EASY": [
+      {
+        "text": "It's quiet, but not peaceful. Everything feels controlled. Organized. Watched."
+      },
+      {
+        "text": "I'm stepping into a space where thoughts are measured—but feelings still linger."
+      },
+      {
+        "text": "Maybe understanding starts when we stop pretending we know everything."
+      }
+    ],
+    "1": [
+      {
+        "text": "There's something structured about this place."
+      },
+      {
+        "text": "Like every thought is being sorted... examined. Even the air feels measured."
+      },
+      {
+        "text": "Am I here to be assessed—or to become the assessor?"
+      },
+      {
+        "text": "I didn't need to force it—just notice that it was there."
+      }
+    ],
+    "2": [
+      {
+        "text": "It's strange how something so objective can still feel personal."
+      },
+      {
+        "text": "Maybe the truth lies somewhere in between."
+      },
+      {
+        "text": "Some pages make more sense when you stop needing all the answers."
+      }
+    ],
+    "3": [
+      {
+        "text": "Intelligence, personality, behavior... they each have a test."
+      },
+      {
+        "text": "But no single test tells the whole story."
+      },
+      {
+        "text": "People are more than scores. So why do we keep trying to measure them anyway?"
+      },
+      {
+        "text": "Even data can hold emotion. I'm starting to see it."
+      }
+    ],
+    "4": [
+      {
+        "text": "Some tools are simple. Others... take time to master."
+      },
+      {
+        "text": "It's not just about using them—it's about knowing when."
+      },
+      {
+        "text": "Rushing could cost someone clarity. Every result needs context, not just numbers."
+      },
+      {
+        "text": "It's not about rushing—it's about respecting the process."
+      }
+    ],
+    "AVERAGE": [
+      {
+        "text": "Every step makes the weight a little clearer."
+      },
+      {
+        "text": "The further I go, the more I realize—this isn't about being correct."
+      },
+      {
+        "text": "It's about being careful. And kind."
+      }
+    ],
+    "5": [
+      {
+        "text": "The deeper I go, the more I realize—accuracy is everything."
+      },
+      {
+        "text": "One small mistake can echo in someone's life."
+      },
+      {
+        "text": "This isn't a quiz. It's responsibility. I have to be precise—and intentional."
+      },
+      {
+        "text": "Precision isn't just skill—it's responsibility."
+      }
+    ],
+    "6": [
+      {
+        "text": "I'm starting to see the weight of this work."
+      },
+      {
+        "text": "This isn't about being right. It's about being fair. Even well-meaning mistakes can cause harm."
+      },
+      {
+        "text": "Compassion and caution must go hand in hand."
+      },
+      {
+        "text": "Empathy isn't extra. It's essential."
+      }
+    ],
+    "7": [
+      {
+        "text": "Ethics isn't just a rule. It's a promise."
+      },
+      {
+        "text": "To protect. To respect. To not assume."
+      },
+      {
+        "text": "Every decision here affects real lives."
+      },
+      {
+        "text": "I have to honor that."
+      },
+      {
+        "text": "Ethics turns the test into something meaningful."
+      }
+    ],
+    "DIFFICULT": [
+      {
+        "text": "I've asked the questions. I've gathered the data."
+      },
+      {
+        "text": "Now I need to listen—to what isn't said."
+      },
+      {
+        "text": "That's where the truth often waits."
+      }
+    ],
+    "8": [
+      {
+        "text": "No method works alone. I need to connect the dots."
+      },
+      {
+        "text": "Every piece of data is just one voice in the room. True assessment is about listening to them all."
+      },
+      {
+        "text": "Listening to every part gave me the full picture."
+      }
+    ],
+    "9": [
+      {
+        "text": "Every answer reveals a piece of someone's world."
+      },
+      {
+        "text": "They're trusting me with that piece."
+      },
+      {
+        "text": "Not to judge, but to understand. I'm learning to see people—not just patterns."
+      },
+      {
+        "text": "Patterns matter. But so do people."
+      }
+    ],
+    "10": [
+      {
+        "text": "Now I understand. Assessment isn't about labels—it's about light."
+      },
+      {
+        "text": "To guide, to reveal, to help someone be seen clearly."
+      },
+      {
+        "text": "I'm ready to assess with both heart and mind."
+      },
+      {
+        "text": "I think I'm finally seeing the mind as it is—not as I expected it to be."
+      }
+    ],
+    "END": [
+      {
+        "text": "This world wasn't about scoring high—it was about listening deeply."
+      },
+      {
+        "text": "And in listening, I found something worth more than answers."
+      },
+      {
+        "text": "I found understanding."
+      }
+    ]
+  },
+  "industrial":{
+    "EASY": [
+      {
+        "text": "Woah… where am I this time? Is this an office?"
+      },
+      {
+        "text": "Why is everyone moving so fast? Where do I even fit in?"
+      },
+      {
+        "text": "This must be where I start from the bottom"
+      }
+    ],
+    "1": [
+      {
+        "text": "Okay, Inhale. Exhale. I guess I have to start working now…"
+      },
+      {
+        "text": "This is where we all begin, right? Rookie stuff"
+      },
+      {
+        "text": "Let's try to learn how this works"
+      },
+      {
+        "text": "I made it through the day! I can do this!"
+      }
+    ],
+    "2": [
+      {
+        "text": "I wonder who those people are… They seem okay"
+      },
+      {
+        "text": "I think this is where group dynamics come in"
+      },
+      {
+        "text": "I wonder how teams function, I would like to belong."
+      },
+      {
+        "text": "I made it through the day! I can do this!"
+      }
+    ],
+    "3": [
+      {
+        "text": "Why do some people show up early… while others barely work?"
+      },
+      {
+        "text": "I think this is the part where I learn what makes people tick."
+      },
+      {
+        "text": "I need to find what motivates me, too"
+      },
+      {
+        "text": "Motivation unlocked!"
+      }
+    ],
+    "4": [
+      {
+        "text": "Okay, I'm starting to get it. This project makes sense. Time flies!"
+      },
+      {
+        "text": "This must be what Csikszentmihalyi meant by flow."
+      },
+      {
+        "text": "Being challenged just enough to feel alive at work."
+      },
+      {
+        "text": "That felt… fulfilling. Can I get more of that?"
+      }
+    ],
+    "AVERAGE": [
+      {
+        "text": "I feel like I'm getting the hang of it. Things feel… routine."
+      },
+      {
+        "text": "But I keep noticing what could be better."
+      },
+      {
+        "text": "Maybe I'm here for bigger things. Maybe I can shape things too."
+      }
+    ],
+    "5": [
+      {
+        "text": "This project needs all of us..."
+      },
+      {
+        "text": "Time to figure out how team actually work."
+      },
+      {
+        "text": "Set clear roles, clarified tasks. And boom, we're in the right track!"
+      }
+    ],
+    "6": [
+      {
+        "text": "Motivation must be different for everyone."
+      },
+      {
+        "text": "Intrinsic? Extrinsic? Maslow, Hezberg – help me out here!"
+      },
+      {
+        "text": "I figured out my motivators. It's not just money – it's growth!"
+      }
+    ],
+    "7": [
+      {
+        "text": "We just got a new leader, and this leader handles things differently."
+      },
+      {
+        "text": "Some leaders inspire, others command..."
+      },
+      {
+        "text": "Let's see if I can spot what works and what doesn't"
+      },
+      {
+        "text": "Turns out, a good leader doesn't always speak the loudest."
+      }
+    ],
+    "DIFFICULT": [
+      {
+        "text": "I've seen this world from the inside now."
+      },
+      {
+        "text": "From entry-level to meetings, to mess-ups, to management."
+      },
+      {
+        "text": "But it's more than just a job – it's a system. And I want to leave it better than I found it."
+      }
+    ],
+    "8": [
+      {
+        "text": "Is this what job stress really looks like?"
+      },
+      {
+        "text": "We need balance. Support. Maybe even… a break?"
+      },
+      {
+        "text": "Sent out a wellness memo. Got three ‘thank yous'."
+      }
+    ],
+    "9": [
+      {
+        "text": "I've got ideas now – new workflow suggestions, better communication loops, flexible hours."
+      },
+      {
+        "text": "Proposal accepted. Implementation begins next week. I'm changing the system!"
+      }
+    ],
+    "10": [
+      {
+        "text": "I feel like I've grown so much"
+      },
+      {
+        "text": "They asked me what I've learned… and it's a lot."
+      },
+      {
+        "text": "People matter. Structure matters. Motivation, leadership, even coffee breaks – they all matter."
+      },
+      {
+        "text": "I walked in as a cocoon. Now I'm leaving as a corporate person."
+      }
+    ],
+    "END": [
+      {
+        "text": "I thought this would be about working all day. But it was about people at work – and how we keep the world turning."
+      },
+      {
+        "text": "Two down. And Three more worlds waiting for me!"
+      },
+      {
+        "text": "Let's keep building the mind."
+      }
+    ]
+  },
+  "general":{
+    "EASY": [
+      {
+        "text": "Hmm… I've entered somewhere new."
+      },
+      {
+        "text": "This feels like a… museum"
+      },
+      {
+        "text": "Oh! A museum of my thoughts!"
+      },
+      {
+        "text": "This seems fun. Woo-hoo! Let's start exploring!"
+      }
+    ],
+    "1": [
+      {
+        "text": "A ticket booth…?"
+      },
+      {
+        "text": "Ah, it must be a gate pass to get through this… psychological exhibit."
+      },
+      {
+        "text": "There's even a gumball machine filled with 'Love', 'Logic', Wit', and 'Calm'."
+      },
+      {
+        "text": "Yay! I got a ticket, and a few brain snacks, too."
+      }
+    ],
+    "2": [
+      {
+        "text": "Oooh! There's a huge brain model over there."
+      },
+      {
+        "text": "Wait… is it a model of my mind? A guide through my thoughts…?"
+      },
+      {
+        "text": "I think this is where orientation begins—understanding the structure."
+      },
+      {
+        "text": "Yay! I got a ticket, and a few brain snacks, too."
+      }
+    ],
+    "3": [
+      {
+        "text": "Paintings? Is this an art exhibit?"
+      },
+      {
+        "text": "Oh! The portraits keep changing depending on how I look at them.”"
+      },
+      {
+        "text": "This level must be about how we see the world—perception, interpretations, and biases."
+      },
+      {
+        "text": "Whoa! My brain is learning fast."
+      }
+    ],
+    "4": [
+      {
+        "text": "Now I see a bell and a dog…"
+      },
+      {
+        "text": "Ah! It's Pavlov's experiment! Is this all about classic conditioning?"
+      },
+      {
+        "text": "This must be where I learn how behavior is formed—habits, triggers, associations."
+      },
+      {
+        "text": "My mind feels stretched… but in a good way."
+      }
+    ],
+    "AVERAGE": [
+      {
+        "text": "Ooooh... Now the path shifts. No more observing—now I have to think thoroughly."
+      },
+      {
+        "text": "I've crossed into something deeper."
+      },
+      {
+        "text": "These levels are more active. More… internal."
+      }
+    ],
+    "5": [
+      {
+        "text": "This feel… more heightened. There's a statue of Freud… and an hourglass."
+      },
+      {
+        "text": "Time, memory, the unconscious. Psychoanalysis."
+      },
+      {
+        "text": "Whooa! I feel like I'm touching my inner world now."
+      },
+      {
+        "text": "“Psychology isn't just learning—it's confronting."
+      }
+    ],
+    "6": [
+      {
+        "text": "More boxes? That's definitely Skinner's Box."
+      },
+      {
+        "text": "And that maze… must be for rats?"
+      },
+      {
+        "text": "This level dives into behaviorism—how we learn through rewards and punishments."
+      },
+      {
+        "text": "Whew… I feel like I deserve some cheese too, haha."
+      }
+    ],
+    "7": [
+      {
+        "text": "A triangle pyramid? Ah— that's Maslow's hierarchy!"
+      },
+      {
+        "text": "Psychological, safety, esteem and belonging… all the way to self-actualization."
+      },
+      {
+        "text": "This level seems to ask: 'What drives you?' So… we climb up in life—like this map"
+      },
+      {
+        "text": "Yup, I'm climbing that pyramid with purpose!"
+      }
+    ],
+    "DIFFICULT": [
+      {
+        "text": "Everything here feels… personal now. No more theories. No more labs."
+      },
+      {
+        "text": "It's me. My self. My drive. My identity."
+      },
+      {
+        "text": "Every single thing I've learned is about to come together."
+      }
+    ],
+    "8": [
+      {
+        "text": "Those colorful faces… are they emotions that reflect my feelings?"
+      },
+      {
+        "text": "One portrays happy, the other sad… This must be how we process and express feelings."
+      },
+      {
+        "text": "Ah, I'm starting to notice how emotions shape our thoughts and behaviors."
+      },
+      {
+        "text": "Sometimes, it's okay to sit with emotion. Even the tough ones."
+      }
+    ],
+    "9": [
+      {
+        "text": "“Whoa! There's a big puzzle on the table. Maybe it presents the different brain functions?"
+      },
+      {
+        "text": "A decision wheel… do I say yes, no, or what?"
+      },
+      {
+        "text": "Problem solving, memory, decision-making—this is where everything becomes logical and integrative."
+      },
+      {
+        "text": "“Mind = blown… but in a structured way! Haha."
+      }
+    ],
+    "10": [
+      {
+        "text": "Whew… I can finally see the exit."
+      },
+      {
+        "text": "But I know this isn't just an exit— it's a realization."
+      },
+      {
+        "text": "I've realized that this whole journey was about understanding the human mind… and myself."
+      },
+      {
+        "text": "Psychology is the story of being human."
+      },
+      {
+        "text": "Guess I'm not just passing a class… I'm also understanding the mind behind it all."
+      }
+    ],
+    "END": [
+      {
+        "text": "This museum didn't just teach me psychology."
+      },
+      {
+        "text": "It taught me me."
+      }
+    ]
+  }
+}

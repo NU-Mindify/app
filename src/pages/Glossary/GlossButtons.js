@@ -1,4 +1,4 @@
-import { Image, Text, TouchableOpacity } from "react-native";
+import { Image, Pressable, Text } from "react-native";
 import Animated from "react-native-reanimated";
 import { GStyle } from "./GStyle";
 import button from '../../assets/glossary/button.png'
@@ -8,10 +8,9 @@ export default function GlossButtons(props) {
 
     return (
         <Animated.View style={GStyle.btnStyle} key={id}>
-            <TouchableOpacity onPress={onPress} style={GStyle.btnStyle}>
-                <Image source={button} style={GStyle.imageBtn}></Image>
+            <Pressable onPress={onPress} style={GStyle.btnStyle}>
                 <Text style={GStyle.btnTxt}>{letter}</Text>
-            </TouchableOpacity>
+            </Pressable>
         </Animated.View>
     );
 }

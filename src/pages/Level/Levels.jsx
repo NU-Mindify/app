@@ -21,6 +21,7 @@ import ModalContext from "../../contexts/ModalContext";
 import axios from "axios";
 import { API_URL } from "../../constants";
 import { Pressable } from "react-native-gesture-handler";
+import LevelStory from "./LevelStory";
 
 const Levels = (props) => {
   const { categoryIndex, isMastery, selectedMode = "review"  } = props.route.params;
@@ -29,6 +30,7 @@ const Levels = (props) => {
   const { setModal } = useContext(ModalContext)
   const categoryProgress =
     progressData["classic"][categoryIndex.id];
+  const storyProgress = progressData["story"][categoryIndex.id];
 
   const [leaderboardLevel, setLeaderboardLevel] = useState(null);
   const [mode, setMode] = useState(selectedMode);
@@ -62,7 +64,7 @@ const Levels = (props) => {
   }, [mode]);
 
   const openMastery = () => {
-    if (isMastery && progressData.classic[categoryIndex.id] >= 1) {
+    if (isMastery && progressData.classic[categoryIndex.id] >= 10) {
       openMasteryModal();
     } else if (isMastery) {
       completeAllLevelsModal();
@@ -126,7 +128,7 @@ const Levels = (props) => {
       body: (
         <>
           You have to complete all levels of this category first before you can
-          compete in mastery. {"\n\n"} <Text style={{color:'gray', fontSize:14, textAlign:'center'}}>For testing purposes,{"\n"}Pass level 1 to unlock this.</Text>{" "}
+          compete in mastery.
         </>
       ),
       mode: "LevelSelectMastery",
@@ -167,8 +169,50 @@ const Levels = (props) => {
     return () => backHandler.remove();
   }, [leaderboardLevel]);
 
+  // --------- Story -------------------
+  const [isStoryShown, setIsStoryShown] = useState(false)
+  const levelModal = useRef(null);
+
+  const showStory = (modal, index, check = true) => {
+    console.log(categoryIndex, index, "isShowing", isStoryShown);
+    console.log("show story");
+    if(check && storyProgress >= index + 1){
+      modal();
+      return;
+    }
+    
+    setIsStoryShown(true);
+    levelModal.current = {modal, index, check};
+  }
+  const hideStory = async () => {
+    console.log(levelModal.current);
+    setIsStoryShown(false);
+    if(levelModal.current.check){
+      try {
+        const { data } = await axios.post(API_URL + "/progressStory", {
+          user_id: accountData._id,
+          category: categoryIndex.id,
+          value: levelModal.current.index + 1,
+        });
+        console.log(data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    
+    levelModal.current.modal();
+    levelModal.current = null;
+  }
   return (
     <View style={{ backgroundColor: `${categoryIndex.primary_color}` }}>
+      {isStoryShown && (
+        <LevelStory
+          levelSelected={levelModal.current?.index + 1}
+          storyProgress={storyProgress}
+          category={categoryIndex.id}
+          onClose={() => hideStory()}
+        />
+      )}
       {leaderboardLevel && (
         <View
           style={{
@@ -195,7 +239,11 @@ const Levels = (props) => {
       <CategoryBar categoryIndex={categoryIndex} modeState={[mode, setMode]} />
       <ScrollView
         ref={scrollViewRef}
-        contentContainerStyle={{paddingTop: notchHeight + 100, justifyContent:'center', alignItems:'center'}}
+        contentContainerStyle={{
+          paddingTop: notchHeight + 100,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
         style={{
           height: Dimensions.get("screen").height,
           backgroundColor: `${categoryIndex.primary_color}`,
@@ -217,6 +265,7 @@ const Levels = (props) => {
               .find((location) => location.id === categoryIndex.id)
               .locations.map((details, index) => (
                 <LevelButton
+                  onStory={showStory}
                   setLeaderboardLevel={(level) => setLeaderboardLevel(level)}
                   details={details}
                   key={index}

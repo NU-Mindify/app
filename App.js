@@ -38,6 +38,7 @@ import axios from 'axios';
 import { API_URL } from './src/constants';
 import moment from 'moment';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import "./axios-logger";
 
 ExpoSplashScreen.preventAutoHideAsync();
 
@@ -69,20 +70,25 @@ export default function App() {
   
   // For Session time
   const appState = useRef(AppState.currentState);
-  const [appStateVisible, setAppStateVisible] = useState(appState.current);
   const startTime = useRef(null)
-  
+  const accountRef = useRef(accountData)
+  useEffect(() => {
+    accountRef.current = accountData;
+  }, [accountData])
+
   async function addSessionTime() {
     console.log(startTime.current);
     try {
       
       const endTime = moment()
       const duration = moment.duration(endTime.diff(startTime.current)).asSeconds()
+      console.log("ACCOUNTREF DATA", accountRef.current);
+      
       const newSession =  {
         start_time: startTime.current,
         end_time: new Date(),
         duration,
-        user: accountData ? accountData[0]._id : null
+        user: accountRef?.current?._id || null
       }
       let queue = JSON.parse(await AsyncStorage.getItem("unsent_sessions")) || [];
       queue.push(newSession);

@@ -8,8 +8,10 @@ import { useNavigation } from "@react-navigation/native";
 import Animated, { ZoomIn, ZoomOut } from "react-native-reanimated";
 import X from "../../assets/generic/X-White.svg";
 import moment from "moment";
+import { usePreventScreenCapture } from "expo-screen-capture";
 
 const Review = ({ questions, stats, onExit }) => {
+  usePreventScreenCapture();
   const nav = useNavigation();
   return (
     <Animated.View

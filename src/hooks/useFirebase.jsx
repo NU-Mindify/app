@@ -194,14 +194,23 @@ export const AuthHandler = () => {
   });
   return
 }
-const storeData = async (key, value) => {
+export const getData = async (key) => {
   try {
-    await AsyncStorage.setItem(key, value);
+    const value = await AsyncStorage.getItem(key);
+    return JSON.parse(value);
+  } catch (error) {
+    console.error("Storing Data", key);
+    throw "AsyncStorage Error";
+  }
+};
+export const storeData = async (key, value) => {
+  try {
+    await AsyncStorage.setItem(key, JSON.stringify(value));
   } catch (error) {
     console.error("Storing Data", key, value);
   }
 }
-const removeData = async (key) => {
+export const removeData = async (key) => {
   try {
     await AsyncStorage.removeItem(key);
   } catch (error) {

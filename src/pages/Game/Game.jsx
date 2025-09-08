@@ -20,7 +20,8 @@ import { useNavigation } from "@react-navigation/native";
 import { allowScreenCaptureAsync, preventScreenCaptureAsync } from "expo-screen-capture";
 import { useAudioPlayer } from "expo-audio";
 import { Home } from "lucide-react-native";
-import styles from "../../styles/styles";
+import LottieView from "lottie-react-native";
+import loading from "../../anim/loading.json"
 
 const Game = (props) => {
   const { level, levelIndex, categoryIndex, isMastery, mode } =
@@ -57,15 +58,19 @@ const Game = (props) => {
     if (choice.isCorrect) {
       newStats.correct = stats.correct + 1;
       newStats.streak = stats.streak + 1;
-      correctSfxPlayer.seekTo(0);
-      correctSfxPlayer.play();
-      setToast("Correct")
+      if(accountData.settings.sfx){
+        correctSfxPlayer.seekTo(0);
+        correctSfxPlayer.play();
+      }
+      if(mode !== "review") setToast({text: "Correct", time:500})
     } else {
+    if (accountData.settings.sfx){
       wrongSfxPlayer.seekTo(0);
       wrongSfxPlayer.play();
+    }
       newStats.wrong = stats.wrong + 1;
       newStats.streak = 0;
-      setToast("Wrong")
+      if(mode !== "review") setToast({ text: "Wrong", time: 500 });
     }
     setStats((prevstats) => ({ ...prevstats, ...newStats }));
     if (["competition", "mastery"].includes(mode)) {
@@ -255,6 +260,7 @@ const Game = (props) => {
 
   const getQuestions = async () => {
     try {
+      setIsQuestionsLoading(true);
       let URL = ""
       
       if (mode === "mastery") {
@@ -264,11 +270,7 @@ const Game = (props) => {
       }
       // const { data } = await axios.get(`${process.env.EXPO_PUBLIC_URL}/getQuestions?category=${'developmental'}&level=${1}`)
       console.log(accountData.token);
-      const { data } = await axios.get(URL, {
-        headers: {
-          Authorization: `Bearer ${accountData.token}`,
-        },
-      });
+      const { data } = await axios.get(URL);
       const questions = data.length !== 0 ? data : questionsData;
 
       if (["competition", "mastery"].includes(mode)) {
@@ -282,8 +284,28 @@ const Game = (props) => {
         setQuestions(questions);
         setCurrentQuestion(questions[currentNumber]);
       }
+      setIsQuestionsLoading(false)
+      if(accountData.settings.music){
+        musicPlayer.loop = true;
+        musicPlayer.play();
+      }
     } catch (error) {
-      console.error("getting questions", error.message);
+      setToast("Failed to add record: " + error);
+      console.error("attempt Error", error.message);
+      setRationaleModal({
+        type: "Error",
+        title: "Server Error",
+        subtitle: "Failed to load the questions.",
+        body: "Please Try Again",
+        primaryFn: () => {
+          setRationaleModal(null);
+          nav.goBack();
+        },
+        colors: {
+          primary_color: categoryIndex.primary_color,
+          secondary_color: categoryIndex.secondary_color,
+        },
+      });
     }
   };
 
@@ -316,36 +338,31 @@ const Game = (props) => {
       ]
     );
   }
-  //! Prevents Screenshot (Temporary Removed - IOS Compatibility Issue)
-  // useEffect(() => {
-  //   console.log(postGameScreen);
-  //   const toggleScreenCapture = async () => {
-  //     if (postGameScreen === "" || postGameScreen === "Review") {
-  //       console.log("Block screen - BLACK SCREEN");
-  //       await preventScreenCaptureAsync();
-  //     } else {
-  //       console.log("Allow Screen - Clear");
-  //       await allowScreenCaptureAsync();
-  //     }
-  //   };
-
-  //   toggleScreenCapture();
-
-  //   return () => {
-  //     allowScreenCaptureAsync();
-  //   };
-  // }, [postGameScreen]);
 
   useEffect(() => {
     getQuestions();
-    musicPlayer.loop = true;
-    musicPlayer.play();
   }, []);
-
+  const [isQuestionsLoading, setIsQuestionsLoading] = useState(false)
   return (
     <GameContext.Provider
       value={{ level, levelIndex, categoryIndex, isMastery, mode, gameColor: gameColors[categoryIndex.id] }}
     >
+      {isQuestionsLoading &&
+      <View style={{position:'absolute', height:'100%', width:'100%'}}>
+        <LottieView
+        style={{
+          width: 400,
+          height: 400,
+          margin: "auto",
+          marginTop: 'auto',
+          zIndex:5
+        }}
+        source={loading}
+        autoPlay
+        loop
+        />
+      </View>
+    }
       <AppBackground
         viewStyle={{
           justifyContent: "center",
