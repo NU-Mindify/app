@@ -1,25 +1,42 @@
-import { View, Text, StyleSheet, Pressable } from 'react-native'
-import React, { useContext, useRef, useState } from 'react'
-import TypeWriter from 'react-native-typewriter';
-import Avatar from '../../components/Avatar';
-import AccountContext from '../../contexts/AccountContext';
-import { API_URL, avatars, clothes } from '../../constants';
-import Animated, { FadeInDown, SlideInDown, SlideInUp } from 'react-native-reanimated';
-import stories from "./story.json"
-import axios from 'axios';
+import { View, Text, StyleSheet, Pressable, ImageBackground } from "react-native";
+import React, { useContext, useRef, useState } from "react";
+import TypeWriter from "react-native-typewriter";
+import Avatar from "../../components/Avatar";
+import AccountContext from "../../contexts/AccountContext";
+import { API_URL, avatars, clothes } from "../../constants";
+import Animated, {
+  FadeInDown,
+  FadeOutDown,
+} from "react-native-reanimated";
+import stories from "./story.json";
+import developmental from '../../assets/story/bg/developmental.png'
+import abnormal from "../../assets/story/bg/abnormal.png";
+import psychological from "../../assets/story/bg/psychological.png";
+import industrial from "../../assets/story/bg/industrial.png";
+import general from "../../assets/story/bg/general.png";
 
-const LevelStory = ({ onClose, levelSelected, category }) => {
+const bg = {
+  abnormal: abnormal,
+  developmental: developmental,
+  psychological: psychological,
+  industrial: industrial,
+  general: general,
+};
+
+const MajorStory = ({ data }) => {
+  const {onClose, category, difficulty} = data
+
   const { accountData } = useContext(AccountContext);
   const Head = avatars.find((avatar) => avatar.id === accountData.avatar).body;
   const Cloth = clothes.find((cloth) => cloth.id === accountData.cloth).image;
 
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [levelStoryObj, setLevelStory] = useState()
+  const [levelStoryObj, setLevelStory] = useState();
   const [story, setStory] = useState(null);
   console.log(story);
-  
+
   const onNext = async () => {
-    if (currentIndex + 1 >= levelStoryObj.length -1) {
+    if (currentIndex + 1 >= levelStoryObj.length) {
       onClose();
     }
     setStory(levelStoryObj[currentIndex + 1]);
@@ -27,7 +44,7 @@ const LevelStory = ({ onClose, levelSelected, category }) => {
   };
 
   useState(() => {
-    const storyObj = stories?.[category]?.[levelSelected] || null;
+    const storyObj = stories?.[category]?.[difficulty] || null;
     if (!storyObj) {
       onClose();
       return;
@@ -36,12 +53,13 @@ const LevelStory = ({ onClose, levelSelected, category }) => {
     setStory(storyObj[0]);
   }, [story, levelStoryObj, onClose]);
   if (!story) return;
-  if(!levelStoryObj){
+  if (!levelStoryObj) {
     return;
   }
   return (
     <Animated.View
       entering={FadeInDown}
+      exiting={FadeOutDown}
       style={{
         width: "100%",
         height: "100%",
@@ -63,18 +81,24 @@ const LevelStory = ({ onClose, levelSelected, category }) => {
           },
         ]}
       ></Pressable>
-      <View style={{ flex: 1 }}></View>
+      <ImageBackground
+        source={bg[category] || null}
+        style={[{ zIndex: 0, height:'100%', position:'absolute', left:0, top:0, width:'100%'}]}
+        resizeMode="cover"
+      ></ImageBackground>
       <Animated.View
         entering={FadeInDown.delay(500)}
         style={[
           {
             position: "absolute",
-            bottom: 32,
+            bottom: 0,
+            height: "75%",
+            width: "100%",
             zIndex: 2,
           },
         ]}
       >
-        <Avatar Head={Head} Cloth={Cloth} size={1} />
+        <Avatar Head={Head} Cloth={Cloth} size={1.4} />
       </Animated.View>
       {story.text && (
         <View style={styles.textContainer}>
@@ -98,7 +122,7 @@ const LevelStory = ({ onClose, levelSelected, category }) => {
   );
 };
 
-export default LevelStory
+export default MajorStory;
 
 const styles = StyleSheet.create({
   textContainer: {
@@ -108,7 +132,8 @@ const styles = StyleSheet.create({
     padding: 12,
     borderRadius: 10,
     minHeight: 80,
-    zIndex: 5,
-    borderWidth:1,
+    zIndex: 10,
+    borderWidth: 1,
+    marginTop:'auto'
   },
 });

@@ -135,6 +135,7 @@ const Store = () => {
           backgroundColor: "#406FC7",
           borderColor: "#FFDE4F",
           borderTopWidth: 4,
+          paddingBottom: 60,
         }}
       >
         <Tabs
