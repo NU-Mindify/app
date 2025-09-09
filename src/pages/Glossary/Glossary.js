@@ -75,17 +75,21 @@ export default function Glossary() {
     setIsFetching(false)
   }
   const prepareTerms = async () => {
-    const {data: cloudLatestTerm} = await axios.get(API_URL + "/getLatestUpdatedTerm")
-    const savedLatestTerm = await getData("latest_term")
-    console.log("Comparing Term update:", cloudLatestTerm, savedLatestTerm);
-    console.log("Comparing RESULT:", cloudLatestTerm.updatedAt > savedLatestTerm.updatedAt);
-    
-    if(!savedLatestTerm || cloudLatestTerm.updatedAt > savedLatestTerm.updatedAt){
-      await fetchTerms();
-      await storeData("latest_term", cloudLatestTerm)
-    }else{
-      const storageTerms = await getData("terms");
-      setTerms(storageTerms)
+    try {
+      const {data: cloudLatestTerm} = await axios.get(API_URL + "/getLatestUpdatedTerm")
+      const savedLatestTerm = await getData("latest_term")
+      console.log("Comparing Term update:", cloudLatestTerm, savedLatestTerm);
+      console.log("Comparing RESULT:", cloudLatestTerm.updatedAt > savedLatestTerm?.updatedAt);
+      
+      if(!savedLatestTerm || cloudLatestTerm.updatedAt > savedLatestTerm.updatedAt){
+        await fetchTerms();
+        await storeData("latest_term", cloudLatestTerm)
+      }else{
+        const storageTerms = await getData("terms");
+        setTerms(storageTerms)
+      }
+    } catch (error) {
+      console.error(error);
     }
   }
   useEffect(() => {
