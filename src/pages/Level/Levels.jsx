@@ -22,15 +22,19 @@ import axios from "axios";
 import { API_URL } from "../../constants";
 import { Pressable } from "react-native-gesture-handler";
 import LevelStory from "./LevelStory";
+import MajorStory from "./MajorStory";
 
 const Levels = (props) => {
   const { categoryIndex, isMastery, selectedMode = "review"  } = props.route.params;
-  const { accountData, progressData, setAccountData } = useContext(AccountContext);
+  const { accountData, progressData, setAccountData, setProgressData } = useContext(AccountContext);
+  console.log(progressData);
   
   const { setModal } = useContext(ModalContext)
   const categoryProgress =
     progressData["classic"][categoryIndex.id];
   const storyProgress = progressData["story"][categoryIndex.id];
+  console.log(progressData["story"][categoryIndex.id]);
+  
 
   const [leaderboardLevel, setLeaderboardLevel] = useState(null);
   const [mode, setMode] = useState(selectedMode);
@@ -169,8 +173,21 @@ const Levels = (props) => {
     return () => backHandler.remove();
   }, [leaderboardLevel]);
 
+  useEffect(() => {
+    console.log("PROGRESS", storyProgress);
+    if([0, 1, 5, 8].includes(storyProgress)){
+      showMajorStory();
+    }
+  }, [])
+  // easy 1-4, average 5-7, difficult 8-10
+  const getDifficulty = (level) => {
+    return level >= 7 ? "DIFFICULT" : level <= 3 ? "EASY" : "AVERAGE";
+  }
+
   // --------- Story -------------------
   const [isStoryShown, setIsStoryShown] = useState(false)
+  const [isMajorStoryShown, setIsMajorStoryShown] = useState(false)
+  const [majorStoryData, setMajorStoryData] = useState(null);
   const levelModal = useRef(null);
 
   const showStory = (modal, index, check = true) => {
@@ -195,6 +212,7 @@ const Levels = (props) => {
           value: levelModal.current.index + 1,
         });
         console.log(data);
+        setProgressData(data);
       } catch (error) {
         console.error(error);
       }
@@ -202,6 +220,34 @@ const Levels = (props) => {
     
     levelModal.current.modal();
     levelModal.current = null;
+  }
+
+  const showMajorStory = () => {
+    const difficulty = getDifficulty(storyProgress);
+    const storyData = {
+      category: categoryIndex.id,
+      difficulty,
+      onClose: () => hideMajorStory()
+    }
+    setMajorStoryData(storyData)
+    setIsMajorStoryShown(true);
+
+  }
+  const hideMajorStory = async () => {
+    try {
+      const { data } = await axios.post(API_URL + "/progressStory", {
+        user_id: accountData._id,
+        category: categoryIndex.id,
+        value: storyProgress + 0.1,
+      });
+      console.log(data);
+      setProgressData(data);
+      setIsMajorStoryShown(false);
+      setMajorStoryData(null);
+    } catch (error) {
+      console.error(error);
+    }
+    
   }
   return (
     <View style={{ backgroundColor: `${categoryIndex.primary_color}` }}>
@@ -212,6 +258,9 @@ const Levels = (props) => {
           category={categoryIndex.id}
           onClose={() => hideStory()}
         />
+      )}
+      {isMajorStoryShown && (
+        <MajorStory data={majorStoryData} />
       )}
       {leaderboardLevel && (
         <View

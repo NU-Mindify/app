@@ -122,12 +122,12 @@ const categoriesObj = [
     secondary_color: "#248552"
   },
   {
-    id: "developmental",
-    name: "Developmental Psychology",
-    level_background: developmentalMap,
-    cover: developmentalCover,
-    primary_color: "#7F9F30",
-    secondary_color: "#A9CA59"
+    id: "general",
+    name: "General Psychology",
+    level_background: generalMap,
+    cover: generalCover,
+    primary_color:"#9C7743",
+    secondary_color:"#E9CFAA"
   },
   {
     id: "industrial",
@@ -146,12 +146,12 @@ const categoriesObj = [
     secondary_color: "#F2C94C"
   },
   {
-    id: "general",
-    name: "General Psychology",
-    level_background: generalMap,
-    cover: generalCover,
-    primary_color:"#9C7743",
-    secondary_color:"#E9CFAA"
+    id: "developmental",
+    name: "Developmental Psychology",
+    level_background: developmentalMap,
+    cover: developmentalCover,
+    primary_color: "#7F9F30",
+    secondary_color: "#A9CA59"
   },
 ]
 

@@ -170,8 +170,7 @@ export default function App() {
       <AccountContext.Provider value={{ accountData, setAccountData, progressData, setProgressData }}>
         <ModalContext.Provider value={{ modal, setModal, toast, setToast }}>
           <GestureHandlerRootView>
-              <BuildInfo />
-
+              {/* <BuildInfo /> */}
               {/* <ResetButton /> */}
               <Stack.Navigator screenOptions={{ headerShown: false, statusBarHidden: Platform.OS !== "ios", navigationBarHidden: true, gestureEnabled: false, }}>
                 <Stack.Screen name="Splash" component={SplashScreen} />
