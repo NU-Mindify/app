@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import { useContext, useState } from "react";
-import { Pressable, Text, View, ToastAndroid } from "react-native";
+import { Pressable, Text, View, ToastAndroid, Alert } from "react-native";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import AppBackground from "../../components/AppBackground";
 import Button from "../../components/Button";
@@ -32,12 +32,18 @@ const EditProfile = () => {
       setAccountData(updatedUser);
       ToastAndroid.show("The changes has been saved.", ToastAndroid.SHORT);
 
-      nav.replace("Home");
+      // nav.replace("Home");
     } catch (error) {
       console.error("Error Updating User:", error);
       ToastAndroid.show("Failed to save changes.", ToastAndroid.LONG);
     }
   };
+
+  const hasChanges =
+  selectedAvatar !== accountData.avatar ||
+  selectedCloth !== (accountData.cloth || clothes[0].id) ||
+  inputName !== accountData.username;
+
 
 
   return (
@@ -115,9 +121,24 @@ const EditProfile = () => {
         >
           <Button
             style={{ flex: 0, width: "50%" }}
-            onPress={onSave}
+            onPress={() => {
+              if (!hasChanges) {
+                ToastAndroid.show("No changes to save.", ToastAndroid.SHORT);
+                return;
+              }
+
+              Alert.alert(
+                "Confirm Changes",
+                "Are you sure you want to save your changes?",
+                [
+                  { text: "Cancel", style: "cancel" },
+                  { text: "Yes", onPress: onSave }
+                ]
+              );
+            }}
             text={"Save"}
           />
+
           <Button
             style={{ flex: 0, width: "50%" }}
             onPress={() => {

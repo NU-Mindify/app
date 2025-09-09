@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Image } from "react-native";
+import { View, Text, TouchableOpacity, Image, Alert } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import AppBackground from "../../components/AppBackground";
 import { ArrowLeftCircle, Edit } from "lucide-react-native";
@@ -41,26 +41,45 @@ const Store = () => {
       setIsBuyDisabled(true)
     }
   }, [selectedAvatar, selectedCloth, accountData])
-  const onBuy = async () => {
-    let URL = ""
-    if(selectedTab === "Avatar"){
-      URL = API_URL + "/userBuy?item="+selectedAvatar+"&user_id="+accountData._id
-    }else if(selectedTab === "Clothes")
-    URL = API_URL + "/userBuy?item="+selectedCloth+"&user_id="+accountData._id
 
-    try {
-      const {data} = await axios.get(URL);
-      setAccountData(data)
-      setModal({
-        title: "Store",
-        body:"You have successfully bought an item!",
-        primaryFn: () => {setModal(null)},
-        secondaryFn: () => {setModal(null)}
-      })
-    } catch (error) {
-      console.error("buying error",error);
-    }
+  const performBuy = async () => {
+  let URL = "";
+  if (selectedTab === "Avatar") {
+    URL = `${API_URL}/userBuy?item=${selectedAvatar}&user_id=${accountData._id}`;
+  } else {
+    URL = `${API_URL}/userBuy?item=${selectedCloth}&user_id=${accountData._id}`;
   }
+
+  try {
+    const { data } = await axios.get(URL);
+    setAccountData(data);
+    setModal({
+      title: "Store",
+      body: "You have successfully bought an item!",
+      primaryFn: () => setModal(null),
+    });
+    } catch (error) {
+      console.error("buying error", error);
+      setModal({
+        title: "Error",
+        body: "Something went wrong while buying.",
+        primaryFn: () => setModal(null),
+      });
+    }
+  };
+
+  const onBuy = () => {
+    const itemName = selectedTab === "Avatar" ? selectedAvatar : selectedCloth;
+
+    Alert.alert(
+      "Confirm Purchase",
+      `Are you sure you want to buy this item?`,
+      [
+        { text: "Cancel", style: "cancel" },
+        { text: "Yes", onPress: performBuy },
+      ]
+    );
+  };
   return (
     <AppBackground>
       <View style={{ flex: 1 }}>
