@@ -270,7 +270,7 @@ const Game = (props) => {
       }
       // const { data } = await axios.get(`${process.env.EXPO_PUBLIC_URL}/getQuestions?category=${'developmental'}&level=${1}`)
       console.log(accountData.token);
-      const { data } = await axios.get(URL);
+      const { data } = await axios.get(URL, {timeout:15000});
       const questions = data.length !== 0 ? data : questionsData;
 
       if (["competition", "mastery"].includes(mode)) {
@@ -290,6 +290,7 @@ const Game = (props) => {
         musicPlayer.play();
       }
     } catch (error) {
+      setIsQuestionsLoading(false);
       setToast("Failed to add record: " + error);
       console.error("attempt Error", error.message);
       setRationaleModal({
@@ -340,6 +341,7 @@ const Game = (props) => {
   }
 
   useEffect(() => {
+    setIsQuestionsLoading(true);
     getQuestions();
   }, []);
   const [isQuestionsLoading, setIsQuestionsLoading] = useState(false)

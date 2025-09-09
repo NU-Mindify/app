@@ -9,11 +9,16 @@ const Toast = () => {
   const {toast, setToast} = useContext(ModalContext);
 
   useEffect(() => {
+    console.log("TOAST:",toast);
+    
     if(!toast) return;
-    let time = 4000;
-    if (typeof options !== 'string') {
+    let time = 3000;
+    
+    if (typeof toast !== 'string') {
+      console.log("TRUE");
       time = toast.time
     }
+    console.log("Time",time);
     // eslint-disable-next-line no-undef
     const a = setInterval(() => {
       console.log("Removed Toast");
