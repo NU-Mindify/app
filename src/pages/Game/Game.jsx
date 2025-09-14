@@ -254,7 +254,7 @@ const Game = (props) => {
   };
 
   const getDifficultyByLevel = (level) => {
-    return level > 7 ? "hard" : level < 3 ? "easy" : "average";
+    return level > 7 ? "difficult" : level < 3 ? "easy" : "average";
   }
   // -----------------------------------------
 

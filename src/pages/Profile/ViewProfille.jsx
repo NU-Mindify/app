@@ -8,9 +8,10 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View
+  View,
+  Pressable,
+  ScrollView,
 } from "react-native";
-import { Pressable, ScrollView } from "react-native-gesture-handler";
 import Animated, { SlideInLeft } from "react-native-reanimated";
 import AppBackground from "../../components/AppBackground";
 import { API_URL, avatars, branches, categoriesObj, clothes } from "../../constants";

@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, KeyboardAvoidingView, Platform } from "react-native";
+import { View, Text, ScrollView, KeyboardAvoidingView, Platform, TouchableOpacity } from "react-native";
 import { useContext, useEffect, useRef, useState } from "react";
 import AppBackground from "../../components/AppBackground";
 import styles from "../../styles/styles";
@@ -8,7 +8,6 @@ import {
   SendHorizonal,
   Trash2
 } from "lucide-react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
 import AccountContext from "../../contexts/AccountContext";
 import ModalContext from "../../contexts/ModalContext";

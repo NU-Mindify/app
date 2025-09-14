@@ -1,8 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import { useContext, useState } from "react";
-import { Pressable, Text, View } from "react-native";
-import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
+import { Pressable, Text, View, ScrollView } from "react-native";
 import AppBackground from "../../components/AppBackground";
 import Button from "../../components/Button";
 import Input from "../../components/Input";

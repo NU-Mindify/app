@@ -1,12 +1,9 @@
-import { View, Text } from 'react-native'
+import { View, Text, Pressable } from "react-native";
 import Home from '../assets/bottom-nav/home.svg'
 import Glossary from '../assets/bottom-nav/glossary.svg'
 import Mindmap from '../assets/bottom-nav/mindmap.svg'
 import Chatbot from '../assets/bottom-nav/chatbot.svg'
 import Store from '../assets/bottom-nav/store.svg'
-import React from 'react'
-import { Pressable } from 'react-native-gesture-handler'
-import { CommonActions, StackActions, useNavigation, useNavigationState } from '@react-navigation/native'
 import Animated, { FadeInDown, FadeOutDown, SlideInDown, SlideInUp } from 'react-native-reanimated'
 import { navbarRoutes } from '../constants'
 import { navigate } from '../utils/RootNavigation'

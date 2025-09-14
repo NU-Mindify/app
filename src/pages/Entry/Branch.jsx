@@ -1,12 +1,8 @@
-import { View, Text } from 'react-native'
-import Animated, { BounceIn, BounceOut, FadeIn, FadeOut } from 'react-native-reanimated'
-import { modalStyles } from '../../styles/modalStyles'
-import { Body } from '../../components/StartModal'
-import { useEffect, useState } from 'react'
-import axios from 'axios'
-import { API_URL } from '../../constants'
-import { Pressable, ScrollView } from 'react-native-gesture-handler'
 import { Check } from 'lucide-react-native'
+import { Text, View, Pressable, ScrollView } from "react-native";
+import Animated from 'react-native-reanimated'
+import { Body } from '../../components/StartModal'
+import { modalStyles } from '../../styles/modalStyles'
 
 const Branch = ({branches, setSelected, onClose, selected, isOpen = true}) => {
   if(!branches){

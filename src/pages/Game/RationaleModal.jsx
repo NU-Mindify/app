@@ -1,10 +1,9 @@
-import { View, Text, TouchableOpacity, Image } from 'react-native'
-import Animated, { BounceIn, BounceOut, FadeIn, FadeOut, ZoomOut } from 'react-native-reanimated'
-import { modalStyles } from '../../styles/modalStyles'
-import { Body, Title } from '../../components/StartModal'
-import Button from '../../components/Button'
-import { ScrollView } from 'react-native-gesture-handler'
 import { usePreventScreenCapture } from 'expo-screen-capture'
+import { Image, Text, View, ScrollView } from "react-native";
+import Animated, { BounceIn, FadeIn, FadeOut, ZoomOut } from 'react-native-reanimated'
+import Button from '../../components/Button'
+import { Body, Title } from '../../components/StartModal'
+import { modalStyles } from '../../styles/modalStyles'
 
 export default function RationaleModal ({modal}) {
   usePreventScreenCapture();

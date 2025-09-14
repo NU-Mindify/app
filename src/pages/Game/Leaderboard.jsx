@@ -1,7 +1,6 @@
-import { View, Text, BackHandler } from "react-native";
+import { View, Text, BackHandler, Pressable, TouchableOpacity, ScrollView } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import AppBackground from "../../components/AppBackground";
-import { Pressable, ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import moment from "moment";
 import styles from "../../styles/styles";
 import X from "../../assets/generic/X-White.svg";

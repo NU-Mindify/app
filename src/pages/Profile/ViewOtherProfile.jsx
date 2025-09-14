@@ -9,8 +9,8 @@ import {
   Text,
   TouchableOpacity,
   View,
+  ScrollView,
 } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
 import Animated, { SlideInLeft } from "react-native-reanimated";
 import AppBackground from "../../components/AppBackground";
 import {
@@ -164,7 +164,9 @@ const ViewOtherProfile = (props) => {
               {accountData.first_name} {accountData.last_name}
             </Text>
             <Text style={[styles.entryTitle, { textAlign: "center" }]}>
-              {accountData.student_id}
+              {accountData.student_id?.slice(0, 5)}
+              {accountData.student_id?.slice(5, -1).replace(/./g, "*")}
+              {accountData.student_id?.slice(-1)}
             </Text>
           </View>
         </View>

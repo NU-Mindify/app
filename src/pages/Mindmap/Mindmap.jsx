@@ -1,15 +1,9 @@
-import { View, Text, TouchableOpacity, StyleSheet, Image, Platform } from "react-native";
-import React, { useState } from "react";
-import { Pressable, ScrollView } from "react-native-gesture-handler";
-import { BrainCircuitIcon, Search } from "lucide-react-native";
-import X from "../../assets/generic/X-White.svg";
-import AppBackground from "../../components/AppBackground";
-import styles from "../../styles/styles";
 import { useNavigation } from "@react-navigation/native";
-import Animated, { FadeIn, SlideInUp, ZoomIn, ZoomOut } from "react-native-reanimated";
-import Input from "../../components/Input";
-import MindmapImage from '../../assets/mindmap/mindmap.png'
+import { useState } from "react";
+import { Platform, View } from "react-native";
+import Animated, { FadeIn } from "react-native-reanimated";
 import WebView from "react-native-webview";
+import AppBackground from "../../components/AppBackground";
 
 const disableZoomScript = `
       const meta = document.createElement('meta');

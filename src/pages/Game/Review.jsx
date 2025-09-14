@@ -1,14 +1,16 @@
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import React, { useState } from "react";
-import { Pressable, ScrollView } from "react-native-gesture-handler";
-import { XCircle } from "lucide-react-native";
-import AppBackground from "../../components/AppBackground";
-import styles from "../../styles/styles";
 import { useNavigation } from "@react-navigation/native";
+import { usePreventScreenCapture } from "expo-screen-capture";
+import moment from "moment";
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  ScrollView,
+} from "react-native";
 import Animated, { ZoomIn, ZoomOut } from "react-native-reanimated";
 import X from "../../assets/generic/X-White.svg";
-import moment from "moment";
-import { usePreventScreenCapture } from "expo-screen-capture";
+import styles from "../../styles/styles";
 
 const Review = ({ questions, stats, onExit }) => {
   usePreventScreenCapture();
