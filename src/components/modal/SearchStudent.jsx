@@ -1,14 +1,13 @@
-import { View, Text, TouchableOpacity } from 'react-native'
-import React, { useContext, useState } from 'react'
-import { Body, Title } from '../StartModal'
-import Input from '../../components/Input.jsx'
-import { Search } from 'lucide-react-native'
-import ModalContext from '../../contexts/ModalContext'
-import { API_URL, avatars, branches } from '../../constants'
 import { useNavigation } from '@react-navigation/native'
-import AccountContext from '../../contexts/AccountContext'
 import axios from 'axios'
-import { ScrollView } from 'react-native-gesture-handler'
+import { Search } from 'lucide-react-native'
+import { useContext, useState } from 'react'
+import { Text, TouchableOpacity, View, ScrollView } from "react-native";
+import Input from '../../components/Input.jsx'
+import { API_URL, avatars, branches } from '../../constants'
+import AccountContext from '../../contexts/AccountContext'
+import ModalContext from '../../contexts/ModalContext'
+import { Body, Title } from '../StartModal'
 
 const SearchStudent = () => {
   const {modal, setToast} = useContext(ModalContext)
@@ -33,7 +32,7 @@ const SearchStudent = () => {
       <Title title={"SEARCH"} />
       <Body
         onClose={modal.secondaryFn}
-        contentStyle={{ padding: 24, width: '90%', height:600, gap: 12 }}
+        contentStyle={{ padding: 24, width: '90%', height: searchList.length !== 0 ? 600: 200, gap: 12 }}
       >
         <Input style={{marginTop: 12}} value={searchText} onChangeText={(text) => {setSearchText(text); onSearch(text)}} placeholder={"Search for student..."}>
           <TouchableOpacity onPress={() => {
@@ -56,7 +55,7 @@ const SearchStudent = () => {
           {searchList.length === 0 && searchText.length !== 0 &&
             <Text style={{color: 'white', fontWeight:600, fontSize:16, textAlign:'center'}}>No Results</Text>
           }
-          {searchList.map(student => <UserCard data={student} />)}
+          {searchList.map((student, index) => <UserCard data={student} key={index} />)}
         </ScrollView>
       </Body>
     </>

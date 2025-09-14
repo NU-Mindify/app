@@ -1,6 +1,10 @@
 // https://docs.expo.dev/guides/using-eslint/
 module.exports = {
-  extends: 'expo',
+  plugins: [
+    'expo',
+  ],
+  
+  extends: ['expo', 'plugin:expo/use-dom-exports'],
   ignorePatterns: ['/dist/*'],
   "rules": {
     "no-unused-vars": 0,

@@ -1,21 +1,17 @@
-import React, { useRef, useState, useEffect, useContext } from 'react';
-import { GStyle } from './GStyle';
-import { Image, ScrollView, Text, TextInput, View } from 'react-native';
-import GlossButtons from './GlossButtons';
-import GlossaryBG from '../../assets/glossary/glossBg.png';
-import GlossaryTitle from '../../assets/glossary/glossary.png';
-import searchBg from '../../assets/glossary/searchBg.png';
-import magnifying from '../../assets/glossary/magnifying.png';
-import letterBG from '../../assets/glossary/letterBG.png';
-import AppBackground from '../../components/AppBackground';
-import { useNavigation } from '@react-navigation/native';
-import api from '../../api';
-import LoadingOverlay from '../../components/LoadingOverlay';
-import ModalContext from '../../contexts/ModalContext';
 import axios from 'axios';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import { FlatList, Image, Text, TextInput, View } from 'react-native';
+import api from '../../api';
+import GlossaryTitle from '../../assets/glossary/glossary.png';
+import magnifying from '../../assets/glossary/magnifying.png';
+import searchBg from '../../assets/glossary/searchBg.png';
+import AppBackground from '../../components/AppBackground';
+import LoadingOverlay from '../../components/LoadingOverlay';
 import { API_URL } from '../../constants';
+import ModalContext from '../../contexts/ModalContext';
 import { getData, storeData } from '../../hooks/useFirebase';
-import { FlatList } from 'react-native-gesture-handler';
+import { GStyle } from './GStyle';
+import GlossButtons from './GlossButtons';
 
 export default function Glossary() {
   const {setToast} = useContext(ModalContext)
@@ -75,6 +71,7 @@ export default function Glossary() {
     setIsFetching(false)
   }
   const prepareTerms = async () => {
+    setIsFetching(true);
     try {
       const {data: cloudLatestTerm} = await axios.get(API_URL + "/getLatestUpdatedTerm")
       const savedLatestTerm = await getData("latest_term")
@@ -91,6 +88,7 @@ export default function Glossary() {
     } catch (error) {
       console.error(error);
     }
+    setIsFetching(false);
   }
   useEffect(() => {
     prepareTerms();

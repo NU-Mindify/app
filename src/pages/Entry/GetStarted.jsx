@@ -1,18 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import { Alert, BackHandler, Keyboard, Text, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { Alert, BackHandler, Keyboard, Pressable, Text, View, ScrollView} from 'react-native';
 import Animated, { BounceIn, FadeIn, FadeOut } from 'react-native-reanimated';
 import MindifyLogo from "../../assets/Logo.png";
 import AppBackground from "../../components/AppBackground";
+import { API_URL } from '../../constants';
 import { printStorage } from '../../contexts/useAccount';
 import styles from '../../styles/styles';
+import Branch from './Branch';
 import Login from './Login';
 import Register from './Register';
-import { Pressable, ScrollView } from 'react-native-gesture-handler';
 import TermsAndConditions from './TermsAndConditions';
-import { useNavigation } from '@react-navigation/native';
-import Branch from './Branch';
-import axios from 'axios';
-import { API_URL } from '../../constants';
 
 export default function GetStarted(props) {
   const {state: entryState} = props.route.params

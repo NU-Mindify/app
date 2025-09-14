@@ -1,11 +1,15 @@
+import { useNavigation } from "@react-navigation/native";
+import axios from "axios";
+import { BookOpenTextIcon, OctagonAlert } from "lucide-react-native";
 import { useContext, useEffect, useState } from "react";
 import {
   BackHandler,
   Image,
+  Pressable,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
+  ScrollView,
 } from "react-native";
 import Animated, {
   BounceIn,
@@ -17,19 +21,15 @@ import Animated, {
 import X from "../assets/generic/x.svg";
 import classic from "../assets/modal/classic.png";
 import mastery from "../assets/modal/mastery.png";
+import off from "../assets/settings/off.png";
+import on from "../assets/settings/on.png";
+import { API_URL } from "../constants";
+import AccountContext from "../contexts/AccountContext";
 import ModalContext from "../contexts/ModalContext";
+import { SignOut } from "../hooks/useFirebase";
 import { modalStyles } from "../styles/modalStyles";
 import Button from "./Button";
-import AccountContext from "../contexts/AccountContext";
-import { SignOut } from "../hooks/useFirebase";
-import { BookOpenTextIcon, OctagonAlert } from "lucide-react-native";
-import { Pressable, ScrollView } from "react-native-gesture-handler";
-import { useNavigation } from "@react-navigation/native";
 import SearchStudent from "./modal/SearchStudent";
-import on from "../assets/settings/on.png";
-import off from "../assets/settings/off.png";
-import axios from "axios";
-import { API_URL } from "../constants";
 
 export default function Start() {
   const { modal, setModal } = useContext(ModalContext);

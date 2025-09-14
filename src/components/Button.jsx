@@ -1,7 +1,5 @@
-import { Text } from 'react-native'
-import React from 'react'
+import { Text, Pressable } from 'react-native'
 import styles from '../styles/styles'
-import { Pressable } from 'react-native-gesture-handler'
 
 const Button = ({onPress, text, style={}, textStyle={}, disabled = false, hexColor = "#FDB813"}) => {
   return (

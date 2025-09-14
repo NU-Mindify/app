@@ -8,7 +8,7 @@ import {
   ImageBackground,
   ScrollView,
   Text,
-  TouchableOpacity,
+  Pressable,
   View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -20,7 +20,6 @@ import locations from "./locations.json";
 import ModalContext from "../../contexts/ModalContext";
 import axios from "axios";
 import { API_URL } from "../../constants";
-import { Pressable } from "react-native-gesture-handler";
 import LevelStory from "./LevelStory";
 import MajorStory from "./MajorStory";
 

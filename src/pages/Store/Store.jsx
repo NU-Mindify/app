@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Image } from "react-native";
+import { View, Text, TouchableOpacity, Image, Pressable, ScrollView } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import AppBackground from "../../components/AppBackground";
 import { ArrowLeftCircle, Edit } from "lucide-react-native";
@@ -7,7 +7,6 @@ import styles from "../../styles/styles";
 import { useNavigation } from "@react-navigation/native";
 import { API_URL, avatars, clothes } from "../../constants";
 import AccountContext from "../../contexts/AccountContext";
-import { Pressable, ScrollView } from "react-native-gesture-handler";
 import Button from "../../components/Button";
 import axios from "axios";
 import ModalContext from "../../contexts/ModalContext";
