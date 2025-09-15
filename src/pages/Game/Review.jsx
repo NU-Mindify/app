@@ -1,5 +1,3 @@
-import { useNavigation } from "@react-navigation/native";
-import { usePreventScreenCapture } from "expo-screen-capture";
 import moment from "moment";
 import {
   StyleSheet,
@@ -13,8 +11,6 @@ import X from "../../assets/generic/X-White.svg";
 import styles from "../../styles/styles";
 
 const Review = ({ questions, stats, onExit }) => {
-  usePreventScreenCapture();
-  const nav = useNavigation();
   return (
     <Animated.View
       entering={ZoomIn}

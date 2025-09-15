@@ -1,20 +1,17 @@
 import {
-  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
-import Animated, { BounceIn, FadeInDown, SlideInLeft } from "react-native-reanimated";
+import Animated, { FadeInDown, SlideInLeft } from "react-native-reanimated";
 import { useContext, useEffect, useRef } from "react";
 import GameContext from "../../contexts/GameContext";
 import { gameColors } from "../../constants";
 import LottieView from "lottie-react-native";
 import fireAnimation from '../../anim/Fire.json'
-import { usePreventScreenCapture } from "expo-screen-capture";
 
 export default function Questions({ data, onAnswer, number, length, streak, mode }) {
-  usePreventScreenCapture();
   const { level, categoryIndex } = useContext(GameContext);
   const animationRef = useRef(null);
 
