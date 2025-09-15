@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import AppBackground from "../../components/AppBackground";
 import Questions from "./Questions";
 import questionsData from "./data.json";
@@ -17,7 +17,6 @@ import ModalContext from "../../contexts/ModalContext";
 import Animated from "react-native-reanimated";
 import Timer from "./Timer";
 import { useNavigation } from "@react-navigation/native";
-import { allowScreenCaptureAsync, preventScreenCaptureAsync } from "expo-screen-capture";
 import { useAudioPlayer } from "expo-audio";
 import { Home } from "lucide-react-native";
 import LottieView from "lottie-react-native";

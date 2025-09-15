@@ -1,4 +1,3 @@
-import { usePreventScreenCapture } from 'expo-screen-capture'
 import { Image, Text, View, ScrollView } from "react-native";
 import Animated, { BounceIn, FadeIn, FadeOut, ZoomOut } from 'react-native-reanimated'
 import Button from '../../components/Button'
@@ -6,7 +5,6 @@ import { Body, Title } from '../../components/StartModal'
 import { modalStyles } from '../../styles/modalStyles'
 
 export default function RationaleModal ({modal}) {
-  usePreventScreenCapture();
   
   return (
     <Animated.View

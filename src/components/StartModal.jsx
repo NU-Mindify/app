@@ -91,8 +91,8 @@ const Settings = ({ modal }) => {
   const { accountData, setAccountData } = useContext(AccountContext);
   const { setModal } = useContext(ModalContext);
   const nav = useNavigation();
-  const [music, setMusic] = useState(accountData.settings.music);
-  const [sfx, setSfx] = useState(accountData.settings.sfx);
+  const [music, setMusic] = useState(accountData?.settings.music || false);
+  const [sfx, setSfx] = useState(accountData?.settings.sfx || false);
 
   const tutorial = async () => {
     setModal(null);
