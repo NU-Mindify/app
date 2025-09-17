@@ -4,6 +4,7 @@ import Glossary from '../assets/bottom-nav/glossary.svg'
 import Mindmap from '../assets/bottom-nav/mindmap.svg'
 import Chatbot from '../assets/bottom-nav/chatbot.svg'
 import Store from '../assets/bottom-nav/store.svg'
+import Leaderboard from '../assets/bottom-nav/cards.svg'
 import Animated, { FadeInDown, FadeOutDown, SlideInDown, SlideInUp } from 'react-native-reanimated'
 import { navbarRoutes } from '../constants'
 import { navigate } from '../utils/RootNavigation'
@@ -12,6 +13,7 @@ const actions = [
   // {name: "Categories", icon: Categories, path: null},
   {name: "Home", icon: Home, path: "Home"},
   {name: "Glossary", icon: Glossary, path: "Glossary"},
+  {name: "Leaderboard", icon: Leaderboard, path: "Leaderboard"},
   {name: "Mindmap", icon: Mindmap, path: "Mindmap"},
   {name: "Mindy", icon: Chatbot, path: "Chatbot"},
   {name: "Store", icon: Store, path: "Store"}
