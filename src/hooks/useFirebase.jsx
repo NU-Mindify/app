@@ -95,20 +95,14 @@ const useFirebase = () => {
     callback = () => { }
   ) => {
     try {
+      const { data: usernameExists } = await axios.post(API_URL + "/checkEmailExists", { "username": username })
+      if(usernameExists) throw "username-exists"
       const userCredential = await createUserWithEmailAndPassword(
         getAuth(),
         email,
         password
       );
       const user = userCredential.user;
-      console.log(user);
-      console.log("toInput", {
-        branch,
-        username,
-        email,
-        uid: user.uid,
-      });
-
       const response = await axios.post(
         API_URL + "/createUser",
         {
@@ -132,6 +126,9 @@ const useFirebase = () => {
       console.log(errorCode);
 
       switch (errorCode) {
+        case "username-exists":
+          customErrorMessage = "Username already exists";
+          break;
         case "auth/email-already-in-use":
           customErrorMessage = "This email address is already in use.";
           break;

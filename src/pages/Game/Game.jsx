@@ -45,6 +45,7 @@ const Game = (props) => {
     correct: 0,
     wrong: 0,
     streak: 0,
+    points: 0,
     answers: [],
   });
 
@@ -55,6 +56,7 @@ const Game = (props) => {
     };
 
     if (choice.isCorrect) {
+      newStats.points = stats.points + getPointsWithDifficulty(currentQuestion.difficulty);
       newStats.correct = stats.correct + 1;
       newStats.streak = stats.streak + 1;
       if(accountData.settings.sfx){
@@ -80,6 +82,9 @@ const Game = (props) => {
       setCurrentQuestion(null);
     }
   };
+  const getPointsWithDifficulty = (difficulty) => {
+    return difficulty === "easy" ? 1 : difficulty === "average" ? 2 : 3;
+  }
   // -------------------------------------
   const nextQuestion = async (newStats) => {
     console.log(newStats);
@@ -123,6 +128,7 @@ const Game = (props) => {
           branch: accountData.branch,
           mode,
           stars: attemptStars,
+          points: newStats.points
         },
         progressUserLevel:
           isMovingToNextLevel() && isScorePassed() && mode === "competition",

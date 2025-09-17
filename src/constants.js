@@ -110,7 +110,7 @@ const avatars = [
   { id: "g8", head: g8, body: g8body, gender:'female'},
 ];
 
-const navbarRoutes = ["Home", "Chatbot", "Glossary", "Mindmap", "Store"]
+const navbarRoutes = ["Home", "Chatbot", "Glossary", "Mindmap", "Store", "Leaderboard"]
 
 const categoriesObj = [
   {

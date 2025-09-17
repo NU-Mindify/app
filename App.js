@@ -6,7 +6,6 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import StartModal from './src/components/StartModal';
 import AccountContext from './src/contexts/AccountContext';
 import ModalContext from './src/contexts/ModalContext';
-import { ResetButton } from './src/contexts/useAccount';
 import './src/firebase'
 import Chatbot from './src/pages/Chatbot/Chatbot';
 import GetStarted from './src/pages/Entry/GetStarted';
@@ -25,13 +24,11 @@ import LilitaFont from './src/assets/fonts/LilitaOne-Regular.ttf'
 import PoppinsFont from './src/assets/fonts/Poppins-Regular.ttf'
 import PoppinsMediumFont from './src/assets/fonts/Poppins-Medium.ttf'
 import { useFonts } from 'expo-font';
-import BuildInfo from './src/components/BuildInfo';
 import BottomNavigation from './src/components/BottomNavigation';
 import ResetPassword from './src/pages/Entry/ResetPassword';
 import Store from './src/pages/Store/Store';
 import ViewOtherProfile from './src/pages/Profile/ViewOtherProfile';
 import Story from './src/pages/Story/Story';
-import { useNavigation } from '@react-navigation/native';
 import { currentRouteName, getActiveRouteName, navigationRef } from './src/utils/RootNavigation';
 import Toast from './src/components/Toast';
 import axios from 'axios';
@@ -39,6 +36,7 @@ import { API_URL } from './src/constants';
 import moment from 'moment';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import "./axios-logger";
+import WeeklyLeaderboard from './src/pages/Leaderboard/WeeklyLeaderboard';
 
 ExpoSplashScreen.preventAutoHideAsync();
 
@@ -186,6 +184,7 @@ export default function App() {
                 <Stack.Screen name="Glossary" component={Glossary} />
                 <Stack.Screen name="Mindmap" component={Mindmap} />
                 <Stack.Screen name="Store" component={Store} />
+                <Stack.Screen name="Leaderboard" component={WeeklyLeaderboard} />
 
                 <Stack.Screen name='Levels' component={Levels} />
                 <Stack.Screen name='Game' component={Game} />
