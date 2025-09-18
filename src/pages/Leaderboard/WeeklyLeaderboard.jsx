@@ -1,5 +1,5 @@
-import { View, Text, TouchableOpacity } from "react-native";
-import React, { useContext } from "react";
+import { View, Text, TouchableOpacity, ScrollView } from "react-native";
+import React, { useContext, useEffect, useState } from "react";
 import AppBackground from "../../components/AppBackground";
 import { ArrowLeftCircle } from "lucide-react-native";
 import styles from "../../styles/styles";
@@ -8,17 +8,28 @@ import Second from "../../assets/leaderboards/second.svg"
 import Third from "../../assets/leaderboards/third.svg"
 import Avatar from "../../components/Avatar";
 import AccountContext from "../../contexts/AccountContext";
-import { avatars, clothes } from "../../constants";
-import Animated, { FadeInDown, SlideInDown } from "react-native-reanimated";
+import { API_URL, avatars, clothes } from "../../constants";
+import Animated, { Easing, FadeInDown, SlideInDown } from "react-native-reanimated";
+import axios from "axios";
+import { useNavigation } from "@react-navigation/native";
 
 const WeeklyLeaderboard = () => {
-  const { accountData } = useContext(AccountContext);
+  const nav = useNavigation();
+  const [leaderboard, setLeaderboard] = useState([])
 
-  const sampleData = [
-    {user_id: accountData, weekly_score: 200},
-    {user_id: accountData, weekly_score: 150},
-    {user_id: accountData, weekly_score: 110},
-  ]
+  const getLeaderboard = async () => {
+    try {
+      const {data} = await axios.get(API_URL + "/getWeeklyLeaderboard");
+      setLeaderboard(data)
+    } catch (error) {
+      console.error(error);
+      
+    }
+  }
+
+  useEffect(() => {
+    getLeaderboard()
+  }, [])
 
   return (
     <AppBackground>
@@ -49,40 +60,76 @@ const WeeklyLeaderboard = () => {
           justifyContent: "center",
           marginTop: 40,
         }}
-      > 
-      <TopUsers account={sampleData[1]} Image={Second} />
-      <TopUsers account={sampleData[0]} Image={First} />
-      <TopUsers account={sampleData[2]} Image={Third} />
-
+      >
+        {leaderboard.length > 0 && (
+          <>
+            <TopUsers account={leaderboard[1]} Image={Second} place={2} />
+            <TopUsers account={leaderboard[0]} Image={First} place={1} />
+            <TopUsers account={leaderboard[2]} Image={Third} place={3} />
+          </>
+        )}
       </View>
-      <View style={{ backgroundColor: "white", marginTop: -80 }}>
-        <Text>
-          asd{"\n"}
-          {"\n"}
-          {"\n"}
-          {"\n"}
-          {"\n"}
-        </Text>
-      </View>
+      <ScrollView style={{ backgroundColor: "white", marginTop: -80, marginBottom:-40, borderTopRightRadius: 24, borderTopLeftRadius:24 }} contentContainerStyle={{paddingVertical:24}}>
+        {leaderboard.map((user, index) => (
+          <LeaderbooardItem account={user} index={index} key={index} />
+        ))}
+      </ScrollView>
     </AppBackground>
   );
 };
 
 export default WeeklyLeaderboard;
 
-const TopUsers = ({account, index, Image }) => {
+const TopUsers = ({account, place, Image }) => {
   console.log(account);
+  const { accountData } = useContext(AccountContext);
+  const nav = useNavigation();
   
   const head = avatars.find((avatar) => avatar.id === account?.user_id.avatar).body;
   const cloth = clothes.find((cloth) => cloth.id === account?.user_id.cloth).image;
+
+  const onClick = () => {
+    if(account.user_id._id === accountData._id) return;
+    nav.navigate("View Other Profile", { user_id: account.user_id._id });
+  }
+
   return (
-    <Animated.View entering={FadeInDown.damping(200)} >
-    <View>
-      <Text style={{ textAlign: "center" }}>{account?.user_id  .username}</Text>
-      <Text style={{ textAlign: "center" }}>{account?.weekly_score} points</Text>
+    <TouchableOpacity onPress={onClick}>
+      <Animated.View entering={FadeInDown.damping(200).delay(400 * place).easing(Easing.inOut(Easing.quad))} >
+      <View>
+        <Text ellipsizeMode="tail" style={{ textAlign: "center", fontFamily:'LilitaOne-Regular', color:'white', fontSize:26, maxWidth:110, margin:'auto' }}>{account?.user_id.username}</Text>
+        <Text style={{ textAlign: "center", color:'white', fontSize:16 }}>{account?.points} points</Text>
+      </View>
+      <Avatar Head={head} Cloth={cloth} size={0.6} style={{marginBottom: -10, zIndex: 10}}/>
+      <Image />
+    </Animated.View>
+  </TouchableOpacity>
+  )
+}
+
+const LeaderbooardItem = ({account, index}) => {
+  const { accountData } = useContext(AccountContext);
+  const nav = useNavigation();
+
+  const Head = avatars.find((avatar) => avatar.id === account?.user_id.avatar).head;
+
+  const onClick = () => {
+    if (account.user_id._id === accountData._id) return;
+    nav.navigate("View Other Profile", { user_id: account.user_id._id });
+  };
+  if(index<= 2) return;
+  return (
+    <TouchableOpacity onPress={onClick}>
+      <View style={{flexDirection:'row', padding:16, alignItems:'center', gap:12, marginHorizontal:18, borderBottomWidth:1, borderColor:'#00000022'}}>
+        <Text style={{fontSize: 24, fontFamily:'LilitaOne-Regular', width:36, textAlign:'center'}}>{index + 1}</Text>
+        <View>
+          <Head width={50} height={50} />
+        </View>
+      <View>
+        <Text ellipsizeMode="tail" style={{ textAlign: "center", fontFamily:'LilitaOne-Regular', fontSize:24, margin:'auto' }}>{account?.user_id.username}</Text>
+      </View>
+      <Text style={{ textAlign: "center", marginStart:'auto', fontWeight:'600', fontSize:18 }}>{account?.points} points</Text>
     </View>
-    <Avatar Head={head} Cloth={cloth} size={0.6} style={{marginBottom: -10, zIndex: 10}}/>
-    <Image />
-  </Animated.View>
+  </TouchableOpacity>
   )
 }
