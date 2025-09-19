@@ -1,7 +1,7 @@
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import AppBackground from "../../components/AppBackground";
-import { ArrowLeftCircle } from "lucide-react-native";
+import { ArrowLeftCircle, CircleQuestionMark } from "lucide-react-native";
 import styles from "../../styles/styles";
 import First from "../../assets/leaderboards/first.svg"
 import Second from "../../assets/leaderboards/second.svg"
@@ -12,9 +12,11 @@ import { API_URL, avatars, clothes } from "../../constants";
 import Animated, { Easing, FadeInDown, SlideInDown } from "react-native-reanimated";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
+import ModalContext from "../../contexts/ModalContext";
 
 const WeeklyLeaderboard = () => {
   const nav = useNavigation();
+  const {setModal} = useContext(ModalContext)
   const [leaderboard, setLeaderboard] = useState([])
 
   const getLeaderboard = async () => {
@@ -51,7 +53,39 @@ const WeeklyLeaderboard = () => {
           <ArrowLeftCircle size={32} color={"white"} />
         </TouchableOpacity>
         <Text style={[styles.entryTitle, { fontSize: 32 }]}>Leaderboards</Text>
-        <View style={{ padding: 12 }} />
+        <TouchableOpacity
+          activeOpacity={0.7}
+          onPress={() => {
+            setModal({
+              title: "Leaderboard",
+              body: (
+                <View style={{maxWidth:300}}>
+                  <Text style={{color:'white', fontWeight:700, paddingHorizontal:18, padding:12, textAlign:'center', fontSize:18}}>
+                    Earn points for each correct answer you get.
+                  </Text>
+                  <View style={{flexDirection:'row', justifyContent: 'space-between', width:200, marginHorizontal:'auto'}}>
+                    <Text style={{color:'white', fontSize:18}}>Easy</Text>
+                    <Text style={{color:'white', fontSize:18}}>1 point</Text>
+                  </View>
+                  <View style={{flexDirection:'row', justifyContent: 'space-between', width:200, marginHorizontal:'auto'}}>
+                    <Text style={{color:'white', fontSize:18}}>Average</Text>
+                    <Text style={{color:'white', fontSize:18}}>2 points</Text>
+                  </View>
+                  <View style={{flexDirection:'row', justifyContent: 'space-between', width:200, marginHorizontal:'auto'}}>
+                    <Text style={{color:'white', fontSize:18}}>Difficult</Text>
+                    <Text style={{color:'white', fontSize:18}}>3 points</Text>
+                  </View>
+                </View>
+              ),
+              primaryFn: () => {
+                setModal(null);
+              },
+              closeButton: false,
+            });
+          }}
+        >
+          <CircleQuestionMark size={32} color={"white"} />
+        </TouchableOpacity>
       </View>
       <View
         style={{
@@ -69,7 +103,16 @@ const WeeklyLeaderboard = () => {
           </>
         )}
       </View>
-      <ScrollView style={{ backgroundColor: "white", marginTop: -80, marginBottom:-40, borderTopRightRadius: 24, borderTopLeftRadius:24 }} contentContainerStyle={{paddingVertical:24}}>
+      <ScrollView
+        style={{
+          backgroundColor: "white",
+          marginTop: -80,
+          marginBottom: -40,
+          borderTopRightRadius: 24,
+          borderTopLeftRadius: 24,
+        }}
+        contentContainerStyle={{ paddingVertical: 24 }}
+      >
         {leaderboard.map((user, index) => (
           <LeaderbooardItem account={user} index={index} key={index} />
         ))}

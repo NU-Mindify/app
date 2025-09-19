@@ -33,7 +33,7 @@ const LoadingOverlay = ({text}) => {
             margin: "auto",
             marginTop: 0,
             padding: 0,
-            transform: Platform.OS === "ios" ? [{ scale: 1 }] : [{ scale: 1.6 }],
+            transform: Platform.OS === "ios" ? [{ scale: 0.8 }] : [{ scale: 1.6 }],
           }}
           speed={2}
           resizeMode="center"

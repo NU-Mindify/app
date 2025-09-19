@@ -123,7 +123,6 @@ export default function Questions({ data, onAnswer, number, length, streak, mode
           </View>
         </Animated.ScrollView>
       </Animated.View>
-      <View style={{ flex: 0, justifyContent: "flex-end" }}><Text>{data.answer}</Text></View>
     </>
   );
 }

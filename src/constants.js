@@ -77,6 +77,8 @@ import ap8 from './assets/badges/ap8.png';
 import ap9 from './assets/badges/ap9.png';
 import ap10 from './assets/badges/ap10.png';
 
+const VERSION = 0.1
+
 const clothes = [
   { id:"female_unform", image: fUnif, },
   { id:"male_unform", image: mUnif, },
@@ -352,4 +354,4 @@ const API_URL = process.env.EXPO_PUBLIC_URL;
 const _primary_color = "#2C519F"
 const _secondary_color = "#FFD41C"
 
-export { API_URL, avatars, categoriesObj, gameColors, navbarRoutes, branches, _primary_color, _secondary_color, clothes, numberOfItems };
+export { API_URL, avatars, categoriesObj, gameColors, navbarRoutes, branches, _primary_color, _secondary_color, clothes, numberOfItems, VERSION };

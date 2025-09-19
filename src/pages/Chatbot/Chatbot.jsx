@@ -29,8 +29,12 @@ const Chatbot = () => {
 
   const getData = async () => {
     setIsFetching(true);
-    const { data: messages } = await axios.get(API_URL+`/getMessages/${accountData._id}`)
-    setMessages(messages);
+    try {
+      const { data: messages } = await axios.get(API_URL+`/getMessages/${accountData._id}`)
+      setMessages(messages);
+    } catch (error) {
+      setToast("Failed to fetch messages.")
+    }
     setIsFetching(false);
   };
   const deleteAll = async () => {
@@ -75,7 +79,7 @@ const Chatbot = () => {
         return newList
       });
       setInput(inputToSend);
-      console.error(error);
+      alert("Message was not sent. Please try again later.")
     }
     setIsFetching(false);
   };

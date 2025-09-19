@@ -20,7 +20,7 @@ const Mindmap = () => {
     <AppBackground>
       <Animated.View
         entering={FadeIn}
-        style={{ flex: 1, paddingHorizontal: 8 }}
+        style={{ flex: 1, paddingHorizontal: 8, marginTop:12 }}
       >
         <View
           style={{

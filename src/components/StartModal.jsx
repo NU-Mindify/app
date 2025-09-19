@@ -517,11 +517,13 @@ const Default = ({ modal }) => {
         )}
         {modal.body}
         <View style={[modalStyles.btnContainer]}>
-          <Button
+          {!modal.hideButton && 
+            <Button
             text={"OK"}
             onPress={modal.primaryFn}
             style={{ width: "50%" }}
-          />
+            />
+          }
         </View>
       </Body>
     </>

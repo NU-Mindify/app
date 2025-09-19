@@ -11,7 +11,8 @@ import styles from "../../styles/styles";
 import Avatar from "../../components/Avatar";
 import ModalContext from "../../contexts/ModalContext";
 
-const EditProfile = () => {
+const EditProfile = (props) => {
+  const { navigate } = props.route.params;
   const nav = useNavigation();
   const { accountData, setAccountData } = useContext(AccountContext);
   const {setToast} = useContext(ModalContext)
@@ -32,8 +33,11 @@ const EditProfile = () => {
       });
       setAccountData(updatedUser);
       setToast("The changes has been saved.");
-
-      nav.replace("Home");
+      if(navigate){
+        nav.replace(navigate)
+      }else{
+        nav.goBack();
+      }
     } catch (error) {
       console.error("Error Updating User:", error);
       setToast("Failed to save changes.");
@@ -122,7 +126,11 @@ const EditProfile = () => {
           <Button
             style={{ flex: 0, width: "50%" }}
             onPress={() => {
-              nav.replace("View Profile");
+              if (navigate) {
+                nav.replace(navigate);
+              } else {
+                nav.goBack();
+              }
             }}
             text={"Back"}
           />

@@ -32,7 +32,7 @@ import Story from './src/pages/Story/Story';
 import { currentRouteName, getActiveRouteName, navigationRef } from './src/utils/RootNavigation';
 import Toast from './src/components/Toast';
 import axios from 'axios';
-import { API_URL } from './src/constants';
+import { API_URL, VERSION } from './src/constants';
 import moment from 'moment';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import "./axios-logger";
@@ -139,6 +139,28 @@ export default function App() {
       ExpoSplashScreen.hideAsync();
     }
   }, [fontLoaded, fontError]);
+
+  const checkVersion = async () => {  
+    try {
+      const { data } = await axios.get(API_URL + "/getAppConfig")
+      if(data.version > VERSION){
+        setModal({
+          title:"Update",
+          body:"A new update is available! Update now for new features and bug fixes.",
+          closeButton:false,
+          hideButton: true,
+          primaryFn:() => {}
+        })
+      }
+      
+    } catch (error) {
+      console.error(error);
+      
+    }
+  }
+  useEffect(() => {
+    checkVersion();
+  }, [])
 
   if (!fontLoaded || fontError) {
     return null;

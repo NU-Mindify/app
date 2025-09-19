@@ -79,15 +79,20 @@ const Register = ({set, setTerms, setBranch}) => {
     } else if (!/\S+@\S+\.\S+/.test(form.email)) {
       errors.email = "Enter a valid email";
       isValid = false;
+    } else if (
+      !form.email.endsWith(setBranch?.selectedBranch?.stud_extension)
+    ) {
+      errors.email = "Please use your school email.";
+    } else if (!form.email.endsWith(setBranch?.selectedBranch?.extension)){
+      errors.email = "Please use your school email.";
     }
-
-    if (!form.password.trim()) {
-      errors.password = "Password is required";
-      isValid = false;
-    } else if (form.password.length < 6) {
-      errors.password = "Password must be at least 6 characters";
-      isValid = false;
-    }
+      if (!form.password.trim()) {
+        errors.password = "Password is required";
+        isValid = false;
+      } else if (form.password.length < 6) {
+        errors.password = "Password must be at least 6 characters";
+        isValid = false;
+      }
 
       if (!passwordRegex.test(form.password)) {
         errors.password =
@@ -212,7 +217,8 @@ const Register = ({set, setTerms, setBranch}) => {
           onSubmitEditing={() => setCurrentField(5)}
           currentFocus={currentField === 4}
           condition={(text) =>
-            // text.endsWith("@students.nu-moa.edu.ph"
+            (text.endsWith(setBranch?.selectedBranch?.stud_extension) ||
+            text.endsWith(setBranch?.selectedBranch?.extension)) &&
             /\S+@\S+\.\S+/.test(text)
           }
           errorText={formErrors.email} //for trial purposes kaya ko i-uncomment

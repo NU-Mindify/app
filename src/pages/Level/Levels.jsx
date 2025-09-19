@@ -24,6 +24,8 @@ import LevelStory from "./LevelStory";
 import MajorStory from "./MajorStory";
 
 const Levels = (props) => {
+  const nav = useNavigation();
+  try {
   const { categoryIndex, isMastery, selectedMode = "review"  } = props.route.params;
   const { accountData, progressData, setAccountData, setProgressData } = useContext(AccountContext);
   console.log(progressData);
@@ -37,7 +39,6 @@ const Levels = (props) => {
 
   const [leaderboardLevel, setLeaderboardLevel] = useState(null);
   const [mode, setMode] = useState(selectedMode);
-  const nav = useNavigation()
   const insets = useSafeAreaInsets();
   const notchHeight = insets.top;
   useEffect(() => {
@@ -348,6 +349,10 @@ const Levels = (props) => {
       </ScrollView>
     </View>
   );
+  } catch (error) {
+    nav.goBack()
+    console.error(error);
+  }
 };
 
 export default Levels;

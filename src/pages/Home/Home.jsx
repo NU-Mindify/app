@@ -32,6 +32,7 @@ import Settings from '../../assets/settings/settings.svg'
 import axios from "axios";
 import LoadingOverlay from "../../components/LoadingOverlay";
 import TypeWriter from "react-native-typewriter";
+import Search from "../../assets/home/search.svg"
 
 const Home = () => {
   const nav = useNavigation();
@@ -56,12 +57,10 @@ const Home = () => {
       ]);
       return true;
     };
-
     const backHandler = BackHandler.addEventListener(
       "hardwareBackPress",
       backAction
     );
-
     return () => backHandler.remove();
   }, []);
 
@@ -118,7 +117,7 @@ const Home = () => {
                 });
               }}
             >
-              <UserSearch width={32} height={32} color={"black"} />
+              <Search width={32} height={32} color={"black"} />
             </Pressable>
             <Pressable
               style={[styles.homeRoundedIcon, { padding: 6 }]}
