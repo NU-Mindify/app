@@ -11,6 +11,7 @@ import Button from "../../components/Button";
 import axios from "axios";
 import ModalContext from "../../contexts/ModalContext";
 import Avatar from "../../components/Avatar";
+import Hanger from "../../assets/store/hanger.svg"
 
 const Store = () => {
   const nav = useNavigation();
@@ -32,7 +33,7 @@ const Store = () => {
   useEffect(()=> {
     if(!accountData) return;
     
-    if(accountData.points < 5){
+    if(accountData.points < 10){
       setIsBuyDisabled(true)
       return;
     }
@@ -80,12 +81,23 @@ const Store = () => {
           <TouchableOpacity
             activeOpacity={0.7}
             onPress={() => {
-                nav.replace("Home");
-              
+              nav.replace("Edit Profile", {navigate: "Store"});
             }}
             style={{ position: "absolute", left: 0 }}
           >
-            <ArrowLeftCircle width={42} height={42} color={"white"} />
+            
+          <View
+            style={{
+              borderRadius: 99,
+              backgroundColor: "white",
+              padding: 4,
+              borderColor: "black",
+              borderWidth: 4,
+              marginTop:4
+            }}
+          >
+            <Hanger width={48} height={48} />
+          </View>
           </TouchableOpacity>
           <Text
             style={[
@@ -106,7 +118,7 @@ const Store = () => {
               alignItems: "center",
               position: "absolute",
               right: 0,
-              paddingHorizontal:12,
+              paddingHorizontal: 12,
             }}
           >
             <Image
@@ -115,7 +127,7 @@ const Store = () => {
                 {
                   height: 35,
                   width: 30,
-                  marginRight:4
+                  marginRight: 4,
                 },
               ]}
               resizeMode="contain"
@@ -193,7 +205,10 @@ const Store = () => {
           }}
         >
           <Button
-            style={[{ flex: 0, width: "50%", margin: "auto",}, isBuyDisabled && { backgroundColor: "gray" }] }
+            style={[
+              { flex: 0, width: "50%", margin: "auto" },
+              isBuyDisabled && { backgroundColor: "gray" },
+            ]}
             onPress={onBuy}
             text={"Buy"}
             disabled={isBuyDisabled}
@@ -224,7 +239,7 @@ const AvatarCard = ({ SVG, selected, onPress, type }) => {
     >
       <SVG width={60} height={type === "clothes" ? 80 : 60} />
       <View style={{marginTop:'auto', flexDirection:'row',justifyContent:'center', alignItems:'center', gap:2}}>
-      <Text style={{marginTop:'auto', justifyContent:'center', alignItems:'center',fontWeight:'bold', fontSize:18}}>5 
+      <Text style={{marginTop:'auto', justifyContent:'center', alignItems:'center',fontWeight:'bold', fontSize:18}}>10 
       </Text>
         <Image source={Star} style={[{height: 20, width: 20},]}/>
 

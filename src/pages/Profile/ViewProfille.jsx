@@ -20,6 +20,7 @@ import styles from "../../styles/styles";
 import Avatar from "../../components/Avatar";
 import ModalContext from "../../contexts/ModalContext";
 import moment from "moment";
+import Hanger from "../../assets/store/hanger.svg"
 
 const ViewProfile = () => {
   const nav = useNavigation();
@@ -109,10 +110,13 @@ const ViewProfile = () => {
         </Text>
         <TouchableOpacity
           onPress={() => {
-            nav.replace("Edit Profile");
+            nav.replace("Edit Profile", {navigate: "View Profile"});
           }}
+
+          style={{backgroundColor:'white', borderRadius:99, padding:4, borderWidth: 2, }}
         >
-          <Edit size={32} color={"white"} />
+          {/* <Edit size={32} color={"white"} /> */}
+          <Hanger width={42} height={42} />
         </TouchableOpacity>
       </View>
       <ScrollView contentContainerStyle={{paddingBottom:24}}>
