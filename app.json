@@ -22,7 +22,6 @@
       }
     },
     "android": {
-      "predictiveBackGestureEnabled": false,
       "adaptiveIcon": {
         "foregroundImage": "./assets/logo.png",
         "backgroundColor": "#ffffff"
@@ -31,15 +30,16 @@
       "permissions": [
         "android.permission.RECORD_AUDIO",
         "android.permission.MODIFY_AUDIO_SETTINGS"
+      ],
+      "blockedPermissions": [
+        "android.permission.READ_MEDIA_IMAGES",
+        "android.permission.READ_MEDIA_VIDEO"
       ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "plugins": [
-      "expo-audio",
-      "expo-font"
-    ],
+    "plugins": ["expo-audio", "expo-font"],
     "extra": {
       "eas": {
         "projectId": "92daf18f-87e7-40fe-b5e4-e40ddf9a1384"
