@@ -30,6 +30,7 @@ import { SignOut } from "../hooks/useFirebase";
 import { modalStyles } from "../styles/modalStyles";
 import Button from "./Button";
 import SearchStudent from "./modal/SearchStudent";
+import { useAudioPlayer } from "expo-audio";
 
 export default function Start() {
   const { modal, setModal } = useContext(ModalContext);
@@ -93,6 +94,17 @@ const Settings = ({ modal }) => {
   const nav = useNavigation();
   const [music, setMusic] = useState(accountData?.settings.music || false);
   const [sfx, setSfx] = useState(accountData?.settings.sfx || false);
+
+  const click = useAudioPlayer(require("../audio/click.wav"))
+  useEffect(() => {
+    if(sfx) click.play();
+    const currentUserData = {...accountData}
+    currentUserData.settings.music = music
+    currentUserData.settings.sfx = sfx
+    setAccountData(currentUserData);
+    console.log("settings", currentUserData.settings);
+    
+  }, [music, sfx])
 
   const tutorial = async () => {
     setModal(null);

@@ -1,9 +1,10 @@
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
-import { Platform, View } from "react-native";
+import { Platform, View, Text } from "react-native";
 import Animated, { FadeIn } from "react-native-reanimated";
 import WebView from "react-native-webview";
 import AppBackground from "../../components/AppBackground";
+import { Bot } from "lucide-react-native";
 
 const disableZoomScript = `
       const meta = document.createElement('meta');
@@ -13,9 +14,6 @@ const disableZoomScript = `
     `;
 
 const Mindmap = () => {
-  const [input, setInput] = useState()
-  const [showTemporaryMap, setShowTemporaryMap] = useState(false)
-  const nav = useNavigation();
   return (
     <AppBackground>
       <Animated.View
@@ -39,6 +37,10 @@ const Mindmap = () => {
             injectedJavaScript={disableZoomScript}
             scrollEnabled={false}
           />
+          <View style={{flexDirection:'row', alignItems:'center', justifyContent:'center', backgroundColor:'white'}}>
+          <Bot />
+          <Text style={{fontSize:12, textAlign:'center', paddingVertical:12}}> Please double-check the information, as mistakes can occur.</Text>
+        </View>
         </View>
       </Animated.View>
     </AppBackground>

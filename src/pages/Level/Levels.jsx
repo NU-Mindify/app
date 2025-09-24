@@ -22,6 +22,7 @@ import axios from "axios";
 import { API_URL } from "../../constants";
 import LevelStory from "./LevelStory";
 import MajorStory from "./MajorStory";
+import { useAudioPlayer } from "expo-audio";
 
 const Levels = (props) => {
   const nav = useNavigation();
@@ -149,7 +150,9 @@ const Levels = (props) => {
 
   const scrollViewRef = useRef();
   useEffect(() => {
-    scrollViewRef.current?.scrollToEnd({ animated: false });
+    if(scrollViewRef){
+      scrollViewRef.current?.scrollToEnd({ animated: false });
+    }
   }, [scrollViewRef]);
 
   useEffect(() => {
@@ -173,10 +176,28 @@ const Levels = (props) => {
     return () => backHandler.remove();
   }, [leaderboardLevel]);
 
+  const music = useAudioPlayer(categoryIndex.music);
+  const playMusic = () => {
+    try {
+      if(accountData?.settings?.music){
+        music.play()
+      }
+    } catch (error) {
+      console.error(error);
+      
+    }
+  }
+
   useEffect(() => {
+    playMusic()
     console.log("PROGRESS", storyProgress);
     if([0, 1, 5, 8].includes(storyProgress)){
       showMajorStory();
+    }
+    return () => {
+      if(music){
+        music.release()
+      }
     }
   }, [])
   // easy 1-4, average 5-7, difficult 8-10
