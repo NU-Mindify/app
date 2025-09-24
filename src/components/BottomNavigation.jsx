@@ -8,6 +8,9 @@ import Leaderboard from '../assets/bottom-nav/cards.svg'
 import Animated, { FadeInDown, FadeOutDown, SlideInDown, SlideInUp } from 'react-native-reanimated'
 import { navbarRoutes } from '../constants'
 import { navigate } from '../utils/RootNavigation'
+import { useContext, useEffect } from "react";
+import { useAudioPlayer } from "expo-audio";
+import AccountContext from "../contexts/AccountContext";
 
 const actions = [
   // {name: "Categories", icon: Categories, path: null},
@@ -20,17 +23,26 @@ const actions = [
 ]
 
 const BottomNavigation = ({activeTab}) => {
-  
-  // const nav = useNavigation()
-  // const routeName = useNavigationState(
-  //   (state) => {
-  //     if(!state){
-  //       return "None"
-  //     }
-  //     return state.routes[state.index]?.name
-  //   }
-  // );
-  
+  const { accountData } = useContext(AccountContext)
+  const musicbg = useAudioPlayer(require("../audio/music/mixkit-bootleg-1055.mp3"));
+  useEffect(() => {
+    musicbg.loop = true;
+    musicbg.volume = 0.8;
+    console.log("account settings",accountData?.settings);
+    
+    if (!accountData?.settings?.music && accountData){
+      musicbg.pause();
+      return;
+    }
+    if (!["Game", "Levels"].includes(activeTab)) {
+      musicbg.play();
+    } else {
+      musicbg.pause();
+    }
+    if (activeTab === "Game") {
+      musicbg.seekTo(0);
+    }
+  }, [activeTab, accountData]);
   
   if (!navbarRoutes.includes(activeTab)) return;
   return (

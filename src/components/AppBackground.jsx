@@ -1,4 +1,4 @@
-import { ImageBackground, Platform, StyleSheet } from "react-native";
+import { Dimensions, ImageBackground, Platform, StyleSheet } from "react-native";
 import MindifyBackground from "../assets/bg.png";
 import { SafeAreaView } from "react-native-safe-area-context";
 import LottieView from "lottie-react-native";
@@ -33,6 +33,7 @@ const AppBackground = ({
       </LinearGradient>
     );
   }
+  const { width } = Dimensions.get("window");
   return (
     <ImageBackground
       source={source || MindifyBackground}
@@ -48,10 +49,10 @@ const AppBackground = ({
       >
         <LottieView
           style={{
-            display: source || Platform.OS === 'ios' ? "none" : "flex",
+            display: source || Platform.OS === "ios" ? "none" : "flex",
             position: "absolute",
-            width: 720,
-            height: 1280,
+            width: width,
+            height: "100%",
             margin: "auto",
             zIndex: -1,
             marginTop: 0,

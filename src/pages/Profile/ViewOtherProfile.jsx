@@ -223,9 +223,8 @@ const ViewOtherProfile = (props) => {
             ))}
             {unearnedBadges.map((src, index) => (
               <Badge
-                src={src.filepath}
+                src={src.disabled_image}
                 key={index}
-                imageStyle={{ filter: "grayscale(100%)" }}
               />
             ))}
           </View>

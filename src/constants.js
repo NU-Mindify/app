@@ -121,7 +121,8 @@ const categoriesObj = [
     level_background: abnormalMap,
     cover: abnormalCover,
     primary_color: "#3B3F2A",
-    secondary_color: "#248552"
+    secondary_color: "#248552",
+    music: require("./audio/music/abnormal_bgm.mp3")
   },
   {
     id: "general",
@@ -129,7 +130,8 @@ const categoriesObj = [
     level_background: generalMap,
     cover: generalCover,
     primary_color:"#9C7743",
-    secondary_color:"#E9CFAA"
+    secondary_color:"#E9CFAA",
+    music: require("./audio/music/general_bgm.wav")
   },
   {
     id: "industrial",
@@ -137,7 +139,8 @@ const categoriesObj = [
     level_background: organizationalMap,
     cover: industrialCover,
     primary_color: "#2C2C2C",
-    secondary_color: "#7E7E7E"
+    secondary_color: "#7E7E7E",
+    music: require("./audio/music/industrial_bgm.wav")
   },
   {
     id: "psychological",
@@ -145,7 +148,8 @@ const categoriesObj = [
     level_background: psychologicalMap,
     cover: psychologicalCover,
     primary_color: "#356CDD",
-    secondary_color: "#F2C94C"
+    secondary_color: "#F2C94C",
+    music: require("./audio/music/psychological_bgm.wav")
   },
   {
     id: "developmental",
@@ -153,7 +157,8 @@ const categoriesObj = [
     level_background: developmentalMap,
     cover: developmentalCover,
     primary_color: "#7F9F30",
-    secondary_color: "#A9CA59"
+    secondary_color: "#A9CA59",
+    music: require("./audio/music/developmental_bgm.wav")
   },
 ]
 

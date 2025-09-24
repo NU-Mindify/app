@@ -5,6 +5,7 @@ import styles from "../../styles/styles";
 import Input from "../../components/Input";
 import {
   ArrowLeftCircle,
+  MessageCircleWarning,
   SendHorizonal,
   Trash2
 } from "lucide-react-native";
@@ -54,6 +55,9 @@ const Chatbot = () => {
   useEffect(() => {
     getData();
   }, []);
+  useEffect(() => {
+    scrollViewRef.current.scrollToEnd({ animated: true });
+  }, [messages])
   const sendMessage = async () => {
     if(input.trim() === "") return;
     setIsFetching(true);
@@ -87,7 +91,7 @@ const Chatbot = () => {
   return (
     <AppBackground
       gradientColors={["#3B61B7", "#35408E"]}
-      style={{ paddingHorizontal: 12, paddingBottom: 12 }}
+      style={{ paddingHorizontal: 12, paddingBottom: 6 }}
     >
       {/* Header */}
       <View
@@ -137,8 +141,9 @@ const Chatbot = () => {
           flex: 1,
           borderRadius: 24,
           padding: 24,
-          paddingBottom: 12,
+          paddingBottom: 8,
           margin: 8,
+          marginBottom:0
         }}
       >
         <ScrollView
@@ -207,6 +212,10 @@ const Chatbot = () => {
               </View>
             </TouchableOpacity>
           </Input>
+        </View>
+        <View style={{flexDirection:'row', alignItems:'center', justifyContent:'center'}}>
+          <MessageCircleWarning />
+          <Text style={{fontSize:12, textAlign:'center', paddingVertical:8}}> Mindy can make mistakes. Always double-check info.</Text>
         </View>
       </KeyboardAvoidingView>
     </AppBackground>

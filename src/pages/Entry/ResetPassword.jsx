@@ -86,10 +86,10 @@ const ResetPassword = () => {
       <Animated.Image
         source={MindifyLogo}
         resizeMode="contain"
-        style={{ width: 400, height: 200 }}
+        style={{ width: 400, height: 200, marginHorizontal:'auto', margin:16}}
       />
       }
-      <View style={{ gap: 2 }}>
+      <View style={{ gap: 2, maxWidth:600, marginHorizontal:'auto' }}>
         <View
           style={{
             margin: 16,

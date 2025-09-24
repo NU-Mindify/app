@@ -224,7 +224,7 @@ const ViewProfile = () => {
               }} />
             ))}
             {unearnedBadges.map((src, index) => (
-              <Badge src={src.filepath} details={src}  key={index} imageStyle={{filter: 'grayscale(1)'}} 
+              <Badge src={src.disabled_image} details={src}  key={index} 
               onPress={() => {
                 setModal({
                   title: "Badge",
@@ -232,10 +232,9 @@ const ViewProfile = () => {
                   body: (
                     <View style={{justifyContent:'center', alignItems:'center', margin:'auto',}}>
                       <Image
-                        source={{ uri: src.filepath }}
+                        source={{ uri: src.disabled_image }}
                         style={[
                           { width: 100, height: 100, },
-                          { filter: "grayscale(1)" },
                         ]}
                         resizeMode="contain"
                       />
