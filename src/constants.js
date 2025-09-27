@@ -116,22 +116,13 @@ const navbarRoutes = ["Home", "Chatbot", "Glossary", "Mindmap", "Store", "Leader
 
 const categoriesObj = [
   {
-    id: "abnormal",
-    name: "Abnormal Psychology",
-    level_background: abnormalMap,
-    cover: abnormalCover,
-    primary_color: "#3B3F2A",
-    secondary_color: "#248552",
-    music: require("./audio/music/abnormal_bgm.mp3")
-  },
-  {
-    id: "general",
-    name: "General Psychology",
-    level_background: generalMap,
-    cover: generalCover,
-    primary_color:"#9C7743",
-    secondary_color:"#E9CFAA",
-    music: require("./audio/music/general_bgm.wav")
+    id: "developmental",
+    name: "Developmental Psychology",
+    level_background: developmentalMap,
+    cover: developmentalCover,
+    primary_color: "#7F9F30",
+    secondary_color: "#A9CA59",
+    music: require("./audio/music/developmental_bgm.wav")
   },
   {
     id: "industrial",
@@ -143,6 +134,15 @@ const categoriesObj = [
     music: require("./audio/music/industrial_bgm.wav")
   },
   {
+    id: "abnormal",
+    name: "Abnormal Psychology",
+    level_background: abnormalMap,
+    cover: abnormalCover,
+    primary_color: "#3B3F2A",
+    secondary_color: "#248552",
+    music: require("./audio/music/abnormal_bgm.mp3")
+  },
+  {
     id: "psychological",
     name: "Psychological Assessment",
     level_background: psychologicalMap,
@@ -152,13 +152,13 @@ const categoriesObj = [
     music: require("./audio/music/psychological_bgm.wav")
   },
   {
-    id: "developmental",
-    name: "Developmental Psychology",
-    level_background: developmentalMap,
-    cover: developmentalCover,
-    primary_color: "#7F9F30",
-    secondary_color: "#A9CA59",
-    music: require("./audio/music/developmental_bgm.wav")
+    id: "general",
+    name: "General Psychology",
+    level_background: generalMap,
+    cover: generalCover,
+    primary_color:"#9C7743",
+    secondary_color:"#E9CFAA",
+    music: require("./audio/music/general_bgm.wav")
   },
 ]
 
