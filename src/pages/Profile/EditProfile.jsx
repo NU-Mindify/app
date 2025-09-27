@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import { useContext, useState } from "react";
-import { Pressable, Text, View, ScrollView } from "react-native";
+import { Pressable, Text, View, Alert, ScrollView } from "react-native";
 import AppBackground from "../../components/AppBackground";
 import Button from "../../components/Button";
 import Input from "../../components/Input";
@@ -44,6 +44,10 @@ const EditProfile = (props) => {
     }
   };
 
+  const hasChanges =
+  selectedAvatar !== accountData.avatar ||
+  selectedCloth !== (accountData.cloth || clothes[0].id) ||
+  inputName !== accountData.username;
 
   return (
     <AppBackground>
@@ -120,9 +124,24 @@ const EditProfile = (props) => {
         >
           <Button
             style={{ flex: 0, width: "50%" }}
-            onPress={onSave}
+            onPress={() => {
+              if (!hasChanges) {
+                setToast("No changes to save.");
+                return;
+              }
+
+              Alert.alert(
+                "Confirm Changes",
+                "Are you sure you want to save your changes?",
+                [
+                  { text: "Cancel", style: "cancel" },
+                  { text: "Yes", onPress: onSave }
+                ]
+              );
+            }}
             text={"Save"}
           />
+
           <Button
             style={{ flex: 0, width: "50%" }}
             onPress={() => {
