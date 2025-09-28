@@ -60,7 +60,7 @@ const ViewOtherProfile = (props) => {
   const getData = async () => {
     try {
       const { data: progressData } = await axios.get(
-        `${process.env.EXPO_PUBLIC_URL}/getProgress/${user_id}`,
+        `${API_URL}/getProgress/${user_id}`
       );
       setProgressData(progressData);
       console.log(

@@ -1,9 +1,10 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { getAuth } from "firebase/auth";
+import { API_URL } from "./constants";
 
 const api = axios.create({
-  baseURL: process.env.EXPO_PUBLIC_URL,
+  baseURL: API_URL,
 });
 
 api.interceptors.request.use(

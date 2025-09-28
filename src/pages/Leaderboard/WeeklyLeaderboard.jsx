@@ -124,7 +124,7 @@ const WeeklyLeaderboard = () => {
 export default WeeklyLeaderboard;
 
 const TopUsers = ({account, place, Image }) => {
-  console.log(account);
+  console.log("Topuseraccount",account);
   const { accountData } = useContext(AccountContext);
   const nav = useNavigation();
   
@@ -141,6 +141,7 @@ const TopUsers = ({account, place, Image }) => {
       <Animated.View entering={FadeInDown.damping(200).delay(400 * place).easing(Easing.inOut(Easing.quad))} >
       <View>
         <Text ellipsizeMode="tail" style={{ textAlign: "center", fontFamily:'LilitaOne-Regular', color:'white', fontSize:26, maxWidth:110, margin:'auto' }}>{account?.user_id.username}</Text>
+        <Text ellipsizeMode="tail" style={{ textAlign: "center", color:'white', fontSize:10, maxWidth:110, margin:'auto' }}>{account?.user_id.title || ""}</Text>
         <Text style={{ textAlign: "center", color:'white', fontSize:16 }}>{account?.points} points</Text>
       </View>
       <Avatar Head={head} Cloth={cloth} size={0.6} style={{marginBottom: -10, zIndex: 10}}/>
@@ -169,7 +170,8 @@ const LeaderbooardItem = ({account, index}) => {
           <Head width={50} height={50} />
         </View>
       <View>
-        <Text ellipsizeMode="tail" style={{ textAlign: "center", fontFamily:'LilitaOne-Regular', fontSize:24, margin:'auto' }}>{account?.user_id.username}</Text>
+        <Text ellipsizeMode="tail" style={{ fontFamily:'LilitaOne-Regular', fontSize:24, marginEnd:'auto' }}>{account?.user_id.username}</Text>
+        <Text ellipsizeMode="tail" style={{ fontSize:12 }}>{account?.user_id.title || "Curious Child"}</Text>
       </View>
       <Text style={{ textAlign: "center", marginStart:'auto', fontWeight:'600', fontSize:18 }}>{account?.points} points</Text>
     </View>

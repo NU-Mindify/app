@@ -271,9 +271,8 @@ const Game = (props) => {
       if (mode === "mastery") {
         URL = API_URL + "/getQuestions?category=" + categoryIndex.id;
       }else{
-        URL = `${process.env.EXPO_PUBLIC_URL}/getQuestions?category=${categoryIndex.id}&level=${level}&difficulty=${getDifficultyByLevel(level)}&limit=${numberOfItems[categoryIndex.id][level].items}`;
+        URL = `${API_URL}/getQuestions?category=${categoryIndex.id}&level=${level}&difficulty=${getDifficultyByLevel(level)}&limit=${numberOfItems[categoryIndex.id][level].items}`;
       }
-      // const { data } = await axios.get(`${process.env.EXPO_PUBLIC_URL}/getQuestions?category=${'developmental'}&level=${1}`)
       console.log(accountData.token);
       const { data } = await axios.get(URL, {timeout:15000});
       const questions = data.length !== 0 ? data : questionsData;
