@@ -5,7 +5,7 @@ import { Pressable, Text, View, Alert, ScrollView } from "react-native";
 import AppBackground from "../../components/AppBackground";
 import Button from "../../components/Button";
 import Input from "../../components/Input";
-import { avatars, clothes } from "../../constants";
+import { API_URL, avatars, clothes } from "../../constants";
 import AccountContext from "../../contexts/AccountContext";
 import styles from "../../styles/styles";
 import Avatar from "../../components/Avatar";
@@ -25,11 +25,11 @@ const EditProfile = (props) => {
 
   const onSave = async () => {
     try {
-      const { data: updatedUser } = await axios.post(`${process.env.EXPO_PUBLIC_URL}/updateUser`, {
+      const { data: updatedUser } = await axios.post(`${API_URL}/updateUser`, {
         avatar: selectedAvatar,
         cloth: selectedCloth,
         username: inputName,
-        user_id: accountData._id
+        user_id: accountData._id,
       });
       setAccountData(updatedUser);
       setToast("The changes has been saved.");

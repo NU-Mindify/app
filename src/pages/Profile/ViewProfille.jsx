@@ -21,6 +21,7 @@ import Avatar from "../../components/Avatar";
 import ModalContext from "../../contexts/ModalContext";
 import moment from "moment";
 import Hanger from "../../assets/store/hanger.svg"
+import Titles from "../../components/Titles";
 
 const ViewProfile = () => {
   const nav = useNavigation();
@@ -56,8 +57,8 @@ const ViewProfile = () => {
   }
   const getProgress = async () => {
     try {
-      const { data:progressData } = await axios.get(
-        `${process.env.EXPO_PUBLIC_URL}/getProgress/${accountData._id}`,
+      const { data: progressData } = await axios.get(
+        `${API_URL}/getProgress/${accountData._id}`,
         { timeout: 10000 }
       );
       setProgressData(progressData)
@@ -67,12 +68,20 @@ const ViewProfile = () => {
       console.error("ViewProfileError", error);
     }
   }
+  const [showSelectTitle, setShowSelectTitle] = useState(false);
+  const editTitle = () => {
+    setShowSelectTitle(true);
+  }
   if(!progressData){
     return (
       <></>
     )
   }
   return (
+    <>
+    {showSelectTitle && 
+      <Titles onClose={() => setShowSelectTitle(false)} isOpen={showSelectTitle} />
+    }
     <AppBackground
       gradientColors={["#3B61B7", "#35408E"]}
       style={{ paddingHorizontal: 12 }}
@@ -110,16 +119,20 @@ const ViewProfile = () => {
         </Text>
         <TouchableOpacity
           onPress={() => {
-            nav.replace("Edit Profile", {navigate: "View Profile"});
+            nav.replace("Edit Profile", { navigate: "View Profile" });
           }}
-
-          style={{backgroundColor:'white', borderRadius:99, padding:4, borderWidth: 2, }}
+          style={{
+            backgroundColor: "white",
+            borderRadius: 99,
+            padding: 4,
+            borderWidth: 2,
+          }}
         >
           {/* <Edit size={32} color={"white"} /> */}
           <Hanger width={42} height={42} />
         </TouchableOpacity>
       </View>
-      <ScrollView contentContainerStyle={{paddingBottom:24}}>
+      <ScrollView contentContainerStyle={{ paddingBottom: 24 }}>
         {/* Profile */}
         <View
           style={{
@@ -131,15 +144,14 @@ const ViewProfile = () => {
             borderRadius: 8,
           }}
         >
-          
-            <Avatar Head={Head} Cloth={Cloth} style={{flex: 2}} />
+          <Avatar Head={Head} Cloth={Cloth} style={{ flex: 2 }} />
           <View
             style={{
               flex: 3,
               justifyContent: "space-around",
               flexDirection: "column",
               alignItems: "center",
-              gap: 6,
+              gap: 0,
             }}
           >
             <Text style={[styles.entryTitle, { fontSize: 16 }]}>
@@ -152,9 +164,38 @@ const ViewProfile = () => {
             >
               {accountData.first_name} {accountData.last_name}
             </Text>
-            <Text style={[styles.entryTitle, { textAlign: "center" }]}>
-              {accountData.student_id}
-            </Text>
+            <View
+              style={{
+                borderBottomColor: "black",
+                borderBottomWidth: 1,
+                width: "100%",
+              }}
+            ></View>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                paddingHorizontal: 8,
+                gap: 4,
+              }}
+            >
+              <View>
+                <Text style={[styles.entryTitle, { fontSize: 24 }]}>
+                  {accountData.username}
+                </Text>
+                <Text
+                  style={[
+                    styles.entryTitle,
+                    { textAlign: "center", paddingHorizontal: 0, fontSize: 16 },
+                  ]}
+                >
+                  -- {accountData.title} --
+                </Text>
+              </View>
+              <TouchableOpacity onPress={editTitle}>
+                <Edit color={"white"} size={16} />
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
         {/* Split */}
@@ -178,7 +219,6 @@ const ViewProfile = () => {
               backgroundColor: "#E9E9E9",
               padding: 12,
               borderRadius: 12,
-              gap: 4,
             }}
           >
             {categoriesObj.map(({ id, name }, index) => (
@@ -197,61 +237,115 @@ const ViewProfile = () => {
           >
             Badges Earned:
           </Text>
-          <View style={{flexDirection: 'row', gap:8, flexWrap: 'wrap', justifyContent:'space-around'}}>
+          <View
+            style={{
+              flexDirection: "row",
+              gap: 8,
+              flexWrap: "wrap",
+              justifyContent: "space-around",
+            }}
+          >
             {earnedBadges.map((src, index) => (
-              <Badge src={src.badge_id.filepath} details={src} key={index} onPress={() => {
-                const badgeDetails = src.badge_id
-                setModal({
-                  title: "Badge",
-                  subtitle:badgeDetails.name+" Badge",
-                  body: (
-                    <View style={{justifyContent:'center', alignItems:'center', margin:'auto',}}>
-                      <Image
-                        source={{ uri: badgeDetails.filepath }}
-                        style={[
-                          { width: 100, height: 100 },
-                        ]}
-                        resizeMode="contain"
-                      />
-                      <Text style={{color:'white', textAlign:'center', fontSize:18, fontFamily:'LilitaOne-Regular', width:300, paddingVertical:6}}>
-                        Earn 3 stars on level {badgeDetails.level} of {categoriesObj.find(cat => cat.id === badgeDetails.category).name}. {"\n\n"} Unlocked at {moment(src.createdAt).format("MMM Do YY, h:mm:ssa")}.
-                      </Text>
-                    </View>
-                  ),
-                  primaryFn: () => setModal(null),
-                  closeButton: false
-                });
-              }} />
+              <Badge
+                src={src.badge_id.filepath}
+                details={src}
+                key={index}
+                onPress={() => {
+                  const badgeDetails = src.badge_id;
+                  setModal({
+                    title: "Badge",
+                    subtitle: badgeDetails.name + " Badge",
+                    body: (
+                      <View
+                        style={{
+                          justifyContent: "center",
+                          alignItems: "center",
+                          margin: "auto",
+                        }}
+                      >
+                        <Image
+                          source={{ uri: badgeDetails.filepath }}
+                          style={[{ width: 100, height: 100 }]}
+                          resizeMode="contain"
+                        />
+                        <Text
+                          style={{
+                            color: "white",
+                            textAlign: "center",
+                            fontSize: 18,
+                            fontFamily: "LilitaOne-Regular",
+                            width: 300,
+                            paddingVertical: 6,
+                          }}
+                        >
+                          Earn 3 stars on level {badgeDetails.level} of{" "}
+                          {
+                            categoriesObj.find(
+                              (cat) => cat.id === badgeDetails.category
+                            ).name
+                          }
+                          . {"\n\n"} Unlocked at{" "}
+                          {moment(src.createdAt).format("MMM Do YY, h:mm:ssa")}.
+                        </Text>
+                      </View>
+                    ),
+                    primaryFn: () => setModal(null),
+                    closeButton: false,
+                  });
+                }}
+              />
             ))}
             {unearnedBadges.map((src, index) => (
-              <Badge src={src.disabled_image} details={src}  key={index} 
-              onPress={() => {
-                setModal({
-                  title: "Badge",
-                  subtitle:src.name+" Badge",
-                  body: (
-                    <View style={{justifyContent:'center', alignItems:'center', margin:'auto',}}>
-                      <Image
-                        source={{ uri: src.disabled_image }}
-                        style={[
-                          { width: 100, height: 100, },
-                        ]}
-                        resizeMode="contain"
-                      />
-                      <Text style={{color:'white', textAlign:'center', fontSize:18, fontFamily:'LilitaOne-Regular', width:300}}>
-                        Earn 3 stars on level {src.level} of {categoriesObj.find(cat => cat.id === src.category).name} to unlock this badge.
-                      </Text>
-                    </View>
-                  ),
-                  primaryFn: () => setModal(null),
-                  closeButton: false
-                });
-              }} />
+              <Badge
+                src={src.disabled_image}
+                details={src}
+                key={index}
+                onPress={() => {
+                  setModal({
+                    title: "Badge",
+                    subtitle: src.name + " Badge",
+                    body: (
+                      <View
+                        style={{
+                          justifyContent: "center",
+                          alignItems: "center",
+                          margin: "auto",
+                        }}
+                      >
+                        <Image
+                          source={{ uri: src.disabled_image }}
+                          style={[{ width: 100, height: 100 }]}
+                          resizeMode="contain"
+                        />
+                        <Text
+                          style={{
+                            color: "white",
+                            textAlign: "center",
+                            fontSize: 18,
+                            fontFamily: "LilitaOne-Regular",
+                            width: 300,
+                          }}
+                        >
+                          Earn 3 stars on level {src.level} of{" "}
+                          {
+                            categoriesObj.find((cat) => cat.id === src.category)
+                              .name
+                          }{" "}
+                          to unlock this badge.
+                        </Text>
+                      </View>
+                    ),
+                    primaryFn: () => setModal(null),
+                    closeButton: false,
+                  });
+                }}
+              />
             ))}
           </View>
         </View>
       </ScrollView>
     </AppBackground>
+    </>
   );
 };
 
@@ -284,9 +378,10 @@ const CategoryCard = ({ name, percent }) => {
     <View
       style={{
         justifyContent: "center",
-        width: 280,
-        padding: 8,
-        borderRadius: 12,
+        maxWidth: 360,
+        paddingHorizontal: 32,
+        paddingVertical: 6,
+        borderRadius: 12
       }}
     >
       <Text
@@ -296,27 +391,40 @@ const CategoryCard = ({ name, percent }) => {
           color: "#35408E",
         }}
       >
-        {name.toUpperCase()} - {percent}%
+        {name.toUpperCase()}
       </Text>
-      <View
-        style={{
-          flexDirection: "row",
-          backgroundColor: "#273574",
-          borderWidth:1,
-          width: "100%",
-          borderRadius: 12,
-          overflow: 'hidden'
-        }}
-      >
-        <Animated.View
-          entering={SlideInLeft.duration(500)}
+      <View style={{ flexDirection: "row", alignItems: "center", gap: 4 }}>
+        <View
           style={{
-            width: `${percent}%`,
-            height: 10,
-            backgroundColor: getColorByPercentage(percent),
+            flexDirection: "row",
+            backgroundColor: "#273574",
+            borderWidth: 1,
+            width: "90%",
             borderRadius: 12,
+            height: 12,
+            overflow: "hidden",
           }}
-        ></Animated.View>
+        >
+          <Animated.View
+            entering={SlideInLeft.duration(500)}
+            style={{
+              width: `${percent}%`,
+              height: 10,
+              backgroundColor: getColorByPercentage(percent),
+              borderRadius: 12,
+            }}
+          ></Animated.View>
+        </View>
+        <Text
+          style={{
+            width: 40,
+            fontFamily: "LilitaOne-Regular",
+            fontSize: 16,
+            color: "#35408E",
+          }}
+        >
+          {percent}%
+        </Text>
       </View>
     </View>
   );
