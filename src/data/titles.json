@@ -2,142 +2,142 @@
     {
         "title": "Curious Child",
         "description": "Earned by completing your first set of development-based challenges, taking your first steps into understanding human growth.",
-        "world": "Developmental Psychology",
+        "world": "developmental",
         "type": "Level",
-        "number.": 3
+        "number": 3
     },
     {
         "title": "Growing Teen",
         "description": "Achieved by progressing further through the course, showing how knowledge evolves just like people do.",
-        "world": "Developmental Psychology",
+        "world": "developmental",
         "type": "Level",
-        "number.": 6
+        "number": 6
     },
     {
         "title": "Mature Adult",
         "description": "Unlocked by mastering advanced concepts of development, demonstrating your deep understanding of change over time.",
-        "world": "Developmental Psychology",
+        "world": "developmental",
         "type": "Level",
-        "number.": 9
+        "number": 9
     },
     {
         "title": "Growth Keeper",
         "description": "Awarded for completing all developmental psychology levels \u2014 a testament to your mastery of the human journey.",
-        "world": "Developmental Psychology",
+        "world": "developmental",
         "type": "Level",
-        "number.": 10
+        "number": 10
     },
     {
         "title": "Motivated Trainee",
         "description": "Earned by finishing your first industrial psychology tasks and exploring what drives workplace success.",
-        "world": "Industrial Psychology",
+        "world": "industrial",
         "type": "Level",
-        "number.": 3
+        "number": 3
     },
     {
         "title": "Growing Worker",
         "description": "Unlocked by consistently applying principles of motivation and collaboration in scenario-based questions.",
-        "world": "Industrial Psychology",
+        "world": "industrial",
         "type": "Level",
-        "number.": 6
+        "number": 6
     },
     {
         "title": "Corporate Leader",
         "description": "Achieved by solving complex organizational psychology challenges that require leadership-level thinking.",
-        "world": "Industrial Psychology",
+        "world": "industrial",
         "type": "Level",
-        "number.": 9
+        "number": 9
     },
     {
         "title": "Productivity Expert",
         "description": "Awarded for conquering all industrial psychology levels, mastering the science of people and performance.",
-        "world": "Industrial Psychology",
+        "world": "industrial",
         "type": "Level",
-        "number.": 10
+        "number": 10
     },
     {
         "title": "Presence Novice",
         "description": "Earned by completing initial challenges focused on identifying mental health patterns and symptoms.",
-        "world": "Abnormal Psychology",
+        "world": "abnormal",
         "type": "Level",
-        "number.": 3
+        "number": 3
     },
     {
         "title": "Healed Mind",
         "description": "Unlocked by navigating more complex cases, showing your growing skill in understanding resilience and recovery.",
-        "world": "Abnormal Psychology",
+        "world": "abnormal",
         "type": "Level",
-        "number.": 6
+        "number": 6
     },
     {
         "title": "Cognitive Listener",
         "description": "Achieved by interpreting deeper psychological stories with precision and empathy.",
-        "world": "Abnormal Psychology",
+        "world": "abnormal",
         "type": "Level",
-        "number.": 9
+        "number": 9
     },
     {
         "title": "Therapeutic Patience",
         "description": "Awarded for completing the entire abnormal psychology journey \u2014 mastering the art of healing and understanding.",
-        "world": "Abnormal Psychology",
+        "world": "abnormal",
         "type": "Level",
-        "number.": 10
+        "number": 10
     },
     {
         "title": "Testing Novice",
         "description": "Earned by completing your first assessments and learning how tools reveal unseen aspects of the mind.",
-        "world": "Psychological Assessment",
+        "world": "psychological",
         "type": "Level",
-        "number.": 3
+        "number": 3
     },
     {
         "title": "Scale Selector",
         "description": "Unlocked by demonstrating precision in selecting the right tools and interpreting their results.",
-        "world": "Psychological Assessment",
+        "world": "psychological",
         "type": "Level",
-        "number.": 6
+        "number": 6
     },
     {
         "title": "Master Clinician",
         "description": "Achieved by analyzing complex data sets and drawing accurate psychological insights.",
-        "world": "Psychological Assessment",
+        "world": "psychological",
         "type": "Level",
-        "number.": 9
+        "number": 9
     },
     {
         "title": "Assessment Practitioner",
         "description": "Awarded for finishing all assessment challenges, proving your skill in measurement and interpretation.",
-        "world": "Psychological Assessment",
+        "world": "psychological",
         "type": "Level",
-        "number.": 10
+        "number": 10
     },
     {
         "title": "Emotional Explorer",
         "description": "Earned by answering introductory questions on how emotions shape thought and behavior.",
-        "world": "General Psychology",
+        "world": "general",
         "type": "Level",
-        "number.": 3
+        "number": 3
     },
     {
         "title": "Stage Mapper",
         "description": "Unlocked by completing tasks that explore development and change throughout the lifespan",
-        "world": "General Psychology",
+        "world": "general",
         "type": "Level",
-        "number.": 6
+        "number": 6
     },
     {
         "title": "Empathetic Practitioner",
         "description": "Achieved by demonstrating deep understanding of human stories and psychological complexity.",
-        "world": "General Psychology",
+        "world": "general",
         "type": "Level",
-        "number.": 9
+        "number": 9
     },
     {
         "title": "Foundation Scholar ",
         "description": "Awarded for completing the general psychology world \u2014 mastering the essential foundations of the mind.",
-        "world": "General Psychology",
+        "world": "general",
         "type": "Level",
-        "number.": 10
+        "number": 10
     },
     {
         "title": "The Psychometrician",
@@ -147,169 +147,169 @@
     {
         "title": "Stage Seeker",
         "description": "Earned by answering 25 development-related questions correctly in a row.",
-        "world": "Developmental Psychology",
+        "world": "developmental",
         "type": "Streak",
-        "number.": 25
+        "number": 25
     },
     {
         "title": "Lifespan Cartographer",
         "description": "Achieved by maintaining 50 flawless answers focused on human growth.",
-        "world": "Developmental Psychology",
+        "world": "developmental",
         "type": "Streak",
-        "number.": 50
+        "number": 50
     },
     {
         "title": "Growth Guardian",
         "description": "Awarded for a 75-answer streak without errors, demonstrating mastery of each developmental stage.",
-        "world": "Developmental Psychology",
+        "world": "developmental",
         "type": "Streak",
-        "number.": 75
+        "number": 75
     },
     {
         "title": "Time Weaver",
         "description": "Unlocked when you reach 100 correct answers in a row, connecting every stage of life into one complete story.",
-        "world": "Developmental Psychology",
+        "world": "developmental",
         "type": "Streak",
-        "number.": 100
+        "number": 100
     },
     {
         "title": "Motivation Spark",
         "description": "Earned by answering 25 workplace psychology questions without a mistake.",
-        "world": "Industrial Psychology",
+        "world": "industrial",
         "type": "Streak",
-        "number.": 25
+        "number": 25
     },
     {
         "title": "Workforce Strategist",
         "description": "Unlocked after a 50-question streak in organizational behavior and performance.",
-        "world": "Industrial Psychology",
+        "world": "industrial",
         "type": "Streak",
-        "number.": 50
+        "number": 50
     },
     {
         "title": "Behavior Engineer",
         "description": "Awarded for 75 perfect answers, showing deep understanding of workplace dynamics.",
-        "world": "Industrial Psychology",
+        "world": "industrial",
         "type": "Streak",
-        "number.": 75
+        "number": 75
     },
     {
         "title": "Performance Architect",
         "description": "Achieved by sustaining a 100-answer streak, designing success through flawless reasoning.",
-        "world": "Industrial Psychology",
+        "world": "industrial",
         "type": "Streak",
-        "number.": 100
+        "number": 100
     },
     {
         "title": "Symptom Seeker ",
         "description": "Earned by correctly answering 25 abnormal psychology questions in a row.",
-        "world": "Abnormal Psychology",
+        "world": "abnormal",
         "type": "Streak",
-        "number.": 25
+        "number": 25
     },
     {
         "title": "Clinical Decoder",
         "description": "Unlocked after 50 perfect answers, demonstrating your diagnostic precision.",
-        "world": "Abnormal Psychology",
+        "world": "abnormal",
         "type": "Streak",
-        "number.": 50
+        "number": 50
     },
     {
         "title": "Mind Healer",
         "description": "Awarded for 75 consecutive correct answers, bringing clarity to complex cases.",
-        "world": "Abnormal Psychology",
+        "world": "abnormal",
         "type": "Streak",
-        "number.": 75
+        "number": 75
     },
     {
         "title": "Psychopathology Scholar",
         "description": "Achieved when you reach a 100-answer streak, mastering the science of mental disorders.",
-        "world": "Abnormal Psychology",
+        "world": "abnormal",
         "type": "Streak",
-        "number.": 100
+        "number": 100
     },
     {
         "title": "Scale Setter",
         "description": "Earned by answering 25 assessment-related questions correctly without error.",
-        "world": "Psychological Assessment",
+        "world": "psychological",
         "type": "Streak",
-        "number.": 25
+        "number": 25
     },
     {
         "title": "Data Interpreter",
         "description": "Unlocked after a 50-question streak, interpreting psychological data flawlessly.",
-        "world": "Psychological Assessment",
+        "world": "psychological",
         "type": "Streak",
-        "number.": 50
+        "number": 50
     },
     {
         "title": "Insight Weaver",
         "description": "Awarded for 75 correct answers in a row, translating results into deeper meaning.",
-        "world": "Psychological Assessment",
+        "world": "psychological",
         "type": "Streak",
-        "number.": 75
+        "number": 75
     },
     {
         "title": "Diagnostic Specialist",
         "description": "Achieved with a 100-answer streak, proving mastery in psychological evaluation.",
-        "world": "Psychological Assessment",
+        "world": "psychological",
         "type": "Streak",
-        "number.": 100
+        "number": 100
     },
     {
         "title": "Cognitive Spark",
         "description": "Earned by correctly answering 25 general psychology questions consecutively.",
-        "world": "General Psychology",
+        "world": "general",
         "type": "Streak",
-        "number.": 25
+        "number": 25
     },
     {
         "title": "Behavior Sculptor",
         "description": "Unlocked after a 50-answer streak, shaping fundamental theories with precision.",
-        "world": "General Psychology",
+        "world": "general",
         "type": "Streak",
-        "number.": 50
+        "number": 50
     },
     {
         "title": "Theory Shaper",
         "description": "Awarded for 75 flawless answers, weaving psychological principles together.",
-        "world": "General Psychology",
+        "world": "general",
         "type": "Streak",
-        "number.": 75
+        "number": 75
     },
     {
         "title": "Mind Navigator",
         "description": "Achieved when you hit a 100-question streak, navigating the vast field of psychological science with ease.",
-        "world": "General Psychology",
+        "world": "general",
         "type": "Streak",
-        "number.": 100
+        "number": 100
     },
     {
         "title": "Mind Ascendant",
         "description": "Earned by ranking 1st, a rare achievement for those whose mastery, insight, and precision surpass all others. You stand at the summit where few ever arrive.",
         "world": null,
         "type": "Leaderboards",
-        "number.": 1
+        "number": 1
     },
     {
         "title": "Psyche Sage",
         "description": "Awarded to the 2nd place explorer, whose deep understanding guides others through the mind\u2019s vast landscapes.",
         "world": null,
         "type": "Leaderboards",
-        "number.": 2
+        "number": 2
     },
     {
         "title": "Insight Conqueror",
         "description": "Claimed by the 3rd rank, mastering complex topics and maintaining an unshakable streak of insight.",
         "world": null,
         "type": "Leaderboards",
-        "number.": 3
+        "number": 3
     },
     {
         "title": "Mind Voyager",
         "description": "Granted to the 4th to 10th rankers, steadily pushing the boundaries of knowledge and discovery.",
         "world": null,
         "type": "Leaderboards",
-        "number.": 10
+        "number": 10
     }
 ]
