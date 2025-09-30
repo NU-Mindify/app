@@ -13,16 +13,32 @@ import Animated, { Easing, FadeInDown, SlideInDown } from "react-native-reanimat
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
 import ModalContext from "../../contexts/ModalContext";
+import titlesList from "../../data/titles.json"
+import useTitles from "../../hooks/useTitles";
 
 const WeeklyLeaderboard = () => {
   const nav = useNavigation();
   const {setModal} = useContext(ModalContext)
   const [leaderboard, setLeaderboard] = useState([])
+  const { accountData } = useContext(AccountContext)
+  const { addTitle } = useTitles();
 
   const getLeaderboard = async () => {
     try {
       const {data} = await axios.get(API_URL + "/getWeeklyLeaderboard");
       setLeaderboard(data)
+      data.map((user, index) => {
+        console.log(user);
+        
+        if(user.user_id._id === accountData._id){
+          console.log("USERFOUND", index);
+          const title = titlesList.find(title => title.type === "Leaderboards" && title.number >= index + 1)
+          if(title){
+            console.log("TITLEFOUND", title.title);
+            addTitle(title.title)
+          }
+        }
+      })
     } catch (error) {
       console.error(error);
       

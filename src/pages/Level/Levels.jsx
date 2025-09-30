@@ -180,6 +180,7 @@ const Levels = (props) => {
   const playMusic = () => {
     try {
       if(accountData?.settings?.music){
+        music.loop = true;
         music.play()
       }
     } catch (error) {

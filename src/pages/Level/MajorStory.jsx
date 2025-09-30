@@ -14,6 +14,9 @@ import abnormal from "../../assets/story/bg/abnormal.png";
 import psychological from "../../assets/story/bg/psychological.png";
 import industrial from "../../assets/story/bg/industrial.png";
 import general from "../../assets/story/bg/general.png";
+import titlesList from "../../data/titles.json"
+import useTitles from "../../hooks/useTitles"
+import { useAudioPlayer } from "expo-audio";
 
 const bg = {
   abnormal: abnormal,
@@ -27,21 +30,37 @@ const MajorStory = ({ data }) => {
   const {onClose, category, difficulty} = data
 
   const { accountData } = useContext(AccountContext);
+  const { addTitle } = useTitles();
   const Head = avatars.find((avatar) => avatar.id === accountData.avatar).body;
   const Cloth = clothes.find((cloth) => cloth.id === accountData.cloth).image;
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [levelStoryObj, setLevelStory] = useState();
   const [story, setStory] = useState(null);
+
+  const typing = useAudioPlayer(require("../../audio/typing.wav"))
+  typing.loop = true;
+
   console.log(story);
 
   const onNext = async () => {
     if (currentIndex + 1 >= levelStoryObj.length) {
+      const title = titlesList.find(title => title.number == getLevelByDifficulty(difficulty) && title.world === category)
+      try {
+        await addTitle(title.title);
+      } catch (error) {
+        console.error(error);
+      }
       onClose();
     }
     setStory(levelStoryObj[currentIndex + 1]);
     setCurrentIndex((current) => current + 1);
+    typing.play();
   };
+
+  const getLevelByDifficulty = (difficulty) => {
+    return difficulty === "DIFFICULT" ? 9 : difficulty === "EASY" ? 3 : 6;
+  }
 
   useState(() => {
     const storyObj = stories?.[category]?.[difficulty] || null;
@@ -51,6 +70,7 @@ const MajorStory = ({ data }) => {
     }
     setLevelStory(storyObj);
     setStory(storyObj[0]);
+    typing.play();
   }, [story, levelStoryObj, onClose]);
   if (!story) return;
   if (!levelStoryObj) {
@@ -109,7 +129,7 @@ const MajorStory = ({ data }) => {
               fontSize: 16,
             }}
           >
-            <TypeWriter typing={1} maxDelay={20}>
+            <TypeWriter typing={1} maxDelay={20} onTypingEnd={() => typing.pause()}>
               {story.text}
             </TypeWriter>
           </Text>

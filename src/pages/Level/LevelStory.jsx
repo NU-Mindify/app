@@ -7,6 +7,7 @@ import { API_URL, avatars, clothes } from '../../constants';
 import Animated, { FadeInDown, SlideInDown, SlideInUp } from 'react-native-reanimated';
 import stories from "./story.json"
 import axios from 'axios';
+import { useAudioPlayer } from 'expo-audio';
 
 const LevelStory = ({ onClose, levelSelected, category }) => {
   const { accountData } = useContext(AccountContext);
@@ -16,6 +17,8 @@ const LevelStory = ({ onClose, levelSelected, category }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [levelStoryObj, setLevelStory] = useState()
   const [story, setStory] = useState(null);
+  const typing = useAudioPlayer(require("../../audio/typing.wav"))
+  typing.loop = true;
   console.log(story);
   
   const onNext = async () => {
@@ -24,6 +27,7 @@ const LevelStory = ({ onClose, levelSelected, category }) => {
     }
     setStory(levelStoryObj[currentIndex + 1]);
     setCurrentIndex((current) => current + 1);
+    typing.play()
   };
 
   useState(() => {
@@ -34,6 +38,7 @@ const LevelStory = ({ onClose, levelSelected, category }) => {
     }
     setLevelStory(storyObj);
     setStory(storyObj[0]);
+    typing.play();
   }, [story, levelStoryObj, onClose]);
   if (!story) return;
   if(!levelStoryObj){
@@ -85,7 +90,7 @@ const LevelStory = ({ onClose, levelSelected, category }) => {
               fontSize: 16,
             }}
           >
-            <TypeWriter typing={1} maxDelay={20}>
+            <TypeWriter typing={1} maxDelay={20} onTypingEnd={() => typing.pause()}>
               {story.text}
             </TypeWriter>
           </Text>

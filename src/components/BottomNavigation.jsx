@@ -24,7 +24,7 @@ const actions = [
 
 const BottomNavigation = ({activeTab}) => {
   const { accountData } = useContext(AccountContext)
-  const musicbg = useAudioPlayer(require("../audio/music/mixkit-bootleg-1055.mp3"));
+  const musicbg = useAudioPlayer(require("../audio/music/menus.wav"));
   useEffect(() => {
     musicbg.loop = true;
     musicbg.volume = 0.8;
