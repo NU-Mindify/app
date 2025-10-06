@@ -1,10 +1,11 @@
 import { useNavigation } from "@react-navigation/native";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Platform, View, Text } from "react-native";
 import Animated, { FadeIn } from "react-native-reanimated";
 import WebView from "react-native-webview";
 import AppBackground from "../../components/AppBackground";
 import { Bot } from "lucide-react-native";
+import AccountContext from "../../contexts/AccountContext";
 
 const disableZoomScript = `
       const meta = document.createElement('meta');
@@ -14,6 +15,7 @@ const disableZoomScript = `
     `;
 
 const Mindmap = () => {
+  const { accountData }= useContext(AccountContext)
   return (
     <AppBackground>
       <Animated.View
@@ -31,7 +33,7 @@ const Mindmap = () => {
         >
           <WebView
             source={{
-              uri: "https://nu-mindify.vercel.app/mindmap",
+              uri: "https://nu-mindify.vercel.app/mindmap?user=" + accountData?._id,
             }}
             scalesPageToFit={Platform.OS === "android" ? false : true}
             injectedJavaScript={disableZoomScript}

@@ -1,4 +1,4 @@
-import { createNavigationContainerRef } from "@react-navigation/native";
+import { createNavigationContainerRef, StackActions } from "@react-navigation/native";
 import { createRef } from "react";
 
 export const navigationRef = createNavigationContainerRef();
@@ -12,6 +12,9 @@ export const currentRouteName = createRef();
 export function navigate(name, params) {
   if (navigationRef.isReady()) {
     navigationRef.navigate(name, params);
+    // navigationRef.dispatch(
+    //   StackActions.replace(name, params)
+    // );
   } else {
     // Optionally log or handle cases where navigationRef isn't ready yet
     console.warn('Navigation ref not ready. Could not navigate to:', name);

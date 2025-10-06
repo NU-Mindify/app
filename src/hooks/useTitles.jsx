@@ -16,6 +16,7 @@ const useTitles = () => {
         `${API_URL}/addTitle?user_id=${accountData._id}&title=${title}`
       );
       setAccountData(data);
+      setToast('Title Unlocked: "' + title + '"')
     } catch (error) {
       setToast("Failed to add title.");
       console.error(error);

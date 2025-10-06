@@ -525,9 +525,11 @@ const Default = ({ modal }) => {
           <Text style={[modalStyles.subtitle]}>{modal.subtitle}</Text>
         )}
         {typeof modal.body === "string" && (
-          <Text style={[modalStyles.bodyText]}>{modal.body}</Text>
+          <Text style={[modalStyles.bodyText, {paddingTop:16}]}>{modal.body}</Text>
         )}
-        {modal.body}
+        {typeof modal.body !== "string" && (
+          modal.body
+        )}
         <View style={[modalStyles.btnContainer]}>
           {!modal.hideButton && 
             <Button
