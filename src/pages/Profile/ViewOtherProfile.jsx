@@ -150,7 +150,7 @@ const ViewOtherProfile = (props) => {
               justifyContent: "space-around",
               flexDirection: "column",
               alignItems: "center",
-              gap: 6,
+              gap: 0,
             }}
           >
             <Text style={[styles.entryTitle, { fontSize: 16 }]}>
@@ -163,11 +163,35 @@ const ViewOtherProfile = (props) => {
             >
               {accountData.first_name} {accountData.last_name}
             </Text>
-            <Text style={[styles.entryTitle, { textAlign: "center" }]}>
-              {accountData.student_id?.slice(0, 5)}
-              {accountData.student_id?.slice(5, -1).replace(/./g, "*")}
-              {accountData.student_id?.slice(-1)}
-            </Text>
+            <View
+              style={{
+                borderBottomColor: "black",
+                borderBottomWidth: 1,
+                width: "100%",
+              }}
+            ></View>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                paddingHorizontal: 8,
+                gap: 4,
+              }}
+            >
+              <View>
+                <Text style={[styles.entryTitle, { fontSize: 24 }]}>
+                  {accountData.username}
+                </Text>
+                <Text
+                  style={[
+                    styles.entryTitle,
+                    { textAlign: "center", paddingHorizontal: 0, fontSize: 16 },
+                  ]}
+                >
+                  -- {accountData.title} --
+                </Text>
+              </View>
+            </View>
           </View>
         </View>
         {/* Split */}
@@ -222,10 +246,7 @@ const ViewOtherProfile = (props) => {
               <Badge src={src.badge_id.filepath} key={index} />
             ))}
             {unearnedBadges.map((src, index) => (
-              <Badge
-                src={src.disabled_image}
-                key={index}
-              />
+              <Badge src={src.disabled_image} key={index} />
             ))}
           </View>
         </View>

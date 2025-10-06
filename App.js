@@ -146,7 +146,7 @@ export default function App() {
       if(data.version > VERSION){
         setModal({
           title:"Update",
-          body:"A new update is available! Update now for new features and bug fixes.",
+          body: data.version_message[VERSION] || "A new update is available! Update now for new features and bug fixes.",
           closeButton:false,
           hideButton: true,
           primaryFn:() => {}

@@ -54,6 +54,7 @@ const Chatbot = () => {
 
   useEffect(() => {
     getData();
+    scrollViewRef.current.scrollToEnd({ animated: true });
   }, []);
   useEffect(() => {
     scrollViewRef.current.scrollToEnd({ animated: true });
@@ -67,6 +68,7 @@ const Chatbot = () => {
       ...currentMessages,
       { content: inputToSend, ai_generated: false },
     ]);
+    scrollViewRef.current.scrollToEnd({ animated: true });
     try {
       const { data: ai_response } = await axios.post(API_URL+`/sendMessage`,
         {
@@ -152,6 +154,9 @@ const Chatbot = () => {
           onContentSizeChange={() =>
             scrollViewRef.current.scrollToEnd({ animated: true })
           }
+          onLayout={() => {
+            scrollViewRef.current.scrollToEnd({ animated: true });
+          }}
         >
           {}
           {messages.length === 0 && !isFetching && (
