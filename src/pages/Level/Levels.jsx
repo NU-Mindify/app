@@ -27,23 +27,27 @@ import { useAudioPlayer } from "expo-audio";
 const Levels = (props) => {
   const nav = useNavigation();
   try {
-  const { categoryIndex, isMastery, selectedMode = "review"  } = props.route.params;
+  const { categoryIndex, isMastery, selectedMode = "review" } = props.route.params;
   const { accountData, progressData, setAccountData, setProgressData } = useContext(AccountContext);
+  if (!accountData) return <></>;
   console.log(progressData);
   
   const { setModal } = useContext(ModalContext)
-  const categoryProgress =
-    progressData["classic"][categoryIndex.id];
   const storyProgress = progressData["story"][categoryIndex.id];
   console.log(progressData["story"][categoryIndex.id]);
   
-
+  
   const [leaderboardLevel, setLeaderboardLevel] = useState(null);
   const [mode, setMode] = useState(selectedMode);
+  const [categoryProgress, setCategoryProgress] = useState(progressData[mode][categoryIndex.id]);
+  console.log("progress", categoryProgress);
+  console.log("mode", mode);
   const insets = useSafeAreaInsets();
   const notchHeight = insets.top;
   useEffect(() => {
     console.log("is mastery", isMastery);
+    setCategoryProgress(progressData[mode][categoryIndex.id])
+    
 
     openMastery();
 
@@ -69,7 +73,7 @@ const Levels = (props) => {
   }, [mode]);
 
   const openMastery = () => {
-    if (isMastery && progressData.classic[categoryIndex.id] >= 10) {
+    if (isMastery && progressData.competition[categoryIndex.id] >= 10) {
       openMasteryModal();
     } else if (isMastery) {
       completeAllLevelsModal();
@@ -192,7 +196,7 @@ const Levels = (props) => {
   useEffect(() => {
     playMusic()
     console.log("PROGRESS", storyProgress);
-    if([0, 1, 5, 8].includes(storyProgress)){
+    if([0, 1, 5, 8].includes(storyProgress) && mode === "review" ){
       showMajorStory();
     }
     return () => {
@@ -215,7 +219,7 @@ const Levels = (props) => {
   const showStory = (modal, index, check = true) => {
     console.log(categoryIndex, index, "isShowing", isStoryShown);
     console.log("show story");
-    if(check && storyProgress >= index + 1){
+    if(check && storyProgress >= index + 1 || mode !== "review"){
       modal();
       return;
     }

@@ -81,7 +81,7 @@ const ViewOtherProfile = (props) => {
   };
 
   if (!accountData || !progressData) {
-    return <></>;
+    return <AppBackground></AppBackground>;
   }
   console.log(accountData || "NO AVATAR");
   

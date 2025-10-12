@@ -166,6 +166,7 @@ const gameColors = {
   developmental: {
     background: ["#D0E796", "#7F9F30"],
     timer: ["#AFD02A", "#A1CA3D", "#AFD02A"],
+    timerBackground: "#7F9F30",
     headerText: "#7F9F30",
     questionBackground: "#F2FFBE",
     answerBorder: {

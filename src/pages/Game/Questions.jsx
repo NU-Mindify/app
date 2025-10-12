@@ -7,12 +7,14 @@ import {
 import Animated, { FadeInDown, SlideInLeft } from "react-native-reanimated";
 import { useContext, useEffect, useRef } from "react";
 import GameContext from "../../contexts/GameContext";
+import AccountContext from "../../contexts/AccountContext";
 import { gameColors } from "../../constants";
 import LottieView from "lottie-react-native";
 import fireAnimation from '../../anim/Fire.json'
 
 export default function Questions({ data, onAnswer, number, length, streak, mode }) {
   const { level, categoryIndex } = useContext(GameContext);
+  const { accountData } = useContext(AccountContext)
   const animationRef = useRef(null);
 
   useEffect(()=> {
@@ -64,15 +66,17 @@ export default function Questions({ data, onAnswer, number, length, streak, mode
           style={{
             position: "absolute",
             top: "50%",
-            left: 0,
+            left: "50%",
             height: "50%",
             width: "100%",
-            transform: [{ translateY: "-50%" }],
+            maxWidth:500,
+            maxHeight:400,
+            transform: [{ translateY: "-50%" }, {translateX:'-50%'}],
             backgroundColor: gameColors[categoryIndex.id].questionBackground,
             borderRadius: 16,
           }}
         ></View>
-        <Animated.ScrollView contentContainerStyle={[questStyle.scrollContent]}>
+        <Animated.ScrollView style={{maxWidth:500, margin:'auto', width:'100%'}} contentContainerStyle={[questStyle.scrollContent]}>
           <Text
             style={[
               questStyle.questionNum,
@@ -120,6 +124,9 @@ export default function Questions({ data, onAnswer, number, length, streak, mode
                 </Animated.View>
               </TouchableOpacity>
             ))}
+            {accountData.developer &&
+              <Text style={{textAlign:'center'}}>Answer: {data.answer.toUpperCase()}</Text>
+            }
           </View>
         </Animated.ScrollView>
       </Animated.View>

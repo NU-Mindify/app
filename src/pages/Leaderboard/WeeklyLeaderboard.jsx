@@ -126,6 +126,9 @@ const WeeklyLeaderboard = () => {
           marginBottom: -40,
           borderTopRightRadius: 24,
           borderTopLeftRadius: 24,
+          maxWidth:500,
+          width:'100%',
+          margin:'auto'
         }}
         contentContainerStyle={{ paddingVertical: 24 }}
       >

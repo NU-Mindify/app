@@ -59,7 +59,7 @@ const Titles = ({isOpen = true, onClose = () => {}}) => {
             fontSize: 16,
           }}
           >
-          {accountData.owned_titles.length} / {titlesList.length} titles owned
+          {Array.from(new Set(accountData.owned_titles)).length} / {titlesList.length} titles owned
         </Text>
           </View>
         <ScrollView contentContainerStyle={{ gap: 8 }}>

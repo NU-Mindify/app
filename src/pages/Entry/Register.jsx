@@ -1,4 +1,4 @@
-import { Pressable, Text, TouchableOpacity, View } from 'react-native'
+import { Keyboard, Pressable, Text, TouchableOpacity, View } from 'react-native'
 import React, { use, useContext, useEffect, useRef, useState } from 'react'
 import Animated, { FlipInXUp, FlipOutXDown } from 'react-native-reanimated'
 import styles from '../../styles/styles'
@@ -111,6 +111,32 @@ const Register = ({set, setTerms, setBranch}) => {
     return isValid;
   };
 
+  const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
+
+  useEffect(() => {
+      const showSubscription = Keyboard.addListener(
+        "keyboardDidShow",
+        handleKeyboardShow
+      );
+      const hideSubscription = Keyboard.addListener(
+        "keyboardDidHide",
+        handleKeyboardHide
+      );
+  
+      return () => {
+        showSubscription.remove();
+        hideSubscription.remove();
+      };
+    }, []);
+  
+    const handleKeyboardShow = (event) => {
+      setIsKeyboardVisible(true);
+    };
+  
+    const handleKeyboardHide = (event) => {
+      setIsKeyboardVisible(false);
+    };
+
   useEffect(() => {
     setIsFormSatisfied(validate())
   },[form])
@@ -122,7 +148,7 @@ const Register = ({set, setTerms, setBranch}) => {
       <Animated.View
         entering={FlipInXUp}
         exiting={FlipOutXDown}
-        style={[styles.entryBackground, { marginVertical: 0, marginBottom: 8 }]}
+        style={[styles.entryBackground, { marginVertical: 0, marginBottom: isKeyboardVisible ? 100 : 8 }]}
       >
         <Text style={styles.entryTitle}>Sign Up</Text>
         <Text style={styles.entryBody}>

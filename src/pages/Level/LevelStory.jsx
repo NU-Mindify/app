@@ -11,6 +11,7 @@ import { useAudioPlayer } from 'expo-audio';
 
 const LevelStory = ({ onClose, levelSelected, category }) => {
   const { accountData } = useContext(AccountContext);
+  if(!accountData) return <></>;
   const Head = avatars.find((avatar) => avatar.id === accountData.avatar).body;
   const Cloth = clothes.find((cloth) => cloth.id === accountData.cloth).image;
 

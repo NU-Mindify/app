@@ -28,7 +28,7 @@ const Game = (props) => {
   const { accountData, setAccountData, progressData, setProgressData } =
     useContext(AccountContext);
   const { setModal, setToast } = useContext(ModalContext);
-  const categoryProgress = useRef(progressData["classic"][categoryIndex.id]);
+  const categoryProgress = useRef(progressData[mode][categoryIndex.id]);
 
   const musicPlayer = useAudioPlayer(require("../../audio/guess.mp3"));
   const correctSfxPlayer = useAudioPlayer(require("../../audio/correct.mp3"));
@@ -110,7 +110,7 @@ const Game = (props) => {
       const highestEarnedStars =
         progressData.high_scores[categoryIndex.id]?.[levelIndex]?.stars || 0;
       const attemptStars = getStarsCount(newStats.correct, questions.length);
-      if (highestEarnedStars !== 3 && attemptStars === 3) {
+      if (highestEarnedStars !== 3 && attemptStars === 3 && mode === "competition") {
         await addBadge(newStats);
       }
 
@@ -131,7 +131,7 @@ const Game = (props) => {
           points: newStats.points
         },
         progressUserLevel:
-          isMovingToNextLevel() && isScorePassed() && mode === "competition",
+          isMovingToNextLevel() && isScorePassed(),
       });
       if (data.hasOwnProperty("progress_data")) {
         setProgressData(data.progress_data);
