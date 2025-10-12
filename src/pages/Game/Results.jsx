@@ -178,7 +178,7 @@ const Results = ({ stats, onReview, onLeaderboard }) => {
                 {` ${duration} `}
               </Text>
               seconds. {!is1Star && `\nAnswer ${scoreLeftToPass} more correctly to pass.`}
-              {is1Star && !is3Star && `Score ${scoreLeftForBadge} more to earn a badge.`}
+              {is1Star && !is3Star && mode === "competition" && `Score ${scoreLeftForBadge} more to earn a badge.`}
             </Text>
           </View>
           <View

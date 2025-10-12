@@ -18,10 +18,10 @@ import ModalContext from '../../contexts/ModalContext';
 import axios from 'axios';
 
 const startStory = [
-  { bgImage: House1, text: "It's the night before your psychology board exam" },
+  { bgImage: House1, text: "You've studied all day." },
   {
     bgImage: House1,
-    text: "You've studied all day. Your mind is heavy with theories, theorists, terms, and timelines…",
+    text: "Your mind is heavy with theories, theorists, terms, and timelines…",
   },
   {
     bgImage: House2,
@@ -36,10 +36,6 @@ const startStory = [
   {
     bgImage: House2,
     text: "You have crossed into Mindify — a world shaped by your own knowledge.",
-  },
-  {
-    bgImage: House2,
-    text: "To awaken fully prepared for the board exam, you must conquer the five worlds of your mind.",
   },
   {
     bgImage: DevelopmentalCover,
@@ -135,6 +131,7 @@ const Story = (props) => {
 
 
   const {accountData} = useContext(AccountContext)
+  if(!accountData) return;
   const Head = avatars.find((avatar) => avatar.id === accountData.avatar).body;
   const Cloth = clothes.find(cloth => cloth.id === accountData.cloth).image;
   return (

@@ -73,7 +73,7 @@ const useFirebase = () => {
   const sendResetPasswordEmail = async (email) => {
     const { data } = await axios.post(API_URL + "/checkEmailExists", { "email": email })
     console.log(data);
-    if(!data.exists) {
+    if(data) {
       throw ("unregistered");
     }
     const auth = getAuth();
@@ -95,7 +95,7 @@ const useFirebase = () => {
     callback = () => { }
   ) => {
     try {
-      const { data: usernameExists } = await axios.post(API_URL + "/checkEmailExists", { "username": username })
+      const { data: usernameExists } = await axios.post(API_URL + "/checkUsernameExists", { "username": username })
       if(usernameExists) throw "username-exists"
       const userCredential = await createUserWithEmailAndPassword(
         getAuth(),

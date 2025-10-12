@@ -330,7 +330,7 @@ const ViewProfile = () => {
                           {
                             categoriesObj.find((cat) => cat.id === src.category)
                               .name
-                          }{" "}
+                          }{" "}Competition Mode
                           to unlock this badge.
                         </Text>
                       </View>

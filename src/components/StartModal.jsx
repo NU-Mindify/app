@@ -488,26 +488,43 @@ const LevelSelect = ({ modal }) => {
         </View>
       </Body>
       <View style={{ flexDirection: "row", gap: 14 }}>
+        {modal.gameMode === "review" ? 
         <Pressable
-          onPress={() => {
-            modal.onRepeatStory();
-            modal.secondaryFn();
-          }}
-          style={{
-            backgroundColor: "#FDB813",
-            padding: 8,
-            borderRadius: 8,
-            marginVertical: "auto",
-          }}
+        onPress={() => {
+          modal.onRepeatStory();
+          modal.secondaryFn();
+        }}
+        style={{
+          backgroundColor: "#FDB813",
+          padding: 4,
+          borderRadius: 12,
+          borderRadius: 8,
+          marginVertical: 16,
+          flexDirection:'row',
+          justifyContent:'center',
+          alignItems:'center',
+          boxShadow: "0px 8px 16px rgba(0,0,0,0.33)",
+        }}
         >
-          <BookOpenTextIcon size={24} color={"white"} />
+          <BookOpenTextIcon size={24} color={"white"} style={{marginLeft:8}} />
+          <Text style={{color: "white",
+            fontFamily: "LilitaOne-Regular",
+            fontSize: 18,
+            textAlign: "center",
+            textShadowColor: "rgba(0, 0, 0, 0.7)",
+            textShadowOffset: { height: 1 },
+            textShadowRadius: 12,
+            padding: 8,
+          }}>Show Level Story</Text>
         </Pressable>
+      :
         <Button
-          text={"View Leaderboard"}
-          onPress={modal.onLeaderboard}
-          style={{ marginVertical: 16 }}
-          textStyle={{ fontSize: 18 }}
+        text={"View Leaderboard"}
+        onPress={modal.onLeaderboard}
+        style={{ marginVertical: 16 }}
+        textStyle={{ fontSize: 18 }}
         />
+      }
       </View>
     </>
   );
